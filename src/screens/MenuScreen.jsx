@@ -29,8 +29,15 @@ export default function MenuScreen({
   showSettings, setShowSettings,
 }) {
   const [notifRead, setNotifRead] = useState(false);
+  const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
 
   const openNotif = () => { setShowNotif(v=>!v); setShowSettings(false); setNotifRead(true); };
+
+  const onHeroMove = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setHeroMouse({ x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height, over: true });
+  };
+  const onHeroLeave = () => setHeroMouse(m => ({ ...m, over: false }));
 
   return (
     <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
@@ -210,27 +217,59 @@ export default function MenuScreen({
           {/* Center */}
           <div style={{flex:1,overflowY:"auto",padding:"26px 24px 40px"}}>
             {/* Hero */}
-            <div style={{position:"relative",height:220,borderRadius:22,overflow:"hidden",marginBottom:28,
-              background:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",
-              border:"1px solid rgba(0,230,200,0.14)",
-              boxShadow:"0 8px 48px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,230,200,0.1)",animation:"fadeUp 0.5s ease"}}>
+            <div
+              onMouseMove={onHeroMove}
+              onMouseLeave={onHeroLeave}
+              style={{position:"relative",height:220,borderRadius:22,overflow:"hidden",marginBottom:28,
+                background:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",
+                border:"1px solid rgba(0,230,200,0.14)",
+                boxShadow:"0 8px 48px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,230,200,0.1)",animation:"fadeUp 0.5s ease"}}>
+              {/* Grid */}
               <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.04) 1px,transparent 1px)",backgroundSize:"28px 28px"}}/>
+              {/* Cursor spotlight */}
+              <div style={{position:"absolute",inset:0,pointerEvents:"none",
+                opacity:heroMouse.over?1:0,transition:"opacity 0.35s ease",
+                background:`radial-gradient(circle 200px at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.13) 0%, transparent 70%)`}}/>
               <div style={{position:"absolute",left:"-5%",top:"-20%",width:320,height:320,background:`radial-gradient(circle,${C.accent}12 0%,transparent 65%)`,borderRadius:"50%"}}/>
               <div style={{position:"absolute",right:"-5%",top:"-10%",width:400,height:400,background:"radial-gradient(circle,rgba(0,100,200,0.1) 0%,transparent 65%)",borderRadius:"50%"}}/>
-              <div style={{position:"absolute",right:36,top:"50%",transform:"translateY(-50%)",opacity:0.7}}>
+              {/* Animated circle */}
+              <div style={{position:"absolute",right:36,top:"50%",transform:"translateY(-50%)",opacity:0.8}}>
                 <svg width="170" height="170" viewBox="0 0 170 170">
-                  <circle cx="85" cy="85" r="75" fill="none" stroke="rgba(0,230,200,0.07)" strokeWidth="1"/>
-                  <circle cx="85" cy="85" r="60" fill="none" stroke="rgba(0,230,200,0.1)" strokeWidth="1"/>
-                  <circle cx="85" cy="85" r="45" fill="none" stroke="rgba(0,230,200,0.14)" strokeWidth="1"/>
-                  <circle cx="85" cy="85" r="30" fill="none" stroke="rgba(0,230,200,0.18)" strokeWidth="1"/>
-                  <line x1="85" y1="10" x2="85" y2="160" stroke="rgba(0,230,200,0.05)" strokeWidth="1"/>
-                  <line x1="10" y1="85" x2="160" y2="85" stroke="rgba(0,230,200,0.05)" strokeWidth="1"/>
-                  <path d="M 85 10 A 75 75 0 0 1 152 52" stroke={C.accent} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-                  <path d="M 85 160 A 75 75 0 0 1 18 118" stroke={C.accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.4"/>
-                  <circle cx="85" cy="85" r="5" fill={C.accent} opacity="0.8"/>
-                  <circle cx="85" cy="10" r="2.5" fill={C.accent}/>
-                  <circle cx="160" cy="85" r="2.5" fill={C.accent} opacity="0.6"/>
-                  <circle cx="152" cy="52" r="3" fill={C.green}/>
+                  {/* Slowly rotating rings + crosshairs */}
+                  <g>
+                    <circle cx="85" cy="85" r="75" fill="none" stroke="rgba(0,230,200,0.07)" strokeWidth="1"/>
+                    <circle cx="85" cy="85" r="60" fill="none" stroke="rgba(0,230,200,0.1)" strokeWidth="1"/>
+                    <circle cx="85" cy="85" r="45" fill="none" stroke="rgba(0,230,200,0.14)" strokeWidth="1"/>
+                    <circle cx="85" cy="85" r="30" fill="none" stroke="rgba(0,230,200,0.18)" strokeWidth="1"/>
+                    <line x1="85" y1="10" x2="85" y2="160" stroke="rgba(0,230,200,0.05)" strokeWidth="1"/>
+                    <line x1="10" y1="85" x2="160" y2="85" stroke="rgba(0,230,200,0.05)" strokeWidth="1"/>
+                    <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="30s" repeatCount="indefinite"/>
+                  </g>
+                  {/* Counter-rotating dashed ring */}
+                  <circle cx="85" cy="85" r="68" fill="none" stroke={C.accent} strokeWidth="1" strokeDasharray="6 14" opacity="0.2">
+                    <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="-360 85 85" dur="20s" repeatCount="indefinite"/>
+                  </circle>
+                  {/* Accent arcs — medium rotation */}
+                  <g>
+                    <path d="M 85 10 A 75 75 0 0 1 152 52" stroke={C.accent} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                    <path d="M 85 160 A 75 75 0 0 1 18 118" stroke={C.accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.4"/>
+                    <circle cx="85" cy="10" r="2.5" fill={C.accent}/>
+                    <circle cx="152" cy="52" r="3" fill={C.green}/>
+                    <circle cx="160" cy="85" r="2.5" fill={C.accent} opacity="0.6"/>
+                    <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="10s" repeatCount="indefinite"/>
+                  </g>
+                  {/* Orbiting dot — glow */}
+                  <circle cx="85" cy="10" r="6" fill={C.accent} opacity="0.15">
+                    <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="6s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="85" cy="10" r="3" fill={C.accent}>
+                    <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="6s" repeatCount="indefinite"/>
+                  </circle>
+                  {/* Center dot — pulse */}
+                  <circle cx="85" cy="85" r="5" fill={C.accent} opacity="0.9">
+                    <animate attributeName="r" values="4;6.5;4" dur="2s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+                  </circle>
                 </svg>
               </div>
               <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",justifyContent:"center",padding:"0 38px",maxWidth:"62%"}}>
