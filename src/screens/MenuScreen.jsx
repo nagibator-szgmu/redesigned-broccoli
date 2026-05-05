@@ -232,6 +232,10 @@ export default function MenuScreen({
                 boxShadow:"0 8px 48px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,230,200,0.06)"}}>
               {/* Grid */}
               <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.04) 1px,transparent 1px)",backgroundSize:"28px 28px"}}/>
+              {/* Interior cursor glow — bright core + soft halo */}
+              <div style={{position:"absolute",inset:0,pointerEvents:"none",
+                opacity:heroMouse.over?1:0,transition:"opacity 0.6s ease",
+                background:`radial-gradient(70px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.09) 0%, transparent 100%), radial-gradient(280px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.04) 0%, transparent 100%)`}}/>
               <div style={{position:"absolute",left:"-5%",top:"-20%",width:320,height:320,background:`radial-gradient(circle,${C.accent}12 0%,transparent 65%)`,borderRadius:"50%"}}/>
               <div style={{position:"absolute",right:"-5%",top:"-10%",width:400,height:400,background:"radial-gradient(circle,rgba(0,100,200,0.1) 0%,transparent 65%)",borderRadius:"50%"}}/>
               {/* Animated circle */}
