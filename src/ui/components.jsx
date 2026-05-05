@@ -85,11 +85,11 @@ export const STitle = ({ icon, label, color = C.accent }) => (
 );
 
 export const Btn = ({ onClick, disabled, color = C.accent, children, style = {} }) => (
-  <button onClick={onClick} disabled={disabled} style={{
+  <button onClick={onClick} disabled={disabled} className="med-btn" style={{
     background:`${color}18`,border:`1.5px solid ${color}55`,borderRadius:10,
     padding:"11px 22px",fontFamily:FONT,fontSize:14,fontWeight:600,color,
     cursor:disabled?"not-allowed":"pointer",letterSpacing:0.3,opacity:disabled?0.4:1,
-    transition:"all 0.2s",...style,
+    ...style,
   }}>{children}</button>
 );
 

@@ -45,7 +45,7 @@ export default function GameScreen({
     const isDanger = cd.wrongTreat.includes(item.id);
     const color = isDanger&&selected?C.red:(CAT_COLOR[item.cat]||C.green);
     return (
-      <div key={item.id} onClick={()=>toggleTreatment(item.id)} style={{
+      <div key={item.id} onClick={()=>toggleTreatment(item.id)} className="treat-row" style={{
         display:"flex",alignItems:"center",gap:8,
         background:selected?(isDanger?`${C.red}18`:`${color}18`):"transparent",
         border:`1px solid ${selected?color:C.border}`,
@@ -67,7 +67,7 @@ export default function GameScreen({
   const renderTreatCatFilter = () => (
     <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:10}}>
       {treatCats.map(cat=>(
-        <button key={cat} onClick={()=>setTreatCat(cat)} style={{
+        <button key={cat} onClick={()=>setTreatCat(cat)} className="filter-pill" style={{
           background:treatCat===cat?`${C.green}1a`:"transparent",
           border:`1px solid ${treatCat===cat?C.green:C.border}`,
           borderRadius:10,padding:"3px 10px",cursor:"pointer",fontFamily:FONT,
@@ -81,15 +81,7 @@ export default function GameScreen({
   return (
     <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
       fontFamily:FONT,display:"flex",overflow:"hidden",position:"relative"}}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
-        ::-webkit-scrollbar{width:4px;height:4px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(0,230,200,0.15);border-radius:2px}
-      `}</style>
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
 
       {/* Ambient glow */}
       <div style={{position:"absolute",inset:0,pointerEvents:"none",zIndex:0}}>
@@ -103,14 +95,14 @@ export default function GameScreen({
         borderRight:"1px solid rgba(0,230,200,0.08)",display:"flex",flexDirection:"column",
         padding:"16px 12px",overflowY:"auto",overflowX:"hidden"}}>
         <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:18}}>
-          <div onClick={()=>setPhase("menu")} style={{width:34,height:34,borderRadius:10,flexShrink:0,
+          <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:34,height:34,borderRadius:10,flexShrink:0,
             background:"linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))",
             border:"1px solid rgba(0,230,200,0.3)",display:"flex",alignItems:"center",justifyContent:"center",
-            cursor:"pointer",transition:"all 0.2s cubic-bezier(0.16,1,0.3,1)"}}>
+            cursor:"pointer"}}>
             <span style={{fontFamily:SER,fontSize:17,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
           </div>
           <span style={{fontSize:15,fontWeight:700,color:C.white,fontFamily:FONT,letterSpacing:-0.3,flex:1,lineHeight:1}}>МедСим</span>
-          <button onClick={()=>setPhase("menu")} style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(0,230,200,0.15)",
+          <button onClick={()=>setPhase("menu")} className="med-btn" style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(0,230,200,0.15)",
             borderRadius:7,padding:"5px 10px",cursor:"pointer",color:C.textDim,fontSize:11,fontFamily:FONT,flexShrink:0}}>← Меню</button>
         </div>
 
@@ -238,7 +230,7 @@ export default function GameScreen({
                 <STitle icon="🔬" label="Исследования" color={C.accent}/>
                 <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:10}}>
                   {diagCats.map(cat=>(
-                    <button key={cat} onClick={()=>setDiagCat(cat)} style={{
+                    <button key={cat} onClick={()=>setDiagCat(cat)} className="filter-pill" style={{
                       background:diagCat===cat?`${C.accent}1a`:"rgba(255,255,255,0.03)",
                       border:`1px solid ${diagCat===cat?C.accent:"rgba(0,230,200,0.1)"}`,
                       borderRadius:12,padding:"3px 11px",cursor:"pointer",fontFamily:FONT,

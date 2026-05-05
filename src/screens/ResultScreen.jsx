@@ -34,13 +34,11 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
 
   return (
     <div style={{position:"fixed",inset:0,overflowY:"auto",background:C.bg,fontFamily:FONT}}>
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}`}</style>
 
       {/* Header */}
       <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"12px 28px",display:"flex",alignItems:"center",gap:12}}>
-        <div onClick={()=>setPhase("menu")} style={{width:28,height:28,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,
-          borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",
-          cursor:"pointer",transition:"all 0.2s cubic-bezier(0.16,1,0.3,1)"}}>
+        <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:28,height:28,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,
+          borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
           <span style={{fontFamily:SER,fontSize:14,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
         </div>
         <span style={{fontFamily:SER,fontSize:16,color:C.accent,fontStyle:"italic",letterSpacing:1}}>МедСим</span>
@@ -222,7 +220,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
 
         {/* Actions */}
         <div style={{display:"flex",gap:10}}>
-          <button onClick={startGame} style={{flex:1,background:`linear-gradient(135deg,${C.accent},${C.green})`,
+          <button onClick={startGame} className="next-case-btn" style={{flex:1,background:`linear-gradient(135deg,${C.accent},${C.green})`,
             border:"none",borderRadius:12,padding:"14px",fontSize:15,fontWeight:700,
             color:C.bg,cursor:"pointer",fontFamily:FONT,letterSpacing:0.5}}>
             ▶ СЛЕДУЮЩИЙ КЕЙС

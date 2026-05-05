@@ -31,20 +31,8 @@ export default function MenuScreen({
     <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
       display:"flex",fontFamily:FONT,overflow:"hidden",position:"relative"}}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
         @keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}
-        .nav-item:hover{background:rgba(0,230,200,0.06)!important;color:#00e6c8!important;transition:all 0.2s cubic-bezier(0.16,1,0.3,1)!important}
-        .nav-item:hover span{color:#00e6c8!important}
-        .case-card{transition:all 0.3s cubic-bezier(0.16,1,0.3,1)!important;will-change:transform,box-shadow}
-        .case-card:hover{border-color:rgba(0,230,200,0.3)!important;transform:translateY(-4px) scale(1.01);box-shadow:0 16px 48px rgba(0,0,0,0.55)!important}
-        .start-btn{transition:all 0.25s cubic-bezier(0.16,1,0.3,1)!important}
-        .start-btn:hover{background:#00c8b4!important;box-shadow:0 6px 24px rgba(0,230,200,0.45)!important;transform:translateY(-1px)}
-        .session-row{transition:background 0.2s ease!important}
-        .session-row:hover{background:rgba(0,230,200,0.05)!important}
-        ::-webkit-scrollbar{width:4px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(0,230,200,0.15);border-radius:2px}
       `}</style>
 
       {/* Ambient glow */}
@@ -126,17 +114,17 @@ export default function MenuScreen({
             {searchQuery && <span onClick={()=>setSearchQuery("")} style={{color:C.textDim,fontSize:13,cursor:"pointer"}}>✕</span>}
           </div>
           <div style={{flex:1}}/>
-          <div onClick={()=>{setShowNotif(v=>!v);setShowSettings(false);}} style={{position:"relative",width:38,height:38,
+          <div onClick={()=>{setShowNotif(v=>!v);setShowSettings(false);}} className="icon-btn" style={{position:"relative",width:38,height:38,
             background:showNotif?"rgba(0,230,200,0.1)":"rgba(255,255,255,0.04)",
             border:`1px solid ${showNotif?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,
-            borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",transition:"all 0.15s"}}>
+            borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
             <span style={{fontSize:16}}>🔔</span>
             <div style={{position:"absolute",top:6,right:6,width:7,height:7,background:C.red,borderRadius:"50%",border:"1px solid #070d18"}}/>
           </div>
-          <div onClick={()=>{setShowSettings(v=>!v);setShowNotif(false);}} style={{width:38,height:38,
+          <div onClick={()=>{setShowSettings(v=>!v);setShowNotif(false);}} className="icon-btn" style={{width:38,height:38,
             background:showSettings?"rgba(0,230,200,0.1)":"rgba(255,255,255,0.04)",
             border:`1px solid ${showSettings?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,
-            borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",transition:"all 0.15s"}}>
+            borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
             <span style={{fontSize:16}}>⚙️</span>
           </div>
         </header>

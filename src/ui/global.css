@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Scrollbars ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,230,200,0.15); border-radius: 2px; }
+
+/* ── Keyframes ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+@keyframes glowPulse { 0%,100% { opacity:0.5; } 50% { opacity:1; } }
+
+/* ── Buttons (Btn component) ── */
+.med-btn { transition: all 0.2s cubic-bezier(0.16,1,0.3,1) !important; }
+.med-btn:hover:not(:disabled) {
+  filter: brightness(1.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35) !important;
+}
+.med-btn:active:not(:disabled) { transform: translateY(0) scale(0.97) !important; }
+
+/* ── Icon buttons (logo М, 🔔, ⚙️, ← Меню) ── */
+.icon-btn { transition: all 0.2s cubic-bezier(0.16,1,0.3,1) !important; }
+.icon-btn:hover {
+  filter: brightness(1.4);
+  transform: scale(1.1);
+  box-shadow: 0 0 16px rgba(0,230,200,0.25) !important;
+}
+.icon-btn:active { transform: scale(0.93) !important; }
+
+/* ── Category filter pills ── */
+.filter-pill { transition: all 0.15s ease !important; }
+.filter-pill:hover { filter: brightness(1.35) !important; transform: translateY(-1px); }
+.filter-pill:active { transform: translateY(0) !important; }
+
+/* ── Treatment/diagnostic rows in sidebar ── */
+.treat-row { transition: border-color 0.15s, background 0.15s, filter 0.15s !important; }
+.treat-row:hover { filter: brightness(1.15) !important; }
+
+/* ── "Следующий кейс" button ── */
+.next-case-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
+.next-case-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 32px rgba(0,230,200,0.45) !important;
+}
+.next-case-btn:active { transform: translateY(0) !important; }
+
+/* ── MenuScreen existing classes ── */
+.nav-item:hover { background: rgba(0,230,200,0.06) !important; color: #00e6c8 !important; transition: all 0.2s cubic-bezier(0.16,1,0.3,1) !important; }
+.nav-item:hover span { color: #00e6c8 !important; }
+.case-card { transition: all 0.3s cubic-bezier(0.16,1,0.3,1) !important; will-change: transform,box-shadow; }
+.case-card:hover { border-color: rgba(0,230,200,0.3) !important; transform: translateY(-4px) scale(1.01); box-shadow: 0 16px 48px rgba(0,0,0,0.55) !important; }
+.start-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
+.start-btn:hover { background: #00c8b4 !important; box-shadow: 0 6px 24px rgba(0,230,200,0.45) !important; transform: translateY(-1px); }
+.session-row { transition: background 0.2s ease !important; }
+.session-row:hover { background: rgba(0,230,200,0.05) !important; }
