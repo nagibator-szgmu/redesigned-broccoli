@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { C, FONT, SER } from "../ui/theme";
 import { CASES } from "../data/cases";
@@ -27,6 +28,10 @@ export default function MenuScreen({
   showNotif, setShowNotif,
   showSettings, setShowSettings,
 }) {
+  const [notifRead, setNotifRead] = useState(false);
+
+  const openNotif = () => { setShowNotif(v=>!v); setShowSettings(false); setNotifRead(true); };
+
   return (
     <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
       display:"flex",fontFamily:FONT,overflow:"hidden",position:"relative"}}>
@@ -114,12 +119,12 @@ export default function MenuScreen({
             {searchQuery && <span onClick={()=>setSearchQuery("")} style={{color:C.textDim,fontSize:13,cursor:"pointer"}}>✕</span>}
           </div>
           <div style={{flex:1}}/>
-          <div onClick={()=>{setShowNotif(v=>!v);setShowSettings(false);}} className="icon-btn" style={{position:"relative",width:38,height:38,
+          <div onClick={openNotif} className="icon-btn" style={{position:"relative",width:38,height:38,
             background:showNotif?"rgba(0,230,200,0.1)":"rgba(255,255,255,0.04)",
             border:`1px solid ${showNotif?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,
             borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
             <span style={{fontSize:16}}>🔔</span>
-            <div style={{position:"absolute",top:6,right:6,width:7,height:7,background:C.red,borderRadius:"50%",border:"1px solid #070d18"}}/>
+            {!notifRead && <div style={{position:"absolute",top:6,right:6,width:7,height:7,background:C.red,borderRadius:"50%",border:"1px solid #070d18"}}/>}
           </div>
           <div onClick={()=>{setShowSettings(v=>!v);setShowNotif(false);}} className="icon-btn" style={{width:38,height:38,
             background:showSettings?"rgba(0,230,200,0.1)":"rgba(255,255,255,0.04)",

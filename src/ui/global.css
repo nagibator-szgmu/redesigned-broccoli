@@ -53,7 +53,7 @@
 .nav-item:hover span { color: #00e6c8 !important; }
 .case-card { transition: all 0.3s cubic-bezier(0.16,1,0.3,1) !important; will-change: transform,box-shadow; }
 .case-card:hover { border-color: rgba(0,230,200,0.3) !important; transform: translateY(-4px) scale(1.01); box-shadow: 0 16px 48px rgba(0,0,0,0.55) !important; }
-.start-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
-.start-btn:hover { background: #00c8b4 !important; box-shadow: 0 6px 24px rgba(0,230,200,0.45) !important; transform: translateY(-1px); }
+.start-btn { transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important; }
+.start-btn:hover { filter: brightness(1.15) !important; box-shadow: 0 8px 28px rgba(0,230,200,0.45) !important; transform: translateY(-1px); }
 .session-row { transition: background 0.2s ease !important; }
 .session-row:hover { background: rgba(0,230,200,0.05) !important; }
