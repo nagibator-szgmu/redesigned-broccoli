@@ -232,13 +232,10 @@ export default function MenuScreen({
                 boxShadow:"0 8px 48px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,230,200,0.06)"}}>
               {/* Grid */}
               <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.04) 1px,transparent 1px)",backgroundSize:"28px 28px"}}/>
-              {/* Scanner: 1px horizontal line at cursor Y + tiny hotspot at cursor XY */}
+              {/* Small cursor glow */}
               <div style={{position:"absolute",inset:0,pointerEvents:"none",
-                opacity:heroMouse.over?1:0,transition:"opacity 0.5s ease",
-                background:`
-                  radial-gradient(28px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.28) 0%, transparent 100%),
-                  linear-gradient(transparent calc(${heroMouse.y*100}% - 0.5px), rgba(0,230,200,0.18) calc(${heroMouse.y*100}% - 0.5px), rgba(0,230,200,0.18) calc(${heroMouse.y*100}% + 0.5px), transparent calc(${heroMouse.y*100}% + 0.5px))
-                `}}/>
+                opacity:heroMouse.over?1:0,transition:"opacity 0.4s ease",
+                background:`radial-gradient(120px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.1) 0%, transparent 100%)`}}/>
               <div style={{position:"absolute",left:"-5%",top:"-20%",width:320,height:320,background:`radial-gradient(circle,${C.accent}12 0%,transparent 65%)`,borderRadius:"50%"}}/>
               <div style={{position:"absolute",right:"-5%",top:"-10%",width:400,height:400,background:"radial-gradient(circle,rgba(0,100,200,0.1) 0%,transparent 65%)",borderRadius:"50%"}}/>
               {/* Animated circle */}
