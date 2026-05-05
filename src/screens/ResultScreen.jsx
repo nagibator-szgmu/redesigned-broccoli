@@ -33,7 +33,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
   const wrongGiven = cd.wrongTreat.filter(id => selTreat.includes(id));
 
   return (
-    <div style={{minHeight:"100vh",background:C.bg,fontFamily:FONT}}>
+    <div style={{height:"100vh",overflowY:"auto",background:C.bg,fontFamily:FONT}}>
       <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}`}</style>
 
       {/* Header */}
