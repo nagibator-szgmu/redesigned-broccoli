@@ -235,7 +235,7 @@ export default function MenuScreen({
               {/* Small cursor glow */}
               <div style={{position:"absolute",inset:0,pointerEvents:"none",
                 opacity:heroMouse.over?1:0,transition:"opacity 0.4s ease",
-                background:`radial-gradient(120px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.1) 0%, transparent 100%)`}}/>
+                background:`radial-gradient(78px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.1) 0%, transparent 100%)`}}/>
               <div style={{position:"absolute",left:"-5%",top:"-20%",width:320,height:320,background:`radial-gradient(circle,${C.accent}12 0%,transparent 65%)`,borderRadius:"50%"}}/>
               <div style={{position:"absolute",right:"-5%",top:"-10%",width:400,height:400,background:"radial-gradient(circle,rgba(0,100,200,0.1) 0%,transparent 65%)",borderRadius:"50%"}}/>
               {/* Animated circle */}
