@@ -1504,7 +1504,7 @@ export default function App(){
     const wrongGiven=cd.wrongTreat.filter(id=>selTreat.includes(id));
 
     return(
-      <div style={{height:"100vh",overflowY:"auto",background:C.bg,fontFamily:FONT}}>
+      <div style={{minHeight:"100vh",background:C.bg,fontFamily:FONT}}>
         <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}`}</style>
         {/* Result header bar */}
         <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"12px 28px",
