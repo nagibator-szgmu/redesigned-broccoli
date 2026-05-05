@@ -920,12 +920,15 @@ export default function App(){
       }}>
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-          @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+          @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
           @keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}
-          .nav-item:hover{background:rgba(0,230,200,0.06)!important;color:#00e6c8!important}
+          .nav-item:hover{background:rgba(0,230,200,0.06)!important;color:#00e6c8!important;transition:all 0.2s cubic-bezier(0.16,1,0.3,1)!important}
           .nav-item:hover span{color:#00e6c8!important}
-          .case-card:hover{border-color:rgba(0,230,200,0.25)!important;transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.5)!important}
-          .start-btn:hover{background:#00c8b4!important;box-shadow:0 4px 20px rgba(0,230,200,0.4)!important}
+          .case-card{transition:all 0.3s cubic-bezier(0.16,1,0.3,1)!important;will-change:transform,box-shadow}
+          .case-card:hover{border-color:rgba(0,230,200,0.3)!important;transform:translateY(-4px) scale(1.01);box-shadow:0 16px 48px rgba(0,0,0,0.55)!important}
+          .start-btn{transition:all 0.25s cubic-bezier(0.16,1,0.3,1)!important}
+          .start-btn:hover{background:#00c8b4!important;box-shadow:0 6px 24px rgba(0,230,200,0.45)!important;transform:translateY(-1px)}
+          .session-row{transition:background 0.2s ease!important}
           .session-row:hover{background:rgba(0,230,200,0.05)!important}
           ::-webkit-scrollbar{width:4px}
           ::-webkit-scrollbar-track{background:transparent}
@@ -1072,7 +1075,9 @@ export default function App(){
 
           {/* Notifications portal — renders directly in document.body to escape backdrop-filter stacking */}
           {showNotif&&createPortal(
-            <div style={{position:"fixed",top:72,right:54,width:300,zIndex:99999,
+            <>
+              <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowNotif(false)}/>
+              <div style={{position:"fixed",top:72,right:54,width:300,zIndex:99999,
               background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
               border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",
               boxShadow:"0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,230,200,0.05)",fontFamily:FONT}}>
@@ -1097,13 +1102,16 @@ export default function App(){
                   </div>
                 </div>
               ))}
-            </div>,
+            </div>
+            </>,
             document.body
           )}
 
           {/* Settings portal */}
           {showSettings&&createPortal(
-            <div style={{position:"fixed",top:72,right:8,width:280,zIndex:99999,
+            <>
+              <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowSettings(false)}/>
+              <div style={{position:"fixed",top:72,right:8,width:280,zIndex:99999,
               background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
               border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",
               boxShadow:"0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,230,200,0.05)",fontFamily:FONT}}>
@@ -1147,7 +1155,8 @@ export default function App(){
                 fontSize:11,color:C.textDim,textAlign:"center",opacity:0.7}}>
                 Дополнительные настройки в разработке
               </div>
-            </div>,
+            </div>
+            </>,
             document.body
           )}
 
@@ -1495,13 +1504,14 @@ export default function App(){
     const wrongGiven=cd.wrongTreat.filter(id=>selTreat.includes(id));
 
     return(
-      <div style={{minHeight:"100vh",background:C.bg,fontFamily:FONT}}>
-        <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}`}</style>
+      <div style={{height:"100vh",overflowY:"auto",background:C.bg,fontFamily:FONT}}>
+        <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}`}</style>
         {/* Result header bar */}
         <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"12px 28px",
           display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:28,height:28,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,
-            borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div onClick={()=>setPhase("menu")} style={{width:28,height:28,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,
+            borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",
+            cursor:"pointer",transition:"all 0.2s cubic-bezier(0.16,1,0.3,1)"}}>
             <span style={{fontFamily:SER,fontSize:14,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
           </div>
           <span style={{fontFamily:SER,fontSize:16,color:C.accent,fontStyle:"italic",letterSpacing:1}}>МедСим</span>
@@ -1780,7 +1790,7 @@ export default function App(){
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
         ::-webkit-scrollbar{width:4px;height:4px}
         ::-webkit-scrollbar-track{background:transparent}
@@ -1806,10 +1816,11 @@ export default function App(){
       }}>
         {/* Logo + back */}
         <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:18}}>
-          <div style={{width:34,height:34,borderRadius:10,flexShrink:0,
+          <div onClick={()=>setPhase("menu")} style={{width:34,height:34,borderRadius:10,flexShrink:0,
             background:"linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))",
             border:"1px solid rgba(0,230,200,0.3)",
-            display:"flex",alignItems:"center",justifyContent:"center"}}>
+            display:"flex",alignItems:"center",justifyContent:"center",
+            cursor:"pointer",transition:"all 0.2s cubic-bezier(0.16,1,0.3,1)"}}>
             <span style={{fontFamily:SER,fontSize:17,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
           </div>
           <span style={{fontSize:15,fontWeight:700,color:C.white,fontFamily:FONT,letterSpacing:-0.3,flex:1,lineHeight:1}}>МедСим</span>
