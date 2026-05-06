@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { C, FONT, SER } from "../ui/theme";
 import { CASES } from "../data/cases";
@@ -29,15 +29,50 @@ export default function MenuScreen({
   showSettings, setShowSettings,
 }) {
   const [notifRead, setNotifRead] = useState(false);
-  const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
+  const [heroOver, setHeroOver] = useState(false);
+
+  // rAF-based hero tracking — no re-render on mousemove
+  const heroRef      = useRef(null);
+  const tiltRef      = useRef(null);
+  const spotlightRef = useRef(null);
+  const borderGlowRef= useRef(null);
+  const rafRef       = useRef(null);
+  const targetPos    = useRef({ x: 0.5, y: 0.5 });
+  const currentPos   = useRef({ x: 0.5, y: 0.5 });
+
+  useEffect(() => {
+    const tick = () => {
+      const t = 0.1;
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * t;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * t;
+      const cx = currentPos.current.x;
+      const cy = currentPos.current.y;
+      if (tiltRef.current) {
+        const rx = (cy - 0.5) * -10;
+        const ry = (cx - 0.5) * 10;
+        tiltRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+      }
+      if (spotlightRef.current)
+        spotlightRef.current.style.background =
+          `radial-gradient(78px circle at ${cx*100}% ${cy*100}%, rgba(0,230,200,0.11), transparent)`;
+      if (borderGlowRef.current)
+        borderGlowRef.current.style.background =
+          `radial-gradient(350px circle at ${cx*100}% ${cy*100}%, rgba(0,230,200,0.55), transparent 65%)`;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
 
   const openNotif = () => { setShowNotif(v=>!v); setShowSettings(false); setNotifRead(true); };
 
   const onHeroMove = e => {
-    const r = e.currentTarget.getBoundingClientRect();
-    setHeroMouse({ x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height, over: true });
+    const rect = heroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    targetPos.current = { x: (e.clientX - rect.left) / rect.width, y: (e.clientY - rect.top) / rect.height };
   };
-  const onHeroLeave = () => setHeroMouse(m => ({ ...m, over: false }));
+  const onHeroEnter = () => setHeroOver(true);
+  const onHeroLeave = () => { setHeroOver(false); targetPos.current = { x: 0.5, y: 0.5 }; };
 
   return (
     <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
@@ -217,25 +252,23 @@ export default function MenuScreen({
           {/* Center */}
           <div style={{flex:1,overflowY:"auto",padding:"26px 24px 40px"}}>
             {/* Hero */}
-            <div
-              onMouseMove={onHeroMove}
-              onMouseLeave={onHeroLeave}
-              style={{position:"relative",borderRadius:23,padding:1,marginBottom:28,
-                animation:"fadeUp 0.5s ease",background:"rgba(0,230,200,0.11)"}}>
-              {/* Glowing border — follows cursor */}
-              <div style={{position:"absolute",inset:0,borderRadius:23,pointerEvents:"none",
-                background:`radial-gradient(350px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.55), transparent 65%)`,
-                opacity:heroMouse.over?1:0,transition:"opacity 0.5s ease"}}/>
+            <div ref={heroRef} onMouseMove={onHeroMove} onMouseEnter={onHeroEnter} onMouseLeave={onHeroLeave}
+              style={{marginBottom:28,animation:"fadeUp 0.5s ease",perspective:"1000px"}}>
+              {/* Tilt + border wrapper */}
+              <div ref={tiltRef} style={{position:"relative",borderRadius:23,padding:1,
+                background:"rgba(0,230,200,0.11)",willChange:"transform"}}>
+              {/* Glowing border — position updated via rAF */}
+              <div ref={borderGlowRef} style={{position:"absolute",inset:0,borderRadius:23,pointerEvents:"none",
+                opacity:heroOver?1:0,transition:"opacity 0.5s ease"}}/>
               {/* Inner card */}
               <div style={{position:"relative",height:220,borderRadius:22,overflow:"hidden",
                 background:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",
                 boxShadow:"0 8px 48px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,230,200,0.06)"}}>
               {/* Grid */}
               <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.04) 1px,transparent 1px)",backgroundSize:"28px 28px"}}/>
-              {/* Small cursor glow */}
-              <div style={{position:"absolute",inset:0,pointerEvents:"none",
-                opacity:heroMouse.over?1:0,transition:"opacity 0.4s ease",
-                background:`radial-gradient(78px circle at ${heroMouse.x*100}% ${heroMouse.y*100}%, rgba(0,230,200,0.1) 0%, transparent 100%)`}}/>
+              {/* Spotlight — position updated via rAF */}
+              <div ref={spotlightRef} style={{position:"absolute",inset:0,pointerEvents:"none",
+                opacity:heroOver?1:0,transition:"opacity 0.4s ease"}}/>
               <div style={{position:"absolute",left:"-5%",top:"-20%",width:320,height:320,background:`radial-gradient(circle,${C.accent}12 0%,transparent 65%)`,borderRadius:"50%"}}/>
               <div style={{position:"absolute",right:"-5%",top:"-10%",width:400,height:400,background:"radial-gradient(circle,rgba(0,100,200,0.1) 0%,transparent 65%)",borderRadius:"50%"}}/>
               {/* Animated circle */}
@@ -297,6 +330,7 @@ export default function MenuScreen({
                     ))}
                   </div>
                 </div>
+              </div>
               </div>
               </div>
             </div>
