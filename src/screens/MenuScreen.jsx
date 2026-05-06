@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { C, FONT, SER } from "../ui/theme";
+import { C, FONT, CODE, SER } from "../ui/theme";
 import { CASES } from "../data/cases";
+import useIsMobile from "../hooks/useIsMobile";
 
 const catMeta = {
   cardiac:{icon:"❤️",label:"Кардиология",color:"#ff3d5a"},
@@ -30,6 +31,7 @@ export default function MenuScreen({
 }) {
   const [notifRead, setNotifRead] = useState(false);
   const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
+  const isMobile = useIsMobile();
 
   const openNotif = () => { setShowNotif(v=>!v); setShowSettings(false); setNotifRead(true); };
 
@@ -38,6 +40,160 @@ export default function MenuScreen({
     setHeroMouse({ x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height, over: true });
   };
   const onHeroLeave = () => setHeroMouse(m => ({ ...m, over: false }));
+
+  if (isMobile) return (
+    <div style={{minHeight:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,fontFamily:FONT,overflowY:"auto",position:"relative"}}>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}`}</style>
+
+      {/* Header */}
+      <header style={{position:"sticky",top:0,zIndex:100,height:54,background:"rgba(7,13,24,0.95)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",borderBottom:"1px solid rgba(0,230,200,0.06)",display:"flex",alignItems:"center",gap:10,padding:"0 16px"}}>
+        <div style={{width:32,height:32,borderRadius:9,background:"linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))",border:"1px solid rgba(0,230,200,0.3)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <span style={{fontFamily:SER,fontSize:16,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
+        </div>
+        <span style={{fontSize:15,fontWeight:700,color:C.white,fontFamily:FONT,letterSpacing:-0.3}}>МедСим</span>
+        <div style={{flex:1}}/>
+        <div onClick={openNotif} className="icon-btn" style={{position:"relative",width:34,height:34,background:showNotif?"rgba(0,230,200,0.1)":"rgba(255,255,255,0.04)",border:`1px solid ${showNotif?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+          <span style={{fontSize:15}}>🔔</span>
+          {!notifRead&&<div style={{position:"absolute",top:5,right:5,width:6,height:6,background:C.red,borderRadius:"50%",border:"1px solid #070d18"}}/>}
+        </div>
+        <div onClick={()=>{setShowSettings(v=>!v);setShowNotif(false);}} className="icon-btn" style={{width:34,height:34,background:showSettings?"rgba(0,230,200,0.1)":"rgba(255,255,255,0.04)",border:`1px solid ${showSettings?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+          <span style={{fontSize:15}}>⚙️</span>
+        </div>
+      </header>
+
+      {/* Mobile portals (full-width, positioned below header) */}
+      {showNotif&&createPortal(<>
+        <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowNotif(false)}/>
+        <div style={{position:"fixed",top:60,right:12,left:12,zIndex:99999,background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",boxShadow:"0 16px 48px rgba(0,0,0,0.8)",fontFamily:FONT}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+            <span style={{fontSize:13,fontWeight:700,color:C.white}}>Уведомления</span>
+            <span onClick={()=>setShowNotif(false)} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"2px 8px",borderRadius:6,background:"rgba(255,255,255,0.06)"}}>✕</span>
+          </div>
+          {[{icon:"👋",text:"Добро пожаловать в МедСим!",sub:"Начните первую симуляцию"},{icon:"🏥",text:`Доступно ${CASES.length} клинических кейсов`,sub:"Кардиология, неврология и другие"},{icon:"🏆",text:`Ваш текущий счёт: ${totalScore} очков`,sub:`${casesPlayed} кейсов пройдено`}].map((n,i)=>(
+            <div key={i} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
+              <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
+              <div><div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div><div style={{fontSize:11,color:C.textDim,marginTop:2}}>{n.sub}</div></div>
+            </div>
+          ))}
+        </div>
+      </>,document.body)}
+      {showSettings&&createPortal(<>
+        <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowSettings(false)}/>
+        <div style={{position:"fixed",top:60,right:12,left:12,zIndex:99999,background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",boxShadow:"0 16px 48px rgba(0,0,0,0.8)",fontFamily:FONT}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
+            <span style={{fontSize:13,fontWeight:700,color:C.white}}>Настройки</span>
+            <span onClick={()=>setShowSettings(false)} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"2px 8px",borderRadius:6,background:"rgba(255,255,255,0.06)"}}>✕</span>
+          </div>
+          <div style={{marginBottom:14}}>
+            <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Сложность</div>
+            <div style={{display:"flex",gap:6}}>{["Лёгкая","Средняя","Сложная"].map((d,i)=><button key={d} style={{flex:1,background:i===1?`${C.accent}18`:"transparent",border:`1px solid ${i===1?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:i===1?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{d}</button>)}</div>
+          </div>
+          <div style={{marginBottom:14}}>
+            <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Тема</div>
+            <div style={{display:"flex",gap:6}}>{["Тёмная","Синяя"].map((t,i)=><button key={t} style={{flex:1,background:i===0?`${C.accent}18`:"transparent",border:`1px solid ${i===0?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:i===0?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{t}</button>)}</div>
+          </div>
+          <div style={{paddingTop:12,borderTop:"1px solid rgba(0,230,200,0.06)",fontSize:11,color:C.textDim,textAlign:"center",opacity:0.7}}>Дополнительные настройки в разработке</div>
+        </div>
+      </>,document.body)}
+
+      {/* Search */}
+      <div style={{padding:"12px 16px 6px"}}>
+        <div style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:12,padding:"10px 14px",display:"flex",alignItems:"center",gap:10}}>
+          <span style={{color:C.textDim,fontSize:14}}>🔍</span>
+          <input value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} placeholder="Поиск кейсов..." style={{background:"transparent",border:"none",outline:"none",color:C.white,fontSize:13,fontFamily:FONT,flex:1,caretColor:C.accent}}/>
+          {searchQuery&&<span onClick={()=>setSearchQuery("")} style={{color:C.textDim,fontSize:13,cursor:"pointer"}}>✕</span>}
+        </div>
+      </div>
+
+      {/* Spec chips — horizontal scroll */}
+      <div className="no-scrollbar" style={{display:"flex",gap:7,overflowX:"auto",padding:"6px 16px 10px"}}>
+        <div onClick={()=>setSpecFilter(null)} style={{flexShrink:0,padding:"5px 14px",borderRadius:20,fontSize:12,fontFamily:FONT,cursor:"pointer",background:!specFilter?"rgba(0,230,200,0.15)":"rgba(255,255,255,0.04)",border:`1px solid ${!specFilter?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.1)"}`,color:!specFilter?C.accent:C.textDim}}>Все</div>
+        {navSpec.map(({icon,label,cat})=>{
+          const isA=specFilter===cat;
+          return <div key={cat} onClick={()=>setSpecFilter(isA?null:cat)} style={{flexShrink:0,padding:"5px 14px",borderRadius:20,fontSize:12,fontFamily:FONT,cursor:"pointer",background:isA?"rgba(0,230,200,0.15)":"rgba(255,255,255,0.04)",border:`1px solid ${isA?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.1)"}`,color:isA?C.accent:C.textDim}}>{icon} {label}</div>;
+        })}
+      </div>
+
+      {/* Hero — compact */}
+      <div style={{margin:"0 16px 20px",borderRadius:18,overflow:"hidden",background:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",boxShadow:"0 8px 32px rgba(0,0,0,0.5)",position:"relative",padding:"22px 20px"}}>
+        <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.03) 1px,transparent 1px)",backgroundSize:"24px 24px",pointerEvents:"none"}}/>
+        <div style={{position:"relative"}}>
+          <div style={{fontSize:9,color:C.accent,letterSpacing:4,textTransform:"uppercase",marginBottom:8,fontFamily:FONT,fontWeight:600}}>КЛИНИЧЕСКИЙ СИМУЛЯТОР</div>
+          <div style={{fontSize:34,fontWeight:700,fontFamily:SER,fontStyle:"italic",lineHeight:1.1,background:`linear-gradient(135deg,${C.accent} 0%,${C.green} 100%)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:8}}>МедСим</div>
+          <div style={{fontSize:12,color:"rgba(168,200,224,0.75)",fontFamily:FONT,marginBottom:16,lineHeight:1.5}}>Клинические симуляции нового поколения.</div>
+          <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+            <button className="start-btn" onClick={startGame} style={{background:C.accent,border:"none",borderRadius:10,padding:"10px 22px",fontSize:14,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,letterSpacing:0.3,boxShadow:`0 4px 16px rgba(0,230,200,0.3)`}}>▶ Начать</button>
+            {["Анализы","Диагноз","Лечение"].map(t=><span key={t} style={{background:"rgba(0,230,200,0.1)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:20,padding:"4px 10px",fontSize:11,color:C.accent,fontFamily:FONT}}>{t}</span>)}
+          </div>
+        </div>
+      </div>
+
+      {/* Cases */}
+      <div style={{padding:"0 16px"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+          <div style={{fontSize:15,fontWeight:700,color:C.white,fontFamily:FONT}}>{specFilter?catMeta[specFilter]?.label:searchQuery?"Результаты поиска":"Клинические кейсы"}</div>
+          <div onClick={()=>setShowAllCases(v=>!v)} style={{fontSize:12,color:C.accent,fontFamily:FONT,cursor:"pointer",padding:"4px 11px",borderRadius:8,border:"1px solid rgba(0,230,200,0.2)",background:"rgba(0,230,200,0.06)"}}>
+            {showAllCases?"↑ Свернуть":`Все (${CASES.length})`}
+          </div>
+        </div>
+        {(()=>{
+          const q=searchQuery.toLowerCase();
+          const visible=CASES.filter(c=>{
+            if(specFilter&&c.category!==specFilter)return false;
+            if(!q)return true;
+            return c.name.toLowerCase().includes(q)||c.complaint.toLowerCase().includes(q)||(catMeta[c.category]?.label||"").toLowerCase().includes(q);
+          });
+          if(visible.length===0)return <div style={{color:C.textDim,fontSize:14,fontFamily:FONT,padding:"20px 0"}}>Ничего не найдено</div>;
+          return (
+            <div style={{display:"flex",flexDirection:"column",gap:10,paddingBottom:110}}>
+              {(specFilter||searchQuery||showAllCases?visible:visible.slice(0,4)).map((c,i)=>{
+                const cm=catMeta[c.category]||{icon:"🏥",label:c.category,color:C.accent};
+                const sc={critical:C.red,moderate:C.yellow,mild:C.green}[c.severity]||C.yellow;
+                const dots={critical:3,moderate:2,mild:1}[c.severity]||2;
+                return (
+                  <div key={c.id} className="case-card" onClick={()=>startGame(c.id)} style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:"1px solid rgba(0,230,200,0.08)",borderRadius:16,padding:"16px",cursor:"pointer",boxShadow:"0 4px 24px rgba(0,0,0,0.35)"}}>
+                    <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:10}}>
+                      <div style={{width:40,height:40,borderRadius:12,flexShrink:0,background:`${cm.color}18`,border:`1px solid ${cm.color}30`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:19}}>{cm.icon}</div>
+                      <div style={{flex:1,minWidth:0}}>
+                        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:4,flexWrap:"wrap"}}>
+                          <span style={{fontSize:11,color:cm.color,fontFamily:FONT,fontWeight:600,textTransform:"uppercase",letterSpacing:0.6}}>{cm.label}</span>
+                          <div style={{display:"flex",gap:3}}>{[1,2,3].map(d=><div key={d} style={{width:6,height:6,borderRadius:"50%",background:d<=dots?sc:`${sc}30`}}/>)}</div>
+                        </div>
+                        <div style={{fontSize:14,fontWeight:600,color:C.white,fontFamily:FONT,marginBottom:4,lineHeight:1.3}}>{c.name}, {c.age} л</div>
+                        <div style={{fontSize:12,color:C.textDim,fontFamily:FONT,lineHeight:1.5,overflow:"hidden",textOverflow:"ellipsis",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>{c.complaint}</div>
+                      </div>
+                    </div>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingTop:10,borderTop:"1px solid rgba(0,230,200,0.06)"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8}}>
+                        <span style={{fontSize:11,color:C.textDim,fontFamily:FONT}}>⏱ {c.timeLimit} мин</span>
+                        <span style={{fontSize:11,color:sc,fontFamily:FONT,background:`${sc}15`,borderRadius:5,padding:"2px 7px"}}>{{critical:"Критический",moderate:"Средний",mild:"Лёгкий"}[c.severity]}</span>
+                      </div>
+                      <button className="start-btn" onClick={e=>{e.stopPropagation();startGame(c.id);}} style={{background:C.accent,border:"none",borderRadius:9,padding:"7px 18px",fontSize:13,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,boxShadow:`0 3px 12px rgba(0,230,200,0.25)`}}>Старт</button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })()}
+      </div>
+
+      {/* Fixed bottom bar */}
+      <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:90,background:"rgba(7,13,24,0.97)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",borderTop:"1px solid rgba(0,230,200,0.1)",padding:"12px 16px"}}>
+        <div style={{display:"flex",gap:8,marginBottom:10}}>
+          {[{v:casesPlayed,l:"Кейсов",c:C.accent},{v:casesPlayed?Math.round(totalScore/casesPlayed):0,l:"Ср. балл",c:C.green},{v:totalScore,l:"Очков",c:C.yellow}].map(({v,l,c})=>(
+            <div key={l} style={{flex:1,background:"rgba(255,255,255,0.03)",borderRadius:10,padding:"7px 8px",textAlign:"center"}}>
+              <div style={{fontSize:17,fontWeight:700,color:c,fontFamily:CODE,lineHeight:1}}>{v}</div>
+              <div style={{fontSize:10,color:C.textDim,fontFamily:FONT,marginTop:2}}>{l}</div>
+            </div>
+          ))}
+        </div>
+        <button className="start-btn" onClick={startGame} style={{background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"14px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,letterSpacing:0.5,width:"100%",boxShadow:`0 6px 24px rgba(0,230,200,0.3)`}}>
+          ▶ НОВЫЙ ПАЦИЕНТ
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,

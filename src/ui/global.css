@@ -57,3 +57,7 @@
 .start-btn:hover { filter: brightness(1.15) !important; box-shadow: 0 8px 28px rgba(0,230,200,0.45) !important; transform: translateY(-1px); }
 .session-row { transition: background 0.2s ease !important; }
 .session-row:hover { background: rgba(0,230,200,0.05) !important; }
+
+/* ── Hide scrollbar (horizontal scroll strips on mobile) ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
