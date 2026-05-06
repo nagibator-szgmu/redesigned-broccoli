@@ -1,5 +1,5 @@
 export const TREAT_FX = {
-  oxygen:       {eff:{spo2:8,rr:-2},        delay:15,  desc:"SpO₂↑, ЧД↓"},
+  oxygen:       {eff:{spo2:8,rr:-2},        delay:15,  continuous:true, desc:"SpO₂↑, ЧД↓"},
   aspirin:      {eff:{pain:-1},             delay:120, desc:"Антиагрегант"},
   heparin:      {eff:{},                    delay:60,  desc:"Антикоагуляция"},
   thrombolysis: {eff:{sbp:22,spo2:7,hr:-10},delay:120, desc:"Реперфузия↑"},
@@ -18,7 +18,7 @@ export const TREAT_FX = {
   atropine:     {eff:{hr:20},               delay:30,  desc:"ЧСС↑"},
   amiodarone:   {eff:{hr:-18},              delay:90,  desc:"ЧСС↓"},
   defibrillation:{eff:{hr:-35},             delay:5,   desc:"Ритм↓"},
-  intubation:   {eff:{spo2:20,rr:-10},      delay:60,  desc:"SpO₂↑↑, ЧД↓"},
+  intubation:   {eff:{spo2:20,rr:-10},      delay:60,  continuous:true, desc:"SpO₂↑↑, ЧД↓"},
   pci:          {eff:{sbp:25,hr:-12,spo2:5},delay:180, desc:"АД↑, ЧСС↓"},
   surgery_consult:{eff:{},                  delay:300, desc:"Консультация"},
   mannitol:     {eff:{gcs:3,sbp:5},         delay:90,  desc:"ГКС↑"},

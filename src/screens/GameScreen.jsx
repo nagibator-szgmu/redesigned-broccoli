@@ -20,6 +20,7 @@ export default function GameScreen({
 }) {
   const isMobile = useIsMobile();
   const [mobileTab, setMobileTab] = useState("main");
+  const [showInfo, setShowInfo] = useState(false);
 
   const sev = cd.severity;
   const sevColor = {critical:C.red,moderate:C.yellow,mild:C.green}[sev]||C.yellow;
@@ -30,6 +31,8 @@ export default function GameScreen({
   const treatCats = ["all",...new Set(TREATMENTS.map(t=>t.cat))];
   const filtDiag = diagCat==="all"?DIAGNOSTICS:DIAGNOSTICS.filter(d=>d.cat===diagCat);
   const filtTreat = treatCat==="all"?TREATMENTS:TREATMENTS.filter(t=>t.cat===treatCat);
+  const TREAT_CAT_LABELS = {all:"Все",antiplatelet:"Антиагреганты",anticoagulant:"Антикоагулянты",intervention:"Процедуры",supportive:"Поддержка",cardiac:"Кардио",analgesic:"Анальгетики",betablocker:"β-блокаторы",diuretic:"Диуретики",antibiotic:"Антибиотики",steroid:"Стероиды",endocrine:"Эндокринные",antidote:"Антидоты",vasopressor:"Вазопрессоры",anticonvulsant:"Антиконвульсанты",antiarrhythmic:"Антиаритмики",neuro:"Нейро",antiviral:"Антивирусные",renal:"Нефрология"};
+  const DIAG_CAT_LABELS = {all:"Все",cardiac:"Кардио",lab:"Лаборатория",respiratory:"Дыхание",imaging:"Визуализация",neuro:"Нейро"};
 
   const trend = (key) => {
     if (!ps||!prevPs) return 0;
@@ -77,7 +80,7 @@ export default function GameScreen({
           border:`1px solid ${treatCat===cat?C.green:C.border}`,
           borderRadius:10,padding:"3px 10px",cursor:"pointer",fontFamily:FONT,
           fontSize:12,color:treatCat===cat?C.green:C.textDim}}>
-          {cat==="all"?"Все":cat}
+          {TREAT_CAT_LABELS[cat]??cat}
         </button>
       ))}
     </div>
@@ -165,13 +168,19 @@ export default function GameScreen({
           <>
             {phase==="order_tests"&&(
               <>
-                <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:12}}>
-                  {[{icon:"📋",label:"Анамнез",text:cd.anamnesis},{icon:"🔍",label:"Осмотр",text:cd.exam}].map(({icon,label,text})=>(
-                    <div key={label} style={{background:"rgba(13,26,46,0.7)",border:"1px solid rgba(0,230,200,0.08)",borderRadius:12,padding:"10px 12px"}}>
-                      <div style={{fontSize:10,color:C.textDim,textTransform:"uppercase",letterSpacing:1,marginBottom:5,fontFamily:FONT,fontWeight:600}}>{icon} {label}</div>
-                      <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:0,fontFamily:FONT}}>{text}</p>
-                    </div>
-                  ))}
+                <div style={{marginBottom:12}}>
+                  <div onClick={()=>setShowInfo(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 12px",background:"rgba(13,26,46,0.7)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:showInfo?"12px 12px 0 0":12,cursor:"pointer"}}>
+                    <span style={{fontSize:11,color:C.textDim,fontFamily:FONT,fontWeight:600,textTransform:"uppercase",letterSpacing:0.8}}>📋 Анамнез и осмотр</span>
+                    <span style={{color:C.textDim,fontSize:11}}>{showInfo?"▲":"▼"}</span>
+                  </div>
+                  {showInfo&&<div style={{border:"1px solid rgba(0,230,200,0.08)",borderTop:"none",borderRadius:"0 0 12px 12px",overflow:"hidden"}}>
+                    {[{icon:"📋",label:"Анамнез",text:cd.anamnesis},{icon:"🔍",label:"Осмотр",text:cd.exam}].map(({icon,label,text},i)=>(
+                      <div key={label} style={{background:"rgba(13,26,46,0.7)",padding:"10px 12px",borderTop:i>0?"1px solid rgba(0,230,200,0.06)":undefined}}>
+                        <div style={{fontSize:10,color:C.textDim,textTransform:"uppercase",letterSpacing:1,marginBottom:5,fontFamily:FONT,fontWeight:600}}>{icon} {label}</div>
+                        <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:0,fontFamily:FONT}}>{text}</p>
+                      </div>
+                    ))}
+                  </div>}
                 </div>
                 <STitle icon="🔬" label="Исследования" color={C.accent}/>
                 <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:10}}>
@@ -180,7 +189,7 @@ export default function GameScreen({
                       background:diagCat===cat?`${C.accent}1a`:"rgba(255,255,255,0.03)",
                       border:`1px solid ${diagCat===cat?C.accent:"rgba(0,230,200,0.1)"}`,
                       borderRadius:12,padding:"4px 12px",cursor:"pointer",fontFamily:FONT,
-                      fontSize:12,color:diagCat===cat?C.accent:C.textDim}}>{cat==="all"?"Все":cat}</button>
+                      fontSize:12,color:diagCat===cat?C.accent:C.textDim}}>{DIAG_CAT_LABELS[cat]??cat}</button>
                   ))}
                 </div>
                 <div>
@@ -451,14 +460,19 @@ export default function GameScreen({
           {phase==="order_tests"&&(
             <>
               <div style={{flex:1,overflowY:"auto",padding:"14px 16px",minWidth:0}}>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
-                  {[{icon:"📋",label:"Анамнез",text:cd.anamnesis},{icon:"🔍",label:"Осмотр",text:cd.exam}].map(({icon,label,text})=>(
-                    <div key={label} style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
-                      border:"1px solid rgba(0,230,200,0.08)",borderRadius:14,padding:"12px 14px"}}>
-                      <div style={{fontSize:10,color:C.textDim,textTransform:"uppercase",letterSpacing:1.2,marginBottom:7,fontFamily:FONT,fontWeight:600}}>{icon} {label}</div>
-                      <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:0,fontFamily:FONT}}>{text}</p>
-                    </div>
-                  ))}
+                <div style={{marginBottom:14}}>
+                  <div onClick={()=>setShowInfo(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"9px 14px",background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:showInfo?"14px 14px 0 0":14,cursor:"pointer"}}>
+                    <span style={{fontSize:11,color:C.textDim,fontFamily:FONT,fontWeight:600,textTransform:"uppercase",letterSpacing:1}}>📋 Анамнез и осмотр</span>
+                    <span style={{color:C.textDim,fontSize:11}}>{showInfo?"▲ Свернуть":"▼ Раскрыть"}</span>
+                  </div>
+                  {showInfo&&<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",border:"1px solid rgba(0,230,200,0.08)",borderTop:"none",borderRadius:"0 0 14px 14px",overflow:"hidden"}}>
+                    {[{icon:"📋",label:"Анамнез",text:cd.anamnesis},{icon:"🔍",label:"Осмотр",text:cd.exam}].map(({icon,label,text},i)=>(
+                      <div key={label} style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",padding:"12px 14px",borderLeft:i>0?"1px solid rgba(0,230,200,0.06)":undefined}}>
+                        <div style={{fontSize:10,color:C.textDim,textTransform:"uppercase",letterSpacing:1.2,marginBottom:7,fontFamily:FONT,fontWeight:600}}>{icon} {label}</div>
+                        <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:0,fontFamily:FONT}}>{text}</p>
+                      </div>
+                    ))}
+                  </div>}
                 </div>
                 <div style={{background:"rgba(0,58,56,0.45)",border:"1px solid rgba(0,230,200,0.18)",borderRadius:10,padding:"9px 14px",marginBottom:14,fontSize:12,color:C.accent,lineHeight:1.6,fontFamily:FONT}}>
                   ⚡ Выберите необходимые исследования и отправьте в лабораторию. Экстренное лечение — справа.
@@ -470,7 +484,7 @@ export default function GameScreen({
                       background:diagCat===cat?`${C.accent}1a`:"rgba(255,255,255,0.03)",
                       border:`1px solid ${diagCat===cat?C.accent:"rgba(0,230,200,0.1)"}`,
                       borderRadius:12,padding:"3px 11px",cursor:"pointer",fontFamily:FONT,
-                      fontSize:12,color:diagCat===cat?C.accent:C.textDim}}>{cat==="all"?"Все":cat}</button>
+                      fontSize:12,color:diagCat===cat?C.accent:C.textDim}}>{DIAG_CAT_LABELS[cat]??cat}</button>
                   ))}
                 </div>
                 <div>

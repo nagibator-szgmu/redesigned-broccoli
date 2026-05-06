@@ -36,6 +36,8 @@ export default function App() {
   const [showAllCases, setShowAllCases] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [difficulty, setDifficulty] = useState("normal");
+  const [theme, setTheme] = useState("dark");
 
   const timerRef = useRef(null);
   const detRef = useRef(null);
@@ -84,7 +86,8 @@ export default function App() {
     setEventLog([{ id: 1, text: "Пациент поступил в приёмное отделение", type: "info", elapsed: "0:00" }]);
     setSelDiag([]); setOrderedDiag([]); setRevealedResults({}); setNewResultIds([]);
     setSelTreat([]); setDiagText(""); setDiagCat("all"); setTreatCat("all"); setResult(null);
-    const t = chosen.timeLimit * 60;
+    const mult = {easy:1.5,normal:1,hard:0.7}[difficulty] || 1;
+    const t = Math.round(chosen.timeLimit * 60 * mult);
     setTotalTime(t); setTimeLeft(t);
     totalTimeRef.current = t; timeLeftRef.current = t;
     setPhase("order_tests");
@@ -122,6 +125,13 @@ export default function App() {
           gcs:  clamp(r1(prev.gcs  + (det.gcs  ?? 0)), CLAMP_RANGES.gcs[0],  CLAMP_RANGES.gcs[1]),
           pain: clamp(r1(prev.pain + (det.pain ?? 0)), CLAMP_RANGES.pain[0], CLAMP_RANGES.pain[1]),
         };
+        selTreatRef.current.filter(id => TREAT_FX[id]?.continuous).forEach(id => {
+          const eff = TREAT_FX[id]?.eff || {};
+          Object.entries(eff).forEach(([k, v]) => {
+            if (k in next && CLAMP_RANGES[k])
+              next[k] = clamp(r1(next[k] + v * 0.3), CLAMP_RANGES[k][0], CLAMP_RANGES[k][1]);
+          });
+        });
         const dt = cdRef.current?.deathThresholds || {};
         const dead = (dt.sbp && next.sbp <= dt.sbp) || (dt.spo2 && next.spo2 <= dt.spo2) ||
                      (dt.gcs && next.gcs <= dt.gcs) || (dt.hr && next.hr >= dt.hr) || (dt.rr && next.rr <= dt.rr);
@@ -269,6 +279,8 @@ export default function App() {
         showAllCases={showAllCases} setShowAllCases={setShowAllCases}
         showNotif={showNotif} setShowNotif={setShowNotif}
         showSettings={showSettings} setShowSettings={setShowSettings}
+        difficulty={difficulty} setDifficulty={setDifficulty}
+        theme={theme} setTheme={setTheme}
       />
     );
   }

@@ -28,6 +28,8 @@ export default function MenuScreen({
   showAllCases, setShowAllCases,
   showNotif, setShowNotif,
   showSettings, setShowSettings,
+  difficulty, setDifficulty,
+  theme, setTheme,
 }) {
   const [notifRead, setNotifRead] = useState(false);
   const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
@@ -86,11 +88,11 @@ export default function MenuScreen({
           </div>
           <div style={{marginBottom:14}}>
             <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Сложность</div>
-            <div style={{display:"flex",gap:6}}>{["Лёгкая","Средняя","Сложная"].map((d,i)=><button key={d} style={{flex:1,background:i===1?`${C.accent}18`:"transparent",border:`1px solid ${i===1?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:i===1?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{d}</button>)}</div>
+            <div style={{display:"flex",gap:6}}>{[{l:"Лёгкая",v:"easy"},{l:"Средняя",v:"normal"},{l:"Сложная",v:"hard"}].map(({l,v})=><button key={v} onClick={()=>setDifficulty(v)} style={{flex:1,background:difficulty===v?`${C.accent}18`:"transparent",border:`1px solid ${difficulty===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:difficulty===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>)}</div>
           </div>
           <div style={{marginBottom:14}}>
             <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Тема</div>
-            <div style={{display:"flex",gap:6}}>{["Тёмная","Синяя"].map((t,i)=><button key={t} style={{flex:1,background:i===0?`${C.accent}18`:"transparent",border:`1px solid ${i===0?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:i===0?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{t}</button>)}</div>
+            <div style={{display:"flex",gap:6}}>{[{l:"Тёмная",v:"dark"},{l:"Синяя",v:"blue"}].map(({l,v})=><button key={v} onClick={()=>setTheme(v)} style={{flex:1,background:theme===v?`${C.accent}18`:"transparent",border:`1px solid ${theme===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:theme===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>)}</div>
           </div>
           <div style={{paddingTop:12,borderTop:"1px solid rgba(0,230,200,0.06)",fontSize:11,color:C.textDim,textAlign:"center",opacity:0.7}}>Дополнительные настройки в разработке</div>
         </div>
@@ -343,20 +345,20 @@ export default function MenuScreen({
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Сложность</div>
                 <div style={{display:"flex",gap:6}}>
-                  {["Лёгкая","Средняя","Сложная"].map((d,i)=>(
-                    <button key={d} style={{flex:1,background:i===1?`${C.accent}18`:"transparent",
-                      border:`1px solid ${i===1?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",
-                      fontSize:11,color:i===1?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{d}</button>
+                  {[{l:"Лёгкая",v:"easy"},{l:"Средняя",v:"normal"},{l:"Сложная",v:"hard"}].map(({l,v})=>(
+                    <button key={v} onClick={()=>setDifficulty(v)} style={{flex:1,background:difficulty===v?`${C.accent}18`:"transparent",
+                      border:`1px solid ${difficulty===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",
+                      fontSize:11,color:difficulty===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>
                   ))}
                 </div>
               </div>
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Тема</div>
                 <div style={{display:"flex",gap:6}}>
-                  {["Тёмная","Синяя"].map((t,i)=>(
-                    <button key={t} style={{flex:1,background:i===0?`${C.accent}18`:"transparent",
-                      border:`1px solid ${i===0?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",
-                      fontSize:11,color:i===0?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{t}</button>
+                  {[{l:"Тёмная",v:"dark"},{l:"Синяя",v:"blue"}].map(({l,v})=>(
+                    <button key={v} onClick={()=>setTheme(v)} style={{flex:1,background:theme===v?`${C.accent}18`:"transparent",
+                      border:`1px solid ${theme===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",
+                      fontSize:11,color:theme===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>
                   ))}
                 </div>
               </div>
@@ -593,7 +595,7 @@ export default function MenuScreen({
               border:"1px solid rgba(0,230,200,0.08)",borderRadius:18,padding:"18px 16px",boxShadow:"0 4px 24px rgba(0,0,0,0.3)"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
                 <span style={{fontSize:13,fontWeight:600,color:C.white,fontFamily:FONT}}>Недавние сессии</span>
-                <span style={{fontSize:11,color:C.accent,fontFamily:FONT,background:"rgba(0,230,200,0.08)",borderRadius:5,padding:"2px 8px",cursor:"pointer"}}>Ещё</span>
+                <span onClick={()=>setShowAllCases(true)} style={{fontSize:11,color:C.accent,fontFamily:FONT,background:"rgba(0,230,200,0.08)",borderRadius:5,padding:"2px 8px",cursor:"pointer"}}>Ещё</span>
               </div>
               {CASES.slice(0,5).map(c=>{
                 const cm = catMeta[c.category]||{icon:"🏥",label:c.category,color:C.accent};
