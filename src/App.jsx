@@ -6,6 +6,8 @@ import { computeScore } from "./engine/scoring";
 import MenuScreen from "./screens/MenuScreen";
 import GameScreen from "./screens/GameScreen";
 import ResultScreen from "./screens/ResultScreen";
+import { ThemeCtx, } from "./ui/ThemeContext";
+import { DARK, LIGHT } from "./ui/theme";
 
 export default function App() {
   const [phase, setPhase] = useState("menu");
@@ -38,6 +40,8 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [difficulty, setDifficulty] = useState("normal");
   const [theme, setTheme] = useState("dark");
+
+  useEffect(() => { document.body.setAttribute("data-theme", theme); }, [theme]);
 
   const timerRef = useRef(null);
   const detRef = useRef(null);
@@ -268,8 +272,10 @@ export default function App() {
 
   // ── Routing ───────────────────────────────────────────────────────────
 
-  if (phase === "menu") {
-    return (
+  const themeValue = theme === "light" ? LIGHT : DARK;
+
+  const content = (() => {
+    if (phase === "menu") return (
       <MenuScreen
         startGame={startGame}
         totalScore={totalScore}
@@ -283,10 +289,7 @@ export default function App() {
         theme={theme} setTheme={setTheme}
       />
     );
-  }
-
-  if (phase === "result" && result && cd) {
-    return (
+    if (phase === "result" && result && cd) return (
       <ResultScreen
         result={result} cd={cd} ps={ps}
         orderedDiag={orderedDiag} selTreat={selTreat} diagText={diagText}
@@ -294,26 +297,26 @@ export default function App() {
         setPhase={setPhase} startGame={startGame}
       />
     );
-  }
+    if (!cd || !ps) return null;
+    return (
+      <GameScreen
+        phase={phase} setPhase={setPhase}
+        cd={cd} ps={ps} prevPs={prevPs}
+        selDiag={selDiag} setSelDiag={setSelDiag}
+        selTreat={selTreat} toggleTreatment={toggleTreatment}
+        orderedDiag={orderedDiag}
+        revealedResults={revealedResults} newResultIds={newResultIds}
+        diagText={diagText} setDiagText={setDiagText}
+        diagCat={diagCat} setDiagCat={setDiagCat}
+        treatCat={treatCat} setTreatCat={setTreatCat}
+        appliedFx={appliedFx} pendingFx={pendingFx}
+        timeLeft={timeLeft} totalTime={totalTime}
+        eventLog={eventLog}
+        handleOrderTests={handleOrderTests} handleSubmit={handleSubmit}
+        processingTests={processingTests} allResultsReady={allResultsReady}
+      />
+    );
+  })();
 
-  if (!cd || !ps) return null;
-
-  return (
-    <GameScreen
-      phase={phase} setPhase={setPhase}
-      cd={cd} ps={ps} prevPs={prevPs}
-      selDiag={selDiag} setSelDiag={setSelDiag}
-      selTreat={selTreat} toggleTreatment={toggleTreatment}
-      orderedDiag={orderedDiag}
-      revealedResults={revealedResults} newResultIds={newResultIds}
-      diagText={diagText} setDiagText={setDiagText}
-      diagCat={diagCat} setDiagCat={setDiagCat}
-      treatCat={treatCat} setTreatCat={setTreatCat}
-      appliedFx={appliedFx} pendingFx={pendingFx}
-      timeLeft={timeLeft} totalTime={totalTime}
-      eventLog={eventLog}
-      handleOrderTests={handleOrderTests} handleSubmit={handleSubmit}
-      processingTests={processingTests} allResultsReady={allResultsReady}
-    />
-  );
+  return <ThemeCtx.Provider value={themeValue}>{content}</ThemeCtx.Provider>;
 }

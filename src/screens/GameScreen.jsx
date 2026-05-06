@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { C, FONT, CODE, SER } from "../ui/theme";
+import { FONT, CODE, SER } from "../ui/theme";
+import { useTheme } from "../ui/ThemeContext";
 import { CAT_COLOR, DIAGNOSTICS } from "../data/diagnostics";
 import { TREATMENTS } from "../data/treatments";
 import { r1 } from "../engine/patient";
@@ -18,6 +19,7 @@ export default function GameScreen({
   handleOrderTests, handleSubmit,
   processingTests, allResultsReady,
 }) {
+  const C = useTheme();
   const isMobile = useIsMobile();
   const [mobileTab, setMobileTab] = useState("main");
   const [showInfo, setShowInfo] = useState(false);
@@ -88,13 +90,13 @@ export default function GameScreen({
 
   /* ── MOBILE LAYOUT ── */
   if (isMobile) return (
-    <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
+    <div style={{height:"100vh",background:C.bgGrad,
       fontFamily:FONT,display:"flex",flexDirection:"column",overflow:"hidden"}}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
 
       {/* Compact header */}
       <header style={{flexShrink:0,padding:"0 14px",height:52,display:"flex",alignItems:"center",gap:10,
-        background:"rgba(7,13,24,0.92)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
+        background:C.headerBg,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
         borderBottom:"1px solid rgba(0,230,200,0.08)"}}>
         <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:30,height:30,borderRadius:8,flexShrink:0,
           background:"linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))",
@@ -119,7 +121,7 @@ export default function GameScreen({
 
       {/* Vitals strip */}
       <div className="no-scrollbar" style={{flexShrink:0,display:"flex",overflowX:"auto",
-        background:"rgba(10,18,36,0.7)",borderBottom:"1px solid rgba(0,230,200,0.06)"}}>
+        background:C.sidebarBg,borderBottom:"1px solid rgba(0,230,200,0.06)"}}>
         {[
           {label:"АД",value:`${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`,warn:ps.sbp<90||ps.sbp>160},
           {label:"ЧСС",value:`${Math.round(ps.hr)}`,warn:ps.hr>100||ps.hr<50},
@@ -146,7 +148,7 @@ export default function GameScreen({
 
       {/* Phase breadcrumb */}
       <div style={{flexShrink:0,display:"flex",alignItems:"center",padding:"5px 14px",gap:4,
-        background:"rgba(7,13,24,0.6)",borderBottom:"1px solid rgba(0,230,200,0.04)"}}>
+        background:C.headerBg2,borderBottom:"1px solid rgba(0,230,200,0.04)"}}>
         {steps.map((s,i)=>(
           <span key={s.key} style={{display:"inline-flex",alignItems:"center",gap:3,flexShrink:0}}>
             <span style={{fontSize:11,fontFamily:FONT,
@@ -169,13 +171,13 @@ export default function GameScreen({
             {phase==="order_tests"&&(
               <>
                 <div style={{marginBottom:12}}>
-                  <div onClick={()=>setShowInfo(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 12px",background:"rgba(13,26,46,0.7)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:showInfo?"12px 12px 0 0":12,cursor:"pointer"}}>
+                  <div onClick={()=>setShowInfo(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 12px",background:C.panelBg,border:"1px solid rgba(0,230,200,0.1)",borderRadius:showInfo?"12px 12px 0 0":12,cursor:"pointer"}}>
                     <span style={{fontSize:11,color:C.textDim,fontFamily:FONT,fontWeight:600,textTransform:"uppercase",letterSpacing:0.8}}>📋 Анамнез и осмотр</span>
                     <span style={{color:C.textDim,fontSize:11}}>{showInfo?"▲":"▼"}</span>
                   </div>
                   {showInfo&&<div style={{border:"1px solid rgba(0,230,200,0.08)",borderTop:"none",borderRadius:"0 0 12px 12px",overflow:"hidden"}}>
                     {[{icon:"📋",label:"Анамнез",text:cd.anamnesis},{icon:"🔍",label:"Осмотр",text:cd.exam}].map(({icon,label,text},i)=>(
-                      <div key={label} style={{background:"rgba(13,26,46,0.7)",padding:"10px 12px",borderTop:i>0?"1px solid rgba(0,230,200,0.06)":undefined}}>
+                      <div key={label} style={{background:C.panelBg,padding:"10px 12px",borderTop:i>0?"1px solid rgba(0,230,200,0.06)":undefined}}>
                         <div style={{fontSize:10,color:C.textDim,textTransform:"uppercase",letterSpacing:1,marginBottom:5,fontFamily:FONT,fontWeight:600}}>{icon} {label}</div>
                         <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:0,fontFamily:FONT}}>{text}</p>
                       </div>
@@ -212,7 +214,7 @@ export default function GameScreen({
               <>
                 {!allResultsReady&&(
                   <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px",
-                    background:"rgba(61,48,0,0.4)",border:"1px solid rgba(245,200,66,0.22)",
+                    background:C.yellowDim,border:"1px solid rgba(245,200,66,0.22)",
                     borderRadius:10,marginBottom:12,fontSize:13,color:C.yellow,fontFamily:FONT}}>
                     <div style={{width:12,height:12,border:`2px solid ${C.yellow}`,borderTopColor:"transparent",borderRadius:"50%",animation:"spin 0.8s linear infinite",flexShrink:0}}/>
                     Ожидание... {Object.keys(revealedResults).length}/{orderedDiag.length}
@@ -220,7 +222,7 @@ export default function GameScreen({
                 )}
                 {allResultsReady&&(
                   <div style={{display:"flex",flexDirection:"column",gap:8,padding:"12px 14px",
-                    background:"rgba(0,61,40,0.4)",border:"1px solid rgba(0,229,160,0.22)",
+                    background:C.greenDim,border:"1px solid rgba(0,229,160,0.22)",
                     borderRadius:10,marginBottom:12,fontSize:13,color:C.green,fontFamily:FONT}}>
                     <span>✓ Все результаты получены</span>
                     <Btn onClick={()=>setPhase("diagnose")} color={C.green} style={{padding:"10px",fontSize:13,width:"100%"}}>📝 ПОСТАВИТЬ ДИАГНОЗ →</Btn>
@@ -244,23 +246,23 @@ export default function GameScreen({
 
             {phase==="diagnose"&&(
               <>
-                <div style={{background:"rgba(13,26,46,0.7)",border:"1px solid rgba(0,230,200,0.08)",borderRadius:12,padding:"10px 12px",marginBottom:12}}>
+                <div style={{background:C.panelBg,border:"1px solid rgba(0,230,200,0.08)",borderRadius:12,padding:"10px 12px",marginBottom:12}}>
                   <STitle icon="📋" label={`Результаты (${orderedDiag.length})`} color={C.accent}/>
                   {orderedDiag.slice(0,2).map(id=>(
                     <ResultCard key={id} id={id} text={revealedResults[id]||""}/>
                   ))}
                   {orderedDiag.length>2&&<div style={{fontSize:12,color:C.textDim,fontFamily:FONT,textAlign:"center",paddingTop:4}}>+ ещё {orderedDiag.length-2}</div>}
                 </div>
-                <div style={{background:"rgba(13,26,46,0.7)",border:"1px solid rgba(157,111,245,0.2)",borderRadius:12,padding:"12px 14px",marginBottom:12}}>
+                <div style={{background:C.panelBg,border:"1px solid rgba(157,111,245,0.2)",borderRadius:12,padding:"12px 14px",marginBottom:12}}>
                   <STitle icon="🎯" label="Диагноз" color={C.purple}/>
                   <textarea value={diagText} onChange={e=>setDiagText(e.target.value)}
                     placeholder="Сформулируйте диагноз..."
-                    style={{width:"100%",minHeight:90,background:"rgba(7,13,24,0.6)",
+                    style={{width:"100%",minHeight:90,background:C.headerBg2,
                       border:`1px solid ${diagText?"rgba(157,111,245,0.4)":"rgba(0,230,200,0.1)"}`,
                       borderRadius:10,padding:"10px 12px",color:C.white,fontSize:13,fontFamily:FONT,
                       resize:"vertical",outline:"none",boxSizing:"border-box",lineHeight:1.8}}/>
                 </div>
-                <div style={{background:"rgba(13,26,46,0.7)",border:"1px solid rgba(0,230,200,0.08)",borderRadius:12,padding:"12px 14px",
+                <div style={{background:C.panelBg,border:"1px solid rgba(0,230,200,0.08)",borderRadius:12,padding:"12px 14px",
                   display:"flex",flexDirection:"column",gap:10}}>
                   <span style={{fontSize:13,color:selTreat.length>0?C.green:C.yellow,fontFamily:FONT}}>
                     {selTreat.length>0?`💊 Назначено: ${selTreat.length} препаратов`:"💊 Назначьте лечение во вкладке Лечение"}
@@ -277,7 +279,7 @@ export default function GameScreen({
         {/* TREATMENT tab */}
         {mobileTab==="treatment"&&(
           <>
-            <div style={{background:"rgba(77,0,24,0.3)",border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"8px 12px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты опасны при данной патологии</div>
+            <div style={{background:C.redDim,border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"8px 12px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты опасны при данной патологии</div>
             {renderTreatCatFilter()}
             {renderTreatList()}
             {selTreat.length>0&&(
@@ -291,7 +293,7 @@ export default function GameScreen({
       </div>
 
       {/* Bottom tab bar */}
-      <div style={{flexShrink:0,height:52,display:"flex",background:"rgba(7,13,24,0.97)",
+      <div style={{flexShrink:0,height:52,display:"flex",background:C.headerBg,
         backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
         borderTop:"1px solid rgba(0,230,200,0.1)"}}>
         <button onClick={()=>setMobileTab("main")} style={{flex:1,border:"none",
@@ -324,18 +326,18 @@ export default function GameScreen({
 
   /* ── DESKTOP LAYOUT ── */
   return (
-    <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
+    <div style={{height:"100vh",background:C.bgGrad,
       fontFamily:FONT,display:"flex",overflow:"hidden",position:"relative"}}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
 
       {/* Ambient glow */}
       <div style={{position:"absolute",inset:0,pointerEvents:"none",zIndex:0}}>
-        <div style={{position:"absolute",left:"-5%",top:"-10%",width:500,height:500,background:"radial-gradient(circle,rgba(0,230,200,0.05) 0%,transparent 65%)",borderRadius:"50%"}}/>
-        <div style={{position:"absolute",right:"-5%",bottom:"-10%",width:400,height:400,background:"radial-gradient(circle,rgba(0,100,200,0.06) 0%,transparent 65%)",borderRadius:"50%"}}/>
+        <div style={{position:"absolute",left:"-5%",top:"-10%",width:500,height:500,background:C.glowBg1,borderRadius:"50%"}}/>
+        <div style={{position:"absolute",right:"-5%",bottom:"-10%",width:400,height:400,background:C.glowBg2,borderRadius:"50%"}}/>
       </div>
 
       {/* Sidebar */}
-      <aside style={{width:224,flexShrink:0,zIndex:10,background:"rgba(10,18,36,0.88)",
+      <aside style={{width:224,flexShrink:0,zIndex:10,background:C.sidebarBg,
         backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
         borderRight:"1px solid rgba(0,230,200,0.08)",display:"flex",flexDirection:"column",
         padding:"16px 12px",overflowY:"auto",overflowX:"hidden"}}>
@@ -441,7 +443,7 @@ export default function GameScreen({
       {/* Main area */}
       <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0,zIndex:1}}>
         <header style={{height:46,flexShrink:0,padding:"0 20px",display:"flex",alignItems:"center",gap:10,
-          background:"rgba(7,13,24,0.65)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
+          background:C.headerBg2,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
           borderBottom:"1px solid rgba(0,230,200,0.06)"}}>
           <span style={{fontSize:11,color:C.textDim,fontFamily:FONT}}>МедСим</span>
           <span style={{color:"rgba(255,255,255,0.2)",fontSize:11}}>›</span>
@@ -461,20 +463,20 @@ export default function GameScreen({
             <>
               <div style={{flex:1,overflowY:"auto",padding:"14px 16px",minWidth:0}}>
                 <div style={{marginBottom:14}}>
-                  <div onClick={()=>setShowInfo(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"9px 14px",background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:showInfo?"14px 14px 0 0":14,cursor:"pointer"}}>
+                  <div onClick={()=>setShowInfo(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"9px 14px",background:C.panelBg,backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:showInfo?"14px 14px 0 0":14,cursor:"pointer"}}>
                     <span style={{fontSize:11,color:C.textDim,fontFamily:FONT,fontWeight:600,textTransform:"uppercase",letterSpacing:1}}>📋 Анамнез и осмотр</span>
                     <span style={{color:C.textDim,fontSize:11}}>{showInfo?"▲ Свернуть":"▼ Раскрыть"}</span>
                   </div>
                   {showInfo&&<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",border:"1px solid rgba(0,230,200,0.08)",borderTop:"none",borderRadius:"0 0 14px 14px",overflow:"hidden"}}>
                     {[{icon:"📋",label:"Анамнез",text:cd.anamnesis},{icon:"🔍",label:"Осмотр",text:cd.exam}].map(({icon,label,text},i)=>(
-                      <div key={label} style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",padding:"12px 14px",borderLeft:i>0?"1px solid rgba(0,230,200,0.06)":undefined}}>
+                      <div key={label} style={{background:C.panelBg,backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",padding:"12px 14px",borderLeft:i>0?"1px solid rgba(0,230,200,0.06)":undefined}}>
                         <div style={{fontSize:10,color:C.textDim,textTransform:"uppercase",letterSpacing:1.2,marginBottom:7,fontFamily:FONT,fontWeight:600}}>{icon} {label}</div>
                         <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:0,fontFamily:FONT}}>{text}</p>
                       </div>
                     ))}
                   </div>}
                 </div>
-                <div style={{background:"rgba(0,58,56,0.45)",border:"1px solid rgba(0,230,200,0.18)",borderRadius:10,padding:"9px 14px",marginBottom:14,fontSize:12,color:C.accent,lineHeight:1.6,fontFamily:FONT}}>
+                <div style={{background:C.accentDim,border:"1px solid rgba(0,230,200,0.18)",borderRadius:10,padding:"9px 14px",marginBottom:14,fontSize:12,color:C.accent,lineHeight:1.6,fontFamily:FONT}}>
                   ⚡ Выберите необходимые исследования и отправьте в лабораторию. Экстренное лечение — справа.
                 </div>
                 <STitle icon="🔬" label="Исследования" color={C.accent}/>
@@ -501,10 +503,10 @@ export default function GameScreen({
                   <Btn onClick={handleOrderTests} disabled={selDiag.length===0||processingTests} color={C.accent}>📤 В ЛАБОРАТОРИЮ</Btn>
                 </div>
               </div>
-              <div style={{width:260,flexShrink:0,borderLeft:"1px solid rgba(0,230,200,0.06)",overflowY:"auto",padding:"14px 12px",background:"rgba(7,13,24,0.35)"}}>
+              <div style={{width:260,flexShrink:0,borderLeft:"1px solid rgba(0,230,200,0.06)",overflowY:"auto",padding:"14px 12px",background:C.dimBg}}>
                 <STitle icon="💊" label="Экстренное лечение" color={C.green}/>
-                <div style={{background:"rgba(0,58,56,0.35)",border:"1px solid rgba(0,230,200,0.12)",borderRadius:8,padding:"8px 10px",marginBottom:10,fontSize:12,color:C.accent,lineHeight:1.6,fontFamily:FONT}}>Можно начать немедленно</div>
-                <div style={{background:"rgba(77,0,24,0.3)",border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"7px 10px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты опасны при данной патологии</div>
+                <div style={{background:C.accentDim,border:"1px solid rgba(0,230,200,0.12)",borderRadius:8,padding:"8px 10px",marginBottom:10,fontSize:12,color:C.accent,lineHeight:1.6,fontFamily:FONT}}>Можно начать немедленно</div>
+                <div style={{background:C.redDim,border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"7px 10px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты опасны при данной патологии</div>
                 {renderTreatCatFilter()}
                 {renderTreatList()}
                 {selTreat.length>0&&(
@@ -523,7 +525,7 @@ export default function GameScreen({
               <div style={{flex:1,overflowY:"auto",padding:"14px 16px",minWidth:0}}>
                 {!allResultsReady&&(
                   <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px",
-                    background:"rgba(61,48,0,0.4)",border:"1px solid rgba(245,200,66,0.22)",
+                    background:C.yellowDim,border:"1px solid rgba(245,200,66,0.22)",
                     borderRadius:10,marginBottom:14,fontSize:13,color:C.yellow,fontFamily:FONT}}>
                     <div style={{width:12,height:12,border:`2px solid ${C.yellow}`,borderTopColor:"transparent",borderRadius:"50%",animation:"spin 0.8s linear infinite",flexShrink:0}}/>
                     Ожидание результатов... {Object.keys(revealedResults).length} из {orderedDiag.length}
@@ -531,7 +533,7 @@ export default function GameScreen({
                 )}
                 {allResultsReady&&(
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",
-                    background:"rgba(0,61,40,0.4)",border:"1px solid rgba(0,229,160,0.22)",
+                    background:C.greenDim,border:"1px solid rgba(0,229,160,0.22)",
                     borderRadius:10,marginBottom:14,fontSize:13,color:C.green,fontFamily:FONT}}>
                     <span>✓ Все результаты получены</span>
                     <Btn onClick={()=>setPhase("diagnose")} color={C.green} style={{padding:"7px 16px",fontSize:13}}>📝 ПОСТАВИТЬ ДИАГНОЗ →</Btn>
@@ -551,9 +553,9 @@ export default function GameScreen({
                   })}
                 </div>
               </div>
-              <div style={{width:260,flexShrink:0,borderLeft:"1px solid rgba(0,230,200,0.06)",overflowY:"auto",padding:"14px 12px",background:"rgba(7,13,24,0.35)"}}>
+              <div style={{width:260,flexShrink:0,borderLeft:"1px solid rgba(0,230,200,0.06)",overflowY:"auto",padding:"14px 12px",background:C.dimBg}}>
                 <STitle icon="💊" label="Лечение" color={C.green}/>
-                <div style={{background:"rgba(77,0,24,0.3)",border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"7px 10px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты опасны при данной патологии</div>
+                <div style={{background:C.redDim,border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"7px 10px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты опасны при данной патологии</div>
                 {renderTreatCatFilter()}
                 {renderTreatList()}
                 {selTreat.length>0&&(
@@ -576,20 +578,20 @@ export default function GameScreen({
                 ))}
               </div>
               <div style={{flex:1,overflowY:"auto",padding:"14px 16px",minWidth:0}}>
-                <div style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
+                <div style={{background:C.panelBg,backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
                   border:"1px solid rgba(157,111,245,0.2)",borderRadius:14,padding:"14px 16px",marginBottom:12}}>
                   <STitle icon="🎯" label="Клинический диагноз" color={C.purple}/>
                   <textarea value={diagText} onChange={e=>setDiagText(e.target.value)}
                     placeholder="Сформулируйте диагноз. Напр.: Острый инфаркт миокарда с подъёмом ST нижней стенки. Кардиогенный шок."
-                    style={{width:"100%",minHeight:100,background:"rgba(7,13,24,0.6)",
+                    style={{width:"100%",minHeight:100,background:C.headerBg2,
                       border:`1px solid ${diagText?"rgba(157,111,245,0.4)":"rgba(0,230,200,0.1)"}`,
                       borderRadius:10,padding:"12px 14px",color:C.white,fontSize:13,fontFamily:FONT,
                       resize:"vertical",outline:"none",boxSizing:"border-box",lineHeight:1.8}}/>
                 </div>
-                <div style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
+                <div style={{background:C.panelBg,backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
                   border:"1px solid rgba(0,230,200,0.08)",borderRadius:14,padding:"14px 16px",marginBottom:12}}>
                   <STitle icon="💊" label="Назначения" color={C.green}/>
-                  <div style={{background:"rgba(77,0,24,0.3)",border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"7px 10px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты противопоказаны при данной патологии</div>
+                  <div style={{background:C.redDim,border:"1px solid rgba(255,61,90,0.12)",borderRadius:8,padding:"7px 10px",marginBottom:10,fontSize:12,color:C.red,fontFamily:FONT}}>⚠ Некоторые препараты противопоказаны при данной патологии</div>
                   {renderTreatCatFilter()}
                   {renderTreatList()}
                   {selTreat.length>0&&(
@@ -599,7 +601,7 @@ export default function GameScreen({
                     </div>
                   )}
                 </div>
-                <div style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
+                <div style={{background:C.panelBg,backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
                   border:"1px solid rgba(0,230,200,0.08)",borderRadius:14,padding:"12px 16px",
                   display:"flex",alignItems:"center",justifyContent:"space-between",gap:12}}>
                   <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>

@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
-import { C, FONT, CODE, SER } from "../ui/theme";
+import { FONT, CODE, SER } from "../ui/theme";
+import { useTheme } from "../ui/ThemeContext";
 import { STitle, Btn } from "../ui/components";
 import { DIAGNOSTICS, MISSED_TEST_REASONS } from "../data/diagnostics";
 import { TREATMENTS, TREAT_FX, ADVERSE_REASONS } from "../data/treatments";
@@ -7,6 +8,7 @@ import { r1 } from "../engine/patient";
 import useIsMobile from "../hooks/useIsMobile";
 
 export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, diagText, eventLog, setPhase, startGame }) {
+  const C = useTheme();
   const isMobile = useIsMobile();
 
   const outcomeMap = {
@@ -124,7 +126,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
                 const name=DIAGNOSTICS.find(d=>d.id===id)?.name||id;
                 const reason=MISSED_TEST_REASONS[id];
                 return (
-                  <div key={id} style={{background:`${C.redDim}55`,border:`1px solid ${C.red}33`,borderRadius:6,padding:"6px 10px",marginBottom:6}}>
+                  <div key={id} style={{background:C.redDim,border:`1px solid ${C.red}33`,borderRadius:6,padding:"6px 10px",marginBottom:6}}>
                     <div style={{fontSize:13,color:C.red,marginBottom:reason?3:0,fontFamily:FONT}}>✗ {name}</div>
                     {reason&&<div style={{fontSize:12,color:C.text,lineHeight:1.5,fontFamily:FONT}}>{reason}</div>}
                   </div>
@@ -168,7 +170,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
                 const name=TREATMENTS.find(t=>t.id===id)?.name||id;
                 const reason=ADVERSE_REASONS[id];
                 return (
-                  <div key={id} style={{background:`${C.redDim}77`,border:`1px solid ${C.red}55`,borderRadius:6,padding:"8px 10px",marginBottom:8}}>
+                  <div key={id} style={{background:C.redDim,border:`1px solid ${C.red}55`,borderRadius:6,padding:"8px 10px",marginBottom:8}}>
                     <div style={{fontSize:13,color:C.red,fontWeight:700,marginBottom:4,fontFamily:FONT}}>🚨 {name}</div>
                     {reason&&<div style={{fontSize:12,color:C.text,lineHeight:1.6,fontFamily:FONT}}>{reason}</div>}
                     {!reason&&<div style={{fontSize:12,color:C.text,fontFamily:FONT}}>Противопоказан при данной патологии</div>}
@@ -325,7 +327,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
                     const name = DIAGNOSTICS.find(d=>d.id===id)?.name||id;
                     const reason = MISSED_TEST_REASONS[id];
                     return (
-                      <div key={id} style={{background:`${C.redDim}55`,border:`1px solid ${C.red}33`,borderRadius:6,padding:"6px 10px",marginBottom:6}}>
+                      <div key={id} style={{background:C.redDim,border:`1px solid ${C.red}33`,borderRadius:6,padding:"6px 10px",marginBottom:6}}>
                         <div style={{fontSize:13,color:C.red,marginBottom:reason?3:0,fontFamily:FONT}}>✗ {name}</div>
                         {reason && <div style={{fontSize:12,color:C.text,lineHeight:1.5,fontFamily:FONT}}>{reason}</div>}
                       </div>
@@ -365,7 +367,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
                     const name = TREATMENTS.find(t=>t.id===id)?.name||id;
                     const reason = ADVERSE_REASONS[id];
                     return (
-                      <div key={id} style={{background:`${C.redDim}77`,border:`1px solid ${C.red}55`,borderRadius:6,padding:"8px 10px",marginBottom:8}}>
+                      <div key={id} style={{background:C.redDim,border:`1px solid ${C.red}55`,borderRadius:6,padding:"8px 10px",marginBottom:8}}>
                         <div style={{fontSize:13,color:C.red,fontWeight:700,marginBottom:4,fontFamily:FONT}}>🚨 {name}</div>
                         {reason && <div style={{fontSize:12,color:C.text,lineHeight:1.6,fontFamily:FONT}}>{reason}</div>}
                         {!reason && <div style={{fontSize:12,color:C.text,fontFamily:FONT}}>Противопоказан при данной патологии</div>}

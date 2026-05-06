@@ -61,3 +61,16 @@
 /* ── Hide scrollbar (horizontal scroll strips on mobile) ── */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Light theme overrides ── */
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,158,136,0.2); }
+[data-theme="light"] .case-card:hover {
+  border-color: rgba(0,158,136,0.35) !important;
+  box-shadow: 0 8px 32px rgba(0,40,80,0.12) !important;
+}
+[data-theme="light"] .nav-item:hover { background: rgba(0,158,136,0.07) !important; }
+[data-theme="light"] .nav-item:hover span { color: #009e88 !important; }
+[data-theme="light"] .session-row:hover { background: rgba(0,158,136,0.06) !important; }
+[data-theme="light"] .start-btn:hover { box-shadow: 0 8px 24px rgba(0,158,136,0.3) !important; }
+[data-theme="light"] .next-case-btn:hover { box-shadow: 0 8px 28px rgba(0,158,136,0.35) !important; }
+[data-theme="light"] .icon-btn:hover { box-shadow: 0 0 16px rgba(0,158,136,0.2) !important; }

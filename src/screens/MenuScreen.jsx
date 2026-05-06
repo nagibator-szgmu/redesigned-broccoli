@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { C, FONT, CODE, SER } from "../ui/theme";
+import { FONT, CODE, SER } from "../ui/theme";
+import { useTheme } from "../ui/ThemeContext";
 import { CASES } from "../data/cases";
 import useIsMobile from "../hooks/useIsMobile";
 
@@ -31,6 +32,7 @@ export default function MenuScreen({
   difficulty, setDifficulty,
   theme, setTheme,
 }) {
+  const C = useTheme();
   const [notifRead, setNotifRead] = useState(false);
   const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
   const isMobile = useIsMobile();
@@ -44,11 +46,11 @@ export default function MenuScreen({
   const onHeroLeave = () => setHeroMouse(m => ({ ...m, over: false }));
 
   if (isMobile) return (
-    <div style={{minHeight:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,fontFamily:FONT,overflowY:"auto",position:"relative"}}>
+    <div style={{minHeight:"100vh",background:C.bgGrad,fontFamily:FONT,overflowY:"auto",position:"relative"}}>
       <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}`}</style>
 
       {/* Header */}
-      <header style={{position:"sticky",top:0,zIndex:100,height:54,background:"rgba(7,13,24,0.95)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",borderBottom:"1px solid rgba(0,230,200,0.06)",display:"flex",alignItems:"center",gap:10,padding:"0 16px"}}>
+      <header style={{position:"sticky",top:0,zIndex:100,height:54,background:C.headerBg,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",borderBottom:"1px solid rgba(0,230,200,0.06)",display:"flex",alignItems:"center",gap:10,padding:"0 16px"}}>
         <div style={{width:32,height:32,borderRadius:9,background:"linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))",border:"1px solid rgba(0,230,200,0.3)",display:"flex",alignItems:"center",justifyContent:"center"}}>
           <span style={{fontFamily:SER,fontSize:16,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
         </div>
@@ -66,13 +68,13 @@ export default function MenuScreen({
       {/* Mobile portals (full-width, positioned below header) */}
       {showNotif&&createPortal(<>
         <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowNotif(false)}/>
-        <div style={{position:"fixed",top:60,right:12,left:12,zIndex:99999,background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",boxShadow:"0 16px 48px rgba(0,0,0,0.8)",fontFamily:FONT}}>
+        <div style={{position:"fixed",top:60,right:12,left:12,zIndex:99999,background:C.overlayBg,backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",boxShadow:"0 16px 48px rgba(0,0,0,0.8)",fontFamily:FONT}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
             <span style={{fontSize:13,fontWeight:700,color:C.white}}>Уведомления</span>
             <span onClick={()=>setShowNotif(false)} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"2px 8px",borderRadius:6,background:"rgba(255,255,255,0.06)"}}>✕</span>
           </div>
           {[{icon:"👋",text:"Добро пожаловать в МедСим!",sub:"Начните первую симуляцию"},{icon:"🏥",text:`Доступно ${CASES.length} клинических кейсов`,sub:"Кардиология, неврология и другие"},{icon:"🏆",text:`Ваш текущий счёт: ${totalScore} очков`,sub:`${casesPlayed} кейсов пройдено`}].map((n,i)=>(
-            <div key={i} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
+            <div key={i} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,background:C.btnBg,border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
               <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
               <div><div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div><div style={{fontSize:11,color:C.textDim,marginTop:2}}>{n.sub}</div></div>
             </div>
@@ -81,7 +83,7 @@ export default function MenuScreen({
       </>,document.body)}
       {showSettings&&createPortal(<>
         <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowSettings(false)}/>
-        <div style={{position:"fixed",top:60,right:12,left:12,zIndex:99999,background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",boxShadow:"0 16px 48px rgba(0,0,0,0.8)",fontFamily:FONT}}>
+        <div style={{position:"fixed",top:60,right:12,left:12,zIndex:99999,background:C.overlayBg,backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",boxShadow:"0 16px 48px rgba(0,0,0,0.8)",fontFamily:FONT}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
             <span style={{fontSize:13,fontWeight:700,color:C.white}}>Настройки</span>
             <span onClick={()=>setShowSettings(false)} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"2px 8px",borderRadius:6,background:"rgba(255,255,255,0.06)"}}>✕</span>
@@ -92,7 +94,7 @@ export default function MenuScreen({
           </div>
           <div style={{marginBottom:14}}>
             <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Тема</div>
-            <div style={{display:"flex",gap:6}}>{[{l:"Тёмная",v:"dark"},{l:"Синяя",v:"blue"}].map(({l,v})=><button key={v} onClick={()=>setTheme(v)} style={{flex:1,background:theme===v?`${C.accent}18`:"transparent",border:`1px solid ${theme===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:theme===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>)}</div>
+            <div style={{display:"flex",gap:6}}>{[{l:"Тёмная",v:"dark"},{l:"Белая",v:"light"}].map(({l,v})=><button key={v} onClick={()=>setTheme(v)} style={{flex:1,background:theme===v?`${C.accent}18`:"transparent",border:`1px solid ${theme===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",fontSize:11,color:theme===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>)}</div>
           </div>
           <div style={{paddingTop:12,borderTop:"1px solid rgba(0,230,200,0.06)",fontSize:11,color:C.textDim,textAlign:"center",opacity:0.7}}>Дополнительные настройки в разработке</div>
         </div>
@@ -100,7 +102,7 @@ export default function MenuScreen({
 
       {/* Search */}
       <div style={{padding:"12px 16px 6px"}}>
-        <div style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(0,230,200,0.1)",borderRadius:12,padding:"10px 14px",display:"flex",alignItems:"center",gap:10}}>
+        <div style={{background:C.btnBg,border:"1px solid rgba(0,230,200,0.1)",borderRadius:12,padding:"10px 14px",display:"flex",alignItems:"center",gap:10}}>
           <span style={{color:C.textDim,fontSize:14}}>🔍</span>
           <input value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} placeholder="Поиск кейсов..." style={{background:"transparent",border:"none",outline:"none",color:C.white,fontSize:13,fontFamily:FONT,flex:1,caretColor:C.accent}}/>
           {searchQuery&&<span onClick={()=>setSearchQuery("")} style={{color:C.textDim,fontSize:13,cursor:"pointer"}}>✕</span>}
@@ -117,7 +119,7 @@ export default function MenuScreen({
       </div>
 
       {/* Hero — compact */}
-      <div style={{margin:"0 16px 20px",borderRadius:18,overflow:"hidden",background:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",boxShadow:"0 8px 32px rgba(0,0,0,0.5)",position:"relative",padding:"22px 20px"}}>
+      <div style={{margin:"0 16px 20px",borderRadius:18,overflow:"hidden",background:C.heroGrad,boxShadow:"0 8px 32px rgba(0,0,0,0.5)",position:"relative",padding:"22px 20px"}}>
         <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.03) 1px,transparent 1px)",backgroundSize:"24px 24px",pointerEvents:"none"}}/>
         <div style={{position:"relative"}}>
           <div style={{fontSize:9,color:C.accent,letterSpacing:4,textTransform:"uppercase",marginBottom:8,fontFamily:FONT,fontWeight:600}}>КЛИНИЧЕСКИЙ СИМУЛЯТОР</div>
@@ -153,7 +155,7 @@ export default function MenuScreen({
                 const sc={critical:C.red,moderate:C.yellow,mild:C.green}[c.severity]||C.yellow;
                 const dots={critical:3,moderate:2,mild:1}[c.severity]||2;
                 return (
-                  <div key={c.id} className="case-card" onClick={()=>startGame(c.id)} style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:"1px solid rgba(0,230,200,0.08)",borderRadius:16,padding:"16px",cursor:"pointer",boxShadow:"0 4px 24px rgba(0,0,0,0.35)"}}>
+                  <div key={c.id} className="case-card" onClick={()=>startGame(c.id)} style={{background:C.panelBg,backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:"1px solid rgba(0,230,200,0.08)",borderRadius:16,padding:"16px",cursor:"pointer",boxShadow:"0 4px 24px rgba(0,0,0,0.35)"}}>
                     <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:10}}>
                       <div style={{width:40,height:40,borderRadius:12,flexShrink:0,background:`${cm.color}18`,border:`1px solid ${cm.color}30`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:19}}>{cm.icon}</div>
                       <div style={{flex:1,minWidth:0}}>
@@ -181,10 +183,10 @@ export default function MenuScreen({
       </div>
 
       {/* Fixed bottom bar */}
-      <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:90,background:"rgba(7,13,24,0.97)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",borderTop:"1px solid rgba(0,230,200,0.1)",padding:"12px 16px"}}>
+      <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:90,background:C.headerBg,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",borderTop:"1px solid rgba(0,230,200,0.1)",padding:"12px 16px"}}>
         <div style={{display:"flex",gap:8,marginBottom:10}}>
           {[{v:casesPlayed,l:"Кейсов",c:C.accent},{v:casesPlayed?Math.round(totalScore/casesPlayed):0,l:"Ср. балл",c:C.green},{v:totalScore,l:"Очков",c:C.yellow}].map(({v,l,c})=>(
-            <div key={l} style={{flex:1,background:"rgba(255,255,255,0.03)",borderRadius:10,padding:"7px 8px",textAlign:"center"}}>
+            <div key={l} style={{flex:1,background:C.btnBg,borderRadius:10,padding:"7px 8px",textAlign:"center"}}>
               <div style={{fontSize:17,fontWeight:700,color:c,fontFamily:CODE,lineHeight:1}}>{v}</div>
               <div style={{fontSize:10,color:C.textDim,fontFamily:FONT,marginTop:2}}>{l}</div>
             </div>
@@ -198,7 +200,7 @@ export default function MenuScreen({
   );
 
   return (
-    <div style={{height:"100vh",background:`linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)`,
+    <div style={{height:"100vh",background:C.bgGrad,
       display:"flex",fontFamily:FONT,overflow:"hidden",position:"relative"}}>
       <style>{`
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -214,7 +216,7 @@ export default function MenuScreen({
       </div>
 
       {/* Sidebar */}
-      <aside style={{width:220,flexShrink:0,zIndex:10,background:"rgba(10,18,36,0.85)",
+      <aside style={{width:220,flexShrink:0,zIndex:10,background:C.sidebarBg,
         backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
         borderRight:"1px solid rgba(0,230,200,0.08)",display:"flex",flexDirection:"column",padding:"22px 12px"}}>
         <div style={{display:"flex",alignItems:"center",gap:11,padding:"6px 10px",marginBottom:30}}>
@@ -270,11 +272,11 @@ export default function MenuScreen({
 
         {/* Top bar */}
         <header style={{height:66,flexShrink:0,padding:"0 28px",display:"flex",alignItems:"center",gap:16,
-          background:"rgba(7,13,24,0.7)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
+          background:C.headerBg2,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",
           borderBottom:"1px solid rgba(0,230,200,0.06)",position:"relative"}}>
           <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>Главное меню</span>
           <div style={{width:1,height:16,background:"rgba(255,255,255,0.06)"}}/>
-          <div style={{flex:1,maxWidth:480,background:"rgba(255,255,255,0.04)",
+          <div style={{flex:1,maxWidth:480,background:C.btnBg,
             border:"1px solid rgba(0,230,200,0.1)",borderRadius:12,padding:"10px 16px",
             display:"flex",alignItems:"center",gap:10}}>
             <span style={{color:C.textDim,fontSize:14}}>🔍</span>
@@ -304,7 +306,7 @@ export default function MenuScreen({
           <>
             <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowNotif(false)}/>
             <div style={{position:"fixed",top:72,right:54,width:300,zIndex:99999,
-              background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
+              background:C.overlayBg,backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
               border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",
               boxShadow:"0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,230,200,0.05)",fontFamily:FONT}}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
@@ -317,7 +319,7 @@ export default function MenuScreen({
                 {icon:"🏆",text:`Ваш текущий счёт: ${totalScore} очков`,sub:`${casesPlayed} кейсов пройдено`},
               ].map((n,i)=>(
                 <div key={i} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,
-                  background:"rgba(255,255,255,0.03)",border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
+                  background:C.btnBg,border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
                   <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
                   <div>
                     <div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div>
@@ -335,7 +337,7 @@ export default function MenuScreen({
           <>
             <div style={{position:"fixed",inset:0,zIndex:99998}} onClick={()=>setShowSettings(false)}/>
             <div style={{position:"fixed",top:72,right:8,width:280,zIndex:99999,
-              background:"rgba(10,18,36,0.98)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
+              background:C.overlayBg,backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",
               border:"1px solid rgba(0,230,200,0.2)",borderRadius:16,padding:"16px",
               boxShadow:"0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,230,200,0.05)",fontFamily:FONT}}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
@@ -355,7 +357,7 @@ export default function MenuScreen({
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:11,color:C.textDim,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Тема</div>
                 <div style={{display:"flex",gap:6}}>
-                  {[{l:"Тёмная",v:"dark"},{l:"Синяя",v:"blue"}].map(({l,v})=>(
+                  {[{l:"Тёмная",v:"dark"},{l:"Белая",v:"light"}].map(({l,v})=>(
                     <button key={v} onClick={()=>setTheme(v)} style={{flex:1,background:theme===v?`${C.accent}18`:"transparent",
                       border:`1px solid ${theme===v?C.accent:"rgba(0,230,200,0.1)"}`,borderRadius:8,padding:"7px 4px",
                       fontSize:11,color:theme===v?C.accent:C.textDim,cursor:"pointer",fontFamily:FONT}}>{l}</button>
@@ -386,7 +388,7 @@ export default function MenuScreen({
                 opacity:heroMouse.over?1:0,transition:"opacity 0.5s ease"}}/>
               {/* Inner card */}
               <div style={{position:"relative",height:220,borderRadius:22,overflow:"hidden",
-                background:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",
+                background:C.heroGrad,
                 boxShadow:"0 8px 48px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,230,200,0.06)"}}>
               {/* Grid */}
               <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,230,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,200,0.04) 1px,transparent 1px)",backgroundSize:"28px 28px"}}/>
@@ -499,7 +501,7 @@ export default function MenuScreen({
                     const dots = {critical:3,moderate:2,mild:1}[c.severity]||2;
                     return (
                       <div key={c.id} className="case-card" onClick={()=>startGame(c.id)} style={{
-                        background:"rgba(13,26,46,0.7)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",
+                        background:C.panelBg,backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",
                         border:"1px solid rgba(0,230,200,0.08)",borderRadius:18,padding:"18px 20px",
                         display:"flex",flexDirection:"column",gap:14,cursor:"pointer",
                         boxShadow:"0 4px 24px rgba(0,0,0,0.35)",animation:`fadeUp ${0.35+i*0.08}s ease`}}>
@@ -542,7 +544,7 @@ export default function MenuScreen({
           {/* Right column */}
           <div style={{width:280,flexShrink:0,overflowY:"auto",padding:"26px 20px 40px 4px",display:"flex",flexDirection:"column",gap:14}}>
             {/* Progress */}
-            <div style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(16px)",
+            <div style={{background:C.panelBg,backdropFilter:"blur(16px)",
               border:"1px solid rgba(0,230,200,0.08)",borderRadius:18,padding:"18px 14px",boxShadow:"0 4px 24px rgba(0,0,0,0.3)"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
                 <span style={{fontSize:11,color:C.textDim,textTransform:"uppercase",letterSpacing:1.2,fontFamily:FONT,fontWeight:600}}>Прогресс</span>
@@ -556,7 +558,7 @@ export default function MenuScreen({
                   const pct = max>0?Math.min(value/max,1):0;
                   const r=30,circ=2*Math.PI*r;
                   return (
-                    <div key={label} style={{textAlign:"center",background:"rgba(255,255,255,0.02)",
+                    <div key={label} style={{textAlign:"center",background:C.btnBg,
                       border:"1px solid rgba(255,255,255,0.04)",borderRadius:14,padding:"14px 8px"}}>
                       <div style={{position:"relative",width:72,height:72,margin:"0 auto 10px"}}>
                         <svg width="72" height="72" style={{transform:"rotate(-90deg)",display:"block"}}>
@@ -574,7 +576,7 @@ export default function MenuScreen({
                   );
                 })}
               </div>
-              <div style={{display:"flex",alignItems:"center",gap:14,background:"rgba(255,255,255,0.02)",
+              <div style={{display:"flex",alignItems:"center",gap:14,background:C.btnBg,
                 border:"1px solid rgba(255,255,255,0.04)",borderRadius:13,padding:"12px 16px"}}>
                 <div style={{width:46,height:46,borderRadius:12,flexShrink:0,
                   background:`linear-gradient(135deg,${C.yellow}25,${C.orange}15)`,border:`1px solid ${C.yellow}30`,
@@ -591,7 +593,7 @@ export default function MenuScreen({
               ▶ НОВЫЙ ПАЦИЕНТ
             </button>
             {/* Recent sessions */}
-            <div style={{background:"rgba(13,26,46,0.7)",backdropFilter:"blur(16px)",
+            <div style={{background:C.panelBg,backdropFilter:"blur(16px)",
               border:"1px solid rgba(0,230,200,0.08)",borderRadius:18,padding:"18px 16px",boxShadow:"0 4px 24px rgba(0,0,0,0.3)"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
                 <span style={{fontSize:13,fontWeight:600,color:C.white,fontFamily:FONT}}>Недавние сессии</span>
