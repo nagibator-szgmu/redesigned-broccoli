@@ -24,6 +24,56 @@ const navSpec = [
   {icon:"🔬",label:"Хирургия",cat:"abdominal"},
 ];
 
+function buildNotifications(sessionHistory, casesPlayed, totalScore) {
+  const notifs = [];
+  const avgScore = casesPlayed ? Math.round(totalScore / casesPlayed) : 0;
+
+  if (casesPlayed === 0) {
+    notifs.push({id:"welcome",icon:"👋",text:"Добро пожаловать в МедСим!",sub:"Выберите кейс и начните первую симуляцию"});
+    notifs.push({id:"info_cases",icon:"🏥",text:`Доступно ${CASES.length} клинических кейсов`,sub:"Кардиология, неврология, токсикология и другие"});
+    return notifs;
+  }
+
+  // Last session result
+  const last = sessionHistory[0];
+  if (last) {
+    const gradeEmoji = {Отлично:"🏆",Хорошо:"📈",Удовлетворительно:"📊",Неудовлетворительно:"📉"}[last.grade]||"📊";
+    const d = new Date(last.date);
+    const dateStr = d.toLocaleDateString("ru-RU",{day:"numeric",month:"short"})+" "+d.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+    notifs.push({id:`ses_${last.id}`,icon:gradeEmoji,text:`${last.caseName.split(" ").slice(0,2).join(" ")} — ${last.score} очков`,sub:`${last.grade} · ${dateStr}`});
+  }
+
+  // Died recently
+  const diedRecent = sessionHistory.slice(0,3).find(s=>s.died);
+  if (diedRecent) {
+    notifs.push({id:`died_${diedRecent.id}`,icon:"💀",text:"Пациент погиб в недавней сессии",sub:`${diedRecent.caseName.split(" ").slice(0,2).join(" ")} — повторите кейс`});
+  }
+
+  // Milestones
+  const milestones = [{n:20,icon:"🌟",t:"20 кейсов — отличный прогресс!"},{n:10,icon:"⭐",t:"10 кейсов пройдено!"},{n:5,icon:"🎯",t:"5 кейсов пройдено!"},{n:1,icon:"🎓",t:"Первый кейс завершён!"}];
+  const hit = milestones.find(m=>casesPlayed>=m.n);
+  if (hit) notifs.push({id:`ms_${hit.n}`,icon:hit.icon,text:hit.t,sub:`Ср. балл: ${avgScore} · Всего: ${totalScore} очков`});
+
+  // Perfect score
+  const best = sessionHistory.find(s=>s.score>=95);
+  if (best) notifs.push({id:`perf_${best.id}`,icon:"💎",text:`Идеальный результат: ${best.score}/100`,sub:best.caseName.split(" ").slice(0,2).join(" ")});
+
+  // Unplayed category suggestion
+  const playedCats = new Set(sessionHistory.map(s=>s.category));
+  const unplayed = Object.entries(catMeta).find(([cat])=>!playedCats.has(cat));
+  if (unplayed) {
+    const [cat,cm] = unplayed;
+    notifs.push({id:`explore_${cat}`,icon:cm.icon,text:`Попробуйте ${cm.label}`,sub:"Вы ещё не проходили кейсы этой специализации"});
+  }
+
+  // Low avg score tip
+  if (casesPlayed >= 3 && avgScore < 55) {
+    notifs.push({id:"tip_debrief",icon:"💡",text:"Читайте разбор после каждого кейса",sub:"Патофизиология и объяснения — во вкладке «Дебриф»"});
+  }
+
+  return notifs.slice(0,5);
+}
+
 export default function MenuScreen({
   startGame, totalScore, casesPlayed,
   searchQuery, setSearchQuery,
@@ -36,11 +86,22 @@ export default function MenuScreen({
   sessionHistory,
 }) {
   const C = useTheme();
-  const [notifRead, setNotifRead] = useState(false);
+  const [readNotifIds, setReadNotifIds] = useState(() => new Set(JSON.parse(localStorage.getItem("ms_readNotifs")||"[]")));
   const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
   const isMobile = useIsMobile();
 
-  const openNotif = () => { setShowNotif(v=>!v); setShowSettings(false); setNotifRead(true); };
+  const notifications = buildNotifications(sessionHistory, casesPlayed, totalScore);
+  const unreadCount = notifications.filter(n => !readNotifIds.has(n.id)).length;
+
+  const openNotif = () => {
+    setShowNotif(v=>!v);
+    setShowSettings(false);
+    setReadNotifIds(prev => {
+      const next = new Set([...prev, ...notifications.map(n=>n.id)]);
+      localStorage.setItem("ms_readNotifs", JSON.stringify([...next]));
+      return next;
+    });
+  };
 
   const onHeroMove = e => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -61,7 +122,7 @@ export default function MenuScreen({
         <div style={{flex:1}}/>
         <div onClick={openNotif} className="icon-btn" style={{position:"relative",width:34,height:34,background:showNotif?"rgba(0,230,200,0.1)":C.btnBg,border:`1px solid ${showNotif?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
           <span style={{fontSize:15}}>🔔</span>
-          {!notifRead&&<div style={{position:"absolute",top:5,right:5,width:6,height:6,background:C.red,borderRadius:"50%",border:"1px solid #070d18"}}/>}
+          {unreadCount>0&&<div style={{position:"absolute",top:5,right:5,width:6,height:6,background:C.red,borderRadius:"50%",border:"1px solid #070d18"}}/>}
         </div>
         <div onClick={()=>{setShowSettings(v=>!v);setShowNotif(false);}} className="icon-btn" style={{width:34,height:34,background:showSettings?"rgba(0,230,200,0.1)":C.btnBg,border:`1px solid ${showSettings?"rgba(0,230,200,0.3)":"rgba(0,230,200,0.08)"}`,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
           <span style={{fontSize:15}}>⚙️</span>
@@ -76,12 +137,16 @@ export default function MenuScreen({
             <span style={{fontSize:13,fontWeight:700,color:C.white}}>Уведомления</span>
             <span onClick={()=>setShowNotif(false)} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"2px 8px",borderRadius:6,background:C.dimBg}}>✕</span>
           </div>
-          {[{icon:"👋",text:"Добро пожаловать в МедСим!",sub:"Начните первую симуляцию"},{icon:"🏥",text:`Доступно ${CASES.length} клинических кейсов`,sub:"Кардиология, неврология и другие"},{icon:"🏆",text:`Ваш текущий счёт: ${totalScore} очков`,sub:`${casesPlayed} кейсов пройдено`}].map((n,i)=>(
-            <div key={i} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,background:C.btnBg,border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
-              <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
-              <div><div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div><div style={{fontSize:11,color:C.textDim,marginTop:2}}>{n.sub}</div></div>
-            </div>
-          ))}
+          {notifications.map((n,i)=>{
+            const isNew = !readNotifIds.has(n.id);
+            return (
+              <div key={n.id} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,background:C.btnBg,border:`1px solid ${isNew?"rgba(0,230,200,0.18)":"rgba(0,230,200,0.08)"}`,marginBottom:i<notifications.length-1?6:0,position:"relative"}}>
+                {isNew&&<div style={{position:"absolute",top:8,right:8,width:6,height:6,borderRadius:"50%",background:C.accent}}/>}
+                <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
+                <div><div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div><div style={{fontSize:11,color:C.textDim,marginTop:2}}>{n.sub}</div></div>
+              </div>
+            );
+          })}
         </div>
       </>,document.body)}
       {showSettings&&createPortal(<>
@@ -316,20 +381,20 @@ export default function MenuScreen({
                 <span style={{fontSize:13,fontWeight:700,color:C.white}}>Уведомления</span>
                 <span onClick={()=>setShowNotif(false)} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"2px 8px",borderRadius:6,background:C.dimBg}}>✕</span>
               </div>
-              {[
-                {icon:"👋",text:"Добро пожаловать в МедСим!",sub:"Начните первую симуляцию"},
-                {icon:"🏥",text:`Доступно ${CASES.length} клинических кейсов`,sub:"Кардиология, неврология и другие"},
-                {icon:"🏆",text:`Ваш текущий счёт: ${totalScore} очков`,sub:`${casesPlayed} кейсов пройдено`},
-              ].map((n,i)=>(
-                <div key={i} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,
-                  background:C.btnBg,border:"1px solid rgba(0,230,200,0.08)",marginBottom:i<2?6:0}}>
-                  <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
-                  <div>
-                    <div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div>
-                    <div style={{fontSize:11,color:C.textDim,marginTop:2}}>{n.sub}</div>
+              {notifications.map((n,i)=>{
+                const isNew = !readNotifIds.has(n.id);
+                return (
+                  <div key={n.id} style={{display:"flex",gap:10,padding:"10px",borderRadius:10,
+                    background:C.btnBg,border:`1px solid ${isNew?"rgba(0,230,200,0.2)":"rgba(0,230,200,0.08)"}`,marginBottom:i<notifications.length-1?6:0,position:"relative"}}>
+                    {isNew&&<div style={{position:"absolute",top:8,right:8,width:6,height:6,borderRadius:"50%",background:C.accent}}/>}
+                    <span style={{fontSize:18,flexShrink:0}}>{n.icon}</span>
+                    <div>
+                      <div style={{fontSize:12,color:C.white,fontWeight:500}}>{n.text}</div>
+                      <div style={{fontSize:11,color:C.textDim,marginTop:2}}>{n.sub}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </>,
           document.body
