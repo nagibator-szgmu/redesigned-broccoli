@@ -7,7 +7,7 @@ export const DARK = {
   yellow:"#f5c842", yellowDim:"rgba(61,48,0,0.5)",
   purple:"#9d6ff5", orange:"#f57c42",
   text:"#a8c8e0", textDim:"#3a5a7a", white:"#e8f4ff",
-  // semantic backgrounds (replaces hardcoded rgba in screens)
+  // semantic backgrounds
   bgGrad:"linear-gradient(160deg,#070d18 0%,#0a1628 50%,#070f1a 100%)",
   panelBg:"rgba(13,26,46,0.7)", panelBg2:"rgba(13,26,46,0.88)",
   headerBg:"rgba(7,13,24,0.92)", headerBg2:"rgba(7,13,24,0.65)",
@@ -15,10 +15,17 @@ export const DARK = {
   overlayBg:"rgba(10,18,36,0.98)",
   inputBg:"rgba(7,13,24,0.6)",
   dimBg:"rgba(7,13,24,0.35)",
-  btnBg:"rgba(255,255,255,0.04)",
+  btnBg:"rgba(255,255,255,0.04)", btnBorder:"rgba(255,255,255,0.06)",
   heroGrad:"linear-gradient(135deg,#082840 0%,#0a3d2e 55%,#071828 100%)",
   glowBg1:"radial-gradient(circle,rgba(0,230,200,0.05) 0%,transparent 65%)",
   glowBg2:"radial-gradient(circle,rgba(0,100,200,0.06) 0%,transparent 65%)",
+  // hero content colors
+  heroText:"rgba(168,200,224,0.78)",
+  heroLabel:"#00e6c8",
+  heroTitleGrad:"linear-gradient(135deg,#00e6c8 0%,#00e5a0 100%)",
+  heroTagBg:"rgba(0,230,200,0.1)",
+  heroTagBorder:"rgba(0,230,200,0.2)",
+  heroTagText:"#00e6c8",
 };
 
 export const LIGHT = {
@@ -29,7 +36,7 @@ export const LIGHT = {
   red:"#e83d5a",   redDim:"#fde8ec",
   yellow:"#b08200", yellowDim:"#fef4e0",
   purple:"#7c4ff0", orange:"#c8520a",
-  text:"#253d54", textDim:"#6888a0", white:"#0d1e2e",
+  text:"#253d54", textDim:"#4a6880", white:"#0d1e2e",
   // semantic backgrounds
   bgGrad:"linear-gradient(160deg,#ecf3fa 0%,#e6eff8 50%,#ecf3fa 100%)",
   panelBg:"rgba(255,255,255,0.85)", panelBg2:"rgba(255,255,255,0.96)",
@@ -38,10 +45,18 @@ export const LIGHT = {
   overlayBg:"rgba(248,252,255,0.98)",
   inputBg:"rgba(246,250,254,0.95)",
   dimBg:"rgba(236,243,250,0.7)",
-  btnBg:"rgba(0,0,0,0.03)",
-  heroGrad:"linear-gradient(135deg,#cce8fa 0%,#c8eeea 55%,#cce8fa 100%)",
+  btnBg:"rgba(0,0,0,0.05)", btnBorder:"rgba(0,40,80,0.1)",
+  // hero остаётся тёмным — красивый контраст на светлой странице
+  heroGrad:"linear-gradient(135deg,#0d4a65 0%,#0a5c4a 55%,#0d4a65 100%)",
   glowBg1:"radial-gradient(circle,rgba(0,158,136,0.07) 0%,transparent 65%)",
   glowBg2:"radial-gradient(circle,rgba(0,80,160,0.06) 0%,transparent 65%)",
+  // hero content colors (тёмный фон → светлый текст)
+  heroText:"rgba(210,238,248,0.88)",
+  heroLabel:"rgba(140,220,210,0.92)",
+  heroTitleGrad:"linear-gradient(135deg,#ffffff 0%,#a0e8dd 100%)",
+  heroTagBg:"rgba(255,255,255,0.14)",
+  heroTagBorder:"rgba(255,255,255,0.32)",
+  heroTagText:"#d0f2ec",
 };
 
 export const C = DARK;

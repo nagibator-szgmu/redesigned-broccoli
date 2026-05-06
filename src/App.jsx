@@ -31,8 +31,9 @@ export default function App() {
   const [totalTime, setTotalTime] = useState(0);
   const [processingTests, setProcessingTests] = useState(false);
   const [result, setResult] = useState(null);
-  const [totalScore, setTotalScore] = useState(0);
-  const [casesPlayed, setCasesPlayed] = useState(0);
+  const [totalScore, setTotalScore] = useState(() => parseInt(localStorage.getItem("ms_totalScore") || "0"));
+  const [casesPlayed, setCasesPlayed] = useState(() => parseInt(localStorage.getItem("ms_casesPlayed") || "0"));
+  const [sessionHistory, setSessionHistory] = useState(() => { try { return JSON.parse(localStorage.getItem("ms_history") || "[]"); } catch { return []; } });
   const [searchQuery, setSearchQuery] = useState("");
   const [specFilter, setSpecFilter] = useState(null);
   const [showAllCases, setShowAllCases] = useState(false);
@@ -42,6 +43,9 @@ export default function App() {
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => { document.body.setAttribute("data-theme", theme); }, [theme]);
+  useEffect(() => { localStorage.setItem("ms_totalScore", totalScore); }, [totalScore]);
+  useEffect(() => { localStorage.setItem("ms_casesPlayed", casesPlayed); }, [casesPlayed]);
+  useEffect(() => { localStorage.setItem("ms_history", JSON.stringify(sessionHistory)); }, [sessionHistory]);
 
   const timerRef = useRef(null);
   const detRef = useRef(null);
@@ -55,6 +59,7 @@ export default function App() {
   const diagTextRef = useRef("");
   const appliedFxRef = useRef(new Set());
   const submitRef = useRef(null);
+  const difficultyRef = useRef("normal");
 
   useEffect(() => { timeLeftRef.current = timeLeft; }, [timeLeft]);
   useEffect(() => { totalTimeRef.current = totalTime; }, [totalTime]);
@@ -90,6 +95,7 @@ export default function App() {
     setEventLog([{ id: 1, text: "Пациент поступил в приёмное отделение", type: "info", elapsed: "0:00" }]);
     setSelDiag([]); setOrderedDiag([]); setRevealedResults({}); setNewResultIds([]);
     setSelTreat([]); setDiagText(""); setDiagCat("all"); setTreatCat("all"); setResult(null);
+    difficultyRef.current = difficulty;
     const mult = {easy:1.5,normal:1,hard:0.7}[difficulty] || 1;
     const t = Math.round(chosen.timeLimit * 60 * mult);
     setTotalTime(t); setTimeLeft(t);
@@ -117,17 +123,18 @@ export default function App() {
       setPs(prev => {
         if (!prev || prev.status === "dead") return prev;
         const det = cdRef.current?.deterioration || {};
+        const dm = {easy:0.65,normal:1,hard:1.5}[difficultyRef.current] || 1;
         setPrevPs({ ...prev });
         const next = {
           ...prev,
-          hr:   clamp(r1(prev.hr   + (det.hr   ?? 0)), CLAMP_RANGES.hr[0],   CLAMP_RANGES.hr[1]),
-          sbp:  clamp(r1(prev.sbp  + (det.sbp  ?? 0)), CLAMP_RANGES.sbp[0],  CLAMP_RANGES.sbp[1]),
-          dbp:  clamp(r1(prev.dbp  + (det.dbp  ?? 0)), CLAMP_RANGES.dbp[0],  CLAMP_RANGES.dbp[1]),
-          rr:   clamp(r1(prev.rr   + (det.rr   ?? 0)), CLAMP_RANGES.rr[0],   CLAMP_RANGES.rr[1]),
-          spo2: clamp(r1(prev.spo2 + (det.spo2 ?? 0)), CLAMP_RANGES.spo2[0], CLAMP_RANGES.spo2[1]),
-          temp: clamp(r1(prev.temp + (det.temp ?? 0)), CLAMP_RANGES.temp[0], CLAMP_RANGES.temp[1]),
-          gcs:  clamp(r1(prev.gcs  + (det.gcs  ?? 0)), CLAMP_RANGES.gcs[0],  CLAMP_RANGES.gcs[1]),
-          pain: clamp(r1(prev.pain + (det.pain ?? 0)), CLAMP_RANGES.pain[0], CLAMP_RANGES.pain[1]),
+          hr:   clamp(r1(prev.hr   + (det.hr   ?? 0) * dm), CLAMP_RANGES.hr[0],   CLAMP_RANGES.hr[1]),
+          sbp:  clamp(r1(prev.sbp  + (det.sbp  ?? 0) * dm), CLAMP_RANGES.sbp[0],  CLAMP_RANGES.sbp[1]),
+          dbp:  clamp(r1(prev.dbp  + (det.dbp  ?? 0) * dm), CLAMP_RANGES.dbp[0],  CLAMP_RANGES.dbp[1]),
+          rr:   clamp(r1(prev.rr   + (det.rr   ?? 0) * dm), CLAMP_RANGES.rr[0],   CLAMP_RANGES.rr[1]),
+          spo2: clamp(r1(prev.spo2 + (det.spo2 ?? 0) * dm), CLAMP_RANGES.spo2[0], CLAMP_RANGES.spo2[1]),
+          temp: clamp(r1(prev.temp + (det.temp ?? 0) * dm), CLAMP_RANGES.temp[0], CLAMP_RANGES.temp[1]),
+          gcs:  clamp(r1(prev.gcs  + (det.gcs  ?? 0) * dm), CLAMP_RANGES.gcs[0],  CLAMP_RANGES.gcs[1]),
+          pain: clamp(r1(prev.pain + (det.pain ?? 0) * dm), CLAMP_RANGES.pain[0], CLAMP_RANGES.pain[1]),
         };
         selTreatRef.current.filter(id => TREAT_FX[id]?.continuous).forEach(id => {
           const eff = TREAT_FX[id]?.eff || {};
@@ -263,6 +270,19 @@ export default function App() {
     setPs(finalPS);
     setTotalScore(s => s + res.score);
     setCasesPlayed(c => c + 1);
+    setSessionHistory(prev => [{
+      id: Date.now(),
+      caseId: cCase.id,
+      caseName: cCase.name,
+      category: cCase.category,
+      diagnosis: cCase.diagnosis,
+      score: res.score,
+      grade: res.grade,
+      date: new Date().toISOString(),
+      difficulty: difficultyRef.current,
+      timeout,
+      died,
+    }, ...prev].slice(0, 50));
     setPhase("result");
   };
 
@@ -287,6 +307,7 @@ export default function App() {
         showSettings={showSettings} setShowSettings={setShowSettings}
         difficulty={difficulty} setDifficulty={setDifficulty}
         theme={theme} setTheme={setTheme}
+        sessionHistory={sessionHistory}
       />
     );
     if (phase === "result" && result && cd) return (

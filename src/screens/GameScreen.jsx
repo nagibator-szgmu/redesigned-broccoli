@@ -188,7 +188,7 @@ export default function GameScreen({
                 <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:10}}>
                   {diagCats.map(cat=>(
                     <button key={cat} onClick={()=>setDiagCat(cat)} className="filter-pill" style={{
-                      background:diagCat===cat?`${C.accent}1a`:"rgba(255,255,255,0.03)",
+                      background:diagCat===cat?`${C.accent}1a`:C.btnBg,
                       border:`1px solid ${diagCat===cat?C.accent:"rgba(0,230,200,0.1)"}`,
                       borderRadius:12,padding:"4px 12px",cursor:"pointer",fontFamily:FONT,
                       fontSize:12,color:diagCat===cat?C.accent:C.textDim}}>{DIAG_CAT_LABELS[cat]??cat}</button>
@@ -349,12 +349,12 @@ export default function GameScreen({
             <span style={{fontFamily:SER,fontSize:17,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
           </div>
           <span style={{fontSize:15,fontWeight:700,color:C.white,fontFamily:FONT,letterSpacing:-0.3,flex:1,lineHeight:1}}>МедСим</span>
-          <button onClick={()=>setPhase("menu")} className="med-btn" style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(0,230,200,0.15)",
+          <button onClick={()=>setPhase("menu")} className="med-btn" style={{background:C.btnBg,border:"1px solid rgba(0,230,200,0.15)",
             borderRadius:7,padding:"5px 10px",cursor:"pointer",color:C.textDim,fontSize:11,fontFamily:FONT,flexShrink:0}}>← Меню</button>
         </div>
 
         {/* Patient card */}
-        <div style={{background:"rgba(255,255,255,0.03)",border:`1px solid ${sevColor}25`,borderRadius:13,padding:"11px 12px",marginBottom:11}}>
+        <div style={{background:C.btnBg,border:`1px solid ${sevColor}25`,borderRadius:13,padding:"11px 12px",marginBottom:11}}>
           <div style={{fontSize:9,color:C.textDim,letterSpacing:1.5,marginBottom:6,fontFamily:FONT,fontWeight:600,textTransform:"uppercase"}}>Пациент</div>
           <div style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT,lineHeight:1.2,marginBottom:3}}>{cd.name}</div>
           <div style={{fontSize:11,color:C.textDim,fontFamily:FONT,marginBottom:7}}>{cd.age} л · {cd.gender}</div>
@@ -410,8 +410,8 @@ export default function GameScreen({
             const isActive=s.key===phase, isDone=i<activeStep;
             return (
               <div key={s.key} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",borderRadius:9,
-                background:isActive?"rgba(0,230,200,0.1)":isDone?"rgba(0,229,160,0.06)":"rgba(255,255,255,0.02)",
-                border:`1px solid ${isActive?"rgba(0,230,200,0.22)":isDone?"rgba(0,229,160,0.18)":"rgba(255,255,255,0.04)"}`}}>
+                background:isActive?"rgba(0,230,200,0.1)":isDone?"rgba(0,229,160,0.06)":C.btnBg,
+                border:`1px solid ${isActive?"rgba(0,230,200,0.22)":isDone?"rgba(0,229,160,0.18)":C.btnBorder}`}}>
                 <span style={{fontSize:12}}>{s.icon}</span>
                 <span style={{fontSize:11,fontFamily:FONT,flex:1,color:isActive?C.accent:isDone?C.green:C.textDim,fontWeight:isActive?700:400}}>{s.label}</span>
                 {isDone&&<span style={{fontSize:10,color:C.green}}>✓</span>}
@@ -483,7 +483,7 @@ export default function GameScreen({
                 <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:10}}>
                   {diagCats.map(cat=>(
                     <button key={cat} onClick={()=>setDiagCat(cat)} className="filter-pill" style={{
-                      background:diagCat===cat?`${C.accent}1a`:"rgba(255,255,255,0.03)",
+                      background:diagCat===cat?`${C.accent}1a`:C.btnBg,
                       border:`1px solid ${diagCat===cat?C.accent:"rgba(0,230,200,0.1)"}`,
                       borderRadius:12,padding:"3px 11px",cursor:"pointer",fontFamily:FONT,
                       fontSize:12,color:diagCat===cat?C.accent:C.textDim}}>{DIAG_CAT_LABELS[cat]??cat}</button>

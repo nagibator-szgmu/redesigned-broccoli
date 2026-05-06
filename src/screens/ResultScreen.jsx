@@ -3,7 +3,7 @@ import { FONT, CODE, SER } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { STitle, Btn } from "../ui/components";
 import { DIAGNOSTICS, MISSED_TEST_REASONS } from "../data/diagnostics";
-import { TREATMENTS, TREAT_FX, ADVERSE_REASONS } from "../data/treatments";
+import { TREATMENTS, TREAT_FX, ADVERSE_REASONS, TREAT_NOTES } from "../data/treatments";
 import { r1 } from "../engine/patient";
 import useIsMobile from "../hooks/useIsMobile";
 
@@ -108,9 +108,17 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
           </div>
         </div>
 
+        {/* Pathophysiology mobile */}
+        {cd.debrief?.explain && (
+          <div style={{background:C.panel,border:`1px solid ${C.accentDim}`,borderRadius:12,padding:14,marginBottom:10}}>
+            <STitle icon="🔬" label="Патофизиология" color={C.accent}/>
+            <p style={{color:C.text,fontSize:13,lineHeight:1.8,margin:0}}>{cd.debrief.explain}</p>
+          </div>
+        )}
+
         {/* Tests 1-col */}
         <div style={{background:C.panel,border:`1px solid ${C.border}`,borderRadius:12,padding:14,marginBottom:10}}>
-          <STitle icon="🔬" label="Анализ исследований" color={C.accent}/>
+          <STitle icon="🧪" label="Анализ исследований" color={C.accent}/>
           <div style={{marginBottom:8}}>
             <div style={{fontSize:11,color:C.textDim,marginBottom:5,textTransform:"uppercase",fontFamily:FONT}}>Назначены</div>
             {cd.needDiag.map(id=>{
@@ -154,10 +162,14 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
               const given=selTreat.includes(id);
               const name=TREATMENTS.find(t=>t.id===id)?.name||id;
               const fx=TREAT_FX[id];
+              const note=TREAT_NOTES[id];
               return (
-                <div key={id} style={{fontSize:13,color:given?C.green:C.red,marginBottom:4,lineHeight:1.4,fontFamily:FONT}}>
-                  {given?"✓":"✗"} {name}
-                  {given&&fx&&<span style={{fontSize:11,color:C.green,marginLeft:4}}>→ {fx.desc}</span>}
+                <div key={id} style={{marginBottom:7,padding:"6px 8px",borderRadius:7,background:given?`${C.green}10`:`${C.red}10`,border:`1px solid ${given?C.green:C.red}22`}}>
+                  <div style={{fontSize:13,color:given?C.green:C.red,lineHeight:1.4,fontFamily:FONT,fontWeight:600}}>
+                    {given?"✓":"✗"} {name}
+                    {given&&fx&&<span style={{fontSize:11,color:C.green,marginLeft:5,fontWeight:400}}>→ {fx.desc}</span>}
+                  </div>
+                  {note&&<div style={{fontSize:11,color:C.textDim,lineHeight:1.5,fontFamily:FONT,marginTop:3}}>{note}</div>}
                 </div>
               );
             })}
@@ -299,9 +311,17 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
           </div>
         </div>
 
+        {/* Pathophysiology */}
+        {cd.debrief?.explain && (
+          <div style={{background:C.panel,border:`1px solid ${C.accentDim}`,borderRadius:14,padding:16,marginBottom:10}}>
+            <STitle icon="🔬" label="Патофизиология" color={C.accent}/>
+            <p style={{color:C.text,fontSize:13,lineHeight:1.85,margin:0}}>{cd.debrief.explain}</p>
+          </div>
+        )}
+
         {/* Tests analysis */}
         <div style={{background:C.panel,border:`1px solid ${C.border}`,borderRadius:14,padding:16,marginBottom:10}}>
-          <STitle icon="🔬" label="Анализ исследований" color={C.accent}/>
+          <STitle icon="🧪" label="Анализ исследований" color={C.accent}/>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
             <div>
               <div style={{fontSize:12,color:C.textDim,marginBottom:6,textTransform:"uppercase",fontFamily:FONT}}>Назначены</div>
@@ -350,10 +370,14 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
                 const given = selTreat.includes(id);
                 const name = TREATMENTS.find(t=>t.id===id)?.name||id;
                 const fx = TREAT_FX[id];
+                const note = TREAT_NOTES[id];
                 return (
-                  <div key={id} style={{fontSize:13,color:given?C.green:C.red,marginBottom:4,lineHeight:1.4,fontFamily:FONT}}>
-                    {given?"✓":"✗"} {name}
-                    {given&&fx&&<span style={{fontSize:11,color:C.green,marginLeft:4}}>→ {fx.desc}</span>}
+                  <div key={id} style={{marginBottom:8,padding:"6px 8px",borderRadius:7,background:given?`${C.green}10`:`${C.red}10`,border:`1px solid ${given?C.green:C.red}22`}}>
+                    <div style={{fontSize:13,color:given?C.green:C.red,lineHeight:1.4,fontFamily:FONT,fontWeight:600}}>
+                      {given?"✓":"✗"} {name}
+                      {given&&fx&&<span style={{fontSize:11,color:C.green,marginLeft:6,fontWeight:400}}>→ {fx.desc}</span>}
+                    </div>
+                    {note&&<div style={{fontSize:11,color:C.textDim,lineHeight:1.5,fontFamily:FONT,marginTop:3}}>{note}</div>}
                   </div>
                 );
               })}
