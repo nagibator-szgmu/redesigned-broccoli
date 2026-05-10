@@ -39,13 +39,15 @@ export default function App() {
   const [showAllCases, setShowAllCases] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [difficulty, setDifficulty] = useState("normal");
-  const [theme, setTheme] = useState("dark");
+  const [difficulty, setDifficulty] = useState(() => localStorage.getItem("ms_difficulty") || "normal");
+  const [theme, setTheme] = useState(() => localStorage.getItem("ms_theme") || "dark");
 
   useEffect(() => { document.body.setAttribute("data-theme", theme); }, [theme]);
   useEffect(() => { localStorage.setItem("ms_totalScore", totalScore); }, [totalScore]);
   useEffect(() => { localStorage.setItem("ms_casesPlayed", casesPlayed); }, [casesPlayed]);
   useEffect(() => { localStorage.setItem("ms_history", JSON.stringify(sessionHistory)); }, [sessionHistory]);
+  useEffect(() => { localStorage.setItem("ms_difficulty", difficulty); }, [difficulty]);
+  useEffect(() => { localStorage.setItem("ms_theme", theme); }, [theme]);
 
   const timerRef = useRef(null);
   const detRef = useRef(null);
