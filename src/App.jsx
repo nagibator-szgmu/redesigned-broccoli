@@ -5,6 +5,7 @@ import { AUTH_STATUS } from './auth/authModel'
 import { IS_DEV_MODE } from './config'
 import LoginPage from './auth/pages/LoginPage'
 import RegisterPage from './auth/pages/RegisterPage'
+import ForgotPasswordPage from './auth/pages/ForgotPasswordPage'
 import MedSimApp from './MedSimApp'
 import AntiTamperGuard from './components/AntiTamperGuard'
 
