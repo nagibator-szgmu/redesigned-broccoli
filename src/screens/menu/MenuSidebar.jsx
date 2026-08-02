@@ -109,7 +109,7 @@ export default function MenuSidebar({
         <span style={{ fontSize: 12, color: C.red, fontWeight: 500, fontFamily: FONT, opacity: 0.8 }}>{t("nav.logout")}</span>
       </div>
       <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: 0.95, padding: "12px 0 0", borderTop: `1px solid ${C.border}` }}>
-        <span style={{ fontSize: 9, color: C.textDim, fontFamily: FONT, letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 700 }}>designed by</span>
+        <span style={{ fontSize: 9, color: C.textDim, fontFamily: FONT, letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 700 }}>created by</span>
         <ThreeDTicker width={176} height={110} />
       </div>
     </aside>
