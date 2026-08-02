@@ -25,11 +25,11 @@ The MedSim UI/UX & Ergonomics Overhaul modernizes the user interface across the 
 | # | Milestone Name | Scope & Deliverables | Dependencies | Status |
 |---|---|---|---|---|
 | 1 | Exploration & Architecture Plan | Codebase exploration, architectural design, component specs | none | DONE |
-| 2 | Main Hub (Menu & Navigation) Redesign | Modularize `MenuScreen.jsx` into 12 subcomponents (<200 lines each) in `src/screens/menu/` | M1 | PLANNED |
-| 3 | Clinical Simulation Workspace Ergonomics | Implement sticky `VitalsHUD`, 2-column `DesktopWorkstation`, and `MobileWorkstation` | M1, M2 | PLANNED |
-| 4 | Action Selection Streamlining | Implement search-as-you-type and group badges in `DiagFilterBar` & `TreatPanel` | M1, M3 | PLANNED |
-| 5 | Visual Polish & Theme Integration | Refine `theme.js` palettes, implement `PatientStatusBadge`, add i18n keys in `ru.js`/`en.js` | M1, M4 | PLANNED |
-| 6 | Quality, Validation & E2E Forensic Audit | `npm run lint` (0 errors), `validate-cases.mjs` (0 errors), `npm run build` clean, lines < 200, Forensic Audit CLEAN | M2–M5 | PLANNED |
+| 2 | Main Hub (Menu & Navigation) Redesign | Modularize `MenuScreen.jsx` into 12 subcomponents (<200 lines each) in `src/screens/menu/` | M1 | DONE |
+| 3 | Clinical Simulation Workspace Ergonomics | Implement sticky `VitalsHUD`, 2-column `DesktopWorkstation`, and `MobileWorkstation` | M1, M2 | DONE |
+| 4 | Action Selection Streamlining | Implement search-as-you-type and group badges in `DiagFilterBar` & `TreatPanel` | M1, M3 | DONE |
+| 5 | Visual Polish & Theme Integration | Refine `theme.js` palettes, implement `PatientStatusBadge`, add i18n keys in `ru.js`/`en.js` | M1, M4 | DONE |
+| 6 | Quality, Validation & E2E Forensic Audit | `npm run lint` (0 errors), `validate-cases.mjs` (0 errors), `npm run build` clean, lines < 200, Forensic Audit CLEAN | M2–M5 | DONE |
 
 ---
 

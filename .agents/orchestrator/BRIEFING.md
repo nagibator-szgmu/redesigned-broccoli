@@ -19,13 +19,13 @@ MedSim UI/UX & Ergonomics Overhaul across Menu Hub, Game Workspace, Action Selec
 4. **Succession**: Self-succeed when spawn count >= 16 and pending subagents completed.
 - **Work items**:
   1. Milestone 1: Exploration & Architecture Plan [done]
-  2. Milestone 2: Main Hub (Menu & Navigation) Redesign [in-progress]
-  3. Milestone 3: Clinical Simulation Workspace Ergonomics (GameScreen, Layouts, Vitals HUD) [pending]
-  4. Milestone 4: Action Selection Streamlining (DiagFilterBar, TreatPanel search/badges) [pending]
-  5. Milestone 5: Visual Polish, Theme Consistency & Status Indicators [pending]
-  6. Milestone 6: Quality, Linting, Validation & E2E Verification [pending]
-- **Current phase**: 2
-- **Current focus**: Implementation of Main Hub (Menu & Navigation) Redesign (Worker 1 active).
+  2. Milestone 2: Main Hub (Menu & Navigation) Redesign [done]
+  3. Milestone 3: Clinical Simulation Workspace Ergonomics (GameScreen, Layouts, Vitals HUD) [done]
+  4. Milestone 4: Action Selection Streamlining (DiagFilterBar, TreatPanel search/badges) [done]
+  5. Milestone 5: Visual Polish, Theme Consistency & Status Indicators [done]
+  6. Milestone 6: Quality, Linting, Validation & E2E Verification [done]
+- **Current phase**: 6 (Completed)
+- **Current focus**: Final Handoff & Sentinel Notification.
 
 ## 🔒 Key Constraints
 - NEVER write, modify, or create source code files directly.
