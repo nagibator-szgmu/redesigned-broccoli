@@ -1,0 +1,927 @@
+{
+  "cases": {
+    "1": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по ОКС с подъёмом ST (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по ОКС с подъёмом ST"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по ОКС с подъёмом ST"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по ОКС с подъёмом ST"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "2": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по ХСН (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по ХСН"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по ХСН"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по ХСН"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "3": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "4": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "5": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по нарушениям ритма сердца (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по нарушениям ритма сердца"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по нарушениям ритма сердца"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по нарушениям ритма сердца"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "6": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по эпилепсии (2022)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по эпилепсии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по эпилепсии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по эпилепсии"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "7": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по геморрагическому инсульту (2022)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по геморрагическому инсульту"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по геморрагическому инсульту"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по геморрагическому инсульту"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "8": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по менингиту (2020)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по менингиту"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по менингиту"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по менингиту"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "9": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по ишемическому инсульту (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по ишемическому инсульту"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по ишемическому инсульту"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по ишемическому инсульту"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "10": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по инфекционным заболеваниям ЦНС (2020)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по инфекционным заболеваниям ЦНС"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по инфекционным заболеваниям ЦНС"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по инфекционным заболеваниям ЦНС"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "11": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по внебольничной пневмонии (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по внебольничной пневмонии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по внебольничной пневмонии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по внебольничной пневмонии"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "12": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "13": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "14": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по ОРДС (2025)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по ОРДС"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по ОРДС"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по ОРДС"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "15": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "16": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "17": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "18": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по гриппу (2025)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по гриппу"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по гриппу"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по гриппу"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "19": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "20": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по ВИЧ-инфекции (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по ВИЧ-инфекции"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по ВИЧ-инфекции"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по ВИЧ-инфекции"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "21": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "22": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "23": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "24": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "25": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "26": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "27": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по токсикологии (2020)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по токсикологии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по токсикологии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по токсикологии"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "28": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "29": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "30": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "31": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "32": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по язвенной болезни (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по язвенной болезни"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по язвенной болезни"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по язвенной болезни"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "33": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по хирургическим заболеваниям (2020)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по хирургическим заболеваниям"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по хирургическим заболеваниям"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по хирургическим заболеваниям"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "34": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по заболеваниям аорты (2025)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по заболеваниям аорты"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по заболеваниям аорты"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по заболеваниям аорты"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "35": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "36": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "37": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "38": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "39": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "40": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "41": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "42": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "43": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "44": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "45": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "46": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "47": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "48": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "49": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "50": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "51": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "52": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "53": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "54": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "outp_1": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по артериальной гипертензии (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по артериальной гипертензии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по артериальной гипертензии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по артериальной гипертензии"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация по КР"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_2": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "outp_3": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по заболеваниям щитовидной железы (2020)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по заболеваниям щитовидной железы"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по заболеваниям щитовидной железы"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по КР по заболеваниям щитовидной железы"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация по КР"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_4": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по ESC Heart Failure Guidelines (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму ESC Heart Failure Guidelines"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу ESC Heart Failure Guidelines"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по ESC Heart Failure Guidelines"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация по КР"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_5": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по ATA Hyperthyroidism Guidelines (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму ATA Hyperthyroidism Guidelines"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу ATA Hyperthyroidism Guidelines"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по ATA Hyperthyroidism Guidelines"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация по КР"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_6": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
+    "stat_1": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по ATS/IDSA CAP Guidelines (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму ATS/IDSA CAP Guidelines"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу ATS/IDSA CAP Guidelines"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по ATS/IDSA CAP Guidelines"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "План по дням согласно КР"
+        }
+      }
+    },
+    "stat_2": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по ISTH DIC Guidelines (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму ISTH DIC Guidelines"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу ISTH DIC Guidelines"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по ISTH DIC Guidelines"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "План по дням согласно КР"
+        }
+      }
+    },
+    "stat_3": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по GINA Asthma Guidelines (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму GINA Asthma Guidelines"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу GINA Asthma Guidelines"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по GINA Asthma Guidelines"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "План по дням согласно КР"
+        }
+      }
+    },
+    "stat_4": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по AHA/ASA Stroke Guidelines (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму AHA/ASA Stroke Guidelines"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу AHA/ASA Stroke Guidelines"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по AHA/ASA Stroke Guidelines"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "План по дням согласно КР"
+        }
+      }
+    },
+    "stat_5": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-24",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по Surviving Sepsis Campaign (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму Surviving Sepsis Campaign"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу Surviving Sepsis Campaign"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противопоказания по Surviving Sepsis Campaign"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "План по дням согласно КР"
+        }
+      }
+    },
+    "tutorial": {
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-07-26",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР МЗ РФ по гипогликемии (алгоритмы СМП, 2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Глюкоза крови — обязательный тест при нарушении сознания"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Декстроза 40% в/в — основное лечение гипогликемии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Инсулин противопоказан при гипогликемии; гепарин, фуросемид, метопролол не показаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "55": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    }
+  }
+}

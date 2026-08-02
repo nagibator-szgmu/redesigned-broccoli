@@ -2,18 +2,34 @@
   "name": "medsim",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:open": "vite --mode development",
     "build": "vite build",
     "preview": "vite preview",
-    "sync": "node scripts/sync-cases.js"
+    "sync": "node scripts/sync-cases.js",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "validate": "node scripts/validate-cases.mjs",
+    "review-status": "node scripts/review-status.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.18.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.9.5",
     "vite": "^5.1.4"
   }
 }

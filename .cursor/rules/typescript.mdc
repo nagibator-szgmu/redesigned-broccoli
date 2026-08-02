@@ -1,0 +1,12 @@
+---
+description: TypeScript best practices
+globs: ["**/*.ts", "**/*.tsx"]
+---
+
+# TypeScript Rules
+
+- Use `as const` for literal types
+- Prefer `interface` over `type` for objects
+- No `any` — use `unknown` if unsure
+- Strict null checks enabled
+- Use early returns to avoid nesting

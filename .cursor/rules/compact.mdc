@@ -1,0 +1,16 @@
+---
+description: Write minimal code
+globs: ["**/*.js", "**/*.jsx"]
+---
+
+# Code Economy Rules
+
+0. Does this code need to exist? Delete first.
+1. Can native JS/React do this? No library.
+2. Can I reuse existing code? Search the codebase.
+3. Use arrow functions for simple handlers.
+4. Inline simple styles, extract complex ones.
+5. Delete dead code (console.log, commented code).
+6. Use native CSS when Tailwind not worth it.
+
+**Target:** Half the lines, same behavior.

@@ -59,7 +59,6 @@ export const LIGHT = {
   heroTagText:"#d0f2ec",
 };
 
-export const C = DARK;
-export const FONT = "'Inter','-apple-system','BlinkMacSystemFont','SF Pro Text','Helvetica Neue',Arial,sans-serif";
+export const FONT = "'Geist','Outfit','Inter',-apple-system,'BlinkMacSystemFont','SF Pro Text',sans-serif";
 export const CODE = "'SF Mono','Menlo','Monaco','Courier New',monospace";
 export const SER = "Georgia,serif";

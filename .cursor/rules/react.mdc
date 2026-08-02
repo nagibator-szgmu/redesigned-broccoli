@@ -1,0 +1,13 @@
+---
+description: React best practices
+globs: ["**/*.jsx", "**/*.tsx"]
+---
+
+# React Rules
+
+- One component per file
+- Hooks before functions
+- Custom hooks in `use*.js` files
+- Props destructure inline
+- Use `useMemo` for expensive computations
+- Use `useCallback` for stable references
