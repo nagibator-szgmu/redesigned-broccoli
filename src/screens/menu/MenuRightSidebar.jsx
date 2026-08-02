@@ -1,20 +1,9 @@
 import { FONT } from "../../ui/theme";
 import { CASES } from "../../data/cases";
+import { IconTrophy } from "../../ui/icons";
 
 /**
  * MenuRightSidebar component for desktop right statistics & history column.
- * Displays player progress circular charts, total score box, primary CTA, and recent sessions list.
- *
- * @param {Object} props
- * @param {number} props.casesPlayed
- * @param {number} props.totalScore
- * @param {Array} props.sessionHistory
- * @param {Record<string, any>} props.catMeta
- * @param {Function} props.startGame
- * @param {Function} props.setShowAllCases
- * @param {string} props.theme
- * @param {Function} props.t
- * @param {Object} props.C
  */
 export default function MenuRightSidebar({
   casesPlayed,
@@ -61,7 +50,9 @@ export default function MenuRightSidebar({
           })}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14, background: C.btnBg, border: `1px solid ${C.btnBorder}`, borderRadius: 13, padding: "12px 16px" }}>
-          <div style={{ width: 46, height: 46, borderRadius: 12, flexShrink: 0, background: `linear-gradient(135deg,${C.yellow}25,${C.orange}15)`, border: `1px solid ${C.yellow}30`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🏆</div>
+          <div style={{ width: 46, height: 46, borderRadius: 12, flexShrink: 0, background: `linear-gradient(135deg,${C.yellow}25,${C.orange}15)`, border: `1px solid ${C.yellow}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <IconTrophy size={22} color={C.yellow} />
+          </div>
           <div>
             <div style={{ fontSize: 26, fontWeight: 700, color: C.yellow, fontFamily: "'SF Mono','Menlo',monospace", lineHeight: 1 }}>{totalScore}</div>
             <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 3 }}>{t("progress.totalPoints")}</div>

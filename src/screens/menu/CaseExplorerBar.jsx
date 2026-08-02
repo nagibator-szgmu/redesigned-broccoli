@@ -17,9 +17,13 @@ export default function CaseExplorerBar({ specFilter, setSpecFilter, navSpec, t,
       <div
         onClick={() => setSpecFilter(null)}
         style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
           padding: "6px 14px",
           borderRadius: 20,
           fontSize: 12,
+          lineHeight: 1,
           fontFamily: FONT,
           cursor: "pointer",
           transition: "all 0.15s",
@@ -37,9 +41,14 @@ export default function CaseExplorerBar({ specFilter, setSpecFilter, navSpec, t,
             key={cat}
             onClick={() => setSpecFilter(isActive ? null : cat)}
             style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
               padding: "6px 14px",
               borderRadius: 20,
               fontSize: 12,
+              lineHeight: 1,
               fontFamily: FONT,
               cursor: "pointer",
               transition: "all 0.15s",
@@ -48,7 +57,8 @@ export default function CaseExplorerBar({ specFilter, setSpecFilter, navSpec, t,
               color: isActive ? C.accent : C.textDim,
             }}
           >
-            {icon} {label}
+            {icon}
+            <span>{label}</span>
           </div>
         );
       })}

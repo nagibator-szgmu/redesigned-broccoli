@@ -1,5 +1,10 @@
 import { SER, FONT } from "../../ui/theme";
 import ThreeDTicker from "../../components/ThreeDTicker";
+import {
+  IconGrid, IconTheory, IconTarget, IconMap, IconTrophy,
+  IconGraduationCap, IconChartBar, IconBook, IconLogOut,
+  IconRefresh, IconLightbulb, IconHospital, IconStethoscope, IconBed
+} from "../../ui/icons";
 
 /**
  * MenuSidebar component for desktop left navigation drawer.
@@ -12,12 +17,12 @@ export default function MenuSidebar({
   specFilter, setSpecFilter, deptFilters, navSpec, logout, t, C,
 }) {
   const mainNavs = [
-    { label: t("nav.theory"), icon: "📚", onClick: () => setPhase("theory") },
-    { label: t("nav.course"), icon: "🎯", onClick: () => { setProgressionMode("strict"); setPhase("theory"); }, active: progressionMode === "strict", id: "tutorial-curriculum" },
-    { label: t("nav.map"), icon: "🗺️", onClick: () => setPhase("map") },
-    { label: t("nav.leaderboard"), icon: "🏆", onClick: () => setPhase("leaderboard") },
-    { label: t("nav.certificates"), icon: "🎓", onClick: () => setPhase("certificates") },
-    { label: t("nav.teacherDashboard"), icon: "📊", onClick: () => setPhase("teacher_dashboard") },
+    { label: t("nav.theory"), icon: <IconTheory size={16} color={C.accent} />, onClick: () => setPhase("theory") },
+    { label: t("nav.course"), icon: <IconTarget size={16} color={C.accent} />, onClick: () => { setProgressionMode("strict"); setPhase("theory"); }, active: progressionMode === "strict", id: "tutorial-curriculum" },
+    { label: t("nav.map"), icon: <IconMap size={16} color={C.accent} />, onClick: () => setPhase("map") },
+    { label: t("nav.leaderboard"), icon: <IconTrophy size={16} color={C.accent} />, onClick: () => setPhase("leaderboard") },
+    { label: t("nav.certificates"), icon: <IconGraduationCap size={16} color={C.accent} />, onClick: () => setPhase("certificates") },
+    { label: t("nav.teacherDashboard"), icon: <IconChartBar size={16} color={C.accent} />, onClick: () => setPhase("teacher_dashboard") },
   ];
 
   return (
@@ -36,30 +41,30 @@ export default function MenuSidebar({
       {/* Main Nav Links */}
       <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", marginBottom: 6, fontFamily: FONT, fontWeight: 600 }}>{t("nav.menu")}</div>
       <div className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "10px 12px", borderRadius: 11, marginBottom: 2, cursor: "default", background: "rgba(0,230,200,0.12)", border: "1px solid rgba(0,230,200,0.2)" }}>
-        <span style={{ fontSize: 15, width: 20, textAlign: "center" }}>▦</span>
+        <IconGrid size={16} color={C.accent} />
         <span style={{ fontSize: 13, color: C.accent, fontWeight: 600, fontFamily: FONT }}>{t("nav.mainMenu")}</span>
         <div style={{ marginLeft: "auto", width: 6, height: 6, borderRadius: "50%", background: C.accent, boxShadow: `0 0 8px ${C.accent}` }} />
       </div>
       {mainNavs.map(({ label, icon, onClick, active, id }) => (
         <div key={label} id={id} onClick={onClick} className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "10px 12px", borderRadius: 11, marginBottom: 2, cursor: "pointer", background: active ? `${C.accent}12` : C.btnBg, border: `1px solid ${active ? `${C.accent}30` : "transparent"}` }}>
-          <span style={{ fontSize: 15, width: 20, textAlign: "center" }}>{icon}</span>
+          {icon}
           <span style={{ fontSize: 13, color: active ? C.accent : C.text, fontWeight: 500, fontFamily: FONT }}>{label}</span>
         </div>
       ))}
 
       {/* Interactive Tutorial Menu */}
       <div id="tutorial-training" onClick={() => setShowTutorialMenu((v) => !v)} style={{ position: "relative", display: "flex", alignItems: "center", gap: 11, padding: "10px 12px", borderRadius: 11, marginBottom: 12, cursor: "pointer", background: showTutorialMenu ? `${C.yellow}12` : C.btnBg, border: `1px solid ${showTutorialMenu ? `${C.yellow}30` : "transparent"}` }}>
-        <span style={{ fontSize: 15, width: 20, textAlign: "center" }}>📖</span>
+        <IconBook size={16} color={showTutorialMenu ? C.yellow : C.textDim} />
         <span style={{ fontSize: 13, color: showTutorialMenu ? C.yellow : C.text, fontWeight: 500, fontFamily: FONT }}>{t("nav.tutorial")}</span>
         {showTutorialMenu && (
           <div ref={tutorialMenuRef} onClick={(e) => e.stopPropagation()} style={{ position: "absolute", left: "100%", top: 0, marginLeft: 4, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: `1px solid ${C.border}`, borderRadius: 12, padding: "6px", boxShadow: "0 8px 32px rgba(0,0,0,0.6)", minWidth: 200 }}>
             <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1, padding: "6px 12px 4px", fontFamily: FONT, fontWeight: 600 }}>{t("tutorial.mainCourse")}</div>
-            <div onClick={() => { setShowTutorialMenu(false); restartTutorial?.(); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><span style={{ fontSize: 14 }}>🔄</span> {t("tutorial.restart")}</div>
-            <div onClick={() => { setShowTutorialMenu(false); showTutorialTips?.(); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><span style={{ fontSize: 14 }}>💡</span> {t("tutorial.showTips")}</div>
+            <div onClick={() => { setShowTutorialMenu(false); restartTutorial?.(); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><IconRefresh size={14} color={C.accent} /> {t("tutorial.restart")}</div>
+            <div onClick={() => { setShowTutorialMenu(false); showTutorialTips?.(); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><IconLightbulb size={14} color={C.yellow} /> {t("tutorial.showTips")}</div>
             <div style={{ height: 1, background: C.border, margin: "6px 8px" }} />
             <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1, padding: "6px 12px 4px", fontFamily: FONT, fontWeight: 600 }}>{t("tutorial.miniTutorials")}</div>
-            {[{ key: "outpatient", icon: "🏥", label: t("tutorial.outpatient") }, { key: "admission", icon: "🩺", label: t("tutorial.admission") }, { key: "stationary", icon: "🏨", label: t("tutorial.stationary") }].map(({ key, icon, label }) => (
-              <div key={key} onClick={() => { setShowTutorialMenu(false); forceShowDeptTutorial?.(key); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><span style={{ fontSize: 14 }}>{icon}</span> {label}</div>
+            {[{ key: "outpatient", icon: <IconHospital size={14} color={C.accent} />, label: t("tutorial.outpatient") }, { key: "admission", icon: <IconStethoscope size={14} color={C.accent} />, label: t("tutorial.admission") }, { key: "stationary", icon: <IconBed size={14} color={C.accent} />, label: t("tutorial.stationary") }].map(({ key, icon, label }) => (
+              <div key={key} onClick={() => { setShowTutorialMenu(false); forceShowDeptTutorial?.(key); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}>{icon} {label}</div>
             ))}
           </div>
         )}
@@ -72,7 +77,7 @@ export default function MenuSidebar({
           const isActive = department === key;
           return (
             <div key={key} onClick={() => { setDepartment(key); if (key !== "all") checkDeptTutorial?.(key); }} className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "9px 12px 9px 18px", borderRadius: 10, cursor: "pointer", background: isActive ? "rgba(0,230,200,0.1)" : "transparent", border: `1px solid ${isActive ? "rgba(0,230,200,0.2)" : "transparent"}` }}>
-              <span style={{ fontSize: 14, width: 18, textAlign: "center", opacity: isActive ? 1 : 0.5 }}>{icon}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 18, opacity: isActive ? 1 : 0.6 }}>{icon}</span>
               <span style={{ fontSize: 12, fontFamily: FONT, color: isActive ? C.accent : C.text, fontWeight: isActive ? 600 : 400, opacity: isActive ? 1 : 0.7 }}>{label}</span>
               {isActive && <div style={{ marginLeft: "auto", width: 5, height: 5, borderRadius: "50%", background: C.accent, boxShadow: `0 0 6px ${C.accent}` }} />}
             </div>
@@ -91,7 +96,7 @@ export default function MenuSidebar({
         const isActive = specFilter === cat;
         return (
           <div key={cat} onClick={() => setSpecFilter(isActive ? null : cat)} className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "9px 12px 9px 18px", borderRadius: 10, marginBottom: 2, cursor: "pointer", background: isActive ? "rgba(0,230,200,0.1)" : "transparent", border: `1px solid ${isActive ? "rgba(0,230,200,0.2)" : "transparent"}` }}>
-            <span style={{ fontSize: 14, width: 18, textAlign: "center", opacity: isActive ? 1 : 0.5 }}>{icon}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 18, opacity: isActive ? 1 : 0.6 }}>{icon}</span>
             <span style={{ fontSize: 12, fontFamily: FONT, color: isActive ? C.accent : C.text, fontWeight: isActive ? 600 : 400, opacity: isActive ? 1 : 0.7 }}>{label}</span>
             {isActive && <div style={{ marginLeft: "auto", width: 5, height: 5, borderRadius: "50%", background: C.accent, boxShadow: `0 0 6px ${C.accent}` }} />}
           </div>
@@ -100,7 +105,7 @@ export default function MenuSidebar({
 
       <div style={{ flex: 1 }} />
       <div onClick={logout} className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "10px 12px", borderRadius: 11, marginBottom: 2, cursor: "pointer", background: C.btnBg, border: "1px solid transparent" }}>
-        <span style={{ fontSize: 15, width: 20, textAlign: "center" }}>🚪</span>
+        <IconLogOut size={16} color={C.red} />
         <span style={{ fontSize: 12, color: C.red, fontWeight: 500, fontFamily: FONT, opacity: 0.8 }}>{t("nav.logout")}</span>
       </div>
       <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: 0.95, padding: "12px 0 0", borderTop: `1px solid ${C.border}` }}>

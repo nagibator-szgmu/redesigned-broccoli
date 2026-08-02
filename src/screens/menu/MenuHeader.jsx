@@ -35,7 +35,7 @@ export default function MenuHeader({
   return (
     <header
       style={{
-        height: 66,
+        height: 64,
         flexShrink: 0,
         padding: "0 28px",
         display: "flex",
@@ -107,9 +107,7 @@ export default function MenuHeader({
           cursor: "pointer",
         }}
       >
-        <span style={{ fontSize: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 16, height: 16, lineHeight: 1 }}>
-          🔔
-        </span>
+        <IconBell size={18} color={showNotif ? C.accent : C.textDim} />
         {unreadCount > 0 && (
           <div style={{ position: "absolute", top: 6, right: 6, width: 7, height: 7, background: C.red, borderRadius: "50%", border: "1px solid #070d18" }} />
         )}
@@ -132,9 +130,7 @@ export default function MenuHeader({
           cursor: "pointer",
         }}
       >
-        <span style={{ fontSize: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 16, height: 16, lineHeight: 1 }}>
-          ⚙️
-        </span>
+        <IconGear size={18} color={showSettings ? C.accent : C.textDim} />
       </div>
     </header>
   );

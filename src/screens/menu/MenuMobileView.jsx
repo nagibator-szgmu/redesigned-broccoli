@@ -8,6 +8,11 @@ import MenuSettingsModal from "./MenuSettingsModal";
 /**
  * MenuMobileView component for responsive mobile layout.
  */
+import {
+  IconTheory, IconTarget, IconMap, IconTrophy, IconGraduationCap,
+  IconChartBar, IconBell, IconGear, IconLogOut
+} from "../../ui/icons";
+
 export default function MenuMobileView(props) {
   const {
     startGame, setPhase, totalScore, casesPlayed, searchQuery, setSearchQuery,
@@ -42,21 +47,21 @@ export default function MenuMobileView(props) {
         </div>
         <span style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3 }}>{t("brand.name")}</span>
         <div style={{ flex: 1 }} />
-        <div onClick={() => setPhase("theory")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><span style={{ fontSize: 15 }}>📚</span></div>
-        <div onClick={() => { setProgressionMode("strict"); setPhase("theory"); }} className="icon-btn" style={{ width: 34, height: 34, background: progressionMode === "strict" ? `${C.accent}20` : C.btnBg, border: `1px solid ${progressionMode === "strict" ? `${C.accent}30` : "rgba(0,230,200,0.08)"}`, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><span style={{ fontSize: 15 }}>🎯</span></div>
-        <div onClick={() => setPhase("map")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><span style={{ fontSize: 15 }}>🗺️</span></div>
-        <div onClick={() => setPhase("leaderboard")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><span style={{ fontSize: 15 }}>🏆</span></div>
-        <div onClick={() => setPhase("certificates")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><span style={{ fontSize: 15 }}>🎓</span></div>
-        <div onClick={() => setPhase("teacher_dashboard")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} title={t("nav.teacherDashboard")}><span style={{ fontSize: 15 }}>📊</span></div>
+        <div onClick={() => setPhase("theory")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><IconTheory size={16} color={C.accent} /></div>
+        <div onClick={() => { setProgressionMode("strict"); setPhase("theory"); }} className="icon-btn" style={{ width: 34, height: 34, background: progressionMode === "strict" ? `${C.accent}20` : C.btnBg, border: `1px solid ${progressionMode === "strict" ? `${C.accent}30` : "rgba(0,230,200,0.08)"}`, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><IconTarget size={16} color={C.accent} /></div>
+        <div onClick={() => setPhase("map")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><IconMap size={16} color={C.accent} /></div>
+        <div onClick={() => setPhase("leaderboard")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><IconTrophy size={16} color={C.accent} /></div>
+        <div onClick={() => setPhase("certificates")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><IconGraduationCap size={16} color={C.accent} /></div>
+        <div onClick={() => setPhase("teacher_dashboard")} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} title={t("nav.teacherDashboard")}><IconChartBar size={16} color={C.accent} /></div>
         <div onClick={openNotif} className="icon-btn" style={{ position: "relative", width: 34, height: 34, background: showNotif ? `${C.accent}1a` : C.btnBg, border: `1px solid ${showNotif ? `${C.accent}55` : "rgba(0,230,200,0.08)"}`, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-          <span style={{ fontSize: 15, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 15, height: 15, lineHeight: 1 }}>🔔</span>
+          <IconBell size={16} color={showNotif ? C.accent : C.textDim} />
           {unreadCount > 0 && <div style={{ position: "absolute", top: 5, right: 5, width: 6, height: 6, background: C.red, borderRadius: "50%", border: "1px solid #070d18" }} />}
         </div>
         <div id="tutorial-other" onClick={() => { setShowSettings((v) => !v); setShowNotif(false); }} className="icon-btn" style={{ width: 34, height: 34, background: showSettings ? `${C.accent}1a` : C.btnBg, border: `1px solid ${showSettings ? `${C.accent}55` : "rgba(0,230,200,0.08)"}`, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-          <span style={{ fontSize: 15, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 15, height: 15, lineHeight: 1 }}>⚙️</span>
+          <IconGear size={16} color={showSettings ? C.accent : C.textDim} />
         </div>
         <div onClick={logout} className="icon-btn" style={{ width: 34, height: 34, background: C.btnBg, border: "1px solid rgba(0,230,200,0.08)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-          <span style={{ fontSize: 15, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 15, height: 15, lineHeight: 1 }}>🚪</span>
+          <IconLogOut size={16} color={C.red} />
         </div>
       </header>
 
