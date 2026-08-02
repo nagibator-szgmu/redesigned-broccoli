@@ -13,43 +13,23 @@ export function AntiTamperGuard({ children, emblemId = 'medsim-3d-emblem-contain
   useEffect(() => {
     function checkIntegrity() {
       const el = document.getElementById(emblemId);
-      if (!el) {
-        setTampered(true);
-        return;
-      }
+      if (!el) return; // If emblem is not on this screen, do not lock up
+
       const style = window.getComputedStyle(el);
       if (
         style.display === 'none' ||
         style.visibility === 'hidden' ||
         parseFloat(style.opacity) < 0.05 ||
-        el.clientWidth < 10 ||
-        el.clientHeight < 10
+        style.height === '0px' ||
+        style.width === '0px'
       ) {
         setTampered(true);
       }
     }
 
-    // Initial check
-    checkIntegrity();
-
-    // Observe DOM mutations & style attribute tampering
-    const observer = new MutationObserver(() => {
-      checkIntegrity();
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['style', 'class', 'hidden', 'id']
-    });
-
     const interval = setInterval(checkIntegrity, 1000);
 
-    return () => {
-      observer.disconnect();
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [emblemId]);
 
   if (tampered) {

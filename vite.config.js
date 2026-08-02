@@ -9,7 +9,7 @@ export default defineConfig({
       'three-spiral-emblem': path.resolve(__dirname, './src/lib/threeSpiralEmblem.js')
     }
   },
-  base: "./",
+  base: "/",
   server: {
     port: 3000,
     open: true,
