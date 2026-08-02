@@ -1,4 +1,5 @@
 import { FONT } from "../../ui/theme";
+import { IconBell, IconGear } from "../../ui/icons";
 
 /**
  * MenuHeader component for desktop top navigation bar.
