@@ -1,46 +1,52 @@
+import React from 'react';
 import { CASES } from "../../data/cases";
+import {
+  IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
+  IconEndocrine, IconToxicology, IconAbdominal, IconHospital,
+  IconAmbulance, IconXRay, IconStethoscope, IconBed
+} from "../../ui/icons";
 
 /**
- * Creates category metadata with icons, labels, and colors.
+ * Creates category metadata with vector icons, labels, and colors.
  * @param {Function} t - Translate function
- * @returns {Record<string, {icon: string, label: string, color: string}>}
+ * @returns {Record<string, {icon: React.ReactNode, label: string, color: string}>}
  */
 export const makeCatMeta = (t) => ({
-  cardiac: { icon: "❤️", label: t("spec.cardiac"), color: "#ff3d5a" },
-  neuro: { icon: "🧠", label: t("spec.neuro"), color: "#9d6ff5" },
-  respiratory: { icon: "🫁", label: t("spec.respiratory"), color: "#00e5a0" },
-  infectious: { icon: "🦠", label: t("spec.infectious"), color: "#f57c42" },
-  endocrine: { icon: "⚗️", label: t("spec.endocrine"), color: "#f5c842" },
-  toxicology: { icon: "☠️", label: t("spec.toxicology"), color: "#f57c42" },
-  abdominal: { icon: "🔬", label: t("spec.abdominal"), color: "#00e6c8" },
+  cardiac: { icon: React.createElement(IconCardiac, { size: 20, color: "#ff3d5a" }), label: t("spec.cardiac"), color: "#ff3d5a" },
+  neuro: { icon: React.createElement(IconNeuro, { size: 20, color: "#9d6ff5" }), label: t("spec.neuro"), color: "#9d6ff5" },
+  respiratory: { icon: React.createElement(IconRespiratory, { size: 20, color: "#00e5a0" }), label: t("spec.respiratory"), color: "#00e5a0" },
+  infectious: { icon: React.createElement(IconInfectious, { size: 20, color: "#f57c42" }), label: t("spec.infectious"), color: "#f57c42" },
+  endocrine: { icon: React.createElement(IconEndocrine, { size: 20, color: "#f5c842" }), label: t("spec.endocrine"), color: "#f5c842" },
+  toxicology: { icon: React.createElement(IconToxicology, { size: 20, color: "#f57c42" }), label: t("spec.toxicology"), color: "#f57c42" },
+  abdominal: { icon: React.createElement(IconAbdominal, { size: 20, color: "#00e6c8" }), label: t("spec.abdominal"), color: "#00e6c8" },
 });
 
 /**
  * Creates list of specializations for navigation.
  * @param {Function} t - Translate function
- * @returns {Array<{icon: string, label: string, cat: string}>}
+ * @returns {Array<{icon: React.ReactNode, label: string, cat: string}>}
  */
 export const makeNavSpec = (t) => [
-  { icon: "❤️", label: t("spec.cardiac"), cat: "cardiac" },
-  { icon: "🧠", label: t("spec.neuro"), cat: "neuro" },
-  { icon: "🫁", label: t("spec.respiratory"), cat: "respiratory" },
-  { icon: "🦠", label: t("spec.infectious"), cat: "infectious" },
-  { icon: "⚗️", label: t("spec.endocrine"), cat: "endocrine" },
-  { icon: "☠️", label: t("spec.toxicology"), cat: "toxicology" },
-  { icon: "🔬", label: t("spec.abdominal"), cat: "abdominal" },
+  { icon: React.createElement(IconCardiac, { size: 16, color: "#ff3d5a" }), label: t("spec.cardiac"), cat: "cardiac" },
+  { icon: React.createElement(IconNeuro, { size: 16, color: "#9d6ff5" }), label: t("spec.neuro"), cat: "neuro" },
+  { icon: React.createElement(IconRespiratory, { size: 16, color: "#00e5a0" }), label: t("spec.respiratory"), cat: "respiratory" },
+  { icon: React.createElement(IconInfectious, { size: 16, color: "#f57c42" }), label: t("spec.infectious"), cat: "infectious" },
+  { icon: React.createElement(IconEndocrine, { size: 16, color: "#f5c842" }), label: t("spec.endocrine"), cat: "endocrine" },
+  { icon: React.createElement(IconToxicology, { size: 16, color: "#f57c42" }), label: t("spec.toxicology"), cat: "toxicology" },
+  { icon: React.createElement(IconAbdominal, { size: 16, color: "#00e6c8" }), label: t("spec.abdominal"), cat: "abdominal" },
 ];
 
 /**
  * Creates list of department filters.
  * @param {Function} t - Translate function
- * @returns {Array<{key: string, label: string, icon: string}>}
+ * @returns {Array<{key: string, label: string, icon: React.ReactNode}>}
  */
 export const DEPT_FILTERS = (t) => [
-  { key: "all", label: t("department.all"), icon: "🏥" },
-  { key: "icu", label: t("department.icu"), icon: "🚑" },
-  { key: "admission", label: t("department.admission"), icon: "🩻" },
-  { key: "outpatient", label: t("department.outpatient"), icon: "🩺" },
-  { key: "stationary", label: t("department.stationary"), icon: "🛏️" },
+  { key: "all", label: t("department.all"), icon: React.createElement(IconHospital, { size: 16, color: "#00e5a0" }) },
+  { key: "icu", label: t("department.icu"), icon: React.createElement(IconAmbulance, { size: 16, color: "#ff3d5a" }) },
+  { key: "admission", label: t("department.admission"), icon: React.createElement(IconXRay, { size: 16, color: "#9d6ff5" }) },
+  { key: "outpatient", label: t("department.outpatient"), icon: React.createElement(IconStethoscope, { size: 16, color: "#00e6c8" }) },
+  { key: "stationary", label: t("department.stationary"), icon: React.createElement(IconBed, { size: 16, color: "#f5c842" }) },
 ];
 
 /**
