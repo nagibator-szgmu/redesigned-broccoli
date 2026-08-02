@@ -13,7 +13,9 @@ export default function MenuSettingsModal({
 }) {
   if (!showSettings) return null;
 
-  const positionStyle = isMobile ? { top: 60, right: 12, left: 12 } : { top: 72, right: 8, width: 280 };
+  const positionStyle = isMobile
+    ? { top: 60, right: 12, left: 12, maxHeight: "82vh", overflowY: "auto" }
+    : { top: 72, right: 16, width: 300, maxHeight: "82vh", overflowY: "auto" };
 
   return createPortal(
     <>
@@ -22,24 +24,6 @@ export default function MenuSettingsModal({
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{t("settings.title")}</span>
           <span onClick={() => setShowSettings(false)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
-        </div>
-
-        {/* Account Profile Card */}
-        <div style={{ background: "rgba(0,230,200,0.06)", border: "1px solid rgba(0,230,200,0.15)", borderRadius: 12, padding: "10px 12px", marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: "50%", background: `linear-gradient(135deg, ${C.accent}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", color: C.bg, fontWeight: 700, fontSize: 14 }}>
-            С
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: C.white, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-              Студент-Медик
-            </div>
-            <div style={{ fontSize: 10, color: C.accent, opacity: 0.8 }}>
-              Пользовательский аккаунт
-            </div>
-          </div>
-          <div style={{ fontSize: 10, background: `${C.accent}20`, border: `1px solid ${C.accent}40`, borderRadius: 6, padding: "2px 6px", color: C.accent, fontWeight: 600 }}>
-            Студент
-          </div>
         </div>
 
         {/* Difficulty */}

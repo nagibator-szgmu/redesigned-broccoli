@@ -2,9 +2,10 @@ import { SER, FONT } from "../../ui/theme";
 import ThreeDTicker from "../../components/ThreeDTicker";
 import {
   IconGrid, IconTheory, IconTarget, IconMap, IconTrophy,
-  IconGraduationCap, IconChartBar, IconBook, IconLogOut,
+  IconChartBar, IconBook, IconLogOut,
   IconRefresh, IconLightbulb, IconHospital, IconStethoscope, IconBed
 } from "../../ui/icons";
+import { getUserAvatar } from "./AccountModal";
 
 /**
  * MenuSidebar component for desktop left navigation drawer.
@@ -14,27 +15,48 @@ export default function MenuSidebar({
   showTutorialMenu, setShowTutorialMenu, tutorialMenuRef,
   restartTutorial, showTutorialTips, forceShowDeptTutorial,
   department, setDepartment, checkDeptTutorial,
-  deptFilters, logout, t, C,
+  deptFilters, logout, setShowAccount, t, C,
 }) {
+  const userAvatar = getUserAvatar();
+  const UserAvatarIcon = userAvatar.icon;
+
   const mainNavs = [
     { label: t("nav.theory"), icon: <IconTheory size={16} color={C.accent} />, onClick: () => setPhase("theory") },
     { label: t("nav.course"), icon: <IconTarget size={16} color={C.accent} />, onClick: () => { setProgressionMode("strict"); setPhase("theory"); }, active: progressionMode === "strict", id: "tutorial-curriculum" },
     { label: t("nav.map"), icon: <IconMap size={16} color={C.accent} />, onClick: () => setPhase("map") },
-    { label: t("nav.leaderboard"), icon: <IconTrophy size={16} color={C.accent} />, onClick: () => setPhase("leaderboard") },
-    { label: t("nav.certificates"), icon: <IconGraduationCap size={16} color={C.accent} />, onClick: () => setPhase("certificates") },
+    { label: "Достижения и сертификаты", icon: <IconTrophy size={16} color={C.accent} />, onClick: () => setPhase("leaderboard") },
     { label: t("nav.teacherDashboard"), icon: <IconChartBar size={16} color={C.accent} />, onClick: () => setPhase("teacher_dashboard") },
   ];
 
   return (
     <aside style={{ width: 220, flexShrink: 0, zIndex: 10, background: C.sidebarBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", borderRight: "1px solid rgba(0,230,200,0.08)", display: "flex", flexDirection: "column", padding: "22px 12px", overflowY: "auto" }}>
       {/* Brand logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "6px 10px", marginBottom: 30 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "6px 10px", marginBottom: 16 }}>
         <div style={{ width: 38, height: 38, borderRadius: 11, flexShrink: 0, background: "linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))", border: "1px solid rgba(0,230,200,0.3)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px rgba(0,230,200,0.15)" }}>
           <span style={{ fontFamily: SER, fontSize: 19, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
         </div>
         <div>
           <div style={{ fontSize: 17, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3, lineHeight: 1 }}>{t("brand.name")}</div>
           <div style={{ fontSize: 10, color: C.accent, fontFamily: FONT, letterSpacing: 1, marginTop: 2, opacity: 0.7 }}>{t("brand.subtitle")}</div>
+        </div>
+      </div>
+
+      {/* Account Profile Card */}
+      <div
+        onClick={() => setShowAccount && setShowAccount(true)}
+        className="filter-pill"
+        style={{
+          display: "flex", alignItems: "center", gap: 10, padding: "8px 10px",
+          borderRadius: 12, background: "rgba(0,230,200,0.06)",
+          border: "1px solid rgba(0,230,200,0.15)", cursor: "pointer", marginBottom: 20
+        }}
+      >
+        <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${userAvatar.color}20`, border: `1px solid ${userAvatar.color}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <UserAvatarIcon size={16} color={userAvatar.color} />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.white, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Студент-Медик</div>
+          <div style={{ fontSize: 10, color: userAvatar.color, opacity: 0.85 }}>{userAvatar.label}</div>
         </div>
       </div>
 

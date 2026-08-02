@@ -1,14 +1,16 @@
+import { useState } from "react";
 import { FONT, CODE } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
 import { CASES } from "../data/cases";
 import { TOPICS } from "../data/topics";
+import { computeEarnedCertificates, CERTIFICATE_THRESHOLDS, SCORE_THRESHOLDS, MODE_CERTIFICATES, SPEC_CERTIFICATES } from "../data/certificates";
 import useIsMobile from "../hooks/useIsMobile";
 import { HeaderBackBtn } from "../ui/components";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
   IconEndocrine, IconToxicology, IconAbdominal, IconTrophy,
-  IconGraduationCap, IconStethoscope, IconTarget
+  IconGraduationCap, IconStethoscope, IconTarget, IconCheck
 } from "../ui/icons";
 
 const CAT_META = {
@@ -20,6 +22,23 @@ const CAT_META = {
   toxicology:{icon:<IconToxicology size={18} color="#f57c42" />,color:"#f57c42"},
   abdominal:{icon:<IconAbdominal size={18} color="#00e6c8" />,color:"#00e6c8"},
 };
+
+function renderCertIcon(cert, isEarned) {
+  const color = isEarned ? cert.color : "#666";
+  const size = 20;
+  switch (cert.iconKey) {
+    case "cardiac": return <IconCardiac size={size} color={color} />;
+    case "neuro": return <IconNeuro size={size} color={color} />;
+    case "respiratory": return <IconRespiratory size={size} color={color} />;
+    case "infectious": return <IconInfectious size={size} color={color} />;
+    case "endocrine": return <IconEndocrine size={size} color={color} />;
+    case "toxicology": return <IconToxicology size={size} color={color} />;
+    case "abdominal": return <IconAbdominal size={size} color={color} />;
+    case "graduationCap": return <IconGraduationCap size={size} color={color} />;
+    case "target": return <IconTarget size={size} color={color} />;
+    default: return <IconTrophy size={size} color={color} />;
+  }
+}
 
 function aggregateStats(history) {
   const stats = {};
@@ -37,17 +56,19 @@ function aggregateStats(history) {
 function getGlobalRank(history) {
   if (history.length === 0) return null;
   const avg = history.reduce((a,s) => a + s.score, 0) / history.length;
-  if (avg >= 90) return { title:"Элита",icon:<IconTrophy size={20} color="#f5c842" />,color:"#f5c842" };
-  if (avg >= 75) return { title:"Опытный врач",icon:<IconStethoscope size={20} color="#00e6c8" />,color:"#00e6c8" };
-  if (avg >= 60) return { title:"Ординатор",icon:<IconTarget size={20} color="#00e5a0" />,color:"#00e5a0" };
-  if (avg >= 40) return { title:"Интерн",icon:<IconGraduationCap size={20} color="#f57c42" />,color:"#f57c42" };
-  return { title:"Стажёр",icon:<IconGraduationCap size={20} color="#ff3d5a" />,color:"#ff3d5a" };
+  if (avg >= 90) return { title:"Элита", icon:<IconTrophy size={48} color="#f5c842" />, color:"#f5c842" };
+  if (avg >= 75) return { title:"Опытный врач", icon:<IconStethoscope size={48} color="#00e6c8" />, color:"#00e6c8" };
+  if (avg >= 60) return { title:"Ординатор", icon:<IconTarget size={48} color="#00e5a0" />, color:"#00e5a0" };
+  if (avg >= 40) return { title:"Интерн", icon:<IconGraduationCap size={48} color="#f57c42" />, color:"#f57c42" };
+  return { title:"Стажёр", icon:<IconGraduationCap size={48} color="#ff3d5a" />, color:"#ff3d5a" };
 }
 
-export default function LeaderboardScreen({ setPhase, sessionHistory }) {
+export default function LeaderboardScreen({ setPhase, sessionHistory, initialTab = "stats" }) {
   const C = useTheme();
   const isMobile = useIsMobile();
   const { t } = useTranslate();
+  const [activeTab, setActiveTab] = useState(initialTab);
+
   const rank = getGlobalRank(sessionHistory);
   const catStats = aggregateStats(sessionHistory);
   const totalCases = sessionHistory.length;
@@ -59,36 +80,124 @@ export default function LeaderboardScreen({ setPhase, sessionHistory }) {
   const topCases = [...sessionHistory].sort((a,b) => b.score - a.score).slice(0, 10);
   const uniqueCases = new Set(sessionHistory.map(s => s.caseId)).size;
 
-  if (isMobile) return (
-    <div style={{position:"fixed",inset:0,overflowY:"auto",background:C.bg,fontFamily:FONT}}>
-      <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"10px 16px",display:"flex",alignItems:"center",gap:10,position:"sticky",top:0,zIndex:10}}>
-        <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:26,height:26,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
-          <span style={{fontFamily:"Georgia,serif",fontSize:13,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
+  const earned = computeEarnedCertificates(sessionHistory);
+  const totalCerts = CERTIFICATE_THRESHOLDS.length + SCORE_THRESHOLDS.length + MODE_CERTIFICATES.length + SPEC_CERTIFICATES.length;
+
+  const certSections = [
+    {title:"Общие достижения",items:CERTIFICATE_THRESHOLDS},
+    {title:"Серия и результаты",items:SCORE_THRESHOLDS},
+    {title:"Режимы игры",items:MODE_CERTIFICATES},
+    {title:"Специальности",items:SPEC_CERTIFICATES},
+  ];
+
+  const renderTabSwitcher = () => (
+    <div style={{ display: "flex", gap: 10, marginBottom: 18 }}>
+      <button
+        onClick={() => setActiveTab("stats")}
+        className="filter-pill"
+        style={{
+          flex: 1, padding: "11px 16px", borderRadius: 12, fontFamily: FONT, fontSize: 13, fontWeight: 700,
+          background: activeTab === "stats" ? `${C.accent}20` : C.panel,
+          border: `1px solid ${activeTab === "stats" ? C.accent : C.border}`,
+          color: activeTab === "stats" ? C.accent : C.textDim, cursor: "pointer",
+          display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8
+        }}
+      >
+        <IconTrophy size={16} color={activeTab === "stats" ? C.accent : C.textDim} />
+        Достижения и рейтинг
+      </button>
+      <button
+        onClick={() => setActiveTab("certs")}
+        className="filter-pill"
+        style={{
+          flex: 1, padding: "11px 16px", borderRadius: 12, fontFamily: FONT, fontSize: 13, fontWeight: 700,
+          background: activeTab === "certs" ? `${C.accent}20` : C.panel,
+          border: `1px solid ${activeTab === "certs" ? C.accent : C.border}`,
+          color: activeTab === "certs" ? C.accent : C.textDim, cursor: "pointer",
+          display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8
+        }}
+      >
+        <IconGraduationCap size={16} color={activeTab === "certs" ? C.accent : C.textDim} />
+        Сертификаты ({earned.size}/{totalCerts})
+      </button>
+    </div>
+  );
+
+  const renderCertificatesView = () => (
+    <div>
+      <div style={{ background: C.heroGrad, borderRadius: isMobile ? 14 : 18, padding: isMobile ? "18px 16px" : "24px 20px", marginBottom: 14, textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>
+          <IconGraduationCap size={44} color={C.accent} />
         </div>
-        <span style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT}}>🏆 Достижения</span>
-        <div style={{flex:1}}/>
+        <div style={{ fontSize: isMobile ? 18 : 22, fontWeight: 700, color: C.white, fontFamily: FONT, marginBottom: 6 }}>Сертификаты и дипломы</div>
+        <div style={{ fontSize: isMobile ? 13 : 14, color: C.heroText, fontFamily: FONT }}>
+          Получено: <span style={{ color: C.accent, fontWeight: 700 }}>{earned.size}</span> из {totalCerts}
+        </div>
+        <div style={{ marginTop: 10, height: 6, background: `${C.border}`, borderRadius: 3, overflow: "hidden", maxWidth: 300, margin: "10px auto 0" }}>
+          <div style={{ height: "100%", width: `${(earned.size / totalCerts) * 100}%`, background: `linear-gradient(90deg,${C.accent},${C.green})`, borderRadius: 3, transition: "width 0.5s ease" }} />
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12 }}>
+        {certSections.map((sec) => (
+          <div key={sec.title} style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 16 }}>
+            <div style={{ fontSize: 11, color: C.textDim, textTransform: "uppercase", letterSpacing: 1, fontWeight: 600, marginBottom: 14, fontFamily: FONT }}>{sec.title}</div>
+            {sec.items.map((cert) => {
+              const isEarned = earned.has(cert.id);
+              return (
+                <div key={cert.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, marginBottom: 6, background: isEarned ? `${cert.color}10` : "transparent", border: `1px solid ${isEarned ? cert.color + "44" : C.border}`, opacity: isEarned ? 1 : 0.45 }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26 }}>
+                    {renderCertIcon(cert, isEarned)}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, color: isEarned ? cert.color : C.textDim, fontWeight: 600, fontFamily: FONT }}>{cert.title}</div>
+                    <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>{cert.desc}</div>
+                  </div>
+                  {isEarned && <IconCheck size={16} color={C.green} />}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (isMobile) return (
+    <div style={{ position: "fixed", inset: 0, overflowY: "auto", background: C.bg, fontFamily: FONT }}>
+      <div style={{ background: C.panel, borderBottom: `1px solid ${C.border}`, padding: "10px 16px", display: "flex", alignItems: "center", gap: 10, position: "sticky", top: 0, zIndex: 10 }}>
+        <div onClick={() => setPhase("menu")} className="icon-btn" style={{ width: 26, height: 26, background: `${C.accent}20`, border: `1px solid ${C.accent}44`, borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          <span style={{ fontFamily: "Georgia,serif", fontSize: 13, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
+        </div>
+        <span style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>🏆 Достижения и сертификаты</span>
+        <div style={{ flex: 1 }} />
         <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
-      <div style={{padding:"14px 14px 80px"}}>
-        {renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, catStats, topCases, uniqueCases, t, true, sessionHistory)}
+      <div style={{ padding: "14px 14px 80px" }}>
+        {renderTabSwitcher()}
+        {activeTab === "stats"
+          ? renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, catStats, topCases, uniqueCases, t, true, sessionHistory)
+          : renderCertificatesView()}
       </div>
     </div>
   );
 
   return (
-    <div style={{position:"fixed",inset:0,overflowY:"auto",background:C.bg,fontFamily:FONT}}>
-      <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"12px 28px",display:"flex",alignItems:"center",gap:12}}>
-        <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:28,height:28,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
-          <span style={{fontFamily:"Georgia,serif",fontSize:14,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
+    <div style={{ position: "fixed", inset: 0, overflowY: "auto", background: C.bg, fontFamily: FONT }}>
+      <div style={{ background: C.panel, borderBottom: `1px solid ${C.border}`, padding: "12px 28px", display: "flex", alignItems: "center", gap: 12 }}>
+        <div onClick={() => setPhase("menu")} className="icon-btn" style={{ width: 28, height: 28, background: `${C.accent}20`, border: `1px solid ${C.accent}44`, borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          <span style={{ fontFamily: "Georgia,serif", fontSize: 14, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
         </div>
-        <span style={{fontFamily:"Georgia,serif",fontSize:16,color:C.accent,fontStyle:"italic",letterSpacing:1}}>МедСим</span>
-        <div style={{width:1,height:18,background:C.border}}/>
-        <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>🏆 Достижения</span>
-        <div style={{flex:1}}/>
+        <span style={{ fontFamily: "Georgia,serif", fontSize: 16, color: C.accent, fontStyle: "italic", letterSpacing: 1 }}>МедСим</span>
+        <div style={{ width: 1, height: 18, background: C.border }} />
+        <span style={{ fontSize: 13, color: C.textDim, fontFamily: FONT }}>Достижения и сертификаты</span>
+        <div style={{ flex: 1 }} />
         <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
-      <div style={{maxWidth:900,margin:"0 auto",padding:"24px 20px 80px"}}>
-        {renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, catStats, topCases, uniqueCases, t, false, sessionHistory)}
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 20px 80px" }}>
+        {renderTabSwitcher()}
+        {activeTab === "stats"
+          ? renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, catStats, topCases, uniqueCases, t, false, sessionHistory)
+          : renderCertificatesView()}
       </div>
     </div>
   );

@@ -259,6 +259,7 @@ export default function MedSimApp() {
         )}
         <div style={IS_DEV_MODE ? {marginTop:26} : undefined}>
           {showOnboarding ? <OnboardingScreen onComplete={handleOnboardingComplete} /> : content}
+          {showDeptTutorial && <DepartmentTutorial dept={showDeptTutorial} onClose={() => setShowDeptTutorial(null)} />}
         </div>
       </ThemeCtx.Provider>
     </ErrorBoundary>

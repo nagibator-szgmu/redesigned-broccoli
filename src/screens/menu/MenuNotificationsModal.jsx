@@ -58,19 +58,26 @@ export default function MenuNotificationsModal({
           return (
             <div
               key={n.id}
+              className="filter-pill"
+              onClick={() => {
+                setShowNotif(false);
+                if (n.onSelect) n.onSelect();
+              }}
               style={{
                 display: "flex",
                 gap: 10,
-                padding: "10px",
+                padding: "10px 12px",
                 borderRadius: 10,
                 background: C.btnBg,
                 border: `1px solid ${isNew ? "rgba(0,230,200,0.2)" : "rgba(0,230,200,0.08)"}`,
                 marginBottom: i < notifications.length - 1 ? 6 : 0,
                 position: "relative",
+                cursor: "pointer",
+                alignItems: "center",
               }}
             >
               {isNew && <div style={{ position: "absolute", top: 8, right: 8, width: 6, height: 6, borderRadius: "50%", background: C.accent }} />}
-              <span style={{ fontSize: 18, flexShrink: 0 }}>{n.icon}</span>
+              <span style={{ fontSize: 18, flexShrink: 0, display: "inline-flex", alignItems: "center" }}>{n.icon}</span>
               <div>
                 <div style={{ fontSize: 12, color: C.white, fontWeight: 500 }}>{n.text}</div>
                 <div style={{ fontSize: 11, color: C.textDim, marginTop: 2 }}>{n.sub}</div>

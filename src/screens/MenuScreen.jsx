@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { FONT } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useLocale } from "../locale/LocaleContext";
@@ -17,6 +17,7 @@ import MenuSidebar from "./menu/MenuSidebar";
 import MenuRightSidebar from "./menu/MenuRightSidebar";
 import MenuNotificationsModal from "./menu/MenuNotificationsModal";
 import MenuSettingsModal from "./menu/MenuSettingsModal";
+import AccountModal from "./menu/AccountModal";
 import MenuMobileView from "./menu/MenuMobileView";
 
 /**
@@ -33,19 +34,23 @@ export default function MenuScreen(props) {
   const { logout } = useAuth();
   const { locale, setLocale: setLocaleGlobal, LOCALES } = useLocale();
   const { t } = useTranslate();
-  const catMeta = makeCatMeta(t);
-  const navSpec = makeNavSpec(t);
-  const deptFilters = DEPT_FILTERS(t);
 
-  const [readNotifIds, setReadNotifIds] = useState(() => new Set(JSON.parse(localStorage.getItem("ms_readNotifs") || "[]")));
-  const [llmProvider, setLlmProvider] = useState(() => localStorage.getItem("ms_llm_provider") || "gemini");
-  const [llmKey, setLlmKey] = useState(() => localStorage.getItem("ms_llm_key") || "");
-  const [showDevSettings, setShowDevSettings] = useState(false);
-  const [heroMouse, setHeroMouse] = useState({ x: 0.5, y: 0.5, over: false });
+  const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0, over: false });
   const [searchFocused, setSearchFocused] = useState(false);
   const [theorySearchFocused, setTheorySearchFocused] = useState(false);
   const [showTutorialMenu, setShowTutorialMenu] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
   const tutorialMenuRef = useRef(null);
+  const [readNotifIds, setReadNotifIds] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem("ms_readNotifs") || "[]")); } catch { return new Set(); }
+  });
+  const [llmProvider, setLlmProvider] = useState(() => localStorage.getItem("ms_llmProvider") || "openrouter");
+  const [llmKey, setLlmKey] = useState(() => localStorage.getItem("ms_llmKey") || "");
+  const [showDevSettings, setShowDevSettings] = useState(false);
+
+  const catMeta = useMemo(() => makeCatMeta(t), [t]);
+  const navSpec = useMemo(() => makeNavSpec(t), [t]);
+  const deptFilters = useMemo(() => DEPT_FILTERS(t), [t]);
 
   useEffect(() => {
     if (!showTutorialMenu) return;
@@ -95,10 +100,16 @@ export default function MenuScreen(props) {
     readNotifIds, setReadNotifIds, llmProvider, setLlmProvider, llmKey, setLlmKey,
     showDevSettings, setShowDevSettings, heroMouse, setHeroMouse, searchFocused, setSearchFocused,
     theorySearchFocused, setTheorySearchFocused, showTutorialMenu, setShowTutorialMenu,
+    showAccount, setShowAccount,
     tutorialMenuRef, notifications, unreadCount, caseScores, openNotif, onHeroMove, onHeroLeave,
   };
 
-  if (isMobile) return <MenuMobileView {...sharedProps} />;
+  if (isMobile) return (
+    <>
+      <MenuMobileView {...sharedProps} />
+      <AccountModal showAccount={showAccount} setShowAccount={setShowAccount} C={C} isMobile={true} />
+    </>
+  );
 
   return (
     <div style={{ height: "100vh", background: C.bgGrad, display: "flex", fontFamily: FONT, overflow: "hidden", position: "relative" }}>
@@ -114,6 +125,7 @@ export default function MenuScreen(props) {
         <MenuHeader {...sharedProps} />
         <MenuNotificationsModal {...sharedProps} isMobile={false} />
         <MenuSettingsModal {...sharedProps} isMobile={false} />
+        <AccountModal showAccount={showAccount} setShowAccount={setShowAccount} C={C} isMobile={false} />
 
         <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
           <div
