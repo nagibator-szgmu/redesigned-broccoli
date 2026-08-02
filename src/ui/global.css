@@ -83,12 +83,40 @@
 [data-theme="light"] .icon-btn:hover { box-shadow: 0 0 16px rgba(0,158,136,0.2) !important; }
 
 /* ── Focus rings ── */
-input:focus, textarea:focus, select:focus {
+input:not(.seamless-input):focus, textarea:focus, select:focus {
   border-color: rgba(0, 230, 200, 0.4) !important;
   box-shadow: 0 0 0 2px rgba(0, 230, 200, 0.1), 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   outline: none;
 }
-[data-theme="light"] input:focus, [data-theme="light"] textarea:focus, [data-theme="light"] select:focus {
+[data-theme="light"] input:not(.seamless-input):focus, [data-theme="light"] textarea:focus, [data-theme="light"] select:focus {
   border-color: rgba(0, 158, 136, 0.4) !important;
   box-shadow: 0 0 0 2px rgba(0, 158, 136, 0.1), 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── Seamless inputs inside custom search containers ── */
+.seamless-input,
+.seamless-input:focus,
+.seamless-input:active {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background: transparent !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Hide WebKit native search decorations & autofill backgrounds */
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #0b0f19 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #00e5a0 !important;
 }

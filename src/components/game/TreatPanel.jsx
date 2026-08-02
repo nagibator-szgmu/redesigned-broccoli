@@ -86,6 +86,7 @@ export default function TreatPanel({
       }}>
         <span style={{ fontSize: 14, color: C.textDim }}>🔍</span>
         <input
+          className="seamless-input"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

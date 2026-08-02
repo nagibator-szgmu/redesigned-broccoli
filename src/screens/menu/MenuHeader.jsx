@@ -67,6 +67,7 @@ export default function MenuHeader({
       >
         <span style={{ color: C.textDim, fontSize: 14 }}>🔍</span>
         <input
+          className="seamless-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setTheorySearchFocused(true)}

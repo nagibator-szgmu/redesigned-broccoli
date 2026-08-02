@@ -67,7 +67,7 @@ export default function MenuMobileView(props) {
       <div style={{ padding: "12px 16px 6px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, background: C.panel, border: `1px solid ${searchFocused ? `${C.accent}55` : C.border}`, boxShadow: searchFocused ? `0 0 16px -2px ${C.accent}15, 0 4px 20px rgba(0,0,0,0.3)` : "none", borderRadius: 12, padding: "8px 12px", marginBottom: 20, transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
           <span style={{ fontSize: 14 }}>🔍</span>
-          <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} placeholder={t("search.placeholder")} style={{ background: "transparent", border: "none", outline: "none", color: C.white, fontSize: 13, fontFamily: FONT, flex: 1, caretColor: C.accent }} />
+          <input className="seamless-input" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} placeholder={t("search.placeholder")} style={{ background: "transparent", border: "none", outline: "none", color: C.white, fontSize: 13, fontFamily: FONT, flex: 1, caretColor: C.accent }} />
           {searchQuery && <span onClick={() => setSearchQuery("")} style={{ fontSize: 11, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>}
         </div>
       </div>

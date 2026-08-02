@@ -43,6 +43,7 @@ export default function DiagFilterBar({
         }}>
           <span style={{ fontSize: 14, color: C.textDim }}>🔍</span>
           <input
+            className="seamless-input"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
