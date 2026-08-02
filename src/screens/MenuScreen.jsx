@@ -116,7 +116,21 @@ export default function MenuScreen(props) {
         <MenuSettingsModal {...sharedProps} isMobile={false} />
 
         <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
-          <div style={{ flex: 1, overflowY: "auto", padding: "26px 24px 40px" }}>
+          <div
+            style={{
+              flex: 1,
+              overflowY: "auto",
+              padding: "26px 24px 40px",
+              transition: "background 0.5s ease-in-out",
+              background: {
+                all: "radial-gradient(circle at 30% 20%, rgba(0,230,200,0.06) 0%, transparent 60%), radial-gradient(circle at 70% 80%, rgba(0,120,200,0.06) 0%, transparent 60%)",
+                icu: "radial-gradient(circle at 20% 30%, rgba(255,61,90,0.12) 0%, transparent 55%), radial-gradient(circle at 80% 70%, rgba(0,230,200,0.08) 0%, transparent 65%)",
+                admission: "radial-gradient(circle at 30% 25%, rgba(157,111,245,0.12) 0%, transparent 60%), radial-gradient(circle at 75% 75%, rgba(0,180,216,0.08) 0%, transparent 60%)",
+                outpatient: "radial-gradient(circle at 25% 20%, rgba(0,230,160,0.12) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(0,200,200,0.08) 0%, transparent 60%)",
+                stationary: "radial-gradient(circle at 30% 20%, rgba(245,200,66,0.1) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(245,124,66,0.08) 0%, transparent 60%)",
+              }[department] || "transparent",
+            }}
+          >
             <CaseExplorerBar {...sharedProps} />
             <MenuHero {...sharedProps} />
             <CaseGrid {...sharedProps} cases={visible} />

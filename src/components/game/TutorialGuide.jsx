@@ -80,7 +80,7 @@ function TooltipCard({ children, accent }) {
   return (
     <div style={{
       position: "fixed", bottom: 60, left: "50%", transform: "translateX(-50%)",
-      zIndex: 99999, maxWidth: 400, width: "90%",
+      zIndex: 1000000, maxWidth: 400, width: "90%",
       background: "rgba(18,28,43,0.97)", border: `1px solid ${accent}44`,
       borderRadius: 12, padding: "16px 18px",
       boxShadow: `0 12px 40px rgba(0,0,0,0.6), 0 0 20px ${accent}22`, fontFamily: FONT,

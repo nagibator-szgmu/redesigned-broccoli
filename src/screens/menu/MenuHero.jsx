@@ -58,10 +58,42 @@ export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame
           <div style={{ fontSize: 13, color: C.heroText, fontFamily: FONT, marginBottom: 20, lineHeight: 1.6 }}>{t("hero.desc1")}<br />{t("hero.desc2")}</div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <button className="start-btn" onClick={startGame} style={{ background: C.accent, border: "none", borderRadius: 10, padding: "11px 26px", fontSize: 14, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3, boxShadow: `0 4px 16px rgba(0,230,200,0.3)` }}>{t("hero.start")}</button>
-            <button onClick={() => { setProgressionMode("strict"); setPhase("theory"); }} style={{ background: "transparent", border: `1.5px solid ${C.accent}`, borderRadius: 10, padding: "9px 24px", fontSize: 14, fontWeight: 700, color: C.accent, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3 }}>{t("nav.course")}</button>
+            <button
+              title={t("hero.tooltipCourse") || "Интерактивный учебный курс: отработка кейсов от простых к сложным"}
+              className="med-btn"
+              onClick={() => { setProgressionMode("strict"); setPhase("theory"); }}
+              style={{ background: "transparent", border: `1.5px solid ${C.accent}`, borderRadius: 10, padding: "9px 24px", fontSize: 14, fontWeight: 700, color: C.accent, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3 }}
+            >
+              {t("nav.course")}
+            </button>
             <div style={{ display: "flex", gap: 8 }}>
-              {t("hero.tags").map((tag) => (
-                <span key={tag} style={{ background: C.heroTagBg, border: `1px solid ${C.heroTagBorder}`, borderRadius: 20, padding: "4px 11px", fontSize: 11, color: C.heroTagText, fontFamily: FONT }}>{tag}</span>
+              {[
+                { tag: t("hero.tags")[0] || "Анализы", tip: "Лабораторная (ОАК, биохимия) и инструментальная (ЭКГ, КТ, УЗИ) диагностика" },
+                { tag: t("hero.tags")[1] || "Диагноз", tip: "Постановка точного клинического диагноза по МКБ-10 и дифференциальный диагноз" },
+                { tag: t("hero.tags")[2] || "Лечение", tip: "Экстренная фармакотерапия, капельницы, ИВЛ и реанимационные мероприятия" },
+              ].map(({ tag, tip }) => (
+                <span
+                  key={tag}
+                  title={tip}
+                  className="filter-pill"
+                  style={{
+                    background: C.heroTagBg,
+                    border: `1px solid ${C.heroTagBorder}`,
+                    borderRadius: 20,
+                    padding: "6px 14px",
+                    fontSize: 11,
+                    fontWeight: 500,
+                    color: C.heroTagText,
+                    fontFamily: FONT,
+                    cursor: "help",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 5,
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  {tag}
+                </span>
               ))}
             </div>
           </div>

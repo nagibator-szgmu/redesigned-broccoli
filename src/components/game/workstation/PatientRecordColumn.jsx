@@ -4,6 +4,7 @@ import { FONT } from "../../../ui/theme";
 import { useTranslate } from "../../../locale/useTranslate";
 import { STitle, ResultCard } from "../../../ui/components";
 import HistoryPanel from "../HistoryPanel";
+import { IconUser } from "../../../ui/icons";
 
 /** Left column: Patient demographics, history, test results & active interventions */
 export default function PatientRecordColumn({
@@ -51,9 +52,8 @@ export default function PatientRecordColumn({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 18
             }}>
-              {cd?.gender === "М" ? "👨" : "👩"}
+              <IconUser size={18} color={sevColor} />
             </div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT, lineHeight: 1.2 }}>

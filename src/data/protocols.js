@@ -1,7 +1,7 @@
 export const PROTOCOLS = {
   bls: {
     id:"bls", name:"BLS — Базовая сердечно-лёгочная реанимация",
-    icon:"💓", color:"#ff3d5a",
+    iconKey:"cardiac", color:"#ff3d5a",
     source:"AHA 2020 / Приказ МЗ РФ №901н",
     sections:[
       {title:"Признаки остановки кровообращения",content:"Потеря сознания (нет реакции на окрик и болевой раздражитель). Апноэ или аномальное дыхание (агональное). Пульс на сонных артериях не определяется (не более 10 сек)."},
@@ -15,7 +15,7 @@ export const PROTOCOLS = {
   },
   acls: {
     id:"acls", name:"ACLS — Расширенная сердечно-лёгочная реанимация",
-    icon:"🫀", color:"#ff3d5a",
+    iconKey:"cardiac", color:"#ff3d5a",
     source:"AHA 2020 / ERC Guidelines",
     sections:[
       {title:"Алгоритм ACLS при ФЖ/БТС",content:"1. СЛР 2 мин + дефибрилляция.\n2. Адреналин 1 мг в/в каждые 3-5 мин (при рефрактерной ФЖ).\n3. Амиодарон 300 мг в/в болюсно (при рефрактерной ФЖ), повтор 150 мг.\n4. Магния сульфат 1-2 г в/в при Torsades de Pointes."},
@@ -29,7 +29,7 @@ export const PROTOCOLS = {
   },
   atls: {
     id:"atls", name:"ATLS — Алгоритм первичной оценки травмы",
-    icon:"🔪", color:"#f57c42",
+    iconKey:"abdominal", color:"#f57c42",
     source:"ACS ATLS 10th Ed / Клинические рекомендации МЗ РФ",
     sections:[
       {title:"A — Airway (Дыхательные пути)",content:"Оценка проходимости с иммобилизацией шейного отдела. Методика jaw thrust (не head tilt при травме). При обструкции — коникотомия или интубация."},
@@ -43,7 +43,7 @@ export const PROTOCOLS = {
   },
   sepsis: {
     id:"sepsis", name:"Sepsis-3 / Surviving Sepsis Campaign",
-    icon:"🦠", color:"#f57c42",
+    iconKey:"infectious", color:"#f57c42",
     source:"SSC Guidelines 2021 / Sepsis-3 Definition",
     sections:[
       {title:"Определение (Sepsis-3)",content:"Сепсис — это life-threatening organ dysfunction caused by a dysregulated host response to infection. SOFA ≥2 = органная дисфункция. qSOFA ≥2 = скрининг (ЧД ≥22, изменение сознания, САД ≤100)."},
@@ -57,7 +57,7 @@ export const PROTOCOLS = {
   },
   stroke: {
     id:"stroke", name:"Инсульт — алгоритм экстренной помощи",
-    icon:"🧠", color:"#9d6ff5",
+    iconKey:"neuro", color:"#9d6ff5",
     source:"AHA/ASA 2019 / Клинические рекомендации РАН",
     sections:[
       {title:"Оценка (NIHSS + время)",content:"NIHSS — шкала тяжести инсульта (0-42 балла). Время от начала симптомов — критично. Ишемический: окно тромболизиса до 4.5 ч, окно тромбэкстракции до 24 ч (по КТ-перфузии). Геморрагический: экстренное нейрохирургическое вмешательство."},

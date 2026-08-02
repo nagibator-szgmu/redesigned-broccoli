@@ -94,7 +94,7 @@ export default function MenuHeader({
       <div style={{ flex: 1 }} />
       <div
         onClick={openNotif}
-        className="icon-btn"
+        className="icon-btn ring-on-hover"
         style={{
           position: "relative",
           width: 38,
@@ -118,7 +118,7 @@ export default function MenuHeader({
           setShowSettings((v) => !v);
           setShowNotif(false);
         }}
-        className="icon-btn"
+        className="icon-btn spin-on-hover"
         style={{
           width: 38,
           height: 38,

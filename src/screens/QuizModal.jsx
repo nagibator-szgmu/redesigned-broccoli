@@ -4,6 +4,7 @@ import { FONT, CODE } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import useIsMobile from "../hooks/useIsMobile";
 import { getQuizForTopic, PASS_THRESHOLD } from "../data/quiz";
+import { IconHospital, IconBook, IconCheck } from "../ui/icons";
 
 export default function QuizModal({ topicId, onClose, onResult }) {
   const C = useTheme();
@@ -49,11 +50,21 @@ export default function QuizModal({ topicId, onClose, onResult }) {
   ).length;
   const passed = correctCount >= quiz.passingScore;
 
-  const typeLabel = q.type === "clinical" ? "🏥 Клинический кейс" : "📝 Вопрос";
+  const typeLabel = q.type === "clinical" ? (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      <IconHospital size={14} color={C.accent} /> Клинический кейс
+    </span>
+  ) : (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      <IconBook size={14} color={C.accent} /> Вопрос
+    </span>
+  );
 
   const content = showResult ? (
     <div style={{ textAlign: "center", padding: isMobile ? "30px 20px" : "40px 32px" }}>
-      <div style={{ fontSize: 56, marginBottom: 12 }}>{passed ? "🎉" : "📖"}</div>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+        {passed ? <IconCheck size={48} color={C.green} /> : <IconBook size={48} color={C.yellow} />}
+      </div>
       <div
         style={{
           fontSize: 48,

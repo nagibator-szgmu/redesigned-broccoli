@@ -16,6 +16,19 @@
 @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 @keyframes glowPulse { 0%,100% { opacity:0.5; } 50% { opacity:1; } }
+@keyframes spinGear { from { transform: rotate(0deg); } to { transform: rotate(180deg); } }
+@keyframes ringBell {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(12deg); }
+  30% { transform: rotate(-10deg); }
+  45% { transform: rotate(8deg); }
+  60% { transform: rotate(-6deg); }
+  75% { transform: rotate(4deg); }
+  100% { transform: rotate(0); }
+}
+
+.spin-on-hover:hover svg { animation: spinGear 0.5s cubic-bezier(0.16,1,0.3,1); }
+.ring-on-hover:hover svg { animation: ringBell 0.6s ease-in-out; }
 
 /* ── Buttons (Btn component) ── */
 .med-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }

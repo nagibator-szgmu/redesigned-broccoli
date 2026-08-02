@@ -1,32 +1,32 @@
 export const CERTIFICATE_THRESHOLDS = [
-  {id:"first_case",cases:1,icon:"🎓",title:"Первый шаг",desc:"Завершите первый клинический случай",color:"#00e6c8"},
-  {id:"five_cases",cases:5,icon:"⭐",title:"Начинающий врач",desc:"Завершите 5 клинических случаев",color:"#00e5a0"},
-  {id:"ten_cases",cases:10,icon:"🌟",title:"Опытный клиницист",desc:"Завершите 10 клинических случаев",color:"#f5c842"},
-  {id:"twenty_cases",cases:20,icon:"🏆",title:"Мастер диагностики",desc:"Завершите 20 клинических случаев",color:"#f57c42"},
-  {id:"all_cases",cases:40,icon:"👑",title:"Полное покрытие",desc:"Завершите все 40 клинических случаев",color:"#ff3d5a"},
+  {id:"first_case",cases:1,iconKey:"graduationCap",title:"Первый шаг",desc:"Завершите первый клинический случай",color:"#00e6c8"},
+  {id:"five_cases",cases:5,iconKey:"target",title:"Начинающий врач",desc:"Завершите 5 клинических случаев",color:"#00e5a0"},
+  {id:"ten_cases",cases:10,iconKey:"trophy",title:"Опытный клиницист",desc:"Завершите 10 клинических случаев",color:"#f5c842"},
+  {id:"twenty_cases",cases:20,iconKey:"trophy",title:"Мастер диагностики",desc:"Завершите 20 клинических случаев",color:"#f57c42"},
+  {id:"all_cases",cases:40,iconKey:"trophy",title:"Полное покрытие",desc:"Завершите все 40 клинических случаев",color:"#ff3d5a"},
 ];
 
 export const SCORE_THRESHOLDS = [
-  {id:"first_perfect",minScore:95,icon:"💎",title:"Перфекционист",desc:"Наберите 95+ баллов в одном случае",color:"#f5c842"},
-  {id:"streak_3",consecutiveGood:3,icon:"🔥",title:"Серия успехов",desc:"3 случая подряд с оценкой «Хорошо» или выше",color:"#f57c42"},
-  {id:"streak_5",consecutiveGood:5,icon:"⚡",title:"Безупречная серия",desc:"5 случаев подряд с оценкой «Хорошо» или выше",color:"#ff3d5a"},
+  {id:"first_perfect",minScore:95,iconKey:"sparkles",title:"Перфекционист",desc:"Наберите 95+ баллов в одном случае",color:"#f5c842"},
+  {id:"streak_3",consecutiveGood:3,iconKey:"pulse",title:"Серия успехов",desc:"3 случая подряд с оценкой «Хорошо» или выше",color:"#f57c42"},
+  {id:"streak_5",consecutiveGood:5,iconKey:"pulse",title:"Безупречная серия",desc:"5 случаев подряд с оценкой «Хорошо» или выше",color:"#ff3d5a"},
 ];
 
 export const MODE_CERTIFICATES = [
-  {id:"all_excellent",icon:"🌟",title:"Все на отлично",desc:"Завершите все 40 случаев с оценкой «Отлично»",color:"#f5c842",
+  {id:"all_excellent",iconKey:"trophy",title:"Все на отлично",desc:"Завершите все 40 случаев с оценкой «Отлично»",color:"#f5c842",
     check:(h)=>h.length>=40&&h.every(s=>s.gradeId==="excellent")},
-  {id:"stress_master",icon:"💀",title:"Мастер стресса",desc:"Завершите 5 случаев в стресс-режиме",color:"#ff3d5a",
+  {id:"stress_master",iconKey:"warning",title:"Мастер стресса",desc:"Завершите 5 случаев в стресс-режиме",color:"#ff3d5a",
     check:(h)=>h.filter(s=>s.gameMode==="stress").length>=5},
 ];
 
 export const SPEC_CERTIFICATES = [
-  {id:"cardiac_master",category:"cardiac",required:5,icon:"❤️",title:"Кардиолог",desc:"Завершите 5 случаев по кардиологии",color:"#ff3d5a"},
-  {id:"neuro_master",category:"neuro",required:5,icon:"🧠",title:"Невролог",desc:"Завершите 5 случаев по неврологии",color:"#9d6ff5"},
-  {id:"resp_master",category:"respiratory",required:5,icon:"🫁",title:"Пульмонолог",desc:"Завершите 5 случаев по пульмонологии",color:"#00e5a0"},
-  {id:"infect_master",category:"infectious",required:3,icon:"🦠",title:"Инфекционист",desc:"Завершите 3 случая по инфекционным болезням",color:"#f57c42"},
-  {id:"endo_master",category:"endocrine",required:3,icon:"⚗️",title:"Эндокринолог",desc:"Завершите 3 случая по эндокринологии",color:"#f5c842"},
-  {id:"tox_master",category:"toxicology",required:3,icon:"☠️",title:"Токсиколог",desc:"Завершите 3 случая по токсикологии",color:"#f57c42"},
-  {id:"surg_master",category:"abdominal",required:3,icon:"🔬",title:"Хирург",desc:"Завершите 3 случая по хирургии",color:"#00e6c8"},
+  {id:"cardiac_master",category:"cardiac",required:5,iconKey:"cardiac",title:"Кардиолог",desc:"Завершите 5 случаев по кардиологии",color:"#ff3d5a"},
+  {id:"neuro_master",category:"neuro",required:5,iconKey:"neuro",title:"Невролог",desc:"Завершите 5 случаев по неврологии",color:"#9d6ff5"},
+  {id:"resp_master",category:"respiratory",required:5,iconKey:"respiratory",title:"Пульмонолог",desc:"Завершите 5 случаев по пульмонологии",color:"#00e5a0"},
+  {id:"infect_master",category:"infectious",required:3,iconKey:"infectious",title:"Инфекционист",desc:"Завершите 3 случая по инфекционным болезням",color:"#f57c42"},
+  {id:"endo_master",category:"endocrine",required:3,iconKey:"endocrine",title:"Эндокринолог",desc:"Завершите 3 случая по эндокринологии",color:"#f5c842"},
+  {id:"tox_master",category:"toxicology",required:3,iconKey:"toxicology",title:"Токсиколог",desc:"Завершите 3 случая по токсикологии",color:"#f57c42"},
+  {id:"surg_master",category:"abdominal",required:3,iconKey:"abdominal",title:"Хирург",desc:"Завершите 3 случая по хирургии",color:"#00e6c8"},
 ];
 
 export function computeEarnedCertificates(sessionHistory) {

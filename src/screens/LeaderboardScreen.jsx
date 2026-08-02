@@ -4,12 +4,21 @@ import { useTranslate } from "../locale/useTranslate";
 import { CASES } from "../data/cases";
 import { TOPICS } from "../data/topics";
 import useIsMobile from "../hooks/useIsMobile";
+import { HeaderBackBtn } from "../ui/components";
+import {
+  IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
+  IconEndocrine, IconToxicology, IconAbdominal, IconTrophy,
+  IconGraduationCap, IconStethoscope, IconTarget
+} from "../ui/icons";
 
 const CAT_META = {
-  cardiac:{icon:"❤️",color:"#ff3d5a"},neuro:{icon:"🧠",color:"#9d6ff5"},
-  respiratory:{icon:"🫁",color:"#00e5a0"},infectious:{icon:"🦠",color:"#f57c42"},
-  endocrine:{icon:"⚗️",color:"#f5c842"},toxicology:{icon:"☠️",color:"#f57c42"},
-  abdominal:{icon:"🔬",color:"#00e6c8"},
+  cardiac:{icon:<IconCardiac size={18} color="#ff3d5a" />,color:"#ff3d5a"},
+  neuro:{icon:<IconNeuro size={18} color="#9d6ff5" />,color:"#9d6ff5"},
+  respiratory:{icon:<IconRespiratory size={18} color="#00e5a0" />,color:"#00e5a0"},
+  infectious:{icon:<IconInfectious size={18} color="#f57c42" />,color:"#f57c42"},
+  endocrine:{icon:<IconEndocrine size={18} color="#f5c842" />,color:"#f5c842"},
+  toxicology:{icon:<IconToxicology size={18} color="#f57c42" />,color:"#f57c42"},
+  abdominal:{icon:<IconAbdominal size={18} color="#00e6c8" />,color:"#00e6c8"},
 };
 
 function aggregateStats(history) {
@@ -28,11 +37,11 @@ function aggregateStats(history) {
 function getGlobalRank(history) {
   if (history.length === 0) return null;
   const avg = history.reduce((a,s) => a + s.score, 0) / history.length;
-  if (avg >= 90) return { title:"Элита",icon:"👑",color:"#f5c842" };
-  if (avg >= 75) return { title:"Опытный врач",icon:"🩺",color:"#00e6c8" };
-  if (avg >= 60) return { title:"Ординатор",icon:"📋",color:"#00e5a0" };
-  if (avg >= 40) return { title:"Интерн",icon:"📖",color:"#f57c42" };
-  return { title:"Стажёр",icon:"🎓",color:"#ff3d5a" };
+  if (avg >= 90) return { title:"Элита",icon:<IconTrophy size={20} color="#f5c842" />,color:"#f5c842" };
+  if (avg >= 75) return { title:"Опытный врач",icon:<IconStethoscope size={20} color="#00e6c8" />,color:"#00e6c8" };
+  if (avg >= 60) return { title:"Ординатор",icon:<IconTarget size={20} color="#00e5a0" />,color:"#00e5a0" };
+  if (avg >= 40) return { title:"Интерн",icon:<IconGraduationCap size={20} color="#f57c42" />,color:"#f57c42" };
+  return { title:"Стажёр",icon:<IconGraduationCap size={20} color="#ff3d5a" />,color:"#ff3d5a" };
 }
 
 export default function LeaderboardScreen({ setPhase, sessionHistory }) {
@@ -58,7 +67,7 @@ export default function LeaderboardScreen({ setPhase, sessionHistory }) {
         </div>
         <span style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT}}>🏆 Достижения</span>
         <div style={{flex:1}}/>
-        <div onClick={()=>setPhase("menu")} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"4px 10px",borderRadius:6,background:C.btnBg}}>← Меню</div>
+        <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
       <div style={{padding:"14px 14px 80px"}}>
         {renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, catStats, topCases, uniqueCases, t, true, sessionHistory)}
@@ -76,7 +85,7 @@ export default function LeaderboardScreen({ setPhase, sessionHistory }) {
         <div style={{width:1,height:18,background:C.border}}/>
         <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>🏆 Достижения</span>
         <div style={{flex:1}}/>
-        <div onClick={()=>setPhase("menu")} style={{fontSize:12,color:C.textDim,cursor:"pointer",padding:"7px 16px",borderRadius:8,background:C.btnBg,border:`1px solid ${C.border}`}}>← Меню</div>
+        <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
       <div style={{maxWidth:900,margin:"0 auto",padding:"24px 20px 80px"}}>
         {renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, catStats, topCases, uniqueCases, t, false, sessionHistory)}

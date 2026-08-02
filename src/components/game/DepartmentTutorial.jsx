@@ -36,13 +36,13 @@ export default function DepartmentTutorial({ dept, onClose }) {
 
   return createPortal(
     <>
-      <div style={{ position: "fixed", inset: 0, zIndex: 99998, background: "rgba(0,0,0,0.5)" }} onClick={onClose} />
+      <div style={{ position: "fixed", inset: 0, zIndex: 999999, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} onClick={onClose} />
       <div style={{
         position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-        zIndex: 99999, maxWidth: 420, width: "90%",
-        background: C.panel, border: `1px solid ${C.accent}33`,
-        borderRadius: 16, padding: "20px 24px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
+        zIndex: 1000000, maxWidth: 460, width: "90%",
+        background: C.overlayBg, border: `1px solid ${C.accent}66`,
+        borderRadius: 16, padding: "24px 26px",
+        boxShadow: "0 24px 72px rgba(0,0,0,0.85), 0 0 0 1px rgba(0,230,200,0.1)",
         fontFamily: FONT,
       }}>
         <div style={{ fontSize: 13, color: C.accent, fontWeight: 700, marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>

@@ -24,6 +24,24 @@ export default function MenuSettingsModal({
           <span onClick={() => setShowSettings(false)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
         </div>
 
+        {/* Account Profile Card */}
+        <div style={{ background: "rgba(0,230,200,0.06)", border: "1px solid rgba(0,230,200,0.15)", borderRadius: 12, padding: "10px 12px", marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 36, height: 36, borderRadius: "50%", background: `linear-gradient(135deg, ${C.accent}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", color: C.bg, fontWeight: 700, fontSize: 14 }}>
+            С
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: C.white, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              Студент-Медик
+            </div>
+            <div style={{ fontSize: 10, color: C.accent, opacity: 0.8 }}>
+              Пользовательский аккаунт
+            </div>
+          </div>
+          <div style={{ fontSize: 10, background: `${C.accent}20`, border: `1px solid ${C.accent}40`, borderRadius: 6, padding: "2px 6px", color: C.accent, fontWeight: 600 }}>
+            Студент
+          </div>
+        </div>
+
         {/* Difficulty */}
         <div style={{ marginBottom: 14 }}>
           <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.difficulty")}</div>

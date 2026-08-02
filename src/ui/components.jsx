@@ -9,10 +9,39 @@ export const STitle = ({ icon, label, color: colorProp }) => {
   const color = colorProp ?? C.accent;
   return (
     <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
-      <span style={{fontSize:15}}>{icon}</span>
+      <span style={{fontSize:15, display: "inline-flex", alignItems: "center"}}>{icon}</span>
       <span style={{fontFamily:FONT,fontSize:11,letterSpacing:1,color,textTransform:"uppercase",fontWeight:600}}>{label}</span>
       <div style={{flex:1,height:1,background:`linear-gradient(90deg,${color}55,transparent)`}}/>
     </div>
+  );
+};
+
+export const HeaderBackBtn = ({ onClick, label = "В главное меню" }) => {
+  const C = useTheme();
+  return (
+    <button
+      onClick={onClick}
+      className="icon-btn"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        background: C.btnBg,
+        border: `1px solid ${C.border}`,
+        borderRadius: 12,
+        padding: "8px 16px",
+        fontFamily: FONT,
+        fontSize: 12,
+        fontWeight: 600,
+        color: C.accent,
+        cursor: "pointer",
+        transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+        boxShadow: "0 2px 10px rgba(0,0,0,0.25)"
+      }}
+    >
+      <span style={{ fontSize: 14, lineHeight: 1 }}>←</span>
+      <span>{label}</span>
+    </button>
   );
 };
 
