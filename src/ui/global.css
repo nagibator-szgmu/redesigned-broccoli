@@ -4,7 +4,7 @@
 }
 
 html, body {
-  background-color: #0b0f19;
+  background-color: #121316;
   color-scheme: dark;
   margin: 0;
   padding: 0;
@@ -49,14 +49,14 @@ html[data-theme="light"],
 /* ── Scrollbars ── */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 230, 200, 0.15) transparent;
+  scrollbar-color: rgba(229, 169, 82, 0.20) transparent;
 }
 [data-theme="light"] * {
   scrollbar-color: rgba(0, 71, 171, 0.2) transparent;
 }
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,230,200,0.15); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(229, 169, 82, 0.20); border-radius: 4px; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,71,171,0.25); }
 
 /* ── Keyframes ── */
