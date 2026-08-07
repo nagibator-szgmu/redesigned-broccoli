@@ -116,8 +116,8 @@ export default function MenuScreen(props) {
     <div style={{ height: "100vh", background: C.bgGrad, display: "flex", fontFamily: FONT, overflow: "hidden", position: "relative" }}>
       <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}} @keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}`}</style>
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
-        <div style={{ position: "absolute", left: "-10%", top: "-5%", width: 600, height: 600, background: "radial-gradient(circle,rgba(0,230,200,0.07) 0%,transparent 65%)", borderRadius: "50%" }} />
-        <div style={{ position: "absolute", right: "-5%", bottom: "-10%", width: 500, height: 500, background: "radial-gradient(circle,rgba(0,100,200,0.08) 0%,transparent 65%)", borderRadius: "50%" }} />
+        <div style={{ position: "absolute", left: "-10%", top: "-5%", width: 600, height: 600, background: `radial-gradient(circle, ${C.accent}10 0%, transparent 65%)`, borderRadius: "50%" }} />
+        <div style={{ position: "absolute", right: "-5%", bottom: "-10%", width: 500, height: 500, background: `radial-gradient(circle, ${C.yellow}08 0%, transparent 65%)`, borderRadius: "50%" }} />
       </div>
 
       <MenuSidebar {...sharedProps} />
@@ -136,11 +136,11 @@ export default function MenuScreen(props) {
               padding: "26px 24px 40px",
               transition: "background 0.5s ease-in-out",
               background: {
-                all: "radial-gradient(circle at 30% 20%, rgba(0,230,200,0.06) 0%, transparent 60%), radial-gradient(circle at 70% 80%, rgba(0,120,200,0.06) 0%, transparent 60%)",
-                icu: "radial-gradient(circle at 20% 30%, rgba(255,61,90,0.12) 0%, transparent 55%), radial-gradient(circle at 80% 70%, rgba(0,230,200,0.08) 0%, transparent 65%)",
-                admission: "radial-gradient(circle at 30% 25%, rgba(157,111,245,0.12) 0%, transparent 60%), radial-gradient(circle at 75% 75%, rgba(0,180,216,0.08) 0%, transparent 60%)",
-                outpatient: "radial-gradient(circle at 25% 20%, rgba(0,230,160,0.12) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(0,200,200,0.08) 0%, transparent 60%)",
-                stationary: "radial-gradient(circle at 30% 20%, rgba(245,200,66,0.1) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(245,124,66,0.08) 0%, transparent 60%)",
+                all: `radial-gradient(circle at 30% 20%, ${C.accent}0c 0%, transparent 60%), radial-gradient(circle at 70% 80%, ${C.yellow}08 0%, transparent 60%)`,
+                icu: "radial-gradient(circle at 20% 30%, rgba(255,61,90,0.12) 0%, transparent 55%), radial-gradient(circle at 80% 70%, rgba(229,169,82,0.08) 0%, transparent 65%)",
+                admission: "radial-gradient(circle at 30% 25%, rgba(157,111,245,0.12) 0%, transparent 60%), radial-gradient(circle at 75% 75%, rgba(229,169,82,0.08) 0%, transparent 60%)",
+                outpatient: "radial-gradient(circle at 25% 20%, rgba(52,211,153,0.12) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(229,169,82,0.08) 0%, transparent 60%)",
+                stationary: "radial-gradient(circle at 30% 20%, rgba(245,158,11,0.1) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(251,146,60,0.08) 0%, transparent 60%)",
               }[department] || "transparent",
             }}
           >
