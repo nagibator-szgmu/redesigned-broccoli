@@ -57,12 +57,14 @@ export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame
           <div key={theme} style={{ fontSize: 40, fontWeight: 700, fontFamily: SER, fontStyle: "italic", lineHeight: 1.15, background: C.heroTitleGrad, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", marginBottom: 12 }}>{t("brand.name")}</div>
           <div style={{ fontSize: 13, color: C.heroText, fontFamily: FONT, marginBottom: 20, lineHeight: 1.6 }}>{t("hero.desc1")} {t("hero.desc2")}</div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <button className="start-btn" onClick={startGame} style={{ background: C.accent, border: "none", borderRadius: 10, padding: "11px 26px", fontSize: 14, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3, boxShadow: `0 4px 16px rgba(0,230,200,0.3)` }}>{t("hero.start")}</button>
+            <button className="start-btn" onClick={startGame} style={{ background: "#FFFFFF", border: "none", borderRadius: 10, padding: "11px 26px", fontSize: 14, fontWeight: 800, color: "#002B66", cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3, boxShadow: "0 6px 20px rgba(0,0,0,0.28)" }}>
+              {t("hero.start")}
+            </button>
             <button
               title={t("hero.tooltipCourse") || "Интерактивный учебный курс: отработка кейсов от простых к сложным"}
               className="med-btn"
               onClick={() => { setProgressionMode("strict"); setPhase("theory"); }}
-              style={{ background: "transparent", border: `1.5px solid ${C.accent}`, borderRadius: 10, padding: "9px 24px", fontSize: 14, fontWeight: 700, color: C.accent, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3 }}
+              style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.5)", borderRadius: 10, padding: "9px 24px", fontSize: 14, fontWeight: 700, color: "#FFFFFF", cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3, backdropFilter: "blur(8px)" }}
             >
               {t("nav.course")}
             </button>
@@ -77,13 +79,13 @@ export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame
                   title={tip}
                   className="filter-pill"
                   style={{
-                    background: C.heroTagBg,
-                    border: `1px solid ${C.heroTagBorder}`,
+                    background: "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.28)",
                     borderRadius: 20,
                     padding: "6px 14px",
                     fontSize: 11,
-                    fontWeight: 500,
-                    color: C.heroTagText,
+                    fontWeight: 600,
+                    color: "#FFFFFF",
                     fontFamily: FONT,
                     cursor: "help",
                     display: "inline-flex",
