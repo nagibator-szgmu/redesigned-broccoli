@@ -1,4 +1,4 @@
-import { FONT } from "../../ui/theme";
+import { FONT, SER } from "../../ui/theme";
 
 /**
  * MenuHero component for desktop hero banner card.
@@ -54,8 +54,8 @@ export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame
 
         <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", padding: "24px 38px", maxWidth: "62%", zIndex: 1 }}>
           <div style={{ fontSize: 10, color: C.heroLabel, letterSpacing: 5, textTransform: "uppercase", marginBottom: 10, fontFamily: FONT, fontWeight: 600 }}>{t("brand.tagline")}</div>
-          <div key={theme} style={{ fontSize: 42, fontWeight: 700, fontFamily: "Georgia,serif", fontStyle: "italic", lineHeight: 1.1, background: C.heroTitleGrad, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", marginBottom: 12 }}>{t("brand.name")}</div>
-          <div style={{ fontSize: 13, color: C.heroText, fontFamily: FONT, marginBottom: 20, lineHeight: 1.6 }}>{t("hero.desc1")}<br />{t("hero.desc2")}</div>
+          <div key={theme} style={{ fontSize: 40, fontWeight: 700, fontFamily: SER, fontStyle: "italic", lineHeight: 1.15, background: C.heroTitleGrad, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", marginBottom: 12 }}>{t("brand.name")}</div>
+          <div style={{ fontSize: 13, color: C.heroText, fontFamily: FONT, marginBottom: 20, lineHeight: 1.6 }}>{t("hero.desc1")} {t("hero.desc2")}</div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <button className="start-btn" onClick={startGame} style={{ background: C.accent, border: "none", borderRadius: 10, padding: "11px 26px", fontSize: 14, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.3, boxShadow: `0 4px 16px rgba(0,230,200,0.3)` }}>{t("hero.start")}</button>
             <button

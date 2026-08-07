@@ -1,4 +1,4 @@
-import { FONT } from "../ui/theme";
+import { FONT, RADIUS } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
 import { STitle } from "../ui/components";
@@ -7,6 +7,11 @@ import { getRelatedProtocols } from "../engine/protocols";
 import useIsMobile from "../hooks/useIsMobile";
 import ScoringBreakdown from "../components/result/ScoringBreakdown";
 import { WRONG_TREATMENT_PENALTY } from "../engine/scoring";
+import {
+  IconParty, IconPlay, IconBook, IconGear, IconStethoscope,
+  IconMicroscope, IconPill, IconAlertTriangle, IconHeart,
+  IconClock, IconBot
+} from "../ui/icons";
 import {
   ResultHeader, ScoreCard, VitalsDelta, computeVitalDeltas,
   DiagnosisBlock, OutpatientRouteResult, StationaryDaySummary,
@@ -61,53 +66,59 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
       <div style={isMobile ? { padding: "14px 14px 80px" } : { maxWidth: 900, margin: "0 auto", padding: "24px 20px 80px" }}>
         {tutorialMode && (
           <>
-            <div style={{ background: C.green + "18", border: `1px solid ${C.green}44`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 12 }}>
+            <div style={{ background: `${C.green}18`, border: `1px solid ${C.green}44`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 12 }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                <span style={{ fontSize: 22, flexShrink: 0 }}>🎉</span>
+                <IconParty size={24} color={C.green} />
                 <div>
                   <div style={{ fontSize: 13, color: C.green, fontWeight: 700, marginBottom: 6 }}>Обучение пройдено!</div>
                   <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7, marginBottom: 10 }}>
                     Вы ознакомились с основными механиками симулятора. Теперь вы готовы к самостоятельной работе.
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
-                      <span style={{ fontSize: 14 }}>▶</span> Выберите любой кейс и начните симуляцию
+                      <IconPlay size={12} color={C.accent} /> <span>Выберите любой кейс и начните симуляцию</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
-                      <span style={{ fontSize: 14 }}>📚</span> Изучайте теорию и протоколы в разделе «Теория»
+                      <IconBook size={12} color={C.accent} /> <span>Изучайте теорию и протоколы в разделе «Теория»</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
-                      <span style={{ fontSize: 14 }}>⚙️</span> В настройках доступны режимы обучения и оценки
+                      <IconGear size={12} color={C.accent} /> <span>В настройках доступны режимы обучения и оценки</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div style={{ background: C.accent + "12", border: `1px solid ${C.accent}33`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 12, display: "flex", alignItems: "flex-start", gap: 10 }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}>📖</span>
+            <div style={{ background: `${C.accent}12`, border: `1px solid ${C.accent}33`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 12, display: "flex", alignItems: "flex-start", gap: 10 }}>
+              <IconBook size={20} color={C.accent} />
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 13, color: C.accent, fontWeight: 700, marginBottom: 6 }}>Разбор случая и оценка</div>
                 <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7, marginBottom: 10 }}>
                   На этом экране показан детальный разбор вашего решения. Оценка (0–100 баллов) складывается из следующих показателей:
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: C.text, lineHeight: 1.5 }}>
-                  <div>
-                    <strong style={{ color: C.white }}>🩺 Диагноз (до 35 б.):</strong> Степень совпадения вашего диагноза с эталонным («Гипогликемия»).
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <IconStethoscope size={14} color={C.accent} />
+                    <span><strong style={{ color: C.white }}>Диагноз (до 35 б.):</strong> Степень совпадения вашего диагноза с эталонным («Гипогликемия»).</span>
                   </div>
-                  <div>
-                    <strong style={{ color: C.white }}>🔬 Исследования (до 20 б.):</strong> Пропорционально числу назначенных обязательных тестов (глюкоза и биохимия).
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <IconMicroscope size={14} color={C.accent} />
+                    <span><strong style={{ color: C.white }}>Исследования (до 20 б.):</strong> Пропорционально числу назначенных обязательных тестов (глюкоза и биохимия).</span>
                   </div>
-                  <div>
-                    <strong style={{ color: C.white }}>💊 Лечение (до 25 б.):</strong> Пропорционально числу назначенных верных препаратов (декстроза).
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <IconPill size={14} color={C.accent} />
+                    <span><strong style={{ color: C.white }}>Лечение (до 25 б.):</strong> Пропорционально числу назначенных верных препаратов (декстроза).</span>
                   </div>
-                  <div>
-                    <strong style={{ color: C.red }}>⚠️ Опасные назначения (штраф):</strong> Каждое противопоказанное лечение (например, инсулин) вычитает {WRONG_TREATMENT_PENALTY} баллов.
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <IconAlertTriangle size={14} color={C.red} />
+                    <span><strong style={{ color: C.red }}>Опасные назначения (штраф):</strong> Каждое противопоказанное лечение (например, инсулин) вычитает {WRONG_TREATMENT_PENALTY} баллов.</span>
                   </div>
-                  <div>
-                    <strong style={{ color: C.white }}>❤️ Исход (до 20 б.):</strong> Бонус за стабильное состояние пациента в конце. При гибели вычитается 20 баллов.
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <IconHeart size={14} color={C.green} />
+                    <span><strong style={{ color: C.white }}>Исход (до 20 б.):</strong> Бонус за стабильное состояние пациента в конце. При гибели вычитается 20 баллов.</span>
                   </div>
-                  <div>
-                    <strong style={{ color: C.white }}>⏱️ Время (до 15 б.):</strong> Дополнительные баллы за быстроту принятия решений в экстренных ситуациях.
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <IconClock size={14} color={C.yellow} />
+                    <span><strong style={{ color: C.white }}>Время (до 15 б.):</strong> Дополнительные баллы за быстроту принятия решений в экстренных ситуациях.</span>
                   </div>
                 </div>
               </div>
@@ -122,14 +133,14 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
         <StationaryDaySummary cd={cd} extraResult={extraResult} isMobile={isMobile} />
         <div style={{
           background: C.panel,
-          border: `1px solid ${result.aiEvaluated ? C.green + "40" : C.yellow + "40"}`,
-          borderRadius: isMobile ? 12 : 14,
+          border: `1px solid ${result.aiEvaluated ? `${C.green}40` : `${C.yellow}40`}`,
+          borderRadius: isMobile ? RADIUS.sm : RADIUS.md,
           padding: isMobile ? 14 : 16,
           marginBottom: 10
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 16 }}>🤖</span>
+              <IconBot size={18} color={C.accent} />
               <strong style={{ fontSize: 13.5, color: C.white, textTransform: "uppercase", letterSpacing: 0.5 }}>
                 ИИ-Анализ ответа
               </strong>
@@ -138,8 +149,8 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
               fontSize: 11,
               fontWeight: 700,
               padding: "2px 8px",
-              borderRadius: 6,
-              background: result.aiEvaluated ? C.green + "15" : C.yellow + "15",
+              borderRadius: RADIUS.xs,
+              background: result.aiEvaluated ? `${C.green}15` : `${C.yellow}15`,
               color: result.aiEvaluated ? C.green : C.yellow,
               border: `1px solid ${result.aiEvaluated ? C.green : C.yellow}`
             }}>
@@ -177,7 +188,7 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
         </div>
 
         {cd.debrief?.explain && (
-          <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
+          <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
             <STitle icon="🔬" label={t("result.pathophys")} color={C.accent} />
             <p style={{ color: C.text, fontSize: 13, lineHeight: isMobile ? 1.8 : 1.85, margin: 0 }}>{cd.debrief.explain}</p>
           </div>
@@ -185,12 +196,12 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
         <ChecklistBlock assessmentMode={assessmentMode} checklistItems={checklistItems} checklistDone={checklistDone} isChecklistDone={isChecklistDone} isMobile={isMobile} />
         <TestAnalysis cd={cd} orderedDiag={orderedDiag} isMobile={isMobile} />
         <TreatmentAnalysis cd={cd} selTreat={selTreat} isMobile={isMobile} />
-        <div data-tutorial="result_screen" style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 18, marginBottom: 10 }}>
+        <div data-tutorial="result_screen" style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 18, marginBottom: 10 }}>
           <STitle icon="💡" label={t("result.debrief")} color={C.accent} />
           <p style={{ color: C.text, fontSize: 13, lineHeight: 1.9, margin: 0 }}>{cd.tip}</p>
         </div>
         {cd.sourceReference && (
-          <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
+          <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
             <STitle icon="📖" label={t("sourceRef.title")} color={C.accent} />
             <div style={{ fontSize: isMobile ? 12 : 13, color: C.text, fontFamily: FONT, lineHeight: 1.6 }}>
               {t("sourceRef.label")}: <span style={{ color: C.accent, fontWeight: 600 }}>{cd.sourceReference.name}</span>

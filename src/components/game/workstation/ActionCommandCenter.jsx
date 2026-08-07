@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
 import { useTranslate } from "../../../locale/useTranslate";
+import { IconMicroscope, IconPill, IconClipboard, IconLightbulb } from "../../../ui/icons";
 import DiagTab from "./DiagTab";
 import TreatTab from "./TreatTab";
 import DiagnosisRoutingTab from "./DiagnosisRoutingTab";
@@ -41,10 +42,10 @@ export default function ActionCommandCenter({
   const [tab, setTab] = useState(initialTab);
 
   const tabs = [
-    { key: "diag", label: t("phases.order_tests"), icon: "🔬", badge: selDiag.length },
-    { key: "treat", label: t("treatment.title") || "Назначения", icon: "💊", badge: selTreat.length },
-    { key: "diagnose", label: t("phases.diagnose"), icon: "📋", badge: diagText ? 1 : 0 },
-    { key: "consult", label: t("theory.consultation") || "КР & Советы", icon: "💡" }
+    { key: "diag", label: t("phases.order_tests"), icon: <IconMicroscope size={14} color="currentColor" />, badge: selDiag.length },
+    { key: "treat", label: t("treatment.title") || "Назначения", icon: <IconPill size={14} color="currentColor" />, badge: selTreat.length },
+    { key: "diagnose", label: t("phases.diagnose"), icon: <IconClipboard size={14} color="currentColor" />, badge: diagText ? 1 : 0 },
+    { key: "consult", label: t("theory.consultation") || "КР & Советы", icon: <IconLightbulb size={14} color="currentColor" /> }
   ];
 
   return (
@@ -59,13 +60,15 @@ export default function ActionCommandCenter({
       borderRadius: 14,
       overflow: "hidden"
     }}>
-      {/* Header Tabs Navigation */}
-      <div style={{
+      {/* Header Tabs Navigation (Scrollable on narrow tablet) */}
+      <div className="no-scrollbar" style={{
         display: "flex",
         background: C.headerBg2,
         borderBottom: `1px solid ${C.border}`,
         padding: "4px 8px 0 8px",
-        gap: 4
+        gap: 4,
+        overflowX: "auto",
+        WebkitOverflowScrolling: "touch"
       }}>
         {tabs.map(tItem => {
           const isActive = tab === tItem.key;
@@ -74,8 +77,10 @@ export default function ActionCommandCenter({
               key={tItem.key}
               onClick={() => setTab(tItem.key)}
               style={{
-                flex: 1,
-                padding: "8px 10px",
+                flex: "1 0 auto",
+                minWidth: 90,
+                minHeight: 38,
+                padding: "8px 12px",
                 border: "none",
                 background: isActive ? C.panelBg : "transparent",
                 borderTopLeftRadius: 8,
@@ -98,12 +103,11 @@ export default function ActionCommandCenter({
               {tItem.badge > 0 && (
                 <span style={{
                   background: C.accent,
-                  color: "#000",
+                  color: C.bg,
                   fontSize: 10,
                   fontWeight: 700,
-                  borderRadius: 10,
-                  padding: "1px 6px",
-                  lineHeight: 1
+                  borderRadius: 9999,
+                  padding: "1px 6px"
                 }}>
                   {tItem.badge}
                 </span>

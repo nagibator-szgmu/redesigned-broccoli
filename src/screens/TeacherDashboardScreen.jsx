@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useTheme } from "../ui/ThemeContext";
 import { FONT } from "../ui/theme";
+import useIsMobile from "../hooks/useIsMobile";
 import { generateMockStudentsData } from "../engine/cognitiveAnalyzer";
 import StudentList from "../components/dashboard/StudentList";
 import ErrorHeatmap from "../components/dashboard/ErrorHeatmap";
@@ -9,6 +10,7 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 
 export default function TeacherDashboardScreen({ setPhase }) {
   const C = useTheme();
+  const isMobile = useIsMobile(768);
   const [selectedGroup, setSelectedGroup] = useState("302-Л");
   const [activeTab, setActiveTab] = useState("students");
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -59,11 +61,11 @@ export default function TeacherDashboardScreen({ setPhase }) {
 
   return (
     <div style={{
-      minHeight: "100vh",
+      minHeight: "100dvh",
       background: C.bgGrad,
       color: C.white,
       fontFamily: FONT,
-      padding: "24px 40px",
+      padding: isMobile ? "16px 12px 60px" : "24px 32px",
       boxSizing: "border-box"
     }}>
       {/* Dashboard Header and Stats Widgets */}
@@ -126,7 +128,7 @@ export default function TeacherDashboardScreen({ setPhase }) {
 
       {/* Detailed Student View */}
       {activeTab === "students" && selectedStudent && (
-        <div style={{ display: "grid", gridTemplateColumns: "350px 1fr", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "320px 1fr", gap: 16 }}>
           {/* Left panel: Attempt list */}
           <div style={{ background: C.panelBg, border: `1px solid ${C.border}`, borderRadius: 14, padding: 18, maxHeight: "70vh", overflowY: "auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>

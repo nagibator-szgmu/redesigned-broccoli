@@ -31,9 +31,11 @@ export default function MenuScreen(props) {
   } = props;
 
   const C = useTheme();
-  const { logout } = useAuth();
   const { locale, setLocale: setLocaleGlobal, LOCALES } = useLocale();
   const { t } = useTranslate();
+  const { logout } = useAuth();
+  const isMobile = useIsMobile(768);
+  const isTablet = useIsMobile(1180);
 
   const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0, over: false });
   const [searchFocused, setSearchFocused] = useState(false);
@@ -61,7 +63,6 @@ export default function MenuScreen(props) {
     return () => document.removeEventListener("mousedown", handler);
   }, [showTutorialMenu]);
 
-  const isMobile = useIsMobile();
   const notifications = buildNotifications(sessionHistory, casesPlayed, totalScore, t, catMeta);
   const unreadCount = notifications.filter((n) => !readNotifIds.has(n.id)).length;
 
@@ -147,7 +148,7 @@ export default function MenuScreen(props) {
             <MenuHero {...sharedProps} />
             <CaseGrid {...sharedProps} cases={visible} />
           </div>
-          <MenuRightSidebar {...sharedProps} />
+          {!isTablet && <MenuRightSidebar {...sharedProps} />}
         </div>
       </div>
     </div>

@@ -89,7 +89,7 @@ export default function CaseGrid({
           {searchQuery ? t("cases.emptySearch") : t("cases.emptyFilter")}
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))", gap: 14 }}>
           {displayCases.map((c, i) => (
             <CaseCard key={c.id} caseData={c} index={i} catMeta={catMeta} caseScores={caseScores} startGame={startGame} t={t} C={C} />
           ))}

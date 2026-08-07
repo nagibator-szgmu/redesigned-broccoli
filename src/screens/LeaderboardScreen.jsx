@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FONT, CODE } from "../ui/theme";
+import { FONT, CODE, SER } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
 import { CASES } from "../data/cases";
@@ -10,7 +10,8 @@ import { HeaderBackBtn } from "../ui/components";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
   IconEndocrine, IconToxicology, IconAbdominal, IconTrophy,
-  IconGraduationCap, IconStethoscope, IconTarget, IconCheck
+  IconGraduationCap, IconStethoscope, IconTarget, IconCheck,
+  IconHospital
 } from "../ui/icons";
 
 const CAT_META = {
@@ -166,9 +167,12 @@ export default function LeaderboardScreen({ setPhase, sessionHistory, initialTab
     <div style={{ position: "fixed", inset: 0, overflowY: "auto", background: C.bg, fontFamily: FONT }}>
       <div style={{ background: C.panel, borderBottom: `1px solid ${C.border}`, padding: "10px 16px", display: "flex", alignItems: "center", gap: 10, position: "sticky", top: 0, zIndex: 10 }}>
         <div onClick={() => setPhase("menu")} className="icon-btn" style={{ width: 26, height: 26, background: `${C.accent}20`, border: `1px solid ${C.accent}44`, borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-          <span style={{ fontFamily: "Georgia,serif", fontSize: 13, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
+          <span style={{ fontFamily: SER, fontSize: 13, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
         </div>
-        <span style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>🏆 Достижения и сертификаты</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <IconTrophy size={16} color={C.yellow} />
+          <span style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>Достижения и сертификаты</span>
+        </div>
         <div style={{ flex: 1 }} />
         <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
@@ -185,9 +189,9 @@ export default function LeaderboardScreen({ setPhase, sessionHistory, initialTab
     <div style={{ position: "fixed", inset: 0, overflowY: "auto", background: C.bg, fontFamily: FONT }}>
       <div style={{ background: C.panel, borderBottom: `1px solid ${C.border}`, padding: "12px 28px", display: "flex", alignItems: "center", gap: 12 }}>
         <div onClick={() => setPhase("menu")} className="icon-btn" style={{ width: 28, height: 28, background: `${C.accent}20`, border: `1px solid ${C.accent}44`, borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-          <span style={{ fontFamily: "Georgia,serif", fontSize: 14, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
+          <span style={{ fontFamily: SER, fontSize: 14, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
         </div>
-        <span style={{ fontFamily: "Georgia,serif", fontSize: 16, color: C.accent, fontStyle: "italic", letterSpacing: 1 }}>МедСим</span>
+        <span style={{ fontFamily: SER, fontSize: 16, color: C.accent, fontStyle: "italic", letterSpacing: 1 }}>МедСим</span>
         <div style={{ width: 1, height: 18, background: C.border }} />
         <span style={{ fontSize: 13, color: C.textDim, fontFamily: FONT }}>Достижения и сертификаты</span>
         <div style={{ flex: 1 }} />
@@ -294,8 +298,8 @@ function renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, c
 
     {/* Error Analysis */}
     {errors && errors.length > 0 && (
-      <div style={{...cardStyle}}>
-        {sectionTitle("🧠","Анализ ошибок и рекомендации", C.yellow)}
+      <div style={{...cardStyle, background: `${C.yellow}0a`, border: `1px solid ${C.yellow}33`}}>
+        {sectionTitle(<IconAlertTriangle size={14} color={C.yellow} />, "Рекомендации по пробелам", C.yellow)}
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           {errors.map((err, idx) => (
             <div key={idx} style={{
@@ -317,7 +321,7 @@ function renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, c
 
     {/* Per-category progress */}
     <div style={{...cardStyle}}>
-      {sectionTitle("🏥","Прогресс по специальностям")}
+      {sectionTitle(<IconHospital size={14} color={C.accent} />, "Прогресс по специальностям")}
       {Object.entries(CAT_META).map(([cat,cm])=>{
         const st = catStats[cat];
         const catCases = CASES.filter(c => c.category === cat).length;
@@ -344,7 +348,7 @@ function renderContent(C, rank, totalCases, avgScore, bestScore, survivalRate, c
     {/* Top scores */}
     {topCases.length > 0 && (
       <div style={{...cardStyle}}>
-        {sectionTitle("🥇","Лучшие результаты")}
+        {sectionTitle(<IconTrophy size={14} color={C.yellow} />, "Лучшие результаты", C.yellow)}
         {topCases.map((s,i) => {
           const cm = CAT_META[s.category]||{icon:"🏥",color:C.accent};
           const medal = i===0?"🥇":i===1?"🥈":i===2?"🥉":`${i+1}`;

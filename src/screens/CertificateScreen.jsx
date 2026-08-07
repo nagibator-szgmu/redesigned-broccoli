@@ -1,4 +1,4 @@
-import { FONT } from "../ui/theme";
+import { FONT, SER } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { computeEarnedCertificates, CERTIFICATE_THRESHOLDS, SCORE_THRESHOLDS, MODE_CERTIFICATES, SPEC_CERTIFICATES } from "../data/certificates";
 import useIsMobile from "../hooks/useIsMobile";
@@ -58,9 +58,12 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
     <div style={{position:"fixed",inset:0,overflowY:"auto",background:C.bg,fontFamily:FONT}}>
       <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"10px 16px",display:"flex",alignItems:"center",gap:10,position:"sticky",top:0,zIndex:10}}>
         <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:26,height:26,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
-          <span style={{fontFamily:"Georgia,serif",fontSize:13,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
+          <span style={{fontFamily:SER,fontSize:13,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
         </div>
-        <span style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT}}>🎓 Сертификаты</span>
+        <div style={{display:"flex",alignItems:"center",gap:6}}>
+          <IconGraduationCap size={16} color={C.accent} />
+          <span style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT}}>Сертификаты</span>
+        </div>
         <div style={{flex:1}}/>
         <HeaderBackBtn onClick={() => setPhase("menu")} />
       </div>
@@ -94,9 +97,9 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
     <div style={{position:"fixed",inset:0,overflowY:"auto",background:C.bg,fontFamily:FONT}}>
       <div style={{background:C.panel,borderBottom:`1px solid ${C.border}`,padding:"12px 28px",display:"flex",alignItems:"center",gap:12}}>
         <div onClick={()=>setPhase("menu")} className="icon-btn" style={{width:28,height:28,background:`${C.accent}20`,border:`1px solid ${C.accent}44`,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
-          <span style={{fontFamily:"Georgia,serif",fontSize:14,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
+          <span style={{fontFamily:SER,fontSize:14,color:C.accent,fontStyle:"italic",fontWeight:700}}>М</span>
         </div>
-        <span style={{fontFamily:"Georgia,serif",fontSize:16,color:C.accent,fontStyle:"italic",letterSpacing:1}}>МедСим</span>
+        <span style={{fontFamily:SER,fontSize:16,color:C.accent,fontStyle:"italic",letterSpacing:1}}>МедСим</span>
         <div style={{width:1,height:18,background:C.border}}/>
         <span style={{fontSize:13,color:C.textDim,fontFamily:FONT}}>Сертификаты</span>
         <div style={{flex:1}}/>

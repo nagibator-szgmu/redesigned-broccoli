@@ -194,7 +194,10 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
         isAdmission ? (
           <div>
             <div style={{ border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, overflow: "hidden", background: C.panelBg, padding: isMobile ? "10px 12px" : "12px 14px" }}>
-              <div style={{ fontSize: 10, color: C.green, textTransform: "uppercase", letterSpacing: 1, marginBottom: 5, fontFamily: FONT, fontWeight: 600 }}>📋 {t("history.short")}</div>
+              <div style={{ fontSize: 10, color: C.green, textTransform: "uppercase", letterSpacing: 1, marginBottom: 5, fontFamily: FONT, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+                <IconClipboard size={12} color={C.green} />
+                <span>{t("history.short")}</span>
+              </div>
               <p style={{ color: C.text, fontSize: 12, lineHeight: 1.7, margin: 0, fontFamily: FONT }}>{cd.shortHistory}</p>
             </div>
           </div>
@@ -217,14 +220,20 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
                 border: `1px solid ${C.border}`, borderTop: "none",
                 borderRadius: isMobile ? "0 0 12px 12px" : "0 0 14px 14px", overflow: "hidden",
               }}>
-                {[{ icon: "📋", label: t("history.short"), text: cd.anamnesis }, { icon: "🔍", label: t("history.exam"), text: cd.exam }].map(({ icon, label, text }, i) => (
+                {[
+                  { icon: <IconClipboard size={12} color={C.accent} />, label: t("history.short"), text: cd.anamnesis },
+                  { icon: <IconSearch size={12} color={C.accent} />, label: t("history.exam"), text: cd.exam }
+                ].map(({ icon, label, text }, i) => (
                   <div key={label} style={{
                     background: C.panelBg, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)",
                     padding: isMobile ? "10px 12px" : "12px 14px",
                     borderLeft: !isMobile && i > 0 ? `1px solid ${C.border}` : undefined,
                     borderTop: isMobile && i > 0 ? `1px solid ${C.border}` : undefined,
                   }}>
-                    <div style={{ fontSize: 10, color: C.textDim, textTransform: "uppercase", letterSpacing: isMobile ? 1 : 1.2, marginBottom: isMobile ? 5 : 7, fontFamily: FONT, fontWeight: 600 }}>{icon} {label}</div>
+                    <div style={{ fontSize: 10, color: C.textDim, textTransform: "uppercase", letterSpacing: isMobile ? 1 : 1.2, marginBottom: isMobile ? 5 : 7, fontFamily: FONT, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+                      {icon}
+                      <span>{label}</span>
+                    </div>
                     <p style={{ color: C.text, fontSize: 12, lineHeight: 1.7, margin: 0, fontFamily: FONT }}>{text}</p>
                   </div>
                 ))}

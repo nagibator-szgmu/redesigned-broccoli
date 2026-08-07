@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { FONT, CODE } from "../ui/theme";
+import { FONT, CODE, RADIUS } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import useIsMobile from "../hooks/useIsMobile";
 import { getQuizForTopic, PASS_THRESHOLD } from "../data/quiz";
@@ -353,16 +353,15 @@ export default function QuizModal({ topicId, onClose, onResult }) {
       />
       <div
         style={{
-          position: isMobile ? "fixed" : "fixed",
+          position: "fixed",
           ...(isMobile
-            ? { top: 54, right: 0, left: 0, bottom: 0 }
-            : { top: "8%", left: "20%", right: "20%", bottom: "8%" }),
+            ? { top: 0, right: 0, left: 0, bottom: 0, borderRadius: 0 }
+            : { top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "90%", maxWidth: 600, maxHeight: "90vh", borderRadius: RADIUS.md }),
           zIndex: 99999,
           background: C.overlayBg,
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid rgba(0,230,200,0.2)",
-          borderRadius: isMobile ? 0 : 18,
+          border: `1px solid ${C.border}`,
           boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
           fontFamily: FONT,
           display: "flex",
@@ -377,30 +376,40 @@ export default function QuizModal({ topicId, onClose, onResult }) {
             alignItems: "center",
             justifyContent: "space-between",
             padding: isMobile ? "12px 16px" : "14px 20px",
-            borderBottom: "1px solid rgba(0,230,200,0.08)",
+            borderBottom: `1px solid ${C.border}`,
             flexShrink: 0,
+            paddingTop: "max(12px, env(safe-area-inset-top, 12px))"
           }}
         >
-          <span style={{ fontSize: 14, fontWeight: 700, color: C.white }}>
-            📝 Тест по теме
-          </span>
-          <span
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <IconBook size={16} color={C.accent} />
+            <span style={{ fontSize: 14, fontWeight: 700, color: C.white }}>
+              Тест по теме
+            </span>
+          </div>
+          <button
             onClick={onClose}
+            aria-label="Закрыть тест"
             style={{
-              fontSize: 12,
+              width: 32,
+              height: 32,
+              borderRadius: RADIUS.xs,
+              background: C.dimBg,
+              border: "none",
               color: C.textDim,
               cursor: "pointer",
-              padding: "4px 10px",
-              borderRadius: 6,
-              background: C.dimBg,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0
             }}
           >
-            ✕
-          </span>
+            <IconX size={14} color={C.textDim} />
+          </button>
         </div>
 
         {/* Content */}
-        <div style={{ flex: 1, overflowY: "auto" }}>{content}</div>
+        <div style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>{content}</div>
       </div>
     </>,
     document.body

@@ -36,12 +36,12 @@ export default function AccountModal({ showAccount, setShowAccount, C, isMobile 
   const CurrentIcon = current.icon;
 
   const positionStyle = isMobile
-    ? { top: 60, right: 12, left: 12, maxHeight: "85vh", overflowY: "auto" }
+    ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "90%", maxWidth: 360, maxHeight: "90vh", overflowY: "auto" }
     : { top: 72, left: 240, width: 340, maxHeight: "85vh", overflowY: "auto" };
 
   return createPortal(
     <>
-      <div style={{ position: "fixed", inset: 0, zIndex: 99998 }} onClick={() => setShowAccount(false)} />
+      <div style={{ position: "fixed", inset: 0, zIndex: 99998, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} onClick={() => setShowAccount(false)} />
       <div style={{
         position: "fixed", ...positionStyle, zIndex: 99999,
         background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
@@ -50,7 +50,9 @@ export default function AccountModal({ showAccount, setShowAccount, C, isMobile 
       }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: C.white }}>Профиль и Аккаунт</span>
-          <span onClick={() => setShowAccount(false)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
+          <button onClick={() => setShowAccount(false)} aria-label="Закрыть профиль" style={{ width: 32, height: 32, borderRadius: 8, background: C.dimBg, border: "none", color: C.textDim, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>
+            <IconCheck size={14} color={C.textDim} />
+          </button>
         </div>
 
         {/* Profile Card */}

@@ -16,7 +16,8 @@ export default function PatientRecordColumn({
   selTreat = [],
   showInfo,
   setShowInfo,
-  onRevealAnamnesis
+  onRevealAnamnesis,
+  isMobile = false
 }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -106,7 +107,7 @@ export default function PatientRecordColumn({
         orderedDiag={orderedDiag}
         showInfo={showInfo}
         setShowInfo={setShowInfo}
-        isMobile={false}
+        isMobile={isMobile}
         onRevealAnamnesis={onRevealAnamnesis}
       />
 

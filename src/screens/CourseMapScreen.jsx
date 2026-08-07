@@ -2,6 +2,20 @@ import { useTranslate } from "../locale/useTranslate";
 import { useTheme } from "../ui/ThemeContext";
 import { FONT, CODE } from "../ui/theme";
 import { TOPICS } from "../data/topics";
+import {
+  IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
+  IconEndocrine, IconToxicology, IconAbdominal, IconLock
+} from "../ui/icons";
+
+const CAT_ICONS = {
+  cardiology: IconCardiac,
+  neurology: IconNeuro,
+  respiratory: IconRespiratory,
+  infectious: IconInfectious,
+  endocrine: IconEndocrine,
+  toxicology: IconToxicology,
+  abdominal: IconAbdominal,
+};
 
 export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {
   const C = useTheme();
@@ -10,13 +24,14 @@ export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {
   // Flatten all topics to a single linear sequence for the path
   const allSteps = [];
   TOPICS.forEach((cat) => {
+    const IconComp = CAT_ICONS[cat.id] || IconCardiac;
     cat.children.forEach((topic) => {
       allSteps.push({
         id: topic.id,
         name: topic.name,
-        icon: cat.icon,
+        icon: <IconComp size={18} color="currentColor" />,
         catName: cat.name,
-        catColor: cat.id === "cardiac" ? C.red : cat.id === "neuro" ? C.purple : C.accent
+        catColor: cat.id === "cardiology" ? C.red : cat.id === "neurology" ? C.purple : C.accent
       });
     });
   });
@@ -128,7 +143,7 @@ export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {
                       }}
                       title={isUnlocked ? step.name : "Заблокировано"}
                     >
-                      {isUnlocked ? step.icon : "🔒"}
+                      {isUnlocked ? step.icon : <IconLock size={18} color={C.textDim} />}
                       {/* Sub-step indicator */}
                       <div style={{
                         position: "absolute", bottom: -2, right: -2, width: 20, height: 20,

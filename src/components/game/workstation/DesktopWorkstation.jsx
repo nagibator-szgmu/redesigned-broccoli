@@ -89,7 +89,7 @@ export default function DesktopWorkstation({
       />
 
       {/* Main 2-Column Clinical Workstation Grid */}
-      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, padding: 12, minHeight: 0, zIndex: 1 }}>
+      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))", gap: 12, padding: 12, minHeight: 0, zIndex: 1, overflowY: "auto" }}>
         {/* Left Column: Patient Demographics, History, Exam & Results */}
         <div style={{ overflow: "hidden", borderRadius: 14 }}>
           <PatientRecordColumn

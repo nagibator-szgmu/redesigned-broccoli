@@ -10,11 +10,12 @@ import { QUIZ_QUESTIONS } from "../data/quiz";
 import { PROTOCOLS } from "../data/protocols";
 import QuizModal from "./QuizModal";
 import CalculatorContent from "./CalculatorContent";
+import { IconBrain, IconChartBar, IconMicroscope } from "../ui/icons";
 
 const CALCULATORS = [
-  { id: "gcs", name: "Шкала Глазго (GCS)", icon: "🧠" },
-  { id: "sofa", name: "Шкала SOFA", icon: "📊" },
-  { id: "lrinec", name: "Шкала LRINEC (Некр. фасциит)", icon: "🔬" }
+  { id: "gcs", name: "Шкала Глазго (GCS)", icon: IconBrain },
+  { id: "sofa", name: "Шкала SOFA", icon: IconChartBar },
+  { id: "lrinec", name: "Шкала LRINEC (Некр. фасциит)", icon: IconMicroscope }
 ];
 
 export default function TheoryScreen({ setPhase, startGame, progress, progressionMode, setProgressionMode, progressionChosen, setProgressionChosen }) {
@@ -428,7 +429,7 @@ export default function TheoryScreen({ setPhase, startGame, progress, progressio
             }`,
           }}
         >
-          <span style={{ fontSize: 13 }}>{calc.icon}</span>
+          <calc.icon size={14} color={activeCalculator === calc.id ? C.accent : C.textDim} />
           <span
             style={{
               fontSize: 12,

@@ -5,6 +5,7 @@ import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
 import { CAT_COLOR } from "../../data/diagnostics";
 import { TREATMENTS } from "../../data/treatments";
+import { IconAlertTriangle } from "../../ui/icons";
 import TooltipBtn from "./TooltipBtn";
 
 /** Helper to match treatments to 6 high-level groups or legacy category strings */
@@ -155,7 +156,7 @@ export default function TreatPanel({
             )}
             {isPending && <div style={{ width: 8, height: 8, border: `2px solid ${C.yellow}`, borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite", flexShrink: 0 }} />}
             {isApplied && !isDanger && <span style={{ fontSize: 12, color: C.green, flexShrink: 0 }}>✓</span>}
-            {isApplied && isDanger && <span style={{ fontSize: 12, color: C.red, flexShrink: 0 }}>🚨</span>}
+            {isApplied && isDanger && <IconAlertTriangle size={14} color={C.red} />}
           </div>
         );
       })}

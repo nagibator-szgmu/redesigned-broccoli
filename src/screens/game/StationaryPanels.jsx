@@ -1,8 +1,9 @@
-import { FONT, CODE } from "../../ui/theme";
+import { FONT, CODE, RADIUS } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { DIAGNOSTICS, CAT_COLOR } from "../../data/diagnostics";
 import { TREATMENTS } from "../../data/treatments";
+import { IconHospital } from "../../ui/icons";
 import TooltipBtn from "../../components/game/TooltipBtn";
 
 const DAY_COLORS = ["#e8e8e8", "#4fc3f7", "#81c784", "#ffcc02", "#ffb74d", "#ef5350", "#ce93d8", "#4dd0e1"];
@@ -12,10 +13,10 @@ export function PatientCard({ cd, currentPs, cycle }) {
   const C = useTheme();
   const { t } = useTranslate();
   return (
-    <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 16, marginBottom: 12 }}>
+    <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: RADIUS.md, padding: 16, marginBottom: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-        <div style={{ width: 36, height: 36, borderRadius: 10, background: `${DAY_COLORS[cycle.currentDay % 7]}15`, border: `1px solid ${DAY_COLORS[cycle.currentDay % 7]}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span style={{ fontSize: 16 }}>🏨</span>
+        <div style={{ width: 36, height: 36, borderRadius: RADIUS.sm, background: `${DAY_COLORS[cycle.currentDay % 7]}15`, border: `1px solid ${DAY_COLORS[cycle.currentDay % 7]}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <IconHospital size={18} color={DAY_COLORS[cycle.currentDay % 7]} />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
