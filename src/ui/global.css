@@ -93,7 +93,7 @@ html[data-theme="light"],
 .med-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
 .med-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 0 0 1px rgba(0,230,200,0.2), 0 8px 24px -4px rgba(0,230,200,0.15), 0 4px 12px rgba(0,0,0,0.4) !important;
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.25), 0 8px 24px -4px rgba(37,99,235,0.2), 0 4px 12px rgba(0,0,0,0.4) !important;
 }
 .med-btn:active:not(:disabled) { transform: translateY(0) scale(0.98) !important; }
 
@@ -101,13 +101,13 @@ html[data-theme="light"],
 .icon-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
 .icon-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 0 1px rgba(0,230,200,0.25), 0 4px 16px rgba(0,230,200,0.15) !important;
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.25), 0 4px 16px rgba(37,99,235,0.18) !important;
 }
 .icon-btn:active { transform: scale(0.95) !important; }
 
 /* ── Category filter pills ── */
 .filter-pill { transition: all 0.15s ease !important; }
-.filter-pill:hover { filter: brightness(1.35) !important; transform: translateY(-1px); }
+.filter-pill:hover { filter: brightness(1.2) !important; transform: translateY(-1px); }
 .filter-pill:active { transform: translateY(0) !important; }
 
 /* ── Treatment/diagnostic rows in sidebar ── */
@@ -119,23 +119,26 @@ html[data-theme="light"],
 .next-case-btn:hover {
   filter: brightness(1.15);
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 32px rgba(0,230,200,0.45) !important;
+  box-shadow: 0 8px 32px rgba(37,99,235,0.45) !important;
 }
 .next-case-btn:active { transform: translateY(0) !important; }
 
 /* ── MenuScreen existing classes ── */
-.nav-item:hover { background: rgba(0,230,200,0.06) !important; color: #00e6c8 !important; transition: all 0.2s cubic-bezier(0.16,1,0.3,1) !important; }
-.nav-item:hover span { color: #00e6c8 !important; }
+.nav-item:hover { background: rgba(37,99,235,0.10) !important; color: #2563EB !important; transition: all 0.2s cubic-bezier(0.16,1,0.3,1) !important; }
+.nav-item:hover span { color: #2563EB !important; }
+[data-theme="light"] .nav-item:hover { background: rgba(0,71,171,0.08) !important; color: #0047AB !important; }
+[data-theme="light"] .nav-item:hover span { color: #0047AB !important; }
+
 .case-card { transition: all 0.35s cubic-bezier(0.16,1,0.3,1) !important; will-change: transform,box-shadow,border-color; }
 .case-card:hover { 
-  border-color: rgba(0,230,200,0.35) !important; 
+  border-color: rgba(37,99,235,0.35) !important; 
   transform: translateY(-4px); 
-  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6), 0 0 20px -2px rgba(0,230,200,0.1) !important; 
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6), 0 0 20px -2px rgba(37,99,235,0.15) !important; 
 }
 .start-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
-.start-btn:hover { filter: brightness(1.15) !important; box-shadow: 0 8px 28px rgba(0,230,200,0.45) !important; transform: translateY(-1px); }
+.start-btn:hover { filter: brightness(1.15) !important; box-shadow: 0 8px 28px rgba(37,99,235,0.40) !important; transform: translateY(-1px); }
 .session-row { transition: background 0.2s ease !important; }
-.session-row:hover { background: rgba(0,230,200,0.05) !important; }
+.session-row:hover { background: rgba(37,99,235,0.08) !important; }
 
 /* ── Hide scrollbar (horizontal scroll strips on mobile) ── */
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -149,7 +152,7 @@ textarea:focus-visible,
 select:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid #00e6c8 !important;
+  outline: 2px solid #2563EB !important;
   outline-offset: 2px !important;
 }
 [data-theme="light"] button:focus-visible,
@@ -159,7 +162,7 @@ select:focus-visible,
 [data-theme="light"] select:focus-visible,
 [data-theme="light"] [role="button"]:focus-visible,
 [data-theme="light"] [tabindex]:focus-visible {
-  outline: 2px solid #007a68 !important;
+  outline: 2px solid #0047AB !important;
   outline-offset: 2px !important;
 }
 
@@ -186,7 +189,7 @@ input::-webkit-search-results-decoration {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #0b0f19 inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0E1015 inset !important;
   -webkit-text-fill-color: #ffffff !important;
-  caret-color: #00e5a0 !important;
+  caret-color: #2563EB !important;
 }
