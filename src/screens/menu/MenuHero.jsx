@@ -10,7 +10,7 @@ export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame
       <div style={{ position: "absolute", inset: 0, borderRadius: 23, pointerEvents: "none", background: `radial-gradient(350px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, ${C.accent}55, transparent 65%)`, opacity: heroMouse.over ? 1 : 0, transition: "opacity 0.5s ease" }} />
 
       {/* Inner card */}
-      <div style={{ position: "relative", minHeight: 220, borderRadius: 22, overflow: "hidden", background: C.heroGrad, display: "flex", alignItems: "center", boxShadow: "0 8px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
+      <div style={{ position: "relative", minHeight: 220, borderRadius: 22, overflow: "hidden", background: C.heroGrad, display: "flex", alignItems: "center", boxShadow: theme === "dark" ? "0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)" : "0 8px 30px rgba(0,71,171,0.12), 0 2px 8px rgba(0,0,0,0.04)" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${C.border} 1px, transparent 1px), linear-gradient(90deg, ${C.border} 1px, transparent 1px)`, backgroundSize: "28px 28px", opacity: 0.35 }} />
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: heroMouse.over ? 1 : 0, transition: "opacity 0.4s ease", background: `radial-gradient(78px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, ${C.accent}20 0%, transparent 100%)` }} />
         <div style={{ position: "absolute", left: "-5%", top: "-20%", width: 320, height: 320, background: `radial-gradient(circle, ${C.accent}14 0%, transparent 65%)`, borderRadius: "50%" }} />

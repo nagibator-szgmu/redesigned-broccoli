@@ -34,11 +34,11 @@ export default function MenuRightSidebar({
             const pct = max > 0 ? Math.min(value / max, 1) : 0;
             const r = 30, circ = 2 * Math.PI * r;
             return (
-              <div key={label} style={{ textAlign: "center", background: C.btnBg, border: `1px solid ${C.btnBorder}`, borderRadius: 14, padding: "14px 8px" }}>
+              <div key={label} style={{ textAlign: "center", background: theme === "dark" ? C.btnBg : "#F9F8F3", border: `1px solid ${C.border}`, borderRadius: 14, padding: "14px 8px" }}>
                 <div style={{ position: "relative", width: 72, height: 72, margin: "0 auto 10px" }}>
                   <svg width="72" height="72" style={{ transform: "rotate(-90deg)", display: "block" }}>
-                    <circle cx="36" cy="36" r={r} fill="none" stroke={theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,40,80,0.08)"} strokeWidth="4.5" />
-                    <circle cx="36" cy="36" r={r} fill="none" stroke={color} strokeWidth="4.5" strokeDasharray={circ} strokeDashoffset={circ * (1 - pct)} strokeLinecap="round" style={{ filter: `drop-shadow(0 0 6px ${color}66)`, transition: "stroke-dashoffset 0.8s ease" }} />
+                    <circle cx="36" cy="36" r={r} fill="none" stroke={theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,71,171,0.08)"} strokeWidth="4.5" />
+                    <circle cx="36" cy="36" r={r} fill="none" stroke={color} strokeWidth="4.5" strokeDasharray={circ} strokeDashoffset={circ * (1 - pct)} strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.8s ease" }} />
                   </svg>
                   <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                     <div style={{ fontSize: 20, fontWeight: 700, color: C.white, fontFamily: "'SF Mono','Menlo',monospace", lineHeight: 1 }}>{value}</div>
@@ -49,7 +49,7 @@ export default function MenuRightSidebar({
             );
           })}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, background: C.btnBg, border: `1px solid ${C.btnBorder}`, borderRadius: 13, padding: "12px 16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, background: theme === "dark" ? C.btnBg : "#F9F8F3", border: `1px solid ${C.border}`, borderRadius: 13, padding: "12px 16px" }}>
           <div style={{ width: 46, height: 46, borderRadius: 12, flexShrink: 0, background: C.accentDim, border: `1px solid ${C.accent}35`, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <IconTrophy size={22} color={C.accent} />
           </div>
@@ -61,12 +61,12 @@ export default function MenuRightSidebar({
       </div>
 
       {/* Primary New Patient CTA */}
-      <button className="start-btn" onClick={startGame} style={{ background: theme === "dark" ? "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)" : "linear-gradient(135deg, #0047AB 0%, #1E6BFF 100%)", border: "none", borderRadius: 14, padding: "16px", fontSize: 15, fontWeight: 800, color: "#FFFFFF", cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, width: "100%", boxShadow: "0 8px 24px rgba(37,99,235,0.35)", transition: "all 0.2s" }}>
+      <button className="start-btn" onClick={startGame} style={{ background: theme === "dark" ? "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)" : "linear-gradient(135deg, #0047AB 0%, #1E6BFF 100%)", border: "none", borderRadius: 14, padding: "16px", fontSize: 15, fontWeight: 800, color: "#FFFFFF", cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, width: "100%", boxShadow: theme === "dark" ? "0 8px 24px rgba(37,99,235,0.35)" : "0 6px 20px rgba(0,71,171,0.22)", transition: "all 0.2s" }}>
         {t("cta.newPatient")}
       </button>
 
       {/* Recent Sessions List */}
-      <div style={{ background: C.panelBg, backdropFilter: "blur(16px)", border: `1px solid ${C.border}`, borderRadius: 18, padding: "18px 16px", boxShadow: "0 4px 24px rgba(0,0,0,0.15)" }}>
+      <div style={{ background: C.panelBg, backdropFilter: "blur(16px)", border: `1px solid ${C.border}`, borderRadius: 18, padding: "18px 16px", boxShadow: theme === "dark" ? "0 4px 24px rgba(0,0,0,0.15)" : "0 2px 12px rgba(44,46,49,0.05)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
           <span style={{ fontSize: 13, fontWeight: 600, color: C.white, fontFamily: FONT }}>{t("sessions.recent")}</span>
           <span onClick={() => setShowAllCases(true)} style={{ fontSize: 11, color: C.accent, fontFamily: FONT, background: C.accentDim, borderRadius: 5, padding: "2px 8px", cursor: "pointer", fontWeight: 600 }}>{t("sessions.allCases")}</span>
