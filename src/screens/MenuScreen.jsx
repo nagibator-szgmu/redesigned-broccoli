@@ -128,20 +128,27 @@ export default function MenuScreen(props) {
         <MenuSettingsModal {...sharedProps} isMobile={false} />
         <AccountModal showAccount={showAccount} setShowAccount={setShowAccount} C={C} isMobile={false} />
 
-        <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            overflow: "hidden",
+            transition: "background 0.5s ease-in-out",
+            background: {
+              all: `radial-gradient(circle at 30% 20%, ${C.accent}0c 0%, transparent 60%), radial-gradient(circle at 85% 60%, ${C.accent}08 0%, transparent 60%)`,
+              icu: `radial-gradient(circle at 20% 30%, ${C.red}10 0%, transparent 55%), radial-gradient(circle at 80% 70%, ${C.accent}08 0%, transparent 65%)`,
+              admission: `radial-gradient(circle at 30% 25%, ${C.purple}10 0%, transparent 60%), radial-gradient(circle at 75% 75%, ${C.accent}08 0%, transparent 60%)`,
+              outpatient: `radial-gradient(circle at 25% 20%, ${C.accent}12 0%, transparent 60%), radial-gradient(circle at 80% 80%, ${C.accent}08 0%, transparent 60%)`,
+              stationary: `radial-gradient(circle at 30% 20%, ${C.accent}10 0%, transparent 60%), radial-gradient(circle at 70% 70%, ${C.accent}08 0%, transparent 60%)`,
+            }[department] || "transparent",
+          }}
+        >
           <div
             style={{
               flex: 1,
               overflowY: "auto",
               padding: "26px 24px 40px",
-              transition: "background 0.5s ease-in-out",
-              background: {
-                all: `radial-gradient(circle at 30% 20%, ${C.accent}0c 0%, transparent 60%), radial-gradient(circle at 70% 80%, ${C.yellow}08 0%, transparent 60%)`,
-                icu: "radial-gradient(circle at 20% 30%, rgba(255,61,90,0.12) 0%, transparent 55%), radial-gradient(circle at 80% 70%, rgba(229,169,82,0.08) 0%, transparent 65%)",
-                admission: "radial-gradient(circle at 30% 25%, rgba(157,111,245,0.12) 0%, transparent 60%), radial-gradient(circle at 75% 75%, rgba(229,169,82,0.08) 0%, transparent 60%)",
-                outpatient: "radial-gradient(circle at 25% 20%, rgba(52,211,153,0.12) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(229,169,82,0.08) 0%, transparent 60%)",
-                stationary: "radial-gradient(circle at 30% 20%, rgba(245,158,11,0.1) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(251,146,60,0.08) 0%, transparent 60%)",
-              }[department] || "transparent",
+              background: "transparent",
             }}
           >
             <CaseExplorerBar {...sharedProps} />
