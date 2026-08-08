@@ -44,7 +44,7 @@ export default function MenuRightSidebar({
                     <div style={{ fontSize: 20, fontWeight: 700, color: C.white, fontFamily: "'SF Mono','Menlo',monospace", lineHeight: 1 }}>{value}</div>
                   </div>
                 </div>
-                <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, textTransform: "uppercase", letterSpacing: 0.8, fontWeight: 500 }}>{label}</div>
+                <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 600, whiteSpace: "nowrap" }}>{label}</div>
               </div>
             );
           })}
