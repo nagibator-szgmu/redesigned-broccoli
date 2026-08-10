@@ -18,6 +18,7 @@ import {
   ChecklistBlock, TestAnalysis, TreatmentAnalysis, DocLayer,
   ProtocolReferences, RelatedTheory, EventLog, ResultActions,
 } from "../components/result";
+import DebriefPanel from "../components/game/DebriefPanel";
 
 const CHECKLIST_MAP = {
   ecg: "ecg", troponin: "troponin", тропонин: "troponin", aspirin: "aspirin",
@@ -37,7 +38,7 @@ const CHECKLIST_MAP = {
 const DIAG_ALIASES = { ct: ["ct_head", "ct_chest"], blood: ["cbc", "bmp"], antibiotic: ["antibiotics_broad"],
   epinephrine: ["epinephrine", "epinephrine_im"], "iv fluid": ["iv_fluids"] };
 
-export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, diagText, eventLog, setPhase, startGame, assessmentMode, curriculum, advanceCurriculum, getNextCurriculumCase, clearCurriculum, getNextCurriculumTopic, extraResult, tutorialMode, elapsedSec, revealedAnamnesis }) {
+export default function ResultScreen({ result, cd, ps, trajectory = [], orderedDiag, selTreat, diagText, eventLog, setPhase, startGame, assessmentMode, curriculum, advanceCurriculum, getNextCurriculumCase, clearCurriculum, getNextCurriculumTopic, extraResult, tutorialMode, elapsedSec, revealedAnamnesis }) {
   const C = useTheme();
   const isMobile = useIsMobile();
   const { t } = useTranslate();
@@ -196,6 +197,15 @@ export default function ResultScreen({ result, cd, ps, orderedDiag, selTreat, di
         <ChecklistBlock assessmentMode={assessmentMode} checklistItems={checklistItems} checklistDone={checklistDone} isChecklistDone={isChecklistDone} isMobile={isMobile} />
         <TestAnalysis cd={cd} orderedDiag={orderedDiag} isMobile={isMobile} />
         <TreatmentAnalysis cd={cd} selTreat={selTreat} isMobile={isMobile} />
+        <DebriefPanel
+          cd={cd}
+          initialPS={cd?.vitals}
+          trajectory={trajectory}
+          selTreat={selTreat}
+          selDiag={orderedDiag}
+          revealedResults={cd?.testResults || {}}
+          revealedAnamnesis={revealedAnamnesis}
+        />
         <div data-tutorial="result_screen" style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 18, marginBottom: 10 }}>
           <STitle icon="💡" label={t("result.debrief")} color={C.accent} />
           <p style={{ color: C.text, fontSize: 13, lineHeight: 1.9, margin: 0 }}>{cd.tip}</p>

@@ -4,12 +4,15 @@ import { FONT } from "../../../ui/theme";
 import { useTranslate } from "../../../locale/useTranslate";
 import { STitle, ResultCard } from "../../../ui/components";
 import HistoryPanel from "../HistoryPanel";
+import ProblemListPanel from "../ProblemListPanel";
+import TrajectoryPanel from "./TrajectoryPanel";
 import { IconUser } from "../../../ui/icons";
 
 /** Left column: Patient demographics, history, test results & active interventions */
 export default function PatientRecordColumn({
   cd,
   ps,
+  trajectory = [],
   orderedDiag = [],
   revealedResults = {},
   newResultIds = [],
@@ -17,6 +20,7 @@ export default function PatientRecordColumn({
   showInfo,
   setShowInfo,
   onRevealAnamnesis,
+  addEvent,
   isMobile = false
 }) {
   const C = useTheme();
@@ -99,6 +103,12 @@ export default function PatientRecordColumn({
         </div>
       </div>
 
+      {/* Clinical Trajectory Panel */}
+      <TrajectoryPanel trajectory={trajectory} isMobile={isMobile} />
+
+      {/* Derived Clinical Problem List */}
+      <ProblemListPanel ps={ps} revealedResults={revealedResults} />
+
       {/* History & Physical Exam Panel */}
       <HistoryPanel
         cd={cd}
@@ -109,6 +119,7 @@ export default function PatientRecordColumn({
         setShowInfo={setShowInfo}
         isMobile={isMobile}
         onRevealAnamnesis={onRevealAnamnesis}
+        addEvent={addEvent}
       />
 
       {/* Revealed Test Results Timeline */}

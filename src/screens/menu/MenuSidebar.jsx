@@ -1,3 +1,4 @@
+import React from "react";
 import { SER, FONT } from "../../ui/theme";
 import ThreeDTicker from "../../components/ThreeDTicker";
 import {

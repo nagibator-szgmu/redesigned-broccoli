@@ -1,22 +1,36 @@
-import { useState, useEffect, useCallback, Component } from "react";
+import { useState, useEffect, useCallback, Component, lazy, Suspense } from "react";
 import { ThemeCtx } from "./ui/ThemeContext";
 import { DARK, LIGHT } from "./ui/theme";
 import useSettings from "./hooks/useSettings";
 import useGameSession from "./hooks/useGameSession";
 import useProgress from "./hooks/useProgress";
+import useCommandPalette from "./hooks/useCommandPalette";
 import { TOPICS } from "./data/topics";
 import { TutorialGuide, DepartmentTutorial } from "./components/game";
+import CommandPalette from "./components/CommandPalette";
 import MenuScreen from "./screens/MenuScreen";
 import GameScreen from "./screens/GameScreen";
 import ResultScreen from "./screens/ResultScreen";
-import TheoryScreen from "./screens/TheoryScreen";
-import LeaderboardScreen from "./screens/LeaderboardScreen";
-import CertificateScreen from "./screens/CertificateScreen";
-import OnboardingScreen from "./screens/OnboardingScreen";
-import CourseMapScreen from "./screens/CourseMapScreen";
-import TeacherDashboardScreen from "./screens/TeacherDashboardScreen";
 import useGameAudio from "./hooks/useGameAudio";
 import { IS_DEV_MODE } from "./config";
+
+const TheoryScreen = lazy(() => import("./screens/TheoryScreen"));
+const LeaderboardScreen = lazy(() => import("./screens/LeaderboardScreen"));
+const CertificateScreen = lazy(() => import("./screens/CertificateScreen"));
+const OnboardingScreen = lazy(() => import("./screens/OnboardingScreen"));
+const CourseMapScreen = lazy(() => import("./screens/CourseMapScreen"));
+const TeacherDashboardScreen = lazy(() => import("./screens/TeacherDashboardScreen"));
+
+function ScreenFallback() {
+  return (
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", color: "#2563EB", fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+        <div style={{ width: 32, height: 32, borderRadius: "50%", border: "3px solid rgba(37,99,235,0.2)", borderTopColor: "#2563EB", animation: "spinGear 0.8s linear infinite" }} />
+        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: 0.5, opacity: 0.8 }}>Загрузка модуля...</span>
+      </div>
+    </div>
+  );
+}
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -60,6 +74,7 @@ export default function MedSimApp() {
 
   const [extraResult, setExtraResult] = useState(null);
   const progress = useProgress();
+  const cmdPalette = useCommandPalette();
   useGameAudio(game.phase, game.paused, game.cd?.department, game.ps, settings.audioEnabled);
 
   const origStartGame = game.startGame;
@@ -202,6 +217,7 @@ export default function MedSimApp() {
     if (game.phase === "result" && game.result && game.cd) return (
       <ResultScreen
         result={game.result} cd={game.cd} ps={game.ps}
+        trajectory={game.trajectory}
         orderedDiag={game.orderedDiag} selTreat={game.selTreat} diagText={game.diagText}
         eventLog={game.eventLog} extraResult={extraResult}
         setPhase={game.setPhase} startGame={startGameWrapped}
@@ -219,6 +235,7 @@ export default function MedSimApp() {
       <GameScreen
         phase={game.phase} setPhase={game.setPhase}
         cd={game.cd} ps={game.ps} prevPs={game.prevPs}
+        trajectory={game.trajectory} recordTrajectoryCheckpoint={game.recordTrajectoryCheckpoint}
         selDiag={game.selDiag} setSelDiag={game.setSelDiag}
         selTreat={game.selTreat} toggleTreatment={game.toggleTreatment}
         orderedDiag={game.orderedDiag}
@@ -240,6 +257,7 @@ export default function MedSimApp() {
         curriculum={progress.curriculum} getNextCurriculumCase={progress.getNextCurriculumCase}
         topicsProgress={progress.topicsProgress}
         audioEnabled={settings.audioEnabled} setAudioEnabled={settings.setAudioEnabled}
+        addEvent={game.addEvent}
       />
     );
     return (<>
@@ -258,8 +276,21 @@ export default function MedSimApp() {
           </div>
         )}
         <div style={IS_DEV_MODE ? {marginTop:26} : undefined}>
-          {showOnboarding ? <OnboardingScreen onComplete={handleOnboardingComplete} /> : content}
+          <Suspense fallback={<ScreenFallback />}>
+            {showOnboarding ? <OnboardingScreen onComplete={handleOnboardingComplete} /> : content}
+          </Suspense>
           {showDeptTutorial && <DepartmentTutorial dept={showDeptTutorial} onClose={() => setShowDeptTutorial(null)} />}
+          <CommandPalette
+            isOpen={cmdPalette.isOpen}
+            onClose={() => cmdPalette.setIsOpen(false)}
+            phase={game.phase}
+            setPhase={game.setPhase}
+            cd={game.cd}
+            selTreat={game.selTreat}
+            toggleTreatment={game.toggleTreatment}
+            orderedDiag={game.orderedDiag}
+            handleOrderTests={game.handleOrderTests}
+          />
         </div>
       </ThemeCtx.Provider>
     </ErrorBoundary>

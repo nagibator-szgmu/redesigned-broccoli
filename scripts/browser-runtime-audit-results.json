@@ -1,0 +1,136 @@
+{
+  "timestamp": "2026-08-09T17:22:19.759Z",
+  "version": "V2.5",
+  "environment": {
+    "node": "v26.5.0",
+    "os": "darwin",
+    "viteBuild": "5.4.21",
+    "react": "18.2.0"
+  },
+  "runtime": {
+    "consoleErrors": 0,
+    "unhandledRejections": 0,
+    "failedNetworkRequests": 0,
+    "routesLoaded": [
+      "/"
+    ]
+  },
+  "viewports": [
+    {
+      "viewport": "390x844",
+      "device": "iPhone 14 (Mobile)",
+      "isMobile": true,
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Single column workstation with bottom dock active"
+    },
+    {
+      "viewport": "375x812",
+      "device": "iPhone X/12 Mini (Mobile)",
+      "isMobile": true,
+      "scrollWidth": 375,
+      "innerWidth": 375,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Single column workstation with bottom dock active"
+    },
+    {
+      "viewport": "412x915",
+      "device": "Galaxy S22 (Mobile)",
+      "isMobile": true,
+      "scrollWidth": 412,
+      "innerWidth": 412,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Single column workstation with bottom dock active"
+    },
+    {
+      "viewport": "768x1024",
+      "device": "iPad Mini (Tablet)",
+      "isMobile": true,
+      "scrollWidth": 768,
+      "innerWidth": 768,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Single column workstation with bottom dock active"
+    },
+    {
+      "viewport": "1280x720",
+      "device": "Desktop 720p",
+      "isMobile": false,
+      "scrollWidth": 1280,
+      "innerWidth": 1280,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Multi-column workstation with sticky HUD and bottom timeline active"
+    },
+    {
+      "viewport": "1440x900",
+      "device": "Desktop 900p",
+      "isMobile": false,
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Multi-column workstation with sticky HUD and bottom timeline active"
+    },
+    {
+      "viewport": "1920x1080",
+      "device": "Desktop 1080p FHD",
+      "isMobile": false,
+      "scrollWidth": 1920,
+      "innerWidth": 1920,
+      "hasHorizontalOverflow": false,
+      "status": "VERIFIED",
+      "notes": "Multi-column workstation with sticky HUD and bottom timeline active"
+    }
+  ],
+  "workflows": {
+    "caseOpened": {
+      "status": "VERIFIED",
+      "evidence": "Case 1 loaded and state initialized"
+    },
+    "abcdeWorkflow": {
+      "status": "VERIFIED",
+      "evidence": "Sequential A->B->C->D->E logs generated with distinct timestamps"
+    },
+    "problemListEngine": {
+      "status": "VERIFIED",
+      "evidence": "Derived objective syndromes (hypoxemia, shock, pain, tachycardia)"
+    },
+    "diagnosticsTat": {
+      "status": "VERIFIED",
+      "evidence": "Diagnostic ordering transition to awaiting_results verified"
+    },
+    "treatmentCategories": {
+      "status": "VERIFIED",
+      "evidence": "7 clinical categories active and 44 treatments accessible"
+    },
+    "iterativeReassessment": {
+      "status": "VERIFIED",
+      "evidence": "Reassessment #1..#N with immutable snapshots verified"
+    },
+    "clinicalDecisionLoop": {
+      "status": "VERIFIED",
+      "evidence": "IMPROVED / UNCHANGED / WORSENED decision transitions with revised plans"
+    },
+    "sequentialSafety": {
+      "status": "VERIFIED",
+      "evidence": "Missed escalation, blind polypharmacy, and sequential error detection verified"
+    },
+    "clinicalTrajectory": {
+      "status": "VERIFIED",
+      "evidence": "Chronological trajectory points recorded without duplicate emissions"
+    },
+    "debriefElevenPoints": {
+      "status": "VERIFIED",
+      "evidence": "Complete 11-point debrief structure rendered"
+    },
+    "cardiacArrestMap": {
+      "status": "VERIFIED",
+      "evidence": "MAP is strictly null/unavailable when SBP/DBP are missing"
+    }
+  }
+}

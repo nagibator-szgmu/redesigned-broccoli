@@ -1,5 +1,5 @@
-import { CLAMP_RANGES, clamp, r1 } from "./patient";
-import { TREAT_FX, ADVERSE_FX } from "../data/treatments";
+import { CLAMP_RANGES, clamp, r1 } from "./patient.js";
+import { TREAT_FX, ADVERSE_FX } from "../data/treatments.js";
 
 const STATUS_THRESHOLDS = { easy: 0.65, normal: 1, hard: 1.5 };
 

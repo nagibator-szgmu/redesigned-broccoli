@@ -23,17 +23,20 @@ export default function VitalsHUD({
   if (!ps) return null;
 
   const trend = (key) => (!ps || !prevPs ? 0 : ps[key] > prevPs[key] ? 1 : ps[key] < prevPs[key] ? -1 : 0);
-  const map = Math.round(ps.dbp + (ps.sbp - ps.dbp) / 3);
+  const hasBp = ps?.sbp != null && ps.sbp > 0 && ps?.dbp != null && ps.dbp > 0;
+  const map = hasBp ? Math.round((ps.sbp + 2 * ps.dbp) / 3) : null;
+  const bpValue = hasBp ? `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}` : (ps?.sbp > 0 ? `${Math.round(ps.sbp)}/—` : "---/---");
+  const bpUnit = hasBp ? `(MAP ${map})` : "";
   const status = ps.status || (ps.sbp < 80 || ps.spo2 < 88 || ps.gcs < 8 ? "critical" : "normal");
 
   const vitalsConfig = [
-    { key: "hr", label: t("vitals.hr"), value: `${Math.round(ps.hr)}`, unit: "bpm", icon: <IconHeart size={13} color={C.accent} />, warn: ps.hr > 100 || ps.hr < 50, critical: ps.hr > 130 || ps.hr < 40 },
-    { key: "bp", label: t("vitals.sbp"), value: `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`, unit: `(MAP ${map})`, icon: <IconDroplet size={13} color={C.red} />, warn: ps.sbp < 90 || ps.sbp > 160, critical: ps.sbp < 75 || ps.sbp > 180 },
-    { key: "spo2", label: "SpO₂", value: `${r1(ps.spo2)}%`, icon: <IconRespiratory size={13} color={C.green} />, warn: ps.spo2 < 94, critical: ps.spo2 < 90 },
-    { key: "rr", label: t("vitals.rr"), value: `${Math.round(ps.rr)}`, unit: "/min", icon: <IconWind size={13} color={C.accent} />, warn: ps.rr > 20 || ps.rr < 10, critical: ps.rr > 28 || ps.rr < 8 },
-    { key: "temp", label: "t°C", value: `${r1(ps.temp)}`, unit: "°C", icon: <IconThermometer size={13} color={C.yellow} />, warn: ps.temp > 38 || ps.temp < 36, critical: ps.temp > 39.5 || ps.temp < 35 },
-    { key: "gcs", label: t("vitals.gcs"), value: `${Math.round(ps.gcs)}`, unit: "/15", icon: <IconBrain size={13} color={C.purple} />, warn: ps.gcs < 13, critical: ps.gcs < 9 },
-    { key: "pain", label: t("vitals.pain"), value: `${r1(ps.pain)}`, unit: "/10", icon: <IconFlame size={13} color={C.orange} />, warn: ps.pain > 4, critical: ps.pain > 7 }
+    { key: "hr", label: t("vitals.hr"), value: ps.hr > 0 ? `${Math.round(ps.hr)}` : "0", unit: "bpm", icon: <IconHeart size={13} color={C.accent} />, warn: ps.hr > 100 || (ps.hr > 0 && ps.hr < 50), critical: ps.hr > 130 || ps.hr === 0 || ps.hr < 40 },
+    { key: "bp", label: t("vitals.sbp"), value: bpValue, unit: bpUnit, icon: <IconDroplet size={13} color={C.red} />, warn: ps.sbp < 90 || ps.sbp > 160, critical: ps.sbp < 75 || ps.sbp > 180 || ps.sbp === 0 },
+    { key: "spo2", label: "SpO₂", value: ps.spo2 > 0 ? `${r1(ps.spo2)}%` : "0%", icon: <IconRespiratory size={13} color={C.green} />, warn: ps.spo2 < 94, critical: ps.spo2 < 90 || ps.spo2 === 0 },
+    { key: "rr", label: t("vitals.rr"), value: ps.rr > 0 ? `${Math.round(ps.rr)}` : "0", unit: "/min", icon: <IconWind size={13} color={C.accent} />, warn: ps.rr > 20 || (ps.rr > 0 && ps.rr < 10), critical: ps.rr > 28 || ps.rr === 0 || ps.rr < 8 },
+    { key: "temp", label: "t°C", value: `${r1(ps.temp || 36.6)}`, unit: "°C", icon: <IconThermometer size={13} color={C.yellow} />, warn: ps.temp > 38 || ps.temp < 36, critical: ps.temp > 39.5 || ps.temp < 35 },
+    { key: "gcs", label: t("vitals.gcs"), value: `${Math.round(ps.gcs || 15)}`, unit: "/15", icon: <IconBrain size={13} color={C.purple} />, warn: ps.gcs < 13, critical: ps.gcs < 9 },
+    { key: "pain", label: t("vitals.pain"), value: `${r1(ps.pain || 0)}`, unit: "/10", icon: <IconFlame size={13} color={C.orange} />, warn: ps.pain > 4, critical: ps.pain > 7 }
   ];
 
   return (

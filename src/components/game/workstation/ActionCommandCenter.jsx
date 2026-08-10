@@ -153,6 +153,7 @@ export default function ActionCommandCenter({
             selectedRoute={selectedRoute}
             setSelectedRoute={setSelectedRoute}
             setExtraResult={setExtraResult}
+            orderedDiag={orderedDiag}
             t={t}
           />
         )}

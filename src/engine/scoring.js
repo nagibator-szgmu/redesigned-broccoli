@@ -1,5 +1,5 @@
-import { TREATMENTS } from "../data/treatments";
-import { computeOutcome } from "./patient";
+import { TREATMENTS } from "../data/treatments.js";
+import { computeOutcome } from "./patient.js";
 
 export const WRONG_TREATMENT_PENALTY = 15;
 
@@ -73,8 +73,9 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   else if (ratio >= 0.3) score += 20;
   else if (ratio > 0) score += 10;
 
-  const dh = cd.needDiag.filter(id => selDiag.includes(id)).length;
-  score += Math.round((dh / Math.max(cd.needDiag.length, 1)) * 20);
+  const needDiag = cd.needDiag || [];
+  const dh = needDiag.filter(id => (selDiag || []).includes(id)).length;
+  score += Math.round((dh / Math.max(needDiag.length, 1)) * 20);
 
   const rev = revealedAnamnesis || new Set();
   const anamnesisRequired = [];
@@ -87,11 +88,13 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const anamnesisRevealed = anamnesisRequired.filter(k => rev.has(k)).length;
   score += Math.round((anamnesisRevealed / Math.max(anamnesisRequired.length, 1)) * 10);
 
-  const th = cd.needTreat.filter(id => selTreat.includes(id)).length;
-  score += Math.round((th / Math.max(cd.needTreat.length, 1)) * 20);
+  const needTreat = cd.needTreat || [];
+  const th = needTreat.filter(id => (selTreat || []).includes(id)).length;
+  score += Math.round((th / Math.max(needTreat.length, 1)) * 20);
 
-  cd.wrongTreat.forEach(id => {
-    if (selTreat.includes(id)) {
+  const wrongTreat = cd.wrongTreat || [];
+  wrongTreat.forEach(id => {
+    if ((selTreat || []).includes(id)) {
       score = Math.max(0, score - WRONG_TREATMENT_PENALTY);
       dangerous.push(TREATMENTS.find(t => t.id === id)?.name || id);
     }

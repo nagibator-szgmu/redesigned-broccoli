@@ -6,6 +6,7 @@ import DesktopEmergencyLayout from "./DesktopEmergencyLayout";
 
 export default function EmergencyGameScreen({
   phase, setPhase, cd, ps, prevPs,
+  trajectory, recordTrajectoryCheckpoint,
   selDiag, setSelDiag, selTreat, toggleTreatment,
   orderedDiag, revealedResults, newResultIds,
   diagText, setDiagText,
@@ -19,6 +20,7 @@ export default function EmergencyGameScreen({
   selectedRoute, setSelectedRoute, setExtraResult,
   setRevealedAnamnesis,
   audioEnabled, setAudioEnabled,
+  addEvent,
 }) {
   const isMobile = useIsMobile();
   const [mobileTab, setMobileTab] = useState("main");
@@ -90,6 +92,8 @@ export default function EmergencyGameScreen({
     selectedRoute, setSelectedRoute, setExtraResult,
     handleRevealAnamnesis,
     audioEnabled, setAudioEnabled,
+    trajectory, recordTrajectoryCheckpoint,
+    addEvent,
   };
 
   if (isMobile) return <MobileEmergencyLayout {...shared} />;

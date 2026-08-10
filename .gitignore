@@ -4,3 +4,5 @@ dist/
 .env.development
 .env.local
 .env.*.local
+.DS_Store
+*.DS_Store

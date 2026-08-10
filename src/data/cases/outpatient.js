@@ -450,8 +450,7 @@ export const OUTPATIENT_CASES = [
       "iv_fluids"
     ],
     "wrongTreat": [
-      "amiodarone",
-      "metoprolol"
+      "amiodarone"
     ],
     "timeLimit": 15,
     "tip": "Болезнь Грейвса: β-блокаторы для контроля симптомов + антитиреоидные средства (тиамазол). Амиодарон содержит йод — усугубляет тиреотоксикоз.",

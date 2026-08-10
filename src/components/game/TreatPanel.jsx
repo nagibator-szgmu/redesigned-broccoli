@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
@@ -8,24 +8,33 @@ import { TREATMENTS } from "../../data/treatments";
 import { IconAlertTriangle } from "../../ui/icons";
 import TooltipBtn from "./TooltipBtn";
 
-/** Helper to match treatments to 6 high-level groups or legacy category strings */
+/** Helper to match treatments to clinical groups */
 function matchGroup(item, cat) {
   if (!cat || cat === "all") return true;
-  if (cat === "meds") {
-    return ["antiplatelet", "anticoagulant", "cardiac", "analgesic", "betablocker", "diuretic", "antibiotic", "steroid", "endocrine", "antidote", "vasopressor", "anticonvulsant", "antiarrhythmic", "neuro", "antiviral", "renal"].includes(item.cat);
+  if (cat === "emergency") {
+    return ["intubation", "defibrillation", "chest_compressions", "pericardiocentesis", "epinephrine_im", "naloxone", "atropine", "activated_charcoal", "gastric_lavage", "succinylcholine"].includes(item.id) || item.cat === "intervention";
   }
-  if (cat === "invasive") {
-    return item.cat === "intervention" || ["thrombolysis", "defibrillation", "intubation", "pci", "surgery_consult", "pericardiocentesis", "chest_compressions", "gastric_lavage", "succinylcholine"].includes(item.id);
+  if (cat === "analgesia") {
+    return ["morphine", "ketamine", "diazepam", "levetiracetam"].includes(item.id) || item.cat === "analgesic" || item.cat === "anticonvulsant";
   }
-  if (cat === "airway") {
-    return ["oxygen", "intubation", "chest_compressions", "epinephrine_im", "steroids"].includes(item.id);
+  if (cat === "cardiovascular") {
+    return ["aspirin", "heparin", "thrombolysis", "nitroglycerin", "metoprolol", "amiodarone", "pci", "ACE_inhibitor", "digoxin", "nimodipine", "magnesium", "dopamine", "vasopressin", "norepinephrine", "epinephrine"].includes(item.id) || ["cardiac", "antiplatelet", "anticoagulant", "betablocker", "antiarrhythmic", "vasopressor"].includes(item.cat);
+  }
+  if (cat === "respiratory") {
+    return ["oxygen", "steroids", "intubation"].includes(item.id) || item.cat === "supportive" || item.cat === "steroid";
+  }
+  if (cat === "antimicrobial") {
+    return ["antibiotics_broad", "acyclovir"].includes(item.id) || item.cat === "antibiotic" || item.cat === "antiviral";
   }
   if (cat === "fluid") {
-    return ["iv_fluids", "blood_transfusion", "warm_iv", "dextrose", "dialysis", "mannitol", "furosemide"].includes(item.id) || item.cat === "renal";
+    return ["iv_fluids", "warm_iv", "blood_transfusion", "furosemide", "mannitol", "dialysis", "aminocaproic_acid"].includes(item.id) || item.cat === "diuretic" || item.cat === "renal";
   }
-  if (cat === "surgery") {
-    return ["surgery_consult", "pci", "pericardiocentesis", "gastric_lavage"].includes(item.id);
+  if (cat === "other") {
+    return ["insulin", "dextrose", "thyroxine", "surgery_consult"].includes(item.id) || item.cat === "endocrine";
   }
+  // Fallbacks for legacy category strings
+  if (cat === "meds") return item.cat !== "intervention";
+  if (cat === "invasive") return item.cat === "intervention";
   return item.cat === cat;
 }
 
@@ -50,12 +59,14 @@ export default function TreatPanel({
   const setSearchQuery = extSetQuery || setIntQuery;
 
   const GROUPS = [
-    { id: "all", label: t("treatGroup.all") || "Все" },
-    { id: "meds", label: t("treatGroup.meds") || "Медикаменты" },
-    { id: "invasive", label: t("treatGroup.invasive") || "Процедуры" },
-    { id: "airway", label: t("treatGroup.airway") || "Дыхание" },
-    { id: "fluid", label: t("treatGroup.fluid") || "Инфузии" },
-    { id: "surgery", label: t("treatGroup.surgery") || "Хирургия" }
+    { id: "all", label: "Все" },
+    { id: "emergency", label: "Экстренные" },
+    { id: "cardiovascular", label: "Кардио" },
+    { id: "analgesia", label: "Анальгезия" },
+    { id: "respiratory", label: "Дыхание" },
+    { id: "antimicrobial", label: "Антимикробные" },
+    { id: "fluid", label: "Инфузии" },
+    { id: "other", label: "Прочие" }
   ];
 
   const q = searchQuery.trim().toLowerCase();
@@ -68,30 +79,32 @@ export default function TreatPanel({
   const hideWarnings = localStorage.getItem("ms_hideWarnings") === "true";
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {showHeader && (
         <div style={{ display: "flex", alignItems: "center", gap: 6, ...(isMobile ? { marginBottom: 4 } : {}) }}>
-          <STitle icon="💊" label={t("treatment.title")} color={C.green} />
-          {!isMobile && <>
-            <TooltipBtn text={t("onboarding.tooltipTreatDelay")} C={C} />
-            <TooltipBtn text={t("onboarding.tooltipContinuous")} C={C} />
-          </>}
+          <STitle icon="💊" label={t("treatment.title") || "Назначения"} color={C.green} />
+          {!isMobile && (
+            <>
+              <TooltipBtn text={t("onboarding.tooltipTreatDelay") || "Время до начала действия"} C={C} />
+              <TooltipBtn text={t("onboarding.tooltipContinuous") || "Непрерывный эффект"} C={C} />
+            </>
+          )}
         </div>
       )}
 
-      {/* Search Bar with match count */}
+      {/* Search Bar with clear button */}
       <div style={{
         display: "flex", alignItems: "center", gap: 8,
-        background: C.inputBg || "rgba(7,13,24,0.6)", border: `1px solid ${C.border}`,
+        background: C.headerBg2, border: `1px solid ${C.border}`,
         borderRadius: 10, padding: "6px 12px", marginBottom: 8, backdropFilter: "blur(8px)"
       }}>
-        <span style={{ fontSize: 14, color: C.textDim }}>🔍</span>
+        <span style={{ fontSize: 13, color: C.textDim }}>🔍</span>
         <input
           className="seamless-input"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={t("search.placeholderTreat") || "Поиск препаратов..."}
+          placeholder={t("search.placeholderTreat") || "Поиск препаратов и процедур..."}
           style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: C.text, fontFamily: FONT, fontSize: 13 }}
         />
         {searchQuery && (
@@ -99,74 +112,105 @@ export default function TreatPanel({
             ✕
           </button>
         )}
-        <span style={{ fontSize: 11, color: C.green, fontFamily: FONT, background: `${C.green}15`, border: `1px solid ${C.green}33`, borderRadius: 6, padding: "2px 6px" }}>
-          {filtTreat.length} / {TREATMENTS.length}
-        </span>
       </div>
 
-      {!isMobile && <div style={{ background: C.accentDim, border: "1px solid rgba(0,230,200,0.12)", borderRadius: 8, padding: "8px 10px", marginBottom: 8, fontSize: 12, color: C.accent, lineHeight: 1.5, fontFamily: FONT }}>{t("treatment.canStart")}</div>}
-      <div style={{ background: C.redDim, border: "1px solid rgba(255,61,90,0.12)", borderRadius: 8, padding: isMobile ? "8px 12px" : "7px 10px", marginBottom: 10, fontSize: 12, color: C.red, fontFamily: FONT }}>{t("treatment.dangerous")}</div>
-
-      {/* 6 Group Chips */}
-      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 10 }}>
-        {GROUPS.map(grp => {
-          const active = treatCat === grp.id;
+      {/* Clinical Category Filter Chips */}
+      <div className="no-scrollbar" style={{
+        display: "flex", gap: 4, overflowX: "auto", paddingBottom: 6, marginBottom: 8,
+        flexShrink: 0, WebkitOverflowScrolling: "touch"
+      }}>
+        {GROUPS.map(g => {
+          const isActive = (treatCat || "all") === g.id;
           return (
-            <button key={grp.id} onClick={() => setTreatCat && setTreatCat(grp.id)} className="filter-pill" style={{
-              background: active ? `${C.green}1a` : "transparent",
-              border: `1px solid ${active ? C.green : C.border}`,
-              borderRadius: 10, padding: "4px 10px", cursor: "pointer", fontFamily: FONT,
-              fontSize: 12, color: active ? C.green : C.textDim, fontWeight: active ? 700 : 500
-            }}>{grp.label}</button>
+            <button
+              key={g.id}
+              onClick={() => setTreatCat?.(g.id)}
+              style={{
+                padding: "4px 10px",
+                borderRadius: 8,
+                border: `1px solid ${isActive ? C.green : C.btnBorder}`,
+                background: isActive ? `${C.green}20` : C.btnBg,
+                color: isActive ? C.green : C.textDim,
+                fontSize: 11,
+                fontWeight: isActive ? 700 : 500,
+                fontFamily: FONT,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "all 0.15s"
+              }}
+            >
+              {g.label}
+            </button>
           );
         })}
       </div>
 
-      {/* Treatments list with danger badges & match row */}
-      {filtTreat.map(item => {
-        const selected = selTreat.includes(item.id);
-        const isPending = pendingFx?.has(item.id);
-        const isApplied = appliedFx?.has(item.id);
-        const isDanger = !hideWarnings && cd?.wrongTreat?.includes(item.id);
-        const color = isDanger && selected ? C.red : (CAT_COLOR[item.cat] || C.green);
-
-        return (
-          <div key={item.id} onClick={() => toggleTreatment(item.id)} className="treat-row" style={{
-            display: "flex", alignItems: "center", gap: 8,
-            background: selected ? (isDanger ? `${C.red}18` : `${color}18`) : "transparent",
-            border: `1px solid ${selected ? color : C.border}`,
-            borderRadius: 8, padding: "9px 12px", cursor: "pointer", marginBottom: 4
-          }}>
-            <div style={{
-              width: 16, height: 16, borderRadius: 4, border: `2px solid ${selected ? color : C.textDim}`,
-              background: selected ? color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0
-            }}>
-              {selected && <span style={{ fontSize: 10, color: "#000", fontWeight: 900 }}>✓</span>}
-            </div>
-            <span style={{ color: selected ? C.white : isDanger ? `${C.red}cc` : C.text, fontSize: 13, fontFamily: FONT, flex: 1, lineHeight: 1.4 }}>
-              {item.name}
-            </span>
-            {isDanger && (
-              <span style={{
-                fontSize: 10, color: C.red, background: `${C.red}20`, border: `1px solid ${C.red}44`,
-                borderRadius: 4, padding: "1px 5px", fontWeight: 600, fontFamily: FONT, flexShrink: 0
-              }}>
-                {t("treatment.dangerBadge") || "⚠ dangerous"}
-              </span>
-            )}
-            {isPending && <div style={{ width: 8, height: 8, border: `2px solid ${C.yellow}`, borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite", flexShrink: 0 }} />}
-            {isApplied && !isDanger && <span style={{ fontSize: 12, color: C.green, flexShrink: 0 }}>✓</span>}
-            {isApplied && isDanger && <IconAlertTriangle size={14} color={C.red} />}
-          </div>
-        );
-      })}
-
-      {selTreat.length > 0 && (
-        <div style={{ marginTop: 10, paddingTop: 10, borderTop: `1px solid ${C.border}`, fontSize: 12, color: C.textDim, fontFamily: FONT }}>
-          {appliedFx?.size > 0 && <div style={{ color: C.green, marginBottom: 2 }}>{t("treatment.applied", { n: appliedFx.size })}</div>}
-          {pendingFx?.size > 0 && <div style={{ color: C.yellow }}>{t("treatment.inProgress", { n: pendingFx.size })}</div>}
+      {/* Closed-Loop Clinical Nudge Reminder */}
+      {selTreat.length >= 3 && (
+        <div style={{
+          padding: "6px 10px", borderRadius: 8, marginBottom: 8,
+          background: `${C.accent}12`, border: `1px solid ${C.accent}40`,
+          display: "flex", alignItems: "center", gap: 8, fontSize: 11, color: C.text, fontFamily: FONT
+        }}>
+          <span>🔄</span>
+          <span><strong>Контроль ответа:</strong> Назначено {selTreat.length} вмешательств. Оцените физиологический ответ (Reassessment) для проверки эффекта.</span>
         </div>
       )}
-    </>
+
+      {/* Treatments List Grid */}
+      <div style={{ flex: 1, overflowY: "auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8, paddingBottom: 8 }}>
+        {filtTreat.map(item => {
+          const isSelected = selTreat.includes(item.id);
+          const isApplied = appliedFx?.has(item.id);
+          const isPending = pendingFx?.has(item.id);
+          const isWrong = cd?.wrongTreat?.includes(item.id);
+          const color = CAT_COLOR[item.cat] || C.accent;
+
+          return (
+            <button
+              key={item.id}
+              onClick={() => toggleTreatment(item.id)}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                padding: "8px 10px",
+                borderRadius: 10,
+                minHeight: 64,
+                background: isApplied ? `${C.green}18` : isPending ? `${C.yellow}18` : isSelected ? `${color}18` : C.btnBg,
+                border: `1px solid ${isApplied ? C.green : isPending ? C.yellow : isSelected ? color : C.btnBorder}`,
+                cursor: "pointer",
+                textAlign: "left",
+                transition: "all 0.15s",
+                position: "relative"
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", width: "100%", justifyContent: "space-between", gap: 4 }}>
+                <span style={{ fontSize: 11.5, fontFamily: FONT, fontWeight: isSelected ? 700 : 500, color: isSelected ? C.white : C.text, lineHeight: 1.3 }}>
+                  {item.name}
+                </span>
+                {!hideWarnings && isWrong && isSelected && (
+                  <span title="Высокий риск осложнений" style={{ color: C.red, display: "inline-flex", flexShrink: 0 }}>
+                    <IconAlertTriangle size={12} color="currentColor" />
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", marginTop: 4 }}>
+                <span style={{ fontSize: 9.5, color: isApplied ? C.green : isPending ? C.yellow : C.textDim, fontFamily: FONT }}>
+                  {isApplied ? "✓ Введено" : isPending ? "⏳ Действует..." : isSelected ? "Назначено" : item.cat}
+                </span>
+                {isSelected && (
+                  <span style={{ fontSize: 10, color: isApplied ? C.green : isPending ? C.yellow : color, fontWeight: 700 }}>
+                    ●
+                  </span>
+                )}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

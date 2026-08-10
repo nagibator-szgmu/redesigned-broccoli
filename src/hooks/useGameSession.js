@@ -8,6 +8,8 @@ import { tickDeterioration, applyContinuousEffects, resolveStatus, applyUnfinish
 import useTreatmentManager from "./useTreatmentManager";
 import { analyzeCognitiveErrors } from "../engine/cognitiveAnalyzer";
 import { evaluateDiagnosisWithAI } from "../engine/aiEvaluator";
+import { calculateMap } from "../engine/reassessmentEngine";
+import { deriveProblemList } from "../engine/problemListEngine";
 
 export default function useGameSession({ difficulty, gameMode, learningMode, setTotalScore, setCasesPlayed, setSessionHistory }) {
   const [phase, setPhase] = useState("menu");
@@ -16,6 +18,7 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
   const [ps, setPs] = useState(null);
   const [prevPs, setPrevPs] = useState(null);
   const [eventLog, setEventLog] = useState([]);
+  const [trajectory, setTrajectory] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [selDiag, setSelDiag] = useState([]);
   const [orderedDiag, setOrderedDiag] = useState([]);
@@ -71,6 +74,19 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
     treatment.setAppliedFx(new Set());
     treatment.setPendingFx(new Set());
     setEventLog([{ id: 1, text: "Пациент поступил в приёмное отделение", type: "info", elapsed: "0:00" }]);
+    setTrajectory([{
+      checkpointId: "INITIAL",
+      iteration: 0,
+      timestamp: Date.now(),
+      elapsed: "0:00",
+      vitals: { ...initialPS },
+      map: calculateMap(initialPS.sbp, initialPS.dbp),
+      overallResponse: "neutral",
+      summaryText: "Пациент поступил: мониторинг запущен",
+      trend: "stable",
+      activeProblems: deriveProblemList(initialPS),
+      recentInterventions: []
+    }]);
     setSelDiag([]); setOrderedDiag([]); setRevealedResults({}); setNewResultIds([]);
     treatment.setSelTreat([]); setDiagText(""); setDiagCat("all"); setTreatCat("all"); setResult(null);
     setSelectedRoute(null); setRevealedAnamnesis(new Set());
@@ -279,11 +295,28 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
     setProcessingTests(false);
   }, [selDiag, addEvent]);
 
+  const recordTrajectoryCheckpoint = useCallback((checkpointData) => {
+    const { totalTime: tt, timeLeft: tl } = stateRef.current;
+    const elapsed = tt - tl;
+    const mm = Math.floor(elapsed / 60), ss = elapsed % 60;
+    const timeStr = `${mm}:${String(ss).padStart(2, "0")}`;
+
+    setTrajectory(prev => [
+      ...prev,
+      {
+        ...checkpointData,
+        elapsed: timeStr,
+        timestamp: Date.now()
+      }
+    ]);
+  }, []);
+
   const allResultsReady = orderedDiag.length > 0 && orderedDiag.every(id => revealedResults[id]);
 
   return {
     phase, setPhase,
     cd, ps, prevPs, eventLog, gameOver,
+    trajectory, setTrajectory, recordTrajectoryCheckpoint,
     appliedFx: treatment.appliedFx, pendingFx: treatment.pendingFx,
     selDiag, setSelDiag,
     orderedDiag,
@@ -299,6 +332,7 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
     processingTests,
     result,
     allResultsReady,
+    addEvent,
     startGame, handleSubmit, handleOrderTests,
   };
 }

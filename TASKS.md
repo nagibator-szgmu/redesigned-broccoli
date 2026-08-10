@@ -361,3 +361,35 @@ UI-исправления (найдены при тестировании):
 - ✅ 19 новых кейсов создано
 - ✅ Валидация: 65 кейсов, 0 ошибок
 - ✅ Рефакторинг: все game-screen файлы < 200 строк
+
+---
+
+## MEDSIM V2.4 — Closed-Loop Clinical Decision Engine ✅
+- **Дата:** 2026-08-09
+- **Статус:** Выполнено на 100%
+- [x] **Iterative Reassessment Engine** (`src/engine/reassessmentEngine.js`): поддержка $N$ контрольных точек (`#1..#N`), неизменяемые снимки виталов и $\Delta$.
+- [x] **Dynamic Problem List Engine** (`src/engine/problemListEngine.js`): отслеживание переходов состояний (`ACTIVE`, `IMPROVING`, `RESOLVED`, `WORSENING`, `PERSISTENT`).
+- [x] **Clinical Decision Engine** (`src/engine/decisionEngine.js`): структурированный анализ ответа на терапию (`IMPROVED` / `UNCHANGED` / `WORSENED`) и формирование Revised Plan (`CONTINUE`, `ESCALATE`, `MODIFY`, `TESTS`).
+- [x] **Sequential Safety Analytics** (`src/engine/safetyEngine.js`): детекция дефектов последовательности решений (`SEQUENTIAL_SAFETY_ERROR`, слепая полипрагмазия).
+- [x] **Clinical Trajectory UI** (`TrajectoryPanel.jsx`): визуализация многократных чекпоинтов на десктопе и мобильных устройствах.
+- [x] **9-Point Debrief** (`DebriefPanel.jsx`): полный разбор клинического цикла и адаптации решений.
+- [x] **Тестовые сьюты**: 13 тестовых сьютов (включая `iterative-reassessment-test.mjs`, `clinical-decision-loop-test.mjs`, `trajectory-integrity-test.mjs`, `sequential-safety-test.mjs`) проходят с 0 ошибок.
+- [x] **Инварианты**: 67 кейсов (SHA256: `133299f4642412aa535b3a42075a478b65f2089ad5d782e6ba7a2b9695122fa9`), скоринг `computeScore` и физиология `deterioration.js` сохранены на 100%.
+- [x] **Отчёт**: Сформирован `docs/MEDSIM_V2.4_IMPLEMENTATION_REPORT.md`.
+
+---
+
+## MEDSIM V2.5 — Clinical Reasoning Simulator / Production Hardening ✅
+- **Дата:** 2026-08-09
+- **Статус:** Выполнено на 100% (READY)
+- [x] **Architecture Audit**: создан `docs/V2.5_ARCHITECTURE_AUDIT.md`.
+- [x] **Decision Engine Hardening**: добавлены планы `EMERGENCY_RESPONSE` и `STOP / DE-ESCALATE`.
+- [x] **Safety Engine Expansion**: добавлена детекция `MISSED_ESCALATION` и слепой полипрагмазии.
+- [x] **Closed-Loop UI Nudge**: ненавязчивое напоминание в `TreatPanel` при $\ge 3$ назначениях.
+- [x] **11-Point Debrief**: полный канонический разбор клинического цикла в `DebriefPanel.jsx`.
+- [x] **Performance Optimization**: Lazy-load `ThreeDTicker` + Rollup `manualChunks` (`vendor-three`), размер основного бандла уменьшен на 517 кБ (до 1.02 МБ).
+- [x] **Тестирование**: Все 16 этапов тестов и сборки (включая `production-hardening-test.mjs` и `browser-runtime-audit.mjs`) проходят со 100% успехом (0 ошибок).
+- [x] **Инварианты**: 67 кейсов (SHA256 `133299f4642412aa535b3a42075a478b65f2089ad5d782e6ba7a2b9695122fa9`), скоринг `computeScore`, физиология `deterioration.js`, MAP safety guard строго сохранены.
+- [x] **Отчёт**: Сформирован `docs/MEDSIM_V2.5_IMPLEMENTATION_REPORT.md`.
+
+

@@ -5,6 +5,7 @@ import { useTranslate } from "../../locale/useTranslate";
 import { generateSystemPrompt, sendChatMessage, getLocalPatientResponse, generateActionReaction } from "../../engine/llmService";
 import { TREATMENTS } from "../../data/treatments";
 import { DIAGNOSTICS } from "../../data/diagnostics";
+import ABCDEAssessmentPanel from "./ABCDEAssessmentPanel";
 
 function getTreatmentReaction(id) {
   const rx = {
@@ -34,7 +35,7 @@ function getDiagReaction(id) {
   return rx[id] || null;
 }
 
-export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], showInfo, setShowInfo, isMobile, onRevealAnamnesis }) {
+export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], showInfo, setShowInfo, isMobile, onRevealAnamnesis, addEvent }) {
   const C = useTheme();
   const { t } = useTranslate();
   
@@ -173,24 +174,34 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
       {/* Mode selectors */}
       <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
         <button onClick={() => setMode("classic")} style={{
-          flex: 1, padding: "6px 10px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
+          flex: 1, padding: "6px 8px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
           background: mode === "classic" ? `${C.accent}14` : "transparent",
           border: `1px solid ${mode === "classic" ? C.accent : C.border}`,
           color: mode === "classic" ? C.accent : C.textDim, transition: "all 0.15s"
         }}>
-          📝 {t("history.classic") || "Сбор данных"}
+          📝 {t("history.classic") || "Сбор"}
+        </button>
+        <button onClick={() => setMode("abcde")} style={{
+          flex: 1, padding: "6px 8px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
+          background: mode === "abcde" ? `${C.accent}14` : "transparent",
+          border: `1px solid ${mode === "abcde" ? C.accent : C.border}`,
+          color: mode === "abcde" ? C.accent : C.textDim, transition: "all 0.15s"
+        }}>
+          🩺 ABCDE
         </button>
         <button onClick={() => setMode("chat")} style={{
-          flex: 1, padding: "6px 10px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
+          flex: 1, padding: "6px 8px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
           background: mode === "chat" ? `${C.accent}14` : "transparent",
           border: `1px solid ${mode === "chat" ? C.accent : C.border}`,
           color: mode === "chat" ? C.accent : C.textDim, transition: "all 0.15s"
         }}>
-          💬 {t("history.chat") || "Опрос пациента"}
+          💬 {t("history.chat") || "Чат"}
         </button>
       </div>
 
-      {mode === "classic" ? (
+      {mode === "abcde" ? (
+        <ABCDEAssessmentPanel cd={cd} ps={ps} addEvent={addEvent} />
+      ) : mode === "classic" ? (
         isAdmission ? (
           <div>
             <div style={{ border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, overflow: "hidden", background: C.panelBg, padding: isMobile ? "10px 12px" : "12px 14px" }}>
