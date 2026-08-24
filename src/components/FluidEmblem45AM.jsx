@@ -89,17 +89,12 @@ export function FluidEmblem45AM({
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.save();
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate(Math.PI);
-
       ctx.fillStyle = textColor;
       ctx.font = '900 180px -apple-system, BlinkMacSystemFont, "Inter", "Fredoka", "Arial Black", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      ctx.fillText(params.text, 0, 5);
-      ctx.restore();
+      ctx.fillText(params.text, canvas.width / 2, canvas.height / 2 + 5);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.wrapS = THREE.RepeatWrapping;
