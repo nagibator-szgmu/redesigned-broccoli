@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useTheme } from "../../ui/ThemeContext";
-import { FONT, CODE } from "../../ui/theme";
+import { FONT } from "../../ui/theme";
 import { STitle } from "../../ui/components";
 import { evaluateClinicalSafety } from "../../engine/safetyEngine";
 import { deriveProblemList } from "../../engine/problemListEngine";
@@ -80,24 +80,7 @@ export default function DebriefPanel({
         </div>
       )}
 
-      {/* 4. Trajectory & Adaptation Flow */}
-      {trajectory.length > 0 && (
-        <div style={{ padding: "10px 12px", borderRadius: 8, background: C.btnBg, border: `1px solid ${C.btnBorder}` }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: C.accent, marginBottom: 6, fontFamily: FONT }}>
-            Хронология решений и динамика состояния (Clinical Trajectory):
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {trajectory.map((cp, idx) => (
-              <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10.5, fontFamily: FONT, color: C.text }}>
-                <span style={{ fontFamily: CODE, color: C.textDim }}>{cp.elapsed || `${idx + 1}.`} <strong>{cp.checkpointId}</strong></span>
-                <span style={{ color: cp.overallResponse === "positive" ? C.green : cp.overallResponse === "negative" ? C.red : C.textDim }}>
-                  {cp.chosenPlan ? `→ План: ${cp.chosenPlan.label}` : cp.summaryText || "Зафиксировано"}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+
 
       {/* 5. Initial Problems Identified */}
       <div style={{ padding: "10px 12px", borderRadius: 8, background: C.btnBg, border: `1px solid ${C.btnBorder}` }}>

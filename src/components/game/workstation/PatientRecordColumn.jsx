@@ -5,14 +5,12 @@ import { useTranslate } from "../../../locale/useTranslate";
 import { STitle, ResultCard } from "../../../ui/components";
 import HistoryPanel from "../HistoryPanel";
 import ProblemListPanel from "../ProblemListPanel";
-import TrajectoryPanel from "./TrajectoryPanel";
 import { IconUser } from "../../../ui/icons";
 
 /** Left column: Patient demographics, history, test results & active interventions */
 export default function PatientRecordColumn({
   cd,
   ps,
-  trajectory = [],
   orderedDiag = [],
   revealedResults = {},
   newResultIds = [],
@@ -102,9 +100,6 @@ export default function PatientRecordColumn({
           {cd?.complaint}
         </div>
       </div>
-
-      {/* Clinical Trajectory Panel */}
-      <TrajectoryPanel trajectory={trajectory} isMobile={isMobile} />
 
       {/* Derived Clinical Problem List */}
       <ProblemListPanel ps={ps} revealedResults={revealedResults} />

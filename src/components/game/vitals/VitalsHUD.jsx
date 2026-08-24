@@ -71,9 +71,14 @@ export default function VitalsHUD({
         )}
       </div>
 
-      {/* Animated ECG Pulse Indicator */}
-      <div style={{ flexShrink: 0, padding: "0 4px", borderLeft: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}` }}>
-        <EcgWaveform hr={ps.hr} status={status} width={compact ? 70 : 100} height={compact ? 26 : 30} />
+      {/* Live Canvas ECG Pulse Oscilloscope */}
+      <div style={{ flexShrink: 0, padding: "0 4px", borderLeft: `1px solid ${C.border}`, borderRight: `1px solid ${C.border}`, borderRadius: 6, overflow: "hidden" }}>
+        <EcgWaveform
+          hr={ps.hr}
+          status={status}
+          width={compact ? 75 : 105}
+          height={compact ? 26 : 30}
+        />
       </div>
 
       {/* Telemetry Vitals Cards Container (Smooth touch scroll) */}

@@ -198,7 +198,7 @@ export default function MedSimApp() {
       {showTourMenu && <TutorialGuide phase={game.phase} seenTips={tutorialSeenTips} onSkip={handleTutorialSkip} showTourMenu onTourComplete={handleTourComplete} />}
     </>);
     if (game.phase === "teacher_dashboard") return (
-      <TeacherDashboardScreen setPhase={game.setPhase} />
+      <TeacherDashboardScreen setPhase={game.setPhase} sessionHistory={settings.sessionHistory} />
     );
     if (game.phase === "theory") return (
       <TheoryScreen setPhase={game.setPhase} startGame={startGameWrapped}

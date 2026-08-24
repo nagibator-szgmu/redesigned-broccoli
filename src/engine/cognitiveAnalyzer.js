@@ -159,3 +159,68 @@ export function generateMockStudentsData() {
     };
   });
 }
+
+/**
+ * Преобразует реальную историю сессий из localStorage / SCORM в структуру данных для кабинета преподавателя.
+ * 
+ * @param {Array} sessionHistory - Реальная история прохождений из приложения
+ * @param {string} userName - Имя текущего пользователя/врача
+ * @returns {Array} Массив реальных результатов работы студента
+ */
+export function formatRealSessionsToStudents(sessionHistory = [], userName = "Студент-Медик (Текущий профиль)") {
+  if (!sessionHistory || sessionHistory.length === 0) return [];
+
+  const formattedHistory = sessionHistory.map((s, idx) => {
+    const rawErrors = s.cogAnalysis?.cognitiveErrors || {};
+    const critErrorsList = s.cogAnalysis?.criticalErrors || [];
+    const critCount = critErrorsList.length + (s.died ? 1 : 0);
+
+    let dateFormatted = "Сессия";
+    if (s.date) {
+      const d = new Date(s.date);
+      dateFormatted = isNaN(d.getTime())
+        ? String(s.date)
+        : d.toLocaleDateString("ru-RU", {
+            day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit"
+          });
+    }
+
+    return {
+      id: s.id || `real_${idx}`,
+      caseId: s.caseId || `case_${idx}`,
+      caseTitle: s.caseName || s.caseId || `Клинический случай #${idx + 1}`,
+      score: typeof s.score === "number" ? s.score : 0,
+      date: dateFormatted,
+      passed: !s.died && (s.score >= 70),
+      died: !!s.died,
+      difficulty: s.difficulty || "нормальная",
+      criticalErrorsCount: critCount,
+      cognitiveErrors: {
+        anchoring: !!rawErrors.anchoring,
+        prematureClosure: !!rawErrors.prematureClosure,
+        diagnosticBlindness: !!rawErrors.diagnosticBlindness
+      },
+      checklist: s.cogAnalysis?.checklist,
+      aiFeedback: s.aiFeedback,
+      aiErrors: s.aiErrors
+    };
+  });
+
+  const totalScore = formattedHistory.reduce((acc, h) => acc + h.score, 0);
+  const avgScore = Math.round(totalScore / formattedHistory.length) || 0;
+  const status = avgScore >= 85 ? "excellent" : avgScore >= 70 ? "good" : "warning";
+
+  return [
+    {
+      id: "real_user_student",
+      name: userName,
+      casesPlayed: formattedHistory.length,
+      avgScore,
+      status,
+      accuracy: Math.min(100, Math.max(40, avgScore + 5)),
+      history: formattedHistory,
+      isReal: true
+    }
+  ];
+}
+
