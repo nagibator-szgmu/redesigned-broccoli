@@ -62,12 +62,17 @@ export function Emblem3D({ width = 176, height = 110, text = "45 am" }) {
         ctx.fillStyle = bgColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.scale(-1, 1);
+
         ctx.fillStyle = textColor;
         ctx.font = '900 170px -apple-system, BlinkMacSystemFont, "Inter", "Fredoka", "Arial Black", sans-serif';
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        ctx.fillText(text, canvas.width / 2, canvas.height / 2 + 4);
+        ctx.fillText(text, 0, 4);
+        ctx.restore();
 
         const tex = new THREE.CanvasTexture(canvas);
         tex.wrapS = THREE.RepeatWrapping;
