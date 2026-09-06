@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Приоритетные направления финансирования и пилотирования проекта MedSim</title>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 14mm 14mm 14mm;
+    @bottom-right {
+      content: counter(page);
+      font-size: 8.5pt;
+      color: #64748b;
+    }
+  }
+  
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.5;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .header {
+    border-bottom: 2.5px solid #0284c7;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .doc-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .date {
+    font-size: 8.5pt;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 15pt;
+    color: #0f172a;
+    margin: 4px 0 4px 0;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    font-size: 9.5pt;
+    color: #475569;
+    margin: 0;
+  }
+
+  .passport-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+
+  .passport-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #0369a1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .passport-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    row-gap: 3px;
+    font-size: 8.5pt;
+  }
+
+  .passport-label {
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .passport-val {
+    color: #1e293b;
+  }
+
+  h2 {
+    font-size: 11pt;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin: 16px 0 8px 0;
+    font-weight: 700;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    margin-bottom: 14px;
+  }
+
+  .summary-table th {
+    background: #f1f5f9;
+    color: #334155;
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+  }
+
+  .summary-table td {
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .grant-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: #ffffff;
+    page-break-inside: avoid;
+  }
+
+  .grant-card.primary {
+    border-left: 4px solid #0284c7;
+    background: #fafcff;
+  }
+
+  .grant-card.secondary {
+    border-left: 4px solid #059669;
+    background: #fbfdfc;
+  }
+
+  .grant-card.tertiary {
+    border-left: 4px solid #7c3aed;
+    background: #faf8ff;
+  }
+
+  .grant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .grant-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .grant-amount {
+    font-size: 9.5pt;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .badge-blue {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+  }
+
+  .badge-green {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .badge-purple {
+    background: #f3e8ff;
+    color: #6d28d9;
+    border: 1px solid #ddd6fe;
+  }
+
+  .grant-meta {
+    font-size: 8.5pt;
+    color: #64748b;
+    margin-bottom: 8px;
+  }
+
+  .grant-meta a {
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .grant-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    font-size: 8.8pt;
+  }
+
+  .grant-point {
+    display: flex;
+    gap: 6px;
+  }
+
+  .grant-point strong {
+    min-width: 140px;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  .highlight-box {
+    background: #eff6ff;
+    border-left: 3px solid #3b82f6;
+    padding: 7px 10px;
+    border-radius: 0 6px 6px 0;
+    margin: 6px 0 0 0;
+    font-size: 8.5pt;
+    color: #1e40af;
+  }
+
+  .help-section {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    page-break-inside: avoid;
+  }
+
+  .help-title {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 6px;
+  }
+
+  .help-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 8.8pt;
+    color: #166534;
+  }
+
+  .help-list li {
+    margin-bottom: 4px;
+  }
+
+  .footer-note {
+    margin-top: 16px;
+    font-size: 8pt;
+    color: #94a3b8;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="doc-badge">Аналитическая записка кафедре</span>
+    <span class="date">Сентябрь 2026 г.</span>
+  </div>
+  <h1>План первоочередных заявок на финансирование и пилотирование проекта MedSim</h1>
+  <p class="subtitle">Перечень ключевых программ с дедлайнами в сентябре 2026 года для привлечения грантов, выхода на Минздрав и масштабирования</p>
+</div>
+
+<div class="passport-box">
+  <div class="passport-title">📌 Краткая справка о проекте MedSim</div>
+  <div class="passport-grid">
+    <div class="passport-label">Суть проекта:</div>
+    <div class="passport-val">Отечественный интерактивный симулятор клинического мышления и детекции врачебных ошибок для студентов медицинских вузов и колледжей по клиническим рекомендациям Минздрава РФ.</div>
+    <div class="passport-label">Готовность (TRL 5–6):</div>
+    <div class="passport-val">Работающий веб-симулятор: 67 верифицированных клинических сценариев (ОРИТ, приёмное отделение, поликлиника, стационар), математическая модель детериорации жизненных параметров в реальном времени, ИИ-оценка диагнозов, SCORM-интеграция для LMS вузов.</div>
+  </div>
+</div>
+
+<h2>🎯 Сводный график приоритетных подач (Сентябрь 2026)</h2>
+
+<table class="summary-table">
+  <thead>
+    <tr>
+      <th>Программа / Конкурс</th>
+      <th>Объем поддержки / Формат</th>
+      <th>Целевой результат для MedSim</th>
+      <th>Срок подачи</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Kazan Digital Week 2026</strong><br/><em>(Минцифры РФ + Правительство РТ)</em></td>
+      <td><strong>Бесплатный стенд</strong> на выставке в Казань Экспо + статус топ-30 стартапов</td>
+      <td>Презентация руководству Минздрава РФ, ректорам медвузов, выход на заказчиков и производителей симуляторов</td>
+      <td><strong>до 15 сентября 2026</strong></td>
+    </tr>
+    <tr>
+      <td><strong>2. Росмолодёжь.Гранты (2 сезон)</strong><br/><em>(Федеральное агентство по делам молодёжи)</em></td>
+      <td><strong>Грант до 1 000 000 ₽</strong><br/>(физлицо, 0% НДФЛ, без создания юрлица)</td>
+      <td>Бюджет на развитие серверной базы, дизайн, методические материалы и проведение студенческого чемпионата по клиническому мышлению</td>
+      <td><strong>до 15–22 сентября 2026</strong></td>
+    </tr>
+    <tr>
+      <td><strong>3. Стартех.Премия 2026</strong><br/><em>(Startech.vc + ГК «Просвещение»)</em></td>
+      <td>Победа в номинации + венчурный отбор + корпоративный пилот</td>
+      <td>Масштабирование симулятора на сеть медицинских колледжей (СПО) через Академию «Просвещение» + «Студенческие технологии»</td>
+      <td><strong>Сентябрь – Октябрь 2026</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>📑 Детальное описание приоритетных направлений</h2>
+
+<!-- БЛОК 1: KAZAN DIGITAL WEEK -->
+<div class="grant-card primary">
+  <div class="grant-header">
+    <span class="grant-name">1. Международный форум Kazan Digital Week 2026</span>
+    <span class="grant-amount badge-blue">Бесплатный стенд + Выход на Минздрав</span>
+  </div>
+  <div class="grant-meta">
+    Организаторы: <strong>Министерство цифрового развития РФ, Правительство Республики Татарстан</strong> | Сайт: <a href="https://kazandigitalweek.com/">kazandigitalweek.com</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Суть отбора:</strong> Конкурсный отбор IT-проектов на посевной и ранней стадии. 30 победителей получают бесплатный оборудованный стенд в МВЦ «Казань Экспо».</div>
+    <div class="grant-point"><strong>Тематический трек:</strong> <strong>«Цифровые технологии в здравоохранении и медицине»</strong> / <strong>«Цифровое образование»</strong>.</div>
+    <div class="grant-point"><strong>Стратегическая ценность:</strong> 
+      Казань — ключевой всероссийский центр медицинского симуляционного обучения (КГМУ, разработчик роботов-симуляторов «Эйдос-Медицина», Иннополис).
+    </div>
+    <div class="grant-point"><strong>Возможности:</strong> 
+      Прямая демонстрация интерактивного симулятора на сенсорных экранах министрам здравоохранения регионов РФ, ректорам медицинских университетов и главным врачам для заключения соглашений о пилотировании (LOI).
+    </div>
+    <div class="grant-point"><strong>Срок подачи:</strong> <strong>до 15 сентября 2026 года</strong>.</div>
+  </div>
+  <div class="highlight-box">
+    🚀 <strong>Цель участия:</strong> Заключение первых партнерских соглашений с медицинскими вузами и симуляционными центрами РФ.
+  </div>
+</div>
+
+<!-- БЛОК 2: РОСМОЛОДЕЖЬ -->
+<div class="grant-card secondary">
+  <div class="grant-header">
+    <span class="grant-name">2. Всероссийский конкурс «Росмолодёжь.Гранты» (2 сезон)</span>
+    <span class="grant-amount badge-green">до 1 000 000 ₽ (Грант физлицу)</span>
+  </div>
+  <div class="grant-meta">
+    Грантодатель: <strong>Федеральное агентство по делам молодёжи (Росмолодёжь)</strong> | Портал: <a href="https://grants.myrosmol.ru/">grants.myrosmol.ru</a> (ФГАИС «Молодёжь России»)
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Финансовые условия:</strong> Субсидия выплачивается напрямую физическому лицу (граждане РФ 14–35 лет). <strong>Грант не облагается НДФЛ</strong>, регистрация юридического лица не требуется.</div>
+    <div class="grant-point"><strong>Профильная номинация:</strong> <strong>#вклад_в_будущее</strong> (молодежные научно-технические инициативы) или <strong>#создавай_возможности</strong> (развитие профессиональных компетенций).</div>
+    <div class="grant-point"><strong>Статьи расходов:</strong> Оплата серверов и хостинга, привлечение сторонних IT-разработчиков и дизайнеров, закупка лицензий, привлечение врачей-методистов для написания сценариев, проведение олимпиады по клиническому мышлению.</div>
+    <div class="grant-point"><strong>Срок подачи:</strong> <strong>до 15–22 сентября 2026 года</strong>.</div>
+  </div>
+  <div class="highlight-box">
+    💰 <strong>Цель участия:</strong> Получение прямого безвозмездного бюджета 1 000 000 ₽ на развитие платформы без налоговой и корпоративной нагрузки.
+  </div>
+</div>
+
+<!-- БЛОК 3: СТАРТЕХ.ПРЕМИЯ -->
+<div class="grant-card tertiary">
+  <div class="grant-header">
+    <span class="grant-name">3. Стартех.Премия 2026 (Startech.Awards)</span>
+    <span class="grant-amount badge-purple">Пилот с ГК «Просвещение» + Венчур</span>
+  </div>
+  <div class="grant-meta">
+    Организатор: <strong>Startech.vc</strong> | Официальный сайт конкурса: <a href="https://awards.startech.vc/">awards.startech.vc</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Формат:</strong> Национальный технологический конкурс для стартапов и инновационных университетских команд.</div>
+    <div class="grant-point"><strong>Целевая номинация №1:</strong> <strong>«Технологии для среднего профессионального образования (СПО)»</strong> (при поддержке <strong>Академии «Просвещение»</strong>).</div>
+    <div class="grant-point"><strong>Целевая номинация №2:</strong> <strong>«Лучшие технологии студентов и школьников»</strong> (для молодежных стартапов с готовым TRL 5+).</div>
+    <div class="grant-point"><strong>Почему номинация СПО идеальна:</strong> 
+      В медицинских колледжах РФ (подготовка фельдшеров скорой помощи, медсестёр, акушеров) наблюдается острый дефицит отечественных интерактивных тренажёров по клиническим рекомендациям. ГК «Просвещение» — крупнейший образовательный интегратор РФ, способный масштабировать MedSim на сотни колледжей.
+    </div>
+    <div class="grant-point"><strong>Срок подачи:</strong> <strong>Сентябрь – Октябрь 2026 года</strong>.</div>
+  </div>
+  <div class="highlight-box">
+    🏢 <strong>Цель участия:</strong> Выход на масштабную дистрибуцию через сеть Академии «Просвещение» и привлечение венчурных инвестиций.
+  </div>
+</div>
+
+<div class="help-section">
+  <div class="help-title">🤝 Какое содействие кафедры / научного руководителя необходимо:</div>
+  <ul class="help-list">
+    <li><strong>Письмо о поддержке проекта (Letter of Intent):</strong> Официальный бланк за подписью заведующего кафедрой/декана с подтверждением актуальности симулятора и готовности кафедры к апробации в учебном процессе со студентами.</li>
+    <li><strong>Научно-методическое кураторство:</strong> Экспертное согласование клинических сценариев симулятора и указание преподавателя в качестве научного консультанта/наставника в конкурсных заявках.</li>
+  </ul>
+</div>
+
+<div class="footer-note">
+  Документ подготовлен на основе официальных регламентов Минцифры РФ, Росмолодёжи, Startech.vc и ГК «Просвещение».
+</div>
+
+</body>
+</html>

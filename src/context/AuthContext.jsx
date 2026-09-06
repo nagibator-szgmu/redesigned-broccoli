@@ -6,22 +6,25 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { AUTH_STATUS, EMPTY_USER } from '../auth/authModel'
+import { AUTH_STATUS, GUEST_USER } from '../auth/authModel'
 import { authApi } from '../api/authApi'
-import { tokenStorage } from '../storage/tokenStorage'
 import { IS_DEV_MODE, DEV_USER } from '../config'
+
+const TOKEN_KEY = 'medsim_token'
 
 export const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(IS_DEV_MODE ? DEV_USER : EMPTY_USER)
-  const [status, setStatus] = useState(IS_DEV_MODE ? AUTH_STATUS.AUTHENTICATED : AUTH_STATUS.LOADING)
+  const defaultUser = IS_DEV_MODE ? DEV_USER : GUEST_USER
+  const [user, setUser] = useState(defaultUser)
+  const [status, setStatus] = useState(AUTH_STATUS.AUTHENTICATED)
 
   useEffect(() => {
     if (IS_DEV_MODE) return
-    const token = tokenStorage.get()
+    const token = localStorage.getItem(TOKEN_KEY)
     if (!token) {
-      setStatus(AUTH_STATUS.UNAUTHENTICATED)
+      setUser(GUEST_USER)
+      setStatus(AUTH_STATUS.AUTHENTICATED)
       return
     }
     authApi
@@ -31,21 +34,22 @@ export function AuthProvider({ children }) {
         setStatus(AUTH_STATUS.AUTHENTICATED)
       })
       .catch(() => {
-        tokenStorage.remove()
-        setStatus(AUTH_STATUS.UNAUTHENTICATED)
+        localStorage.removeItem(TOKEN_KEY)
+        setUser(GUEST_USER)
+        setStatus(AUTH_STATUS.AUTHENTICATED)
       })
   }, [])
 
   const login = useCallback((userData, token) => {
-    tokenStorage.set(token)
+    localStorage.setItem(TOKEN_KEY, token)
     setUser(userData)
     setStatus(AUTH_STATUS.AUTHENTICATED)
   }, [])
 
   const logout = useCallback(() => {
-    tokenStorage.remove()
-    setUser(EMPTY_USER)
-    setStatus(AUTH_STATUS.UNAUTHENTICATED)
+    localStorage.removeItem(TOKEN_KEY)
+    setUser(GUEST_USER)
+    setStatus(AUTH_STATUS.AUTHENTICATED)
   }, [])
 
   const value = useMemo(

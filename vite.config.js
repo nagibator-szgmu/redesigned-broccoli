@@ -4,11 +4,6 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      'three-spiral-emblem': path.resolve(__dirname, './src/lib/threeSpiralEmblem.js')
-    }
-  },
   base: "/",
   server: {
     port: 3000,
@@ -18,7 +13,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('threeSpiralEmblem') || id.includes('three')) {
+          if (id.includes('three')) {
             return 'vendor-three';
           }
         }

@@ -89,16 +89,10 @@ export default function MedSimApp() {
     if (topic) progress.completeCase(topic.id, game.cd.id);
   }, [game.phase, game.cd?.id]);
 
-  const [showOnboarding, setShowOnboarding] = useState(() => {
-    try { return localStorage.getItem("ms_onboardingDone") !== "true"; }
-    catch { return true; }
-  });
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [tutorialSeenTips, setTutorialSeenTips] = useState(new Set());
   const [showDeptTutorial, setShowDeptTutorial] = useState(null);
-  const [tutorialDone, setTutorialDone] = useState(() => {
-    try { return localStorage.getItem("ms_tutorialDone") === "true"; }
-    catch { return false; }
-  });
+  const [tutorialDone, setTutorialDone] = useState(true);
   const [showTourMenu, setShowTourMenu] = useState(false);
   const isTutorial = game.cd?.id === "tutorial";
 

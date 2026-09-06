@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Анализ конкурентов в сфере медицинских симуляторов — проект MedSim</title>
+<style>
+  @page {
+    size: A4;
+    margin: 11mm 13mm 11mm 13mm;
+    @bottom-right {
+      content: counter(page);
+      font-size: 8pt;
+      color: #64748b;
+    }
+  }
+  
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.42;
+    font-size: 8.8pt;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .header {
+    border-bottom: 2.5px solid #0284c7;
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+  }
+
+  .doc-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .date {
+    font-size: 8pt;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 13.5pt;
+    color: #0f172a;
+    margin: 2px 0 2px 0;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    font-size: 8.8pt;
+    color: #475569;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 10.2pt;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 3px;
+    margin: 12px 0 7px 0;
+    font-weight: 700;
+  }
+
+  .comp-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: #ffffff;
+    page-break-inside: avoid;
+  }
+
+  .comp-card.global {
+    border-left: 3.5px solid #0284c7;
+    background: #fafcff;
+  }
+
+  .comp-card.russian {
+    border-left: 3.5px solid #059669;
+    background: #fbfdfc;
+  }
+
+  .comp-card.cis {
+    border-left: 3.5px solid #d97706;
+    background: #fffdfa;
+  }
+
+  .comp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+  }
+
+  .comp-title {
+    font-size: 9.8pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .comp-link {
+    font-size: 8pt;
+    color: #0284c7;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .comp-origin {
+    font-size: 7.2pt;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    font-weight: 600;
+  }
+
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5px;
+    font-size: 8.4pt;
+  }
+
+  .comp-item strong {
+    color: #334155;
+    font-weight: 600;
+  }
+
+  .pros {
+    color: #166534;
+  }
+
+  .cons {
+    color: #991b1b;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.6pt;
+    margin: 8px 0 12px 0;
+  }
+
+  .summary-table th {
+    background: #f1f5f9;
+    color: #334155;
+    text-align: center;
+    padding: 4.5px 5px;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+  }
+
+  .summary-table th:first-child {
+    text-align: left;
+  }
+
+  .summary-table td {
+    padding: 4px 5px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .summary-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .summary-table tr.highlight-row {
+    background: #eff6ff;
+    font-weight: 700;
+  }
+
+  .badge-good {
+    color: #15803d;
+    font-weight: 700;
+  }
+
+  .badge-bad {
+    color: #b91c1c;
+    font-weight: 700;
+  }
+
+  .badge-mid {
+    color: #d97706;
+    font-weight: 700;
+  }
+
+  .utp-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 6px;
+    padding: 9px 11px;
+    margin-top: 8px;
+    page-break-inside: avoid;
+  }
+
+  .utp-title {
+    font-size: 9.3pt;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 4px;
+  }
+
+  .utp-list {
+    margin: 0;
+    padding-left: 15px;
+    font-size: 8.3pt;
+    color: #166534;
+  }
+
+  .utp-list li {
+    margin-bottom: 3px;
+  }
+
+  .footer-note {
+    margin-top: 12px;
+    font-size: 7.2pt;
+    color: #94a3b8;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="doc-badge">Конкурентный анализ & Бенчмаркинг</span>
+    <span class="date">Сентябрь 2026 г.</span>
+  </div>
+  <h1>Глобальный и отечественный рынок симуляторов клинического мышления</h1>
+  <p class="subtitle">Сравнительный аудит платформ виртуальных пациентов, географии разработки и конкурентных преимуществ MedSim</p>
+</div>
+
+<h2>🌍 1. Зарубежные и международные экранные симуляторы</h2>
+
+<!-- Body Interact -->
+<div class="comp-card global">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">1. Body Interact</span>
+      <span class="comp-origin">Португалия / США</span>
+    </div>
+    <a class="comp-link" href="https://bodyinteract.com" target="_blank">🔗 bodyinteract.com</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Мировой лидер среди экранных симуляторов виртуальных пациентов (Web, планшеты, сенсорные столы).</div>
+    <div class="comp-item pros"><strong>Плюсы:</strong> Динамическая физиологическая модель, посекундное изменение виталов, мультиплеер, развитый дебрифинг.</div>
+    <div class="comp-item cons"><strong>Минусы:</strong> Сверхдорого для вузов (€15 000–€60 000/год), строго западные протоколы (AHA/ERC), 0% адаптации под КР Минздрава РФ, санкционные сложности с оплатой в РФ.</div>
+  </div>
+</div>
+
+<!-- Full Code -->
+<div class="comp-card global">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">2. Full Code Medical Simulation</span>
+      <span class="comp-origin">США (Minerva Medical)</span>
+    </div>
+    <a class="comp-link" href="https://fullcodemedical.com" target="_blank">🔗 fullcodemedical.com</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Мобильный и веб-симулятор палаты неотложной помощи (ER/ОРИТ) с фокусом на deliberate practice.</div>
+    <div class="comp-item pros"><strong>Плюсы:</strong> 150+ ургентных сценариев, таймер, динамические показатели, разбор действий.</div>
+    <div class="comp-item cons"><strong>Минусы:</strong> Ограничен только неотложкой (нет поликлиники и стационара), нет когнитивного анализатора ошибок врача, только английский язык и протоколы США.</div>
+  </div>
+</div>
+
+<!-- DIMEDUS -->
+<div class="comp-card cis">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">3. DIMEDUS (Виртуальная клиника Димедус)</span>
+      <span class="comp-origin">Казахстан (Астана / DIMEDUS Asia)</span>
+    </div>
+    <a class="comp-link" href="https://dimedus.com" target="_blank">🔗 dimedus.com</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Международный программно-аппаратный комплекс (VR, сенсорные анатомические столы, онлайн-модули).</div>
+    <div class="comp-item pros"><strong>Плюсы:</strong> 500+ сценариев, многопрофильность (хирургия, терапия, педиатрия), визуализация анатомии.</div>
+    <div class="comp-item cons"><strong>Минусы:</strong> Разработан в Казахстане для международного рынка; <strong>не позиционирует себя под стандарты РФ</strong> и не синхронизирован с клиническими рекомендациями Минздрава РФ; продаётся преимущественно как дорогой аппаратный стол за миллионы рублей, недоступен для массового мобильного обучения студентов на дому.</div>
+  </div>
+</div>
+
+<!-- Clinical Sense -->
+<div class="comp-card global">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">4. Clinical Sense</span>
+      <span class="comp-origin">США / Шри-Ланка (Medical Joyworks)</span>
+    </div>
+    <a class="comp-link" href="https://clinicalintelligence.app" target="_blank">🔗 clinicalintelligence.app</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Мобильное приложение с короткими пошаговыми клиническими кейсами (3–5 минут).</div>
+    <div class="comp-item cons"><strong>Минусы:</strong> Статическая ветвящаяся структура (нет детериорации жизненных показателей в реальном времени), нет интеграции со SCORM/LMS вузов.</div>
+  </div>
+</div>
+
+<!-- i-Human Patients -->
+<div class="comp-card global">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">5. i-Human Patients by Kaplan</span>
+      <span class="comp-origin">США</span>
+    </div>
+    <a class="comp-link" href="https://www.kaptest.com/medical-licensing/usmle/i-human-patients" target="_blank">🔗 kaptest.com/i-human-patients</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Сложная академическая система для американских медвузов и подготовки к USMLE. Кейс длится 40–60 минут, высокая цена, привязка к медицине США.</div>
+  </div>
+</div>
+
+<h2>🇷🇺 2. Российские игроки медицинского образования и симуляций</h2>
+
+<!-- Эйдос-Медицина -->
+<div class="comp-card russian">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">1. «Эйдос-Медицина» / MedVision (Казань)</span>
+      <span class="comp-origin">Россия (Татарстан)</span>
+    </div>
+    <a class="comp-link" href="https://eidos-medicine.com" target="_blank">🔗 eidos-medicine.com</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Крупнейший в РФ разработчик аппаратных роботов-пациентов высшей реалистичности (ENSIM), хирургических и лапароскопических стоек.</div>
+    <div class="comp-item"><strong>Отношение к MedSim:</strong> Аппаратный производитель (роботы от 5 до 30 млн ₽). <strong>Является потенциальным B2B-партнёром</strong> для дополнения аппаратных комплексов легким веб-симулятором MedSim.</div>
+  </div>
+</div>
+
+<!-- MedVR -->
+<div class="comp-card russian">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">2. MedVR (ООО «МедВР»)</span>
+      <span class="comp-origin">Россия (Москва / СПб)</span>
+    </div>
+    <a class="comp-link" href="https://medvr.net" target="_blank">🔗 medvr.net</a>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> VR-симуляторы для отработки мануальных навыков СЛР, скорой помощи и станций первичной аккредитации (ОСКЭ).</div>
+    <div class="comp-item cons"><strong>Минусы:</strong> Жесткая привязка к дорогостоящим VR-шлемам, невозможность регулярной самостоятельной тренировки студентов со смартфонов и ноутбуков.</div>
+  </div>
+</div>
+
+<!-- ГЭОТАР-Медиа / ФМЗА -->
+<div class="comp-card russian">
+  <div class="comp-header">
+    <div>
+      <span class="comp-title">3. ГЭОТАР-Медиа / Банки тестов ФМЗА (Медтест)</span>
+      <span class="comp-origin">Россия</span>
+    </div>
+    <div>
+      <a class="comp-link" href="https://www.geotar.ru" target="_blank">🔗 geotar.ru</a> | 
+      <a class="comp-link" href="https://fmza.ru" target="_blank">🔗 fmza.ru</a>
+    </div>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item"><strong>Суть:</strong> Официальные электронные библиотеки и статические тесты для экзаменов и первичной аккредитации Минздрава.</div>
+    <div class="comp-item cons"><strong>Минусы:</strong> Статичный формат с выбором варианта (А, Б, В), отсутствует симуляция реального времени, детериорация виталов и психологический стресс врача.</div>
+  </div>
+</div>
+
+<h2>📊 3. Сводная матрица сравнения ключевых параметров</h2>
+
+<table class="summary-table">
+  <thead>
+    <tr>
+      <th>Ключевой критерий сравнения</th>
+      <th>MedSim</th>
+      <th>Body Interact</th>
+      <th>Full Code</th>
+      <th>DIMEDUS</th>
+      <th>MedVR</th>
+      <th>ГЭОТАР / ФМЗА</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="highlight-row">
+      <td>Страна разработки</td>
+      <td><strong>🇷🇺 Россия</strong></td>
+      <td>🇵🇹 Португалия</td>
+      <td>🇺🇸 США</td>
+      <td>🇰🇿 Казахстан</td>
+      <td>🇷🇺 Россия</td>
+      <td>🇷🇺 Россия</td>
+    </tr>
+    <tr class="highlight-row">
+      <td>Синхронизация с КР Минздрава РФ</td>
+      <td><span class="badge-good">🟢 100% КР</span></td>
+      <td><span class="badge-bad">🔴 0% (США/ЕС)</span></td>
+      <td><span class="badge-bad">🔴 0% (США)</span></td>
+      <td><span class="badge-bad">🔴 0% (Междунар.)</span></td>
+      <td><span class="badge-good">🟢 Да (ОСКЭ)</span></td>
+      <td><span class="badge-good">🟢 100%</span></td>
+    </tr>
+    <tr>
+      <td>Доступность (любой Web/смартфон)</td>
+      <td><span class="badge-good">🟢 Zero-install</span></td>
+      <td><span class="badge-good">🟢 Web/App</span></td>
+      <td><span class="badge-good">🟢 App</span></td>
+      <td><span class="badge-bad">🔴 Нужен стол/ПК</span></td>
+      <td><span class="badge-bad">🔴 Нужен VR-шлем</span></td>
+      <td><span class="badge-good">🟢 Web</span></td>
+    </tr>
+    <tr>
+      <td>Детериорация виталов в реальном времени</td>
+      <td><span class="badge-good">🟢 Да (30/15 сек)</span></td>
+      <td><span class="badge-good">🟢 Да</span></td>
+      <td><span class="badge-good">🟢 Да</span></td>
+      <td><span class="badge-good">🟢 Да</span></td>
+      <td><span class="badge-mid">🟡 Упрощенно</span></td>
+      <td><span class="badge-bad">🔴 Нет (Статика)</span></td>
+    </tr>
+    <tr class="highlight-row">
+      <td>ИИ-детекция когнитивных ловушек врача</td>
+      <td><span class="badge-good">🟢 Да (якорение и др.)</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+    </tr>
+    <tr>
+      <td>3D PACS / КТ-МРТ вьюер срезов мозга</td>
+      <td><span class="badge-good">🟢 Да (Three.js)</span></td>
+      <td><span class="badge-mid">🟡 Картинки</span></td>
+      <td><span class="badge-mid">🟡 Картинки</span></td>
+      <td><span class="badge-good">🟢 3D стол</span></td>
+      <td><span class="badge-good">🟢 VR</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+    </tr>
+    <tr>
+      <td>Поддержка вузовских LMS (SCORM 1.2/2004)</td>
+      <td><span class="badge-good">🟢 Из коробки</span></td>
+      <td><span class="badge-mid">🟡 Под заказ</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+      <td><span class="badge-mid">🟡 Сложно</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+      <td><span class="badge-good">🟢 Своя LMS</span></td>
+    </tr>
+    <tr>
+      <td>Поликлиника + Суточный стационар</td>
+      <td><span class="badge-good">🟢 4 отделения</span></td>
+      <td><span class="badge-mid">🟡 Только ОРИТ</span></td>
+      <td><span class="badge-bad">🔴 Только ER</span></td>
+      <td><span class="badge-good">🟢 Да</span></td>
+      <td><span class="badge-bad">🔴 Только СЛР</span></td>
+      <td><span class="badge-bad">🔴 Нет</span></td>
+    </tr>
+    <tr class="highlight-row">
+      <td>Стоимость внедрения / лицензии</td>
+      <td><span class="badge-good">🟢 Доступная (₽)</span></td>
+      <td><span class="badge-bad">🔴 €15k–€60k/год</span></td>
+      <td><span class="badge-bad">🔴 Валюта ($$$)</span></td>
+      <td><span class="badge-bad">🔴 Миллионы ₽</span></td>
+      <td><span class="badge-bad">🔴 Дорого (шлемы)</span></td>
+      <td><span class="badge-good">🟢 Доступная</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="utp-box">
+  <div class="utp-title">🏆 Ключевые конкурентные преимущества MedSim:</div>
+  <ul class="utp-list">
+    <li><strong>100% импортозамещение:</strong> Единственный легковесный симулятор, строго построенный на клинических рекомендациях Минздрава РФ с полной базой препаратов и диагностических тестов отечественного контура.</li>
+    <li><strong>Анализ врачебного мышления:</strong> Автоматическое выявление когнитивных искажений врача (эффект якоря, диагностическая слепота, преждевременное закрытие поиска) с объективным дебрифингом.</li>
+    <li><strong>Массовая доступность:</strong> Работает прямо в браузере (React + Vite) без покупки тяжелых аппаратных столов или VR-гарнитур.</li>
+    <li><strong>Готовность к внедрению в вузы:</strong> Кабинет преподавателя (Teacher Dashboard) и протокол SCORM для бесшовной интеграции в университетский Moodle.</li>
+  </ul>
+</div>
+
+<div class="footer-note">
+  Документ составлен на основе аудита официальных сайтов разработчиков. Все гиперссылки кликабельны.
+</div>
+
+</body>
+</html>

@@ -6,23 +6,17 @@ export const EMPTY_USER = {
   createdAt: null,
 };
 
+export const GUEST_USER = {
+  id: "guest",
+  email: "guest@medsim.local",
+  nickname: "Студент-Медик",
+  avatar: null,
+  createdAt: null,
+};
+
 export const AUTH_STATUS = {
   LOADING: "loading",
   AUTHENTICATED: "authenticated",
   UNAUTHENTICATED: "unauthenticated",
 };
 
-/**
- * @param {string} id
- * @param {string} email
- * @param {string} nickname
- */
-export function createUser(id, email, nickname) {
-  return {
-    id,
-    email,
-    nickname,
-    avatar: null,
-    createdAt: new Date().toISOString(),
-  };
-}

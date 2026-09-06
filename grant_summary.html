@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Аналитическая записка: Гранты и программы поддержки для проекта MedSim</title>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 14mm 15mm 14mm;
+    @bottom-right {
+      content: counter(page);
+      font-size: 9pt;
+      color: #64748b;
+    }
+  }
+  
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.45;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .header {
+    border-bottom: 2px solid #0284c7;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .doc-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .date {
+    font-size: 8.5pt;
+    color: #64748b;
+  }
+
+  h1 {
+    font-size: 16pt;
+    color: #0f172a;
+    margin: 4px 0 6px 0;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 10pt;
+    color: #475569;
+    margin: 0;
+  }
+
+  .passport-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+  }
+
+  .passport-title {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #0369a1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .passport-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    row-gap: 4px;
+    font-size: 9pt;
+  }
+
+  .passport-label {
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .passport-val {
+    color: #1e293b;
+  }
+
+  h2 {
+    font-size: 12pt;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin: 20px 0 10px 0;
+    font-weight: 700;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    margin-bottom: 18px;
+  }
+
+  .summary-table th {
+    background: #f1f5f9;
+    color: #334155;
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+  }
+
+  .summary-table td {
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+
+  .summary-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .grant-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    background: #ffffff;
+    page-break-inside: avoid;
+  }
+
+  .grant-card.featured {
+    border-left: 4px solid #0284c7;
+    background: #fafcff;
+  }
+
+  .grant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .grant-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .grant-amount {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid #a7f3d0;
+  }
+
+  .grant-meta {
+    font-size: 8.5pt;
+    color: #64748b;
+    margin-bottom: 8px;
+  }
+
+  .grant-meta a {
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .grant-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    font-size: 9pt;
+  }
+
+  .grant-point {
+    display: flex;
+    gap: 6px;
+  }
+
+  .grant-point strong {
+    min-width: 140px;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  .highlight-box {
+    background: #eff6ff;
+    border-left: 3px solid #3b82f6;
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin: 6px 0;
+    font-size: 8.5pt;
+    color: #1e40af;
+  }
+
+  .help-section {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 18px;
+    page-break-inside: avoid;
+  }
+
+  .help-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 8px;
+  }
+
+  .help-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 9pt;
+    color: #166534;
+  }
+
+  .help-list li {
+    margin-bottom: 6px;
+  }
+
+  .footer-note {
+    margin-top: 20px;
+    font-size: 8pt;
+    color: #94a3b8;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="doc-badge">Аналитическая записка</span>
+    <span class="date">Сентябрь 2026 г.</span>
+  </div>
+  <h1>Грантовые программы, фонды и акселераторы для развития проекта MedSim</h1>
+  <p class="subtitle">Сводная справка по условиям финансирования, требованиям регуляторов и формам участия кафедры</p>
+</div>
+
+<div class="passport-box">
+  <div class="passport-title">📌 Паспорт инновационного проекта MedSim</div>
+  <div class="passport-grid">
+    <div class="passport-label">Суть проекта:</div>
+    <div class="passport-val">Отечественная интерактивная платформа симуляции клинического мышления и автоматизированного контроля диагностико-лечебных решений по клиническим рекомендациям Минздрава РФ.</div>
+    <div class="passport-label">Текущая стадия:</div>
+    <div class="passport-val"><strong>Действующий прототип высокой готовности (TRL 5–6)</strong>. База из 67 верифицированных клинических сценариев (ОРИТ, приёмное, поликлиника, стационар).</div>
+    <div class="passport-label">Технологический стек:</div>
+    <div class="passport-val">Математическая модель детериорации жизненных показателей в реальном времени, NLP-оценка диагнозов, когнитивный анализатор ошибок врача, 3D PACS/DICOM вьюер, поддержка LMS SCORM 1.2/2004.</div>
+    <div class="passport-label">Целевая аудитория:</div>
+    <div class="passport-val">Студенты медвузов (1–6 курсы), ординаторы, студенты медицинских колледжей (СПО: фельдшеры, медсёстры), кафедры и симуляционные центры.</div>
+  </div>
+</div>
+
+<h2>📊 1. Сводная матрица доступных программ</h2>
+
+<table class="summary-table">
+  <thead>
+    <tr>
+      <th>Программа / Фонд</th>
+      <th>Объем гранта</th>
+      <th>Кто подает</th>
+      <th>Целевой фокус для MedSim</th>
+      <th>Сроки / Дедлайн</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ФСИ: «Студенческий стартап»</strong></td>
+      <td><strong>1 000 000 ₽</strong></td>
+      <td>Студент / ординатор (физлицо)</td>
+      <td>Н2 (Медицина) / Н1 (Цифровые технологии). Создание ООО, MVP.</td>
+      <td>Регулярные очереди ФСИ</td>
+    </tr>
+    <tr>
+      <td><strong>ФСИ: «Старт-1» / «Старт-ИИ-1»</strong></td>
+      <td><strong>до 5 000 000 ₽</strong></td>
+      <td>Физлица (2–7 чел.) или ООО</td>
+      <td>НИОКР: физиологический движок, ИИ-оценка, защита РИД.</td>
+      <td>Очереди в АС «Фонд-М»</td>
+    </tr>
+    <tr>
+      <td><strong>Росмолодёжь.Гранты (2 сезон)</strong></td>
+      <td><strong>до 1 000 000 ₽</strong></td>
+      <td>Физлицо (14–35 лет)</td>
+      <td>Номинация #вклад_в_будущее. Без создания юрлица, 0% НДФЛ.</td>
+      <td>Сентябрь 2026</td>
+    </tr>
+    <tr>
+      <td><strong>Sechenov Tech (Сеченовка)</strong></td>
+      <td>Акселерация + пилоты</td>
+      <td>Студенты, врачи, команды</td>
+      <td>№1 медтех-акселератор РФ: апробация, рецензии кафедр.</td>
+      <td>Осенний сезон 2026</td>
+    </tr>
+    <tr>
+      <td><strong>Kazan Digital Week 2026</strong></td>
+      <td>Бесплатный стенд + PR</td>
+      <td>IT-стартапы (Seed / MVP)</td>
+      <td>Презентация Минздраву РФ, ректорам, производителям симуляторов.</td>
+      <td>до 15 сентября 2026</td>
+    </tr>
+    <tr>
+      <td><strong>Стартех.Премия 2026</strong></td>
+      <td>Конкурс + венчур</td>
+      <td>Команды / студенты</td>
+      <td>Номинация «Технологии для СПО» (партнер: ГК «Просвещение»).</td>
+      <td>Сентябрь – Октябрь 2026</td>
+    </tr>
+    <tr>
+      <td><strong>Фонд «Сколково» (Кластер БМТ/ИТ)</strong></td>
+      <td>Льготы + 4 млн ₽/год</td>
+      <td>ООО (после гранта)</td>
+      <td>0% налог на прибыль/НДС, микрогранты на патентование и выставки.</td>
+      <td>Fast Track (круглогодично)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>📑 2. Детальный разбор ключевых программ</h2>
+
+<div class="grant-card featured">
+  <div class="grant-header">
+    <span class="grant-name">1. Конкурс «Студенческий стартап»</span>
+    <span class="grant-amount">1 000 000 ₽</span>
+  </div>
+  <div class="grant-meta">
+    Оператор: <strong>Фонд содействия инновациям (ФСИ)</strong> | Федпроект: <em>«Платформа университетского техпредпринимательства»</em> | Официальный сайт: <a href="https://fasie.ru/studstartup/">fasie.ru/studstartup</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Условия субсидии:</strong> Безвозмездный грант (100% финансирование, софинансирование не требуется), срок реализации — 12 месяцев.</div>
+    <div class="grant-point"><strong>Кто подает:</strong> Студенты бакалавриата, специалитета, магистратуры, аспиранты, ординаторы аккредитованных вузов РФ.</div>
+    <div class="grant-point"><strong>Профильный лот:</strong> <strong>Н2 «Медицина и технологии здоровьесбережения»</strong> (приоритет: снижение врачебных ошибок, симуляционное обучение по КР Минздрава РФ) либо <strong>Н1 «Цифровые технологии»</strong>.</div>
+    <div class="grant-point"><strong>Обязательства:</strong> Регистрация ООО (доля победителя от 51%), разработка бизнес-плана, запуск работающего веб-сервиса.</div>
+  </div>
+  <div class="highlight-box">
+    💡 <strong>Польза для университета:</strong> Вуз получает выполнение целевых показателей (KPI) Минобрнауки РФ по развитию технологического предпринимательства среди студентов.
+  </div>
+</div>
+
+<div class="grant-card featured">
+  <div class="grant-header">
+    <span class="grant-name">2. Конкурсы «Старт-1» и «Старт-ИИ-1»</span>
+    <span class="grant-amount">до 5 000 000 ₽</span>
+  </div>
+  <div class="grant-meta">
+    Оператор: <strong>Фонд содействия инновациям (ФСИ)</strong> | Нацпроект: <em>«Экономика данных» / Федпроект «ИИ»</em> | Официальный сайт: <a href="https://fasie.ru/">fasie.ru</a> (АС «Фонд-М»)
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Условия:</strong> Грант на проведение НИОКР (научно-исследовательских и опытно-конструкторских работ). Софинансирование на 1 этапе не требуется. Срок — 12 месяцев.</div>
+    <div class="grant-point"><strong>Кто подает:</strong> Коллектив физических лиц (2–7 человек) либо малое инновационное предприятие (ООО до 2 лет).</div>
+    <div class="grant-point"><strong>Специфика лота ИИ:</strong> Поддержка СППВР и систем интеллектуального анализа. В MedSim финансируются алгоритмы динамической детериорации, модуль семантической NLP-проверки диагнозов и когнитивный анализатор ловушек мышления.</div>
+    <div class="grant-point"><strong>Результат:</strong> Научно-технический отчет по ГОСТ, регистрация свидетельства на программу для ЭВМ в Роспатенте.</div>
+  </div>
+</div>
+
+<div class="grant-card">
+  <div class="grant-header">
+    <span class="grant-name">3. Всероссийский конкурс «Росмолодёжь.Гранты» (для физлиц)</span>
+    <span class="grant-amount">до 1 000 000 ₽</span>
+  </div>
+  <div class="grant-meta">
+    Оператор: <strong>Федеральное агентство по делам молодёжи (Росмолодёжь)</strong> | Официальный сайт: <a href="https://grants.myrosmol.ru/">grants.myrosmol.ru</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Условия:</strong> Прямое финансирование физических лиц (14–35 лет). <strong>Грант не облагается НДФЛ</strong>, регистрация юридического лица не требуется.</div>
+    <div class="grant-point"><strong>Номинация:</strong> <strong>#вклад_в_будущее</strong> (молодежные научно-технические инициативы) или <strong>#создавай_возможности</strong>.</div>
+    <div class="grant-point"><strong>Направления сметы:</strong> Оплата серверов, дизайна, программных модулей, привлечение методистов, проведение студенческой межвузовской олимпиады по клиническому мышлению на базе MedSim.</div>
+  </div>
+</div>
+
+<div class="grant-card">
+  <div class="grant-header">
+    <span class="grant-name">4. Акселератор Sechenov Tech (Сеченовский Университет)</span>
+    <span class="grant-amount">Апробация и менторство</span>
+  </div>
+  <div class="grant-meta">
+    Организатор: <strong>Первый МГМУ им. И. М. Сеченова</strong> | Официальный сайт: <a href="https://sechenov.tech/">sechenov.tech</a> (Leader-ID)
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Формат:</strong> Бесплатная 3-месячная акселерация по треку <em>«IT-решения в здравоохранении (MedTech / EdTech)»</em>.</div>
+    <div class="grant-point"><strong>Ключевая ценность:</strong> Экспертиза от ведущих профессоров и клиницистов РФ, возможность официального пилотирования в симуляционном центре Сеченовки, получение рецензий и актов апробации.</div>
+  </div>
+</div>
+
+<div class="grant-card">
+  <div class="grant-header">
+    <span class="grant-name">5. Международный форум Kazan Digital Week 2026</span>
+    <span class="grant-amount">Бесплатный стенд + PR</span>
+  </div>
+  <div class="grant-meta">
+    Организаторы: <strong>Минцифры РФ, Правительство РТ</strong> | Официальный сайт: <a href="https://kazandigitalweek.com/">kazandigitalweek.com</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Возможности:</strong> 30 лучших IT-стартапов получают бесплатный выставочный стенд в МВЦ «Казань Экспо».</div>
+    <div class="grant-point"><strong>Аудитория:</strong> Личная презентация симулятора руководству Минздрава РФ, региональным министрам, ректорам медвузов и разработчикам симуляционного оборудования («Эйдос-Медицина»).</div>
+  </div>
+</div>
+
+<div class="grant-card">
+  <div class="grant-header">
+    <span class="grant-name">6. Стартех.Премия (Startech.Awards 2026)</span>
+    <span class="grant-amount">Венчурный отбор</span>
+  </div>
+  <div class="grant-meta">
+    Организатор: <strong>Startech.vc</strong> | Официальный сайт: <a href="https://awards.startech.vc/">awards.startech.vc</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Целевая номинация:</strong> <em>«Технологии для среднего профессионального образования (СПО)»</em> (партнер: <strong>Академия «Просвещение»</strong>).</div>
+    <div class="grant-point"><strong>Перспектива:</strong> Масштабирование симулятора на сеть медицинских колледжей РФ (подготовка фельдшеров и медсестёр) через федерального партнёра ГК «Просвещение».</div>
+  </div>
+</div>
+
+<div class="grant-card">
+  <div class="grant-header">
+    <span class="grant-name">7. Инновационный центр «Сколково» (Кластер БМТ / ИТ)</span>
+    <span class="grant-amount">до 4 000 000 ₽/год (микрогранты)</span>
+  </div>
+  <div class="grant-meta">
+    Оператор: <strong>Фонд «Сколково»</strong> | Официальный сайт: <a href="https://sk.ru/">sk.ru</a>
+  </div>
+  <div class="grant-details">
+    <div class="grant-point"><strong>Преференции резидента:</strong> 0% налог на прибыль, 0% НДС, сниженные страховые взносы 15%. Прохождение через Fast Track за 20 дней.</div>
+    <div class="grant-point"><strong>Микрогранты:</strong> 100% компенсация расходов на регистрацию интеллектуальной собственности (патенты, свидетельства ЭВМ), маркетинг и участие в выставках.</div>
+  </div>
+</div>
+
+<div class="help-section">
+  <div class="help-title">🤝 Предложения по совместной работе с кафедрой / научным руководителем:</div>
+  <ul class="help-list">
+    <li><strong>Письмо о заинтересованности (Letter of Intent):</strong> Официальное письмо от кафедры/деканата о готовности апробировать симулятор MedSim в учебных группах студентов и ординаторов (даёт максимальный балл заявке в ФСИ).</li>
+    <li><strong>Научное наставничество:</strong> Указание преподавателя в качестве Научного консультанта / Ментора проекта в конкурсных заявках.</li>
+    <li><strong>Совместные научные публикации:</strong> Подготовка 1–2 статей в журналах перечня ВАК (например, <em>«Медицинское образование и профессиональное развитие»</em>, <em>«Виртуальные технологии в медицине»</em>) по методологии объективизации клинической оценки с помощью симуляторов.</li>
+  </ul>
+</div>
+
+<div class="footer-note">
+  Документ составлен на основе официальных регламентов ФСИ, Росмолодёжи, Сеченовского Университета и фонда «Сколково».
+</div>
+
+</body>
+</html>
