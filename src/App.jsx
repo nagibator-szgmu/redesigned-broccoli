@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { LocaleProvider } from './locale/LocaleContext'
 import LoginPage from './auth/pages/LoginPage'
@@ -11,7 +11,7 @@ export default function App() {
   return (
     <LocaleProvider>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route
               path="/"
@@ -34,7 +34,7 @@ export default function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </LocaleProvider>
   )
