@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  imsmanifest.xml для SCORM 1.2.
+  Должен располагаться в корне ZIP-архива при сборке курса.
+-->
+<manifest identifier="MedSim_SCORM12_Course" version="1.1"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="medsim_org">
+    <organization identifier="medsim_org">
+      <title>MedSim - Медицинский симулятор</title>
+      <item identifier="medsim_item" identifierref="medsim_resource">
+        <title>Клинические сценарии MedSim</title>
+        <adlcp:masteryscore>70</adlcp:masteryscore> <!-- Проходной балл по умолчанию в LMS -->
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="medsim_resource" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html" />
+    </resource>
+  </resources>
+</manifest>
