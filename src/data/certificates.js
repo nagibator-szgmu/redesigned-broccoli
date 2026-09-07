@@ -31,33 +31,41 @@ export const SPEC_CERTIFICATES = [
 
 export function computeEarnedCertificates(sessionHistory) {
   const earned = new Set();
-  const totalCases = sessionHistory.length;
+  const history = Array.isArray(sessionHistory) ? sessionHistory : [];
+  const totalCases = history.length;
 
   for (const th of CERTIFICATE_THRESHOLDS) {
     if (totalCases >= th.cases) earned.add(th.id);
   }
 
-  const bestScore = totalCases ? Math.max(...sessionHistory.map(s => s.score)) : 0;
+  const scores = history.map(s => (typeof s?.score === "number" ? s.score : 0));
+  const bestScore = scores.length ? Math.max(...scores) : 0;
   for (const th of SCORE_THRESHOLDS) {
     if (th.minScore && bestScore >= th.minScore) earned.add(th.id);
   }
 
-  const recentGrades = sessionHistory.slice(0, 5).map(s => s.gradeId);
+  const recentGrades = history.slice(0, 5).map(s => s?.gradeId);
   const streakGood = recentGrades.filter(g => g === "excellent" || g === "good").length;
   for (const th of SCORE_THRESHOLDS) {
     if (th.consecutiveGood && streakGood >= th.consecutiveGood) earned.add(th.id);
   }
 
   const catCounts = {};
-  for (const s of sessionHistory) {
-    catCounts[s.category] = (catCounts[s.category] || 0) + 1;
+  for (const s of history) {
+    if (s && s.category) {
+      catCounts[s.category] = (catCounts[s.category] || 0) + 1;
+    }
   }
   for (const cert of SPEC_CERTIFICATES) {
     if ((catCounts[cert.category] || 0) >= cert.required) earned.add(cert.id);
   }
 
   for (const cert of MODE_CERTIFICATES) {
-    if (cert.check(sessionHistory)) earned.add(cert.id);
+    try {
+      if (cert.check && cert.check(history)) earned.add(cert.id);
+    } catch {
+      // ignore
+    }
   }
 
   return earned;

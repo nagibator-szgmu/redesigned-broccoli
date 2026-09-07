@@ -43,9 +43,8 @@ export default function ActionCommandCenter({
 
   const tabs = [
     { key: "diag", label: t("phases.order_tests"), icon: <IconMicroscope size={14} color="currentColor" />, badge: selDiag.length },
-    { key: "treat", label: t("treatment.title") || "Назначения", icon: <IconPill size={14} color="currentColor" />, badge: selTreat.length },
-    { key: "diagnose", label: t("phases.diagnose"), icon: <IconClipboard size={14} color="currentColor" />, badge: diagText ? 1 : 0 },
-    { key: "consult", label: t("theory.consultation") || "КР & Советы", icon: <IconLightbulb size={14} color="currentColor" /> }
+    { key: "treat", label: t("treatment.title") || "Экстренное лечение", icon: <IconPill size={14} color="currentColor" />, badge: selTreat.length },
+    { key: "diagnose", label: t("phases.diagnose") || "Диагноз+Лечение", icon: <IconClipboard size={14} color="currentColor" />, badge: diagText ? 1 : 0 }
   ];
 
   return (
@@ -62,6 +61,7 @@ export default function ActionCommandCenter({
     }}>
       {/* Header Tabs Navigation (Scrollable on narrow tablet) */}
       <div className="no-scrollbar" style={{
+        flexShrink: 0,
         display: "flex",
         background: C.headerBg2,
         borderBottom: `1px solid ${C.border}`,
@@ -78,9 +78,9 @@ export default function ActionCommandCenter({
               onClick={() => setTab(tItem.key)}
               style={{
                 flex: "1 0 auto",
-                minWidth: 90,
+                minWidth: 100,
                 minHeight: 38,
-                padding: "8px 12px",
+                padding: "8px 14px",
                 border: "none",
                 background: isActive ? C.panelBg : "transparent",
                 borderTopLeftRadius: 8,
@@ -92,9 +92,9 @@ export default function ActionCommandCenter({
                 justifyContent: "center",
                 gap: 6,
                 color: isActive ? C.accent : C.textDim,
-                fontSize: 12,
+                fontSize: 12.5,
                 fontFamily: FONT,
-                fontWeight: isActive ? 600 : 400,
+                fontWeight: isActive ? 700 : 500,
                 transition: "all 0.15s"
               }}
             >
@@ -154,15 +154,6 @@ export default function ActionCommandCenter({
             setSelectedRoute={setSelectedRoute}
             setExtraResult={setExtraResult}
             orderedDiag={orderedDiag}
-            t={t}
-          />
-        )}
-        {tab === "consult" && (
-          <ConsultationTab
-            cd={cd}
-            learningTip={learningTip}
-            relatedTopics={relatedTopics}
-            setShowTheory={setShowTheory}
             t={t}
           />
         )}

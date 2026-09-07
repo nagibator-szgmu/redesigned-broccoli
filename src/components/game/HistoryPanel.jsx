@@ -1,317 +1,165 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
-import { generateSystemPrompt, sendChatMessage, getLocalPatientResponse, generateActionReaction } from "../../engine/llmService";
-import { TREATMENTS } from "../../data/treatments";
-import { DIAGNOSTICS } from "../../data/diagnostics";
 import { IconClipboard, IconSearch } from "../../ui/icons";
-import ABCDEAssessmentPanel from "./ABCDEAssessmentPanel";
 
-function getTreatmentReaction(id) {
-  const rx = {
-    morphine: "Кажется, боль уходит... Доктор, спасибо...",
-    fentanyl: "Ох, отпустило немного... Спасибо...",
-    oxygen_mask: "С этой маской дышать полегче, прохладный воздух идет.",
-    nitroglycerin: "Ой, голова немного закружилась... Сердце вроде успокаивается.",
-    defibrillation: "АЙ! Меня как будто током шарахнуло! Что это такое?!",
-    fluids: "По руке прохлада пошла от капельницы...",
-    norepinephrine: "Сердце так сильно заколотилось, будто выскочить хочет!",
-    epinephrine: "Ух, мотор в груди застучал бешено!",
-    intubation: "(Установлена интубационная трубка, пациент без сознания на ИВЛ)"
-  };
-  return rx[id] || null;
-}
-
-function getDiagReaction(id) {
-  if (["cbc", "biochem", "coag", "troponin", "d_dimer", "blood_gas"].includes(id)) {
-    return "Ой, иголочка... Забор крови? Колите, только аккуратно.";
-  }
-  const rx = {
-    ecg: "Присоски на груди холодные... Мне лежать неподвижно?",
-    ct_brain: "Это меня в ту трубу круглую положат?",
-    ct_chest: "В этот томограф поедем? Надеюсь, это не больно.",
-    chest_xray: "Снимок легких? Задерживать дыхание нужно?"
-  };
-  return rx[id] || null;
-}
-
-export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], showInfo, setShowInfo, isMobile, onRevealAnamnesis, addEvent }) {
+/**
+ * Clean Clinical Objective Examination & History Accordion Panel.
+ * Sections are fully visible and open by default, with smooth accordion toggle.
+ * No auto-scroll or disruptive animations.
+ */
+export default function HistoryPanel({
+  cd,
+  onRevealAnamnesis,
+  isMobile = false
+}) {
   const C = useTheme();
   const { t } = useTranslate();
-  
-  const [mode, setMode] = useState("chat"); // Default to chat mode out-of-the-box
-  const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const prevTreatRef = useRef(selTreat);
-  const prevDiagRef = useRef(orderedDiag);
+  const [anamnesisOpen, setAnamnesisOpen] = useState(true);
+  const [examOpen, setExamOpen] = useState(true);
 
-  const isAdmission = cd.department === "admission";
-  const isIcu = cd.department === "icu";
+  if (!cd) return null;
 
-  useEffect(() => {
-    setMessages([
-      { sender: "patient", text: `Здравствуйте, доктор... Мне очень плохо. ${cd.complaint.split(".")[0]}.` }
-    ]);
-  }, [cd.id]);
+  const anamnesisText = cd.anamnesis || cd.shortHistory || "Данные анамнеза отсутствуют.";
+  const examText = cd.exam || "Данные объективного осмотра в пределах нормы.";
 
-  const messagesContainerRef = useRef(null);
-
-  useEffect(() => {
-    if (mode === "chat" && messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-    }
-  }, [messages, mode]);
-
-  const handleActionReaction = async (id, type) => {
-    let actionName = id;
-    if (type === "treatment") {
-      const item = TREATMENTS.find(t => t.id === id);
-      actionName = item ? item.name : id;
-    } else if (type === "diag") {
-      const item = DIAGNOSTICS.find(d => d.id === id);
-      actionName = item ? item.name : id;
-    }
-
-    const apiKey = localStorage.getItem("ms_llm_key") || "";
-    const provider = localStorage.getItem("ms_llm_provider") || "openrouter";
-
-    try {
-      const aiReaction = await generateActionReaction({
-        provider,
-        apiKey,
-        cd,
-        ps,
-        actionName
-      });
-      if (aiReaction && aiReaction.trim()) {
-        setMessages(prevMsgs => [...prevMsgs, { sender: "patient", text: aiReaction }]);
-        return;
-      }
-    } catch (e) {
-      console.warn("ИИ не смог сгенерировать реакцию, используем оффлайн-шаблон:", e);
-    }
-
-    const fallbackMsg = type === "treatment" ? getTreatmentReaction(id) : getDiagReaction(id);
-    if (fallbackMsg) {
-      setMessages(prevMsgs => [...prevMsgs, { sender: "patient", text: fallbackMsg }]);
+  const handleToggleAnamnesis = () => {
+    const next = !anamnesisOpen;
+    setAnamnesisOpen(next);
+    if (next && onRevealAnamnesis) {
+      onRevealAnamnesis("shortHistory");
     }
   };
 
-  // Reactions to applied treatments
-  useEffect(() => {
-    const prev = prevTreatRef.current;
-    const curr = selTreat || [];
-    if (curr.length > prev.length) {
-      const added = curr.filter(x => !prev.includes(x));
-      added.forEach(id => {
-        setTimeout(() => {
-          handleActionReaction(id, "treatment");
-        }, 1200);
-      });
-    }
-    prevTreatRef.current = curr;
-  }, [selTreat]);
-
-  // Reactions to ordered diagnostics
-  useEffect(() => {
-    const prev = prevDiagRef.current;
-    const curr = orderedDiag || [];
-    if (curr.length > prev.length) {
-      const added = curr.filter(x => !prev.includes(x));
-      added.forEach(id => {
-        setTimeout(() => {
-          handleActionReaction(id, "diag");
-        }, 1200);
-      });
-    }
-    prevDiagRef.current = curr;
-  }, [orderedDiag]);
-
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || loading) return;
-    const userQ = inputValue.trim();
-    
-    // Track anamnesis reveal when user starts dialoguing
-    onRevealAnamnesis && onRevealAnamnesis("shortHistory");
-
-    setMessages(prev => [...prev, { sender: "doctor", text: userQ }]);
-    setInputValue("");
-    setLoading(true);
-
-    const apiKey = localStorage.getItem("ms_llm_key") || "";
-    const provider = localStorage.getItem("ms_llm_provider") || "openrouter";
-
-    try {
-      const systemPrompt = generateSystemPrompt(cd, ps || { pain: 5, gcs: 15, hr: 80, sbp: 120, dbp: 80, spo2: 98 });
-      const chatHistory = messages.map(m => ({
-        role: m.sender === "doctor" ? "user" : "assistant",
-        text: m.text
-      }));
-
-      const reply = await sendChatMessage({
-        provider,
-        apiKey,
-        systemPrompt,
-        chatHistory,
-        userMessage: userQ
-      });
-
-      setMessages(prev => [...prev, { sender: "patient", text: reply }]);
-    } catch {
-      // Fallback in case of net/api errors
-      const reply = getLocalPatientResponse(userQ, cd, ps);
-      setMessages(prev => [...prev, { sender: "patient", text: reply }]);
-    } finally {
-      setLoading(false);
+  const handleToggleExam = () => {
+    const next = !examOpen;
+    setExamOpen(next);
+    if (next && onRevealAnamnesis) {
+      onRevealAnamnesis("exam");
     }
   };
-
-  if (isIcu) return null;
 
   return (
-    <div style={{ marginBottom: isMobile ? 12 : 14 }}>
-      {/* Mode selectors */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
-        <button onClick={() => setMode("classic")} style={{
-          flex: 1, padding: "6px 8px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
-          background: mode === "classic" ? `${C.accent}14` : "transparent",
-          border: `1px solid ${mode === "classic" ? C.accent : C.border}`,
-          color: mode === "classic" ? C.accent : C.textDim, transition: "all 0.15s"
-        }}>
-          📝 {t("history.classic") || "Сбор"}
-        </button>
-        <button onClick={() => setMode("abcde")} style={{
-          flex: 1, padding: "6px 8px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
-          background: mode === "abcde" ? `${C.accent}14` : "transparent",
-          border: `1px solid ${mode === "abcde" ? C.accent : C.border}`,
-          color: mode === "abcde" ? C.accent : C.textDim, transition: "all 0.15s"
-        }}>
-          🩺 ABCDE
-        </button>
-        <button onClick={() => setMode("chat")} style={{
-          flex: 1, padding: "6px 8px", borderRadius: 8, cursor: "pointer", fontSize: 11, fontFamily: FONT, fontWeight: 600,
-          background: mode === "chat" ? `${C.accent}14` : "transparent",
-          border: `1px solid ${mode === "chat" ? C.accent : C.border}`,
-          color: mode === "chat" ? C.accent : C.textDim, transition: "all 0.15s"
-        }}>
-          💬 {t("history.chat") || "Чат"}
-        </button>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: isMobile ? 8 : 10 }}>
+      {/* Section 1: Anamnesis & Life History */}
+      <div style={{
+        background: C.panelBg,
+        border: `1px solid ${C.border}`,
+        borderRadius: 12,
+        overflow: "hidden",
+        transition: "border-color 0.2s"
+      }}>
+        <div
+          onClick={handleToggleAnamnesis}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 14px",
+            background: anamnesisOpen ? `${C.accent}0d` : C.panelBg,
+            borderBottom: anamnesisOpen ? `1px solid ${C.border}` : "none",
+            cursor: "pointer",
+            userSelect: "none"
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <IconClipboard size={14} color={C.accent} />
+            <span style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: C.white,
+              fontFamily: FONT,
+              letterSpacing: 0.3
+            }}>
+              {t("history.short") || "Анамнез заболевания и жизни"}
+            </span>
+          </div>
+          <span style={{
+            fontSize: 11,
+            color: C.textDim,
+            fontWeight: 600,
+            fontFamily: FONT,
+            transition: "transform 0.2s",
+            transform: anamnesisOpen ? "rotate(180deg)" : "rotate(0deg)"
+          }}>
+            ▼
+          </span>
+        </div>
+
+        {anamnesisOpen && (
+          <div style={{
+            padding: "12px 14px",
+            fontSize: 12.5,
+            lineHeight: 1.65,
+            color: C.text,
+            fontFamily: FONT,
+            background: C.panelBg
+          }}>
+            <p style={{ margin: 0 }}>{anamnesisText}</p>
+          </div>
+        )}
       </div>
 
-      {mode === "abcde" ? (
-        <ABCDEAssessmentPanel cd={cd} ps={ps} addEvent={addEvent} />
-      ) : mode === "classic" ? (
-        isAdmission ? (
-          <div>
-            <div style={{ border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, overflow: "hidden", background: C.panelBg, padding: isMobile ? "10px 12px" : "12px 14px" }}>
-              <div style={{ fontSize: 10, color: C.green, textTransform: "uppercase", letterSpacing: 1, marginBottom: 5, fontFamily: FONT, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-                <IconClipboard size={12} color={C.green} />
-                <span>{t("history.short")}</span>
-              </div>
-              <p style={{ color: C.text, fontSize: 12, lineHeight: 1.7, margin: 0, fontFamily: FONT }}>{cd.shortHistory}</p>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div onClick={() => setShowInfo(v => !v)} style={{
-              display: "flex", alignItems: "center", justifyContent: "space-between",
-              padding: isMobile ? "8px 12px" : "9px 14px",
-              background: C.panelBg, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)",
-              border: `1px solid ${C.border}`,
-              borderRadius: showInfo ? (isMobile ? "12px 12px 0 0" : "14px 14px 0 0") : (isMobile ? 12 : 14),
-              cursor: "pointer",
+      {/* Section 2: Objective Physical Examination */}
+      <div style={{
+        background: C.panelBg,
+        border: `1px solid ${C.border}`,
+        borderRadius: 12,
+        overflow: "hidden",
+        transition: "border-color 0.2s"
+      }}>
+        <div
+          onClick={handleToggleExam}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 14px",
+            background: examOpen ? `${C.green}0d` : C.panelBg,
+            borderBottom: examOpen ? `1px solid ${C.border}` : "none",
+            cursor: "pointer",
+            userSelect: "none"
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <IconSearch size={14} color={C.green} />
+            <span style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: C.white,
+              fontFamily: FONT,
+              letterSpacing: 0.3
             }}>
-              <span style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, fontWeight: 600, textTransform: "uppercase", letterSpacing: isMobile ? 0.8 : 1 }}>{t("history.title")}</span>
-              <span style={{ color: C.textDim, fontSize: 11 }}>{showInfo ? "▲" : "▼"}</span>
-            </div>
-            {showInfo && (
-              <div style={{
-                display: isMobile ? "block" : "grid", gridTemplateColumns: isMobile ? undefined : "1fr 1fr",
-                border: `1px solid ${C.border}`, borderTop: "none",
-                borderRadius: isMobile ? "0 0 12px 12px" : "0 0 14px 14px", overflow: "hidden",
-              }}>
-                {[
-                  { icon: <IconClipboard size={12} color={C.accent} />, label: t("history.short"), text: cd.anamnesis },
-                  { icon: <IconSearch size={12} color={C.accent} />, label: t("history.exam"), text: cd.exam }
-                ].map(({ icon, label, text }, i) => (
-                  <div key={label} style={{
-                    background: C.panelBg, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)",
-                    padding: isMobile ? "10px 12px" : "12px 14px",
-                    borderLeft: !isMobile && i > 0 ? `1px solid ${C.border}` : undefined,
-                    borderTop: isMobile && i > 0 ? `1px solid ${C.border}` : undefined,
-                  }}>
-                    <div style={{ fontSize: 10, color: C.textDim, textTransform: "uppercase", letterSpacing: isMobile ? 1 : 1.2, marginBottom: isMobile ? 5 : 7, fontFamily: FONT, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-                      {icon}
-                      <span>{label}</span>
-                    </div>
-                    <p style={{ color: C.text, fontSize: 12, lineHeight: 1.7, margin: 0, fontFamily: FONT }}>{text}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+              {t("history.exam") || "Данные объективного осмотра"}
+            </span>
           </div>
-        )
-      ) : (
-        /* Dialogue mode */
-        <div style={{
-          background: C.panelBg, border: `1px solid ${C.border}`, borderRadius: 14,
-          padding: 12, display: "flex", flexDirection: "column", height: 260
-        }}>
-          {/* Messages wrap */}
-          <div ref={messagesContainerRef} style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 8, paddingRight: 4, marginBottom: 8 }}>
-            {messages.map((m, idx) => {
-              const isDoc = m.sender === "doctor";
-              return (
-                <div key={idx} style={{
-                  alignSelf: isDoc ? "flex-end" : "flex-start",
-                  maxWidth: "85%",
-                  background: isDoc ? `${C.accent}14` : C.btnBg,
-                  border: `1px solid ${isDoc ? C.accent : C.border}`,
-                  borderRadius: isDoc ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
-                  padding: "8px 12px",
-                  fontSize: 12,
-                  color: isDoc ? C.white : C.text,
-                  lineHeight: 1.5,
-                  fontFamily: FONT
-                }}>
-                  {m.text}
-                </div>
-              );
-            })}
-            {loading && (
-              <div style={{ alignSelf: "flex-start", opacity: 0.6, fontSize: 11, fontFamily: FONT, color: C.textDim, padding: "4px 8px" }}>
-                ⏳ Пациент думает...
-              </div>
-            )}
-          </div>
-
-          {/* Form input */}
-          <div style={{ display: "flex", gap: 6 }}>
-            <input
-              type="text"
-              placeholder={loading ? "Подождите ответа..." : "Спросите о симптомах, анамнезе..."}
-              value={inputValue}
-              disabled={loading}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-              style={{
-                flex: 1, background: C.inputBg, border: `1px solid ${C.border}`,
-                borderRadius: 8, padding: "8px 12px", fontSize: 12, color: C.white,
-                fontFamily: FONT, outline: "none"
-              }}
-            />
-            <button onClick={handleSendMessage} disabled={loading} style={{
-              background: loading ? C.btnBg : C.accent, border: "none", borderRadius: 8, width: 34, height: 34,
-              cursor: loading ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center"
-            }}>
-              <span style={{ fontSize: 13, color: loading ? C.textDim : "#000" }}>✉️</span>
-            </button>
-          </div>
+          <span style={{
+            fontSize: 11,
+            color: C.textDim,
+            fontWeight: 600,
+            fontFamily: FONT,
+            transition: "transform 0.2s",
+            transform: examOpen ? "rotate(180deg)" : "rotate(0deg)"
+          }}>
+            ▼
+          </span>
         </div>
-      )}
+
+        {examOpen && (
+          <div style={{
+            padding: "12px 14px",
+            fontSize: 12.5,
+            lineHeight: 1.65,
+            color: C.text,
+            fontFamily: FONT,
+            background: C.panelBg
+          }}>
+            <p style={{ margin: 0 }}>{examText}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

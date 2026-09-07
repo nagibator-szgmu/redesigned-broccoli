@@ -1,15 +1,62 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../ui/ThemeContext";
 import { FONT, CODE } from "../../ui/theme";
 import { STitle, Tooltip } from "../../ui/components";
 import { deriveProblemList } from "../../engine/problemListEngine";
 
 /**
- * Панель объективного списка клинических проблем пациента (Problem List).
+ * Панель «Помощь наставника»: по умолчанию отображает кнопку вызова наставника.
+ * При клике запускается 15-секундный таймер анализа клинической картины,
+ * после чего открывается структурированный список клинических синдромов и проблем.
  */
-export default function ProblemListPanel({ ps, revealedResults = {} }) {
+export default function ProblemListPanel({ cd, ps, revealedResults = {} }) {
   const C = useTheme();
+  const [status, setStatus] = useState("idle"); // "idle" | "loading" | "unlocked"
+  const [timeLeft, setTimeLeft] = useState(15);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef(null);
+
   const problems = deriveProblemList(ps, revealedResults);
+
+  // Сброс состояния при смене пациента
+  useEffect(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setStatus("idle");
+    setTimeLeft(15);
+    setProgress(0);
+  }, [cd?.id]);
+
+  // Очистка таймера при размонтировании
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const handleStartLoading = () => {
+    if (status !== "idle") return;
+    setStatus("loading");
+    setTimeLeft(15);
+    setProgress(0);
+
+    const totalDurationMs = 15000;
+    const intervalMs = 100;
+    let elapsedMs = 0;
+
+    timerRef.current = setInterval(() => {
+      elapsedMs += intervalMs;
+      const pct = Math.min(100, (elapsedMs / totalDurationMs) * 100);
+      const remainingSec = Math.max(0, Math.ceil((totalDurationMs - elapsedMs) / 1000));
+
+      setProgress(pct);
+      setTimeLeft(remainingSec);
+
+      if (elapsedMs >= totalDurationMs) {
+        clearInterval(timerRef.current);
+        setStatus("unlocked");
+      }
+    }, intervalMs);
+  };
 
   const getEvidenceTooltip = (evText = "") => {
     if (evText.includes("Глазго") || evText.includes("GCS")) {
@@ -24,11 +71,124 @@ export default function ProblemListPanel({ ps, revealedResults = {} }) {
     return `Критерий подтверждения синдрома: ${evText}`;
   };
 
+  // 1. Исходное состояние: Кнопка «Помощь наставника»
+  if (status === "idle") {
+    return (
+      <div style={{ marginBottom: 12 }}>
+        <button
+          onClick={handleStartLoading}
+          style={{
+            width: "100%",
+            padding: "10px 14px",
+            background: `linear-gradient(135deg, ${C.panelBg} 0%, rgba(0, 230, 200, 0.08) 100%)`,
+            border: `1px solid ${C.accent}44`,
+            borderRadius: 12,
+            color: C.white,
+            fontFamily: FONT,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
+            transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = C.accent;
+            e.currentTarget.style.transform = "translateY(-1px)";
+            e.currentTarget.style.boxShadow = `0 6px 18px rgba(0,230,200,0.2)`;
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = `${C.accent}44`;
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.25)";
+          }}
+        >
+          <span style={{ fontSize: 18 }}>👨‍⚕️</span>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: C.accent, letterSpacing: 0.2 }}>
+              Помощь наставника
+            </div>
+            <div style={{ fontSize: 10, color: C.textDim, marginTop: 1 }}>
+              Анализ ведущих клинических синдромов (15 сек)
+            </div>
+          </div>
+        </button>
+      </div>
+    );
+  }
+
+  // 2. Состояние загрузки (15 секунд с индикатором прогресса)
+  if (status === "loading") {
+    return (
+      <div
+        style={{
+          marginBottom: 12,
+          padding: "12px 14px",
+          borderRadius: 12,
+          background: C.panelBg,
+          border: `1px solid ${C.accent}60`,
+          boxShadow: `0 4px 18px rgba(0,0,0,0.35), 0 0 12px ${C.accent}15`,
+          display: "flex",
+          flexDirection: "column",
+          gap: 8,
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: "50%",
+                border: `2px solid ${C.accent}40`,
+                borderTopColor: C.accent,
+                animation: "spinGear 0.8s linear infinite",
+              }}
+            />
+            <span style={{ fontSize: 12, fontWeight: 700, color: C.accent, fontFamily: FONT }}>
+              Запрос к наставнику...
+            </span>
+          </div>
+          <span style={{ fontSize: 11, fontWeight: 700, color: C.accent, fontFamily: CODE }}>
+            {timeLeft} сек
+          </span>
+        </div>
+
+        {/* Полоса прогресса */}
+        <div
+          style={{
+            width: "100%",
+            height: 6,
+            background: "rgba(255,255,255,0.06)",
+            borderRadius: 4,
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+              width: `${progress}%`,
+              background: `linear-gradient(90deg, ${C.accent} 0%, ${C.purple} 100%)`,
+              borderRadius: 4,
+              transition: "width 0.1s linear",
+            }}
+          />
+        </div>
+
+        <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, lineHeight: 1.3 }}>
+          Сопоставление витальных функций, гемодинамики и данных осмотра...
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Состояние разблокировано: Отображение клинических синдромов и проблем
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Tooltip text="Автоматически определяемые клинические синдромы на основе показателей пациента" position="top">
-          <STitle icon="📋" label="Клинические проблемы (Problem List)" color={C.accent} />
+        <Tooltip text="Клинические синдромы пациента, выделенные наставником" position="top">
+          <STitle icon="👨‍⚕️" label="Помощь наставника: Синдромы" color={C.accent} />
         </Tooltip>
         <span style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>
           Активно: <strong>{problems.length}</strong>

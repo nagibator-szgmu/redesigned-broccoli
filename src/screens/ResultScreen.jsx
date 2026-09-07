@@ -205,6 +205,8 @@ export default function ResultScreen({ result, cd, ps, trajectory = [], orderedD
           selDiag={orderedDiag}
           revealedResults={cd?.testResults || {}}
           revealedAnamnesis={revealedAnamnesis}
+          diagText={diagText}
+          extraResult={extraResult}
         />
         <div data-tutorial="result_screen" style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 18, marginBottom: 10 }}>
           <STitle icon="💡" label={t("result.debrief")} color={C.accent} />

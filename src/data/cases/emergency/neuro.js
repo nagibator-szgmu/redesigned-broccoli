@@ -468,7 +468,7 @@ export const NEURO_CASES = [
       "explain": "Гипертензивное ВК в таламусе/базальных ядрах: хроническая АГ → лопнувшие артерии малого калибра → кровоизлияние. Массивная гематома 45 мл + смещение 8 мм → угроза вклинения. Тромболизис и антикоагулянты абсолютно противопоказаны — нарастание гематомы. Маннитол снижает ВЧД; нейрохирургия — при угрозе дислокации."
     },
     "department": "icu",
-    "sourceReference": { "name": "AHA/ASA ICH Guidelines", "year": 2022 },
+    "sourceReference": { "name": "AHA/ASA ICH Клинические рекомендации", "year": 2022 },
     "diagnosisVariants": ["Внутримозговое кровоизлияние", "Геморрагический инсульт", "Аневризматическое САК"],
     "checklistItems": [
       "Нативная КТ головы немедленно",
@@ -518,7 +518,7 @@ export const NEURO_CASES = [
       { "id": "home", "label": "Амбулаторное наблюдение" },
       { "id": "urgent_surgery", "label": "Немедленное оперативное вмешательство" }
     ],
-    "sourceReference": { "name": "AHA/ASA SAH Guidelines", "year": 2012 },
+    "sourceReference": { "name": "AHA/ASA SAH Клинические рекомендации", "year": 2012 },
     "diagnosisVariants": ["Субарахноидальное кровоизлияние", "Менингит", "Мигрень"],
     "checklistItems": [
       "КТ головы для подтверждения САК",
@@ -569,7 +569,7 @@ export const NEURO_CASES = [
       { "id": "home", "label": "Амбулаторное наблюдение" },
       { "id": "urgent_surgery", "label": "Немедленное оперативное вмешательство" }
     ],
-    "sourceReference": { "name": "AHA/ASA Ischemic Stroke Guidelines", "year": 2019 },
+    "sourceReference": { "name": "AHA/ASA Ischemic Stroke Клинические рекомендации", "year": 2019 },
     "diagnosisVariants": ["Ишемический инсульт", "Транзиторная ишемическая атака", "Гемипарез при опухоли мозга"],
     "checklistItems": [
       "Нативная КТ для исключения кровоизлияния",
@@ -620,7 +620,7 @@ export const NEURO_CASES = [
       { "id": "home", "label": "Амбулаторное наблюдение" },
       { "id": "urgent_surgery", "label": "Немедленное оперативное вмешательство" }
     ],
-    "sourceReference": { "name": "AHA/ASA TIA Guidelines", "year": 2009 },
+    "sourceReference": { "name": "AHA/ASA TIA Клинические рекомендации", "year": 2009 },
     "diagnosisVariants": ["Транзиторная ишемическая атака", "Мигрень с аурой", "Ишемический инсульт"],
     "checklistItems": [
       "КТ головы для исключения кровоизлияния",
@@ -672,7 +672,7 @@ export const NEURO_CASES = [
       { "id": "home", "label": "Амбулаторное наблюдение" },
       { "id": "urgent_surgery", "label": "Немедленное оперативное вмешательство" }
     ],
-    "sourceReference": { "name": "IDSA Bacterial Meningitis Guidelines", "year": 2017 },
+    "sourceReference": { "name": "IDSA Bacterial Meningitis Клинические рекомендации", "year": 2017 },
     "diagnosisVariants": ["Бактериальный менингит", "Вирусный менингит", "Субарахноидальное кровоизлияние"],
     "checklistItems": [
       "Антибиотики НЕМЕДЛЕННО",
@@ -717,7 +717,7 @@ export const NEURO_CASES = [
       "explain": "У пожилых бактериальный менингит часто вторичный (гематогенный из мочевого тракта, ЛОР-органов). E. coli — частый возбудитель. Массивный воспалительный ответ → септический шок + судороги. Эмпирическая АБТ широкого спектра + стероиды + вазопрессоры."
     },
     "department": "icu",
-    "sourceReference": { "name": "IDSA Bacterial Meningitis Guidelines", "year": 2017 },
+    "sourceReference": { "name": "IDSA Bacterial Meningitis Клинические рекомендации", "year": 2017 },
     "diagnosisVariants": ["Бактериальный менингит", "Менингоэнцефалит", "Септический шок"],
     "checklistItems": [
       "Антибиотики широкого спектра немедленно",
@@ -761,7 +761,7 @@ export const NEURO_CASES = [
       "explain": "Эпилептический статус >30 мин — экстренное состояние. Бензодиазепины (диазepam/лоразепам) — первая линия. При рефрактерности → вальпроат или леветирацетам. При сохраняющихся судорогах >30 мин → интубация + барбитуратный наркоз. Гипертермия и ацидоз — вторичные к судорогам. Аспирация — частое и опасное осложнение."
     },
     "department": "icu",
-    "sourceReference": { "name": "AES Status Epilepticus Guidelines", "year": 2016 },
+    "sourceReference": { "name": "AES Status Epilepticus Клинические рекомендации", "year": 2016 },
     "diagnosisVariants": ["Эпилептический статус", "Судорожный припадок", "Псевдоприпадок"],
     "checklistItems": [
       "Ввести в/в бензодиазепин (diazepam/lorazepam)",
@@ -805,7 +805,7 @@ export const NEURO_CASES = [
       "explain": "Пневмококковый менингит у ребёнка: S. pneumoniae — второй по частоте возбудитель (после N. meningitidis у подростков). Фебрильные судороги → менингоэнцефалит. Дексаметазон снижает частоту тугоухости на 30% при пневмококковом менингите (КР 2010). АБТ: цефтриаксон + ванкомицин."
     },
     "department": "icu",
-    "sourceReference": { "name": "IDSA Pediatric Meningitis Guidelines", "year": 2017 },
+    "sourceReference": { "name": "IDSA Pediatric Meningitis Клинические рекомендации", "year": 2017 },
     "diagnosisVariants": ["Бактериальный менингит", "Фебрильные судороги", "Вирусный энцефалит"],
     "checklistItems": [
       "Антибиотики НЕМЕДЛЕННО",
@@ -851,7 +851,7 @@ export const NEURO_CASES = [
       "explain": "ВПГ-1 проникает в мозг через тройничный нерв → поражение лимбической системы и височных долей. Классическая триада: лихорадка + нарушение поведения + судороги. МРТ — гиперинтенсивность медиальных височных долей в FLAIR. ПЦР ЦСЖ — золотой стандарт. Ацикловир 10 мг/кг в/в каждые 8 часов — 14-21 день."
     },
     "department": "icu",
-    "sourceReference": { "name": "AAN HSV Encephalitis Guidelines", "year": 2021 },
+    "sourceReference": { "name": "AAN HSV Encephalitis Клинические рекомендации", "year": 2021 },
     "diagnosisVariants": ["ВПГ-энцефалит", "Аутоиммунный энцефалит", "Бактериальный менингоэнцефалит"],
     "checklistItems": [
       "Начать в/в ацикловир немедленно — do not wait for PCR",

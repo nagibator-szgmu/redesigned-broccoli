@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
 import VitalsHUD from "../vitals/VitalsHUD";
@@ -91,9 +91,21 @@ export default function DesktopWorkstation({
   const isCritical = ps?.status === "critical";
   const isDeteriorating = ps?.status === "deteriorating";
 
+  const leftColRef = useRef(null);
+
+  // Guarantee window and column scroll position reset on case entry
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (leftColRef.current) {
+      leftColRef.current.scrollTop = 0;
+    }
+  }, [cd?.id]);
+
   return (
     <div style={{
-      height: "100vh",
+      flex: 1,
+      height: "100%",
+      minHeight: 0,
       background: C.bgGrad,
       fontFamily: FONT,
       display: "flex",
@@ -107,7 +119,7 @@ export default function DesktopWorkstation({
         <div style={{ position: "absolute", right: "-5%", bottom: "-10%", width: 400, height: 400, background: C.glowBg2, borderRadius: "50%" }} />
       </div>
 
-      {/* Top Clinical Telemetry Header Monitor */}
+      {/* Top Clinical Telemetry Header Monitor (Firmly Fixed) */}
       <VitalsHUD
         ps={ps}
         prevPs={prevPs}
@@ -127,9 +139,34 @@ export default function DesktopWorkstation({
       />
 
       {/* Main 2-Column Clinical Workstation Grid */}
-      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))", gap: 12, padding: "10px 12px 6px 12px", minHeight: 0, zIndex: 1, overflowY: "auto" }}>
-        {/* Left Column: Patient Demographics, History, Exam & Results */}
-        <div style={{ overflow: "hidden", borderRadius: 14 }}>
+      <div style={{
+        flex: 1,
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 12,
+        padding: "8px 12px 6px 12px",
+        minHeight: 0,
+        zIndex: 1,
+        overflow: "hidden"
+      }}>
+        {/* Left Column: Patient Demographics, Structured History, Exam & Results */}
+        <div
+          ref={leftColRef}
+          style={{
+            height: "100%",
+            maxHeight: "100%",
+            minHeight: 0,
+            overflowY: "auto",
+            overflowX: "hidden",
+            overscrollBehavior: "contain",
+            borderRadius: 14,
+            display: "flex",
+            flexDirection: "column",
+            background: "transparent",
+            scrollbarWidth: "thin",
+            scrollbarColor: `${C.accent}80 rgba(0,0,0,0.25)`
+          }}
+        >
           <PatientRecordColumn
             cd={cd}
             ps={ps}
@@ -137,16 +174,20 @@ export default function DesktopWorkstation({
             orderedDiag={orderedDiag}
             revealedResults={revealedResults}
             newResultIds={newResultIds}
-            selTreat={selTreat}
-            showInfo={showInfo}
-            setShowInfo={setShowInfo}
             onRevealAnamnesis={handleRevealAnamnesis}
-            addEvent={addEvent}
           />
         </div>
 
-        {/* Right Column: Tabbed Action Command Center */}
-        <div style={{ overflow: "hidden", borderRadius: 14 }}>
+        {/* Right Column: Tabbed Action Command Center (Tabs permanently pinned at top) */}
+        <div style={{
+          height: "100%",
+          maxHeight: "100%",
+          minHeight: 0,
+          overflow: "hidden",
+          borderRadius: 14,
+          display: "flex",
+          flexDirection: "column"
+        }}>
           <ActionCommandCenter
             phase={phase}
             selDiag={selDiag}

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
 import { CAT_COLOR, DIAGNOSTICS } from "../../../data/diagnostics";
 import { STitle, Btn, CheckRow } from "../../../ui/components";
 import DiagFilterBar from "../DiagFilterBar";
+import SearchableCombobox from "../../ui/SearchableCombobox";
 
-/** Diagnostics selection tab component */
+/** Diagnostics selection tab component with integrated SearchableCombobox */
 export default function DiagTab({
   selDiag,
   setSelDiag,
@@ -34,7 +35,7 @@ export default function DiagTab({
     <div style={{ display: "flex", flexDirection: "column", height: "100%", padding: "12px 14px", boxSizing: "border-box" }}>
       <STitle icon="🔬" label={t("orderTests.title")} color={C.accent} />
 
-      <div style={{ marginBottom: 10 }}>
+      <div style={{ marginBottom: 8, marginTop: 4 }}>
         <DiagFilterBar
           diagCat={diagCat}
           setDiagCat={setDiagCat}
@@ -60,14 +61,14 @@ export default function DiagTab({
       </div>
 
       <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 12, color: C.textDim, fontFamily: FONT }}>
+        <span style={{ fontSize: 12.5, color: C.textDim, fontFamily: FONT }}>
           {t("orderTests.selected", { n: selDiag.length })}
         </span>
         <Btn
           onClick={handleOrderTests}
           disabled={selDiag.length === 0 || processingTests}
           color={C.accent}
-          style={{ padding: "8px 20px", fontSize: 13 }}
+          style={{ padding: "8px 20px", fontSize: 13.5 }}
         >
           {t("orderTests.send")}
         </Btn>

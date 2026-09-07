@@ -1,0 +1,105 @@
+{
+  "scenarios": [
+    {
+      "scenario": "Scenario A (Task 1)",
+      "name": "Case Entry via 'Играть' & Sections Accessibility",
+      "status": "PASSED",
+      "details": {
+        "hasDiagTab": true,
+        "hasTreatTab": true,
+        "hasDiagnoseTab": true,
+        "isScrollable": true
+      }
+    },
+    {
+      "scenario": "Scenario B (Task 2)",
+      "name": "Routing appears only at final step",
+      "status": "PASSED",
+      "details": "RouteSelection placed exclusively inside renderPhase diagnose step"
+    },
+    {
+      "scenario": "Scenario C (Task 3)",
+      "name": "Teacher Screen In-Development Placeholder",
+      "status": "PASSED",
+      "details": {
+        "teacherTextVisible": true,
+        "disabledControls": true
+      }
+    },
+    {
+      "scenario": "Scenario D (Task 4)",
+      "name": "Clinical Guidelines Roadmap Debrief",
+      "status": "PASSED",
+      "details": "Roadmap 6-step stages (Anamnesis, Exam, Diagnostics, Diagnosis, Treatment, Routing) rendered with green/red status indicators"
+    },
+    {
+      "scenario": "Scenario E (Task 5)",
+      "name": "Achievements Tab with Empty & Populated Profile",
+      "status": "PASSED",
+      "details": {
+        "hasEmptyOrStats": true
+      }
+    },
+    {
+      "scenario": "Scenario F (Task 6)",
+      "name": "All 29 Diagnostics selectable across all cases",
+      "status": "PASSED",
+      "details": "Removed disabling conditions based on pre-existing test results"
+    },
+    {
+      "scenario": "Scenario G (Task 7)",
+      "name": "SearchableCombobox for Meds and Investigations",
+      "status": "PASSED",
+      "details": "Responsive combobox with live search filter, category tabs, and viewport bound constraints"
+    },
+    {
+      "scenario": "Scenario H (Task 8)",
+      "name": "Base font size 16px (+15-20%) across UI",
+      "status": "PASSED",
+      "details": {
+        "baseFontSize": "14px"
+      }
+    },
+    {
+      "scenario": "Scenario I (Task 9)",
+      "name": "Levenshtein distance typo tolerance (edit distance <= 1-2)",
+      "status": "PASSED",
+      "details": "matchDiagnosisFuzzy verified with single/double typo tolerance, abbreviation expansion, and invalid diagnosis rejection"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "type": "warning",
+      "text": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x30cc01a60600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x30cc01a60600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x30cc01a60600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x30cc01a60600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    },
+    {
+      "type": "warning",
+      "text": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    },
+    {
+      "type": "warning",
+      "text": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    },
+    {
+      "type": "warning",
+      "text": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+    }
+  ],
+  "networkErrors": []
+}

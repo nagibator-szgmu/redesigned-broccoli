@@ -277,7 +277,14 @@ export default function MedSimApp() {
             🔧 РЕЖИМ РАЗРАБОТЧИКА — Весь контент открыт
           </div>
         )}
-        <div style={IS_DEV_MODE ? {marginTop:26} : undefined}>
+        <div style={{
+          height: IS_DEV_MODE ? "calc(100vh - 26px)" : "100vh",
+          marginTop: IS_DEV_MODE ? 26 : 0,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+          position: "relative"
+        }}>
           <Suspense fallback={<ScreenFallback />}>
             {showOnboarding ? <OnboardingScreen onComplete={handleOnboardingComplete} /> : content}
           </Suspense>

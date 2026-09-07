@@ -26,14 +26,22 @@ export default function VitalsHUD({
   const hasBp = ps?.sbp != null && ps.sbp > 0 && ps?.dbp != null && ps.dbp > 0;
   const map = hasBp ? Math.round((ps.sbp + 2 * ps.dbp) / 3) : null;
   const bpValue = hasBp ? `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}` : (ps?.sbp > 0 ? `${Math.round(ps.sbp)}/—` : "---/---");
-  const bpUnit = hasBp ? `(MAP ${map})` : "";
+  const bpUnit = hasBp ? `(САД ${map})` : "";
   const status = ps.status || (ps.sbp < 80 || ps.spo2 < 88 || ps.gcs < 8 ? "critical" : "normal");
 
+  const deptLabel = {
+    icu: "ОРИТ",
+    emergency: "СМП / ОРИТ",
+    admission: "ПРИЁМНОЕ",
+    outpatient: "ПОЛИКЛИНИКА",
+    stationary: "СТАЦИОНАР"
+  }[mode] || mode.toUpperCase();
+
   const vitalsConfig = [
-    { key: "hr", label: t("vitals.hr"), value: ps.hr > 0 ? `${Math.round(ps.hr)}` : "0", unit: "bpm", icon: <IconHeart size={13} color={C.accent} />, warn: ps.hr > 100 || (ps.hr > 0 && ps.hr < 50), critical: ps.hr > 130 || ps.hr === 0 || ps.hr < 40 },
+    { key: "hr", label: t("vitals.hr"), value: ps.hr > 0 ? `${Math.round(ps.hr)}` : "0", unit: "уд/мин", icon: <IconHeart size={13} color={C.accent} />, warn: ps.hr > 100 || (ps.hr > 0 && ps.hr < 50), critical: ps.hr > 130 || ps.hr === 0 || ps.hr < 40 },
     { key: "bp", label: t("vitals.sbp"), value: bpValue, unit: bpUnit, icon: <IconDroplet size={13} color={C.red} />, warn: ps.sbp < 90 || ps.sbp > 160, critical: ps.sbp < 75 || ps.sbp > 180 || ps.sbp === 0 },
     { key: "spo2", label: "SpO₂", value: ps.spo2 > 0 ? `${r1(ps.spo2)}%` : "0%", icon: <IconRespiratory size={13} color={C.green} />, warn: ps.spo2 < 94, critical: ps.spo2 < 90 || ps.spo2 === 0 },
-    { key: "rr", label: t("vitals.rr"), value: ps.rr > 0 ? `${Math.round(ps.rr)}` : "0", unit: "/min", icon: <IconWind size={13} color={C.accent} />, warn: ps.rr > 20 || (ps.rr > 0 && ps.rr < 10), critical: ps.rr > 28 || ps.rr === 0 || ps.rr < 8 },
+    { key: "rr", label: t("vitals.rr"), value: ps.rr > 0 ? `${Math.round(ps.rr)}` : "0", unit: "/мин", icon: <IconWind size={13} color={C.accent} />, warn: ps.rr > 20 || (ps.rr > 0 && ps.rr < 10), critical: ps.rr > 28 || ps.rr === 0 || ps.rr < 8 },
     { key: "temp", label: "t°C", value: `${r1(ps.temp || 36.6)}`, unit: "°C", icon: <IconThermometer size={13} color={C.yellow} />, warn: ps.temp > 38 || ps.temp < 36, critical: ps.temp > 39.5 || ps.temp < 35 },
     { key: "gcs", label: t("vitals.gcs"), value: `${Math.round(ps.gcs || 15)}`, unit: "/15", icon: <IconBrain size={13} color={C.purple} />, warn: ps.gcs < 13, critical: ps.gcs < 9 },
     { key: "pain", label: t("vitals.pain"), value: `${r1(ps.pain || 0)}`, unit: "/10", icon: <IconFlame size={13} color={C.orange} />, warn: ps.pain > 4, critical: ps.pain > 7 }
@@ -41,6 +49,7 @@ export default function VitalsHUD({
 
   return (
     <div style={{
+      flexShrink: 0,
       position: "sticky", top: 0, zIndex: 100, background: C.headerBg2, backdropFilter: "blur(20px)",
       WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}`, padding: compact ? "6px 10px" : "8px 14px",
       display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
@@ -61,10 +70,10 @@ export default function VitalsHUD({
         {!compact && (
           <div>
             <div style={{ fontSize: 12, fontWeight: 700, color: C.white, fontFamily: FONT, lineHeight: 1.1, display: "flex", alignItems: "center", gap: 6 }}>
-              <span>{cd?.name || "Patient Telemetry"}</span>
+              <span>{cd?.name || "Мониторинг пациента"}</span>
             </div>
             <div style={{ fontSize: 9, color: C.textDim, fontFamily: FONT, marginTop: 2, display: "flex", alignItems: "center", gap: 6 }}>
-              <span>{mode.toUpperCase()} · {cd?.age ? `${cd.age}${t("cases.ageSuffix")}` : ""}</span>
+              <span>{deptLabel} · {cd?.age ? `${cd.age}${t("cases.ageSuffix")}` : ""}</span>
               <PatientStatusBadge status={status} size="sm" showIcon={false} />
             </div>
           </div>

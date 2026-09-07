@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
 import { useTranslate } from "../../../locale/useTranslate";
@@ -7,62 +7,71 @@ import HistoryPanel from "../HistoryPanel";
 import ProblemListPanel from "../ProblemListPanel";
 import { IconUser } from "../../../ui/icons";
 
-/** Left column: Patient demographics, history, test results & active interventions */
+/** Left column: Patient demographics, structured history, physical exam, problems & results */
 export default function PatientRecordColumn({
   cd,
   ps,
   orderedDiag = [],
   revealedResults = {},
   newResultIds = [],
-  selTreat = [],
-  showInfo,
-  setShowInfo,
   onRevealAnamnesis,
-  addEvent,
   isMobile = false
 }) {
   const C = useTheme();
   const { t } = useTranslate();
-  const [complaintExpanded, setComplaintExpanded] = useState(false);
+  const containerRef = useRef(null);
+
+  // Auto-reset scroll to top when patient case changes
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [cd?.id]);
 
   const sevColor = cd?.severity === "critical" ? C.red : cd?.severity === "moderate" ? C.yellow : C.green;
 
   return (
-    <div style={{
-      height: "100%",
-      overflowY: "auto",
-      padding: "12px 14px",
-      display: "flex",
-      flexDirection: "column",
-      gap: 12,
-      boxSizing: "border-box"
-    }}>
-      {/* Patient Demographics & Complaint Header */}
+    <div
+      ref={containerRef}
+      style={{
+        width: "100%",
+        padding: "10px 12px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        boxSizing: "border-box"
+      }}
+    >
+      {/* Patient Demographics & Complaint Card */}
       <div style={{
         background: C.panelBg,
         border: `1px solid ${C.border}`,
         borderRadius: 14,
-        padding: "12px 14px"
+        padding: "12px 14px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8
       }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{
-              width: 38,
-              height: 38,
+              width: 36,
+              height: 36,
               borderRadius: 10,
               background: `${sevColor}15`,
               border: `1.5px solid ${sevColor}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              flexShrink: 0
             }}>
               <IconUser size={18} color={sevColor} />
             </div>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT, lineHeight: 1.2 }}>
+              <div style={{ fontSize: 13.5, fontWeight: 700, color: C.white, fontFamily: FONT, lineHeight: 1.2 }}>
                 {cd?.name}
               </div>
-              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>
+              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
                 {cd?.gender === "М" ? "Мужчина" : "Женщина"}, {cd?.age} {t("cases.ageSuffix")}
               </div>
             </div>
@@ -81,41 +90,31 @@ export default function PatientRecordColumn({
           </span>
         </div>
 
-        {/* Complaint */}
-        <div
-          onClick={() => setComplaintExpanded(v => !v)}
-          style={{
-            fontSize: 12,
-            color: C.text,
-            fontFamily: FONT,
-            lineHeight: 1.5,
-            background: `${C.accent}08`,
-            border: `1px solid ${C.border}`,
-            borderRadius: 8,
-            padding: "8px 10px",
-            cursor: "pointer",
-            ...(complaintExpanded ? {} : { display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" })
-          }}
-        >
+        {/* Complaint Text */}
+        <div style={{
+          fontSize: 12,
+          color: C.text,
+          fontFamily: FONT,
+          lineHeight: 1.5,
+          background: `${C.accent}08`,
+          border: `1px solid ${C.border}`,
+          borderRadius: 8,
+          padding: "8px 10px",
+        }}>
+          <span style={{ fontWeight: 600, color: C.accent, marginRight: 4 }}>Жалобы:</span>
           {cd?.complaint}
         </div>
       </div>
 
-      {/* Derived Clinical Problem List */}
-      <ProblemListPanel ps={ps} revealedResults={revealedResults} />
-
-      {/* History & Physical Exam Panel */}
+      {/* Structured Objective Physical Examination & History (Accordion) */}
       <HistoryPanel
         cd={cd}
-        ps={ps}
-        selTreat={selTreat}
-        orderedDiag={orderedDiag}
-        showInfo={showInfo}
-        setShowInfo={setShowInfo}
-        isMobile={isMobile}
         onRevealAnamnesis={onRevealAnamnesis}
-        addEvent={addEvent}
+        isMobile={isMobile}
       />
+
+      {/* Derived Clinical Problem List (Mentor Help) */}
+      <ProblemListPanel cd={cd} ps={ps} revealedResults={revealedResults} />
 
       {/* Revealed Test Results Timeline */}
       {orderedDiag.length > 0 && (

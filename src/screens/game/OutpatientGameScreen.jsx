@@ -68,6 +68,7 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
     if (localPhase === "results") return <ResultsPanel orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} />;
     return (<>
       <DiagnosisForm diagMain={diagMain} setDiagMain={setDiagMain} diagComplication={diagComplication} setDiagComplication={setDiagComplication} diagComorbidity={diagComorbidity} setDiagComorbidity={setDiagComorbidity} />
+      <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={setSelectedRoute} />
       <button onClick={doSubmit} disabled={!canSubmit}
         style={{ width: "100%", padding: "14px", borderRadius: 12, background: canSubmit ? `linear-gradient(135deg,${C.accent},${C.green})` : `${C.textDim}30`, border: "none", fontSize: 15, fontWeight: 700, color: canSubmit ? C.bg : C.textDim, cursor: canSubmit ? "pointer" : "not-allowed", fontFamily: FONT, marginBottom: 12 }}>
         {t("outpatient.submit")}
@@ -93,7 +94,6 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
         <PatientCard cd={cd} examinedVitals={examinedVitals} setExaminedVitals={setExaminedVitals} />
         <StepBar steps={steps} activeStep={activeStep} />
         {renderPhase()}
-        <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={setSelectedRoute} />
       </div>
     </div>
   );
@@ -118,7 +118,6 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
           <div style={{ flex: 1, overflowY: "auto", padding: "14px 20px", minWidth: 0 }}>
             <StepBar steps={steps} activeStep={activeStep} />
             {renderPhase()}
-            <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={setSelectedRoute} />
           </div>
           <div style={{ width: 260, flexShrink: 0, borderLeft: `1px solid ${C.border}`, overflowY: "auto", padding: "14px 12px", background: C.sidebarBg || C.bgGrad }}>
             <PatientCard cd={cd} examinedVitals={examinedVitals} setExaminedVitals={setExaminedVitals} />

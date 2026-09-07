@@ -54,6 +54,20 @@ export default function CaseCard({ caseData: c, catMeta, caseScores, startGame, 
             <span style={{ fontSize: 11, color: cm.color, fontFamily: FONT, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.8 }}>
               {cm.label}
             </span>
+            {c.department && (
+              <span style={{
+                fontSize: 10,
+                color: c.department === "admission" ? (C.purple || "#a855f7") : c.department === "outpatient" ? C.accent : c.department === "stationary" ? (C.blue || "#38bdf8") : C.red,
+                background: `${c.department === "admission" ? (C.purple || "#a855f7") : c.department === "outpatient" ? C.accent : c.department === "stationary" ? (C.blue || "#38bdf8") : C.red}18`,
+                border: `1px solid ${c.department === "admission" ? (C.purple || "#a855f7") : c.department === "outpatient" ? C.accent : c.department === "stationary" ? (C.blue || "#38bdf8") : C.red}35`,
+                borderRadius: 5,
+                padding: "1px 6px",
+                fontFamily: FONT,
+                fontWeight: 600,
+              }}>
+                {c.department === "admission" ? "🏥 Приёмное" : c.department === "outpatient" ? "🩺 Поликлиника" : c.department === "stationary" ? "🛏️ Стационар" : "🚨 ОРИТ"}
+              </span>
+            )}
             <Tooltip title={severityTitle} text={severityText} position="top">
               <div style={{ display: "flex", gap: 4, cursor: "help" }}>
                 {[1, 2, 3].map((d) => (

@@ -38,12 +38,26 @@ export default function CaseGrid({
 }) {
   const displayCases = specFilter || department !== "all" || searchQuery || showAllCases || isDevMode ? cases : cases.slice(0, 4);
 
+  const deptTitle = {
+    all: t("cases.title"),
+    admission: "🏥 Приёмное отделение",
+    emergency: "🚨 ОРИТ и реанимация",
+    outpatient: "🩺 Поликлиника",
+    stationary: "🛏️ Стационар",
+  }[department] || t("cases.title");
+
+  const headerTitle = specFilter
+    ? `${catMeta[specFilter]?.label || specFilter} (${cases.length})`
+    : searchQuery
+    ? t("cases.searchResults")
+    : `${deptTitle} (${cases.length})`;
+
   return (
     <div>
       {/* Cases header */}
       <div id="tutorial-cases" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
         <div style={{ fontSize: 17, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3 }}>
-          {specFilter ? `${catMeta[specFilter]?.label || specFilter}` : searchQuery ? t("cases.searchResults") : t("cases.title")}
+          {headerTitle}
         </div>
         <div style={{ display: "flex", gap: 6 }}>
           {specFilter && (
@@ -63,22 +77,24 @@ export default function CaseGrid({
               {t("cases.clear")}
             </div>
           )}
-          <div
-            onClick={() => setShowAllCases((v) => !v)}
-            style={{
-              fontSize: 12,
-              color: showAllCases ? C.white : C.accent,
-              fontFamily: FONT,
-              cursor: "pointer",
-              padding: "5px 13px",
-              borderRadius: 8,
-              border: `1px solid ${showAllCases ? "rgba(0,230,200,0.35)" : "rgba(0,230,200,0.2)"}`,
-              background: showAllCases ? "rgba(0,230,200,0.15)" : "rgba(0,230,200,0.06)",
-              fontWeight: showAllCases ? 600 : 400,
-            }}
-          >
-            {showAllCases ? t("cases.collapse") : t("cases.showAll", { n: CASES.length })}
-          </div>
+          {cases.length > 4 && !specFilter && !searchQuery && (
+            <div
+              onClick={() => setShowAllCases((v) => !v)}
+              style={{
+                fontSize: 12,
+                color: showAllCases ? C.white : C.accent,
+                fontFamily: FONT,
+                cursor: "pointer",
+                padding: "5px 13px",
+                borderRadius: 8,
+                border: `1px solid ${showAllCases ? "rgba(0,230,200,0.35)" : "rgba(0,230,200,0.2)"}`,
+                background: showAllCases ? "rgba(0,230,200,0.15)" : "rgba(0,230,200,0.06)",
+                fontWeight: showAllCases ? 600 : 400,
+              }}
+            >
+              {showAllCases ? t("cases.collapse") : t("cases.showAll", { n: cases.length })}
+            </div>
+          )}
         </div>
       </div>
 

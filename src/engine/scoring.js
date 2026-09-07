@@ -33,18 +33,11 @@ function normalizeMedicalTerms(text) {
     .replace(/\bнst\b/g, "без подъема st");
 }
 
-/** Доля слов диагноза (длинее 2 символов), встретившихся в ответе игрока (со стеммингом и нормализацией). */
+import { matchDiagnosisFuzzy } from "../lib/stringMatcher.js";
+
+/** Доля слов диагноза, встретившихся в ответе игрока с учетом расстояния Левенштейна (допуск 1-2 опечаток) и нормализации */
 export function diagMatchRatio(diagnosis, diagText) {
-  if (!diagText) return 0;
-  
-  const normDiag = normalizeMedicalTerms(diagnosis);
-  const normUser = normalizeMedicalTerms(diagText);
-  
-  const words = normDiag.split(/[\s,.()/ -]+/).filter(w => w.length >= 3);
-  const patientStems = new Set(normUser.split(/[\s,.()/ -]+/).map(stemRu));
-  
-  const hits = words.filter(w => normUser.includes(w) || patientStems.has(stemRu(w))).length;
-  return hits / Math.max(words.length, 1);
+  return matchDiagnosisFuzzy(diagnosis, diagText);
 }
 
 /**

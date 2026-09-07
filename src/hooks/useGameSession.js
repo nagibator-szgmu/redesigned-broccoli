@@ -60,10 +60,13 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
     fxTimersRef.current = [];
     const { difficulty: diff, gameMode: mode, usedIds: prevIds } = stateRef.current;
     const pool = prevIds.length >= CASES.length ? CASES : CASES.filter(c => !prevIds.includes(c.id));
-    let chosen;
-    if (caseId) chosen = CASES.find(c => c.id === caseId) || pool[Math.floor(Math.random() * pool.length)];
-    else if (mode === "random") chosen = CASES[Math.floor(Math.random() * CASES.length)];
-    else chosen = pool[Math.floor(Math.random() * pool.length)];
+    if (caseId != null && (typeof caseId === "string" || typeof caseId === "number")) {
+      chosen = CASES.find(c => String(c.id) === String(caseId)) || pool[Math.floor(Math.random() * pool.length)];
+    } else if (mode === "random") {
+      chosen = CASES[Math.floor(Math.random() * CASES.length)];
+    } else {
+      chosen = pool[Math.floor(Math.random() * pool.length)];
+    }
 
     setCd(chosen);
     setUsedIds(prev => prev.length >= CASES.length ? [chosen.id] : [...prev, chosen.id]);

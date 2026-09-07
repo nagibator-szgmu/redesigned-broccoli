@@ -5,6 +5,7 @@ import { DIAGNOSTICS, CAT_COLOR } from "../../data/diagnostics";
 import { TREATMENTS } from "../../data/treatments";
 import { IconHospital } from "../../ui/icons";
 import TooltipBtn from "../../components/game/TooltipBtn";
+import SearchableCombobox from "../../components/ui/SearchableCombobox";
 
 const DAY_COLORS = ["#e8e8e8", "#4fc3f7", "#81c784", "#ffcc02", "#ffb74d", "#ef5350", "#ce93d8", "#4dd0e1"];
 
@@ -126,29 +127,85 @@ export function MorningPanel({ morningInfo, cycle, setLocalPhase, currentPs }) {
 export function TestSelection({ cd, selDiag, setSelDiag, handleOrderTests, cycle }) {
   const C = useTheme();
   const { t } = useTranslate();
+
+  const toggleDiag = (id) => {
+    setSelDiag(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
+  const categories = [
+    { id: "all", label: "Все" },
+    { id: "lab", label: "Лабораторные" },
+    { id: "instrumental", label: "Инструментальные" },
+    { id: "imaging", label: "Лучевая диагн." },
+    { id: "poc", label: "Экспресс (POC)" },
+  ];
+
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginBottom: 12 }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: DAY_COLORS[cycle.currentDay % 7], fontFamily: FONT, marginBottom: 8 }}>{t("stationary.day", { n: cycle.currentDay + 1 })} — {t("phases.order_tests")}</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: DAY_COLORS[cycle.currentDay % 7], fontFamily: FONT, marginBottom: 10 }}>
+        {t("stationary.day", { n: cycle.currentDay + 1 })} — {t("phases.order_tests")}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 240, overflowY: "auto", marginTop: 8 }}>
         {DIAGNOSTICS.map(item => {
           const selected = selDiag.includes(item.id);
-          const hasResult = cd.testResults[item.id];
-          const color = CAT_COLOR[item.cat] || C.green;
+          const color = CAT_COLOR[item.cat] || DAY_COLORS[cycle.currentDay % 7];
           return (
-            <div key={item.id} onClick={() => hasResult && setSelDiag(prev => selected ? prev.filter(x => x !== item.id) : [...prev, item.id])}
-              style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 10px", borderRadius: 8, cursor: hasResult ? "pointer" : "default", opacity: hasResult ? 1 : 0.35, background: selected ? `${color}12` : "transparent", border: `1px solid ${selected ? color : C.border}` }}>
-              <div style={{ width: 14, height: 14, borderRadius: 4, border: `2px solid ${selected ? color : C.textDim}`, background: selected ? color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                {selected && <span style={{ fontSize: 8, color: C.bg, fontWeight: 900 }}>✓</span>}
+            <div
+              key={item.id}
+              onClick={() => toggleDiag(item.id)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "9px 10px",
+                borderRadius: 8,
+                cursor: "pointer",
+                background: selected ? `${color}15` : "transparent",
+                border: `1px solid ${selected ? color : C.border}`,
+                transition: "all 0.1s ease",
+              }}
+            >
+              <div
+                style={{
+                  width: 15,
+                  height: 15,
+                  borderRadius: 4,
+                  border: `2px solid ${selected ? color : C.textDim}`,
+                  background: selected ? color : "transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                {selected && <span style={{ fontSize: 9, color: C.bg, fontWeight: 900 }}>✓</span>}
               </div>
-              <span style={{ fontSize: 12, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>{item.name}</span>
-              {!hasResult && <span style={{ fontSize: 9, color: C.textDim, fontFamily: FONT }}>—</span>}
+              <span style={{ fontSize: 12.5, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
+                {item.name}
+              </span>
             </div>
           );
         })}
       </div>
       {selDiag.length > 0 && (
-        <button onClick={handleOrderTests}
-          style={{ width: "100%", marginTop: 10, padding: "10px", borderRadius: 10, background: `linear-gradient(135deg,${DAY_COLORS[cycle.currentDay % 7]},${C.accent})`, border: "none", fontSize: 13, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT }}>
+        <button
+          onClick={handleOrderTests}
+          style={{
+            width: "100%",
+            marginTop: 12,
+            padding: "11px",
+            borderRadius: 10,
+            background: `linear-gradient(135deg,${DAY_COLORS[cycle.currentDay % 7]},${C.accent})`,
+            border: "none",
+            fontSize: 13.5,
+            fontWeight: 700,
+            color: C.bg,
+            cursor: "pointer",
+            fontFamily: FONT,
+            boxShadow: `0 4px 14px ${C.accent}30`,
+          }}
+        >
           {t("outpatient.send", { n: selDiag.length })}
         </button>
       )}
@@ -196,29 +253,39 @@ export function ResultsPanel({ orderedDiag, revealedResults, processingTests, se
 export function TreatPanel({ cd, selTreat, toggleTreatment, handleEndDay, canProceedFromTreat, cycle, appliedFx, pendingFx, treatCat, setTreatCat }) {
   const C = useTheme();
   const { t } = useTranslate();
-  const treatCats = ["all", ...new Set(TREATMENTS.map(item => item.cat))];
+  const treatCats = [
+    { id: "all", label: "Все" },
+    { id: "emergency", label: "Экстренные" },
+    { id: "cardiac", label: "Кардио" },
+    { id: "analgesic", label: "Анальгезия" },
+    { id: "supportive", label: "Дыхание / Оксигено" },
+    { id: "antibiotic", label: "Антибиотики" },
+    { id: "diuretic", label: "Диуретики" },
+    { id: "steroid", label: "Гормоны" },
+  ];
   const filtTreat = treatCat === "all" ? TREATMENTS : TREATMENTS.filter(item => item.cat === treatCat);
   const TREAT_CAT_LABELS = { all: t("treatCat.all"), antiplatelet: t("treatCat.antiplatelet"), anticoagulant: t("treatCat.anticoagulant"), intervention: t("treatCat.intervention"), supportive: t("treatCat.supportive"), cardiac: t("treatCat.cardiac"), analgesic: t("treatCat.analgesic"), betablocker: t("treatCat.betablocker"), diuretic: t("treatCat.diuretic"), antibiotic: t("treatCat.antibiotic"), steroid: t("treatCat.steroid"), endocrine: t("treatCat.endocrine"), antidote: t("treatCat.antidote"), vasopressor: t("treatCat.vasopressor"), anticonvulsant: t("treatCat.anticonvulsant"), antiarrhythmic: t("treatCat.antiarrhythmic"), neuro: t("treatCat.neuro"), antiviral: t("treatCat.antiviral"), renal: t("treatCat.renal") };
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginBottom: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <div style={{ fontSize: 11, fontWeight: 600, color: DAY_COLORS[cycle.currentDay % 7], fontFamily: FONT }}>{t("treatment.title")} ({t("stationary.day", { n: cycle.currentDay + 1 })})</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: DAY_COLORS[cycle.currentDay % 7], fontFamily: FONT }}>{t("treatment.title")} ({t("stationary.day", { n: cycle.currentDay + 1 })})</div>
         <TooltipBtn text={t("onboarding.tooltipTreatDelay")} C={C} />
         <TooltipBtn text={t("onboarding.tooltipContinuous")} C={C} />
       </div>
       <div style={{ background: C.redDim, border: "1px solid rgba(255,61,90,0.12)", borderRadius: 8, padding: "7px 10px", marginBottom: 10, fontSize: 12, color: C.red, fontFamily: FONT }}>{t("treatment.dangerous")}</div>
-      <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 10 }}>
-        {treatCats.map(cat => (
-          <button key={cat} onClick={() => setTreatCat(cat)} className="filter-pill" style={{
-            background: treatCat === cat ? `${C.green}1a` : "transparent",
-            border: `1px solid ${treatCat === cat ? C.green : C.border}`,
-            borderRadius: 10, padding: "3px 10px", cursor: "pointer", fontFamily: FONT,
-            fontSize: 12, color: treatCat === cat ? C.green : C.textDim,
-          }}>{TREAT_CAT_LABELS[cat] ?? cat}</button>
-        ))}
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+
+      <SearchableCombobox
+        items={TREATMENTS}
+        selectedIds={selTreat}
+        onToggle={toggleTreatment}
+        placeholder="Поиск препаратов и процедур..."
+        categories={treatCats}
+        catColors={CAT_COLOR}
+        badgeColor={DAY_COLORS[cycle.currentDay % 7]}
+      />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 220, overflowY: "auto", marginTop: 8 }}>
         {filtTreat.map(item => {
           const selected = selTreat.includes(item.id);
           const isPending = pendingFx?.has(item.id);

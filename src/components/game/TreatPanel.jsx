@@ -7,6 +7,7 @@ import { CAT_COLOR } from "../../data/diagnostics";
 import { TREATMENTS } from "../../data/treatments";
 import { IconAlertTriangle } from "../../ui/icons";
 import TooltipBtn from "./TooltipBtn";
+import SearchableCombobox from "../ui/SearchableCombobox";
 
 /** Helper to match treatments to clinical groups */
 function matchGroup(item, cat) {
@@ -104,7 +105,7 @@ export default function TreatPanel({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={t("search.placeholderTreat") || "Поиск препаратов и процедур..."}
+          placeholder={t("search.placeholderTreat") || "Фильтр списка..."}
           style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: C.text, fontFamily: FONT, fontSize: 13 }}
         />
         {searchQuery && (
@@ -145,71 +146,104 @@ export default function TreatPanel({
         })}
       </div>
 
-      {/* Closed-Loop Clinical Nudge Reminder */}
-      {selTreat.length >= 3 && (
-        <div style={{
-          padding: "6px 10px", borderRadius: 8, marginBottom: 8,
-          background: `${C.accent}12`, border: `1px solid ${C.accent}40`,
-          display: "flex", alignItems: "center", gap: 8, fontSize: 11, color: C.text, fontFamily: FONT
-        }}>
-          <span>🔄</span>
-          <span><strong>Контроль ответа:</strong> Назначено {selTreat.length} вмешательств. Оцените физиологический ответ (Reassessment) для проверки эффекта.</span>
-        </div>
-      )}
+      {/* List of Treatments */}
+      <div className="no-scrollbar" style={{
+        flex: 1, overflowY: "auto", display: "flex", flexDirection: "column",
+        gap: 5, paddingRight: 2
+      }}>
+        {filtTreat.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "20px 0", color: C.textDim, fontSize: 12 }}>
+            Ничего не найдено
+          </div>
+        ) : (
+          filtTreat.map(item => {
+            const isSelected = selTreat.includes(item.id);
+            const isPending = pendingFx?.has(item.id);
+            const isApplied = appliedFx?.has(item.id);
+            const isDangerous = cd?.wrongTreat?.includes(item.id);
+            const isContraindicated = cd?.contraindicatedTreat?.includes(item.id);
+            const isBad = isDangerous || isContraindicated;
 
-      {/* Treatments List Grid */}
-      <div style={{ flex: 1, overflowY: "auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8, paddingBottom: 8 }}>
-        {filtTreat.map(item => {
-          const isSelected = selTreat.includes(item.id);
-          const isApplied = appliedFx?.has(item.id);
-          const isPending = pendingFx?.has(item.id);
-          const isWrong = cd?.wrongTreat?.includes(item.id);
-          const color = CAT_COLOR[item.cat] || C.accent;
+            return (
+              <div
+                key={item.id}
+                onClick={() => toggleTreatment(item.id)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: isMobile ? "8px 10px" : "8px 12px",
+                  borderRadius: 10,
+                  background: isSelected
+                    ? isBad && !hideWarnings ? `${C.red}18` : `${C.green}15`
+                    : C.panelBg,
+                  border: `1px solid ${
+                    isSelected
+                      ? isBad && !hideWarnings ? C.red : C.green
+                      : C.border
+                  }`,
+                  cursor: "pointer",
+                  transition: "all 0.15s ease",
+                  userSelect: "none"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
+                  <div style={{
+                    width: 16, height: 16, borderRadius: 4,
+                    border: `1.5px solid ${isSelected ? (isBad && !hideWarnings ? C.red : C.green) : C.border}`,
+                    background: isSelected ? (isBad && !hideWarnings ? C.red : C.green) : "transparent",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    flexShrink: 0
+                  }}>
+                    {isSelected && <span style={{ color: C.bg, fontSize: 10, fontWeight: 900 }}>✓</span>}
+                  </div>
 
-          return (
-            <button
-              key={item.id}
-              onClick={() => toggleTreatment(item.id)}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "space-between",
-                padding: "8px 10px",
-                borderRadius: 10,
-                minHeight: 64,
-                background: isApplied ? `${C.green}18` : isPending ? `${C.yellow}18` : isSelected ? `${color}18` : C.btnBg,
-                border: `1px solid ${isApplied ? C.green : isPending ? C.yellow : isSelected ? color : C.btnBorder}`,
-                cursor: "pointer",
-                textAlign: "left",
-                transition: "all 0.15s",
-                position: "relative"
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "flex-start", width: "100%", justifyContent: "space-between", gap: 4 }}>
-                <span style={{ fontSize: 11.5, fontFamily: FONT, fontWeight: isSelected ? 700 : 500, color: isSelected ? C.white : C.text, lineHeight: 1.3 }}>
-                  {item.name}
-                </span>
-                {!hideWarnings && isWrong && isSelected && (
-                  <span title="Высокий риск осложнений" style={{ color: C.red, display: "inline-flex", flexShrink: 0 }}>
-                    <IconAlertTriangle size={12} color="currentColor" />
-                  </span>
-                )}
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{
+                      fontSize: 12.5, fontWeight: isSelected ? 700 : 500,
+                      color: isSelected ? C.white : C.text,
+                      lineHeight: 1.3,
+                      display: "flex", alignItems: "center", gap: 6
+                    }}>
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {item.name}
+                      </span>
+                      {isBad && isSelected && !hideWarnings && (
+                        <IconAlertTriangle size={13} color={C.red} />
+                      )}
+                    </div>
+                    {item.desc && (
+                      <div style={{ fontSize: 10, color: C.textDim, marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {item.desc}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Status Badges */}
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                  {isPending && (
+                    <span style={{
+                      fontSize: 9.5, color: C.yellow, background: `${C.yellow}15`,
+                      border: `1px solid ${C.yellow}33`, padding: "1px 6px", borderRadius: 4,
+                      display: "flex", alignItems: "center", gap: 3
+                    }}>
+                      <span style={{ animation: "spin 1s linear infinite", display: "inline-block" }}>⏳</span>
+                      {item.delaySec ? `${item.delaySec}с` : "..."}
+                    </span>
+                  )}
+                  {isApplied && (
+                    <span style={{
+                      fontSize: 9.5, color: C.green, background: `${C.green}15`,
+                      border: `1px solid ${C.green}33`, padding: "1px 6px", borderRadius: 4,
+                      fontWeight: 600
+                    }}>
+                      Активно
+                    </span>
+                  )}
+                </div>
               </div>
-
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", marginTop: 4 }}>
-                <span style={{ fontSize: 9.5, color: isApplied ? C.green : isPending ? C.yellow : C.textDim, fontFamily: FONT }}>
-                  {isApplied ? "✓ Введено" : isPending ? "⏳ Действует..." : isSelected ? "Назначено" : item.cat}
-                </span>
-                {isSelected && (
-                  <span style={{ fontSize: 10, color: isApplied ? C.green : isPending ? C.yellow : color, fontWeight: 700 }}>
-                    ●
-                  </span>
-                )}
-              </div>
-            </button>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

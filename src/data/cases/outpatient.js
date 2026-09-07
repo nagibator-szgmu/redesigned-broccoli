@@ -361,7 +361,7 @@ export const OUTPATIENT_CASES = [
       "explain": "ХСН после ОИМ: гибель миокарда → дилатация ЛЖ → снижение ФВ → застой в малом круге. Доказательная терапия: β-блокаторы + иАПФ/АРНИ + МКС + диуретики. β-блокаторы снижают ремоделирование и внезапную смерть на 30-40%."
     },
     "sourceReference": {
-      "name": "ESC Heart Failure Guidelines",
+      "name": "ESC Heart Failure Клинические рекомендации",
       "year": 2024
     },
     "diagnosisVariants": [
@@ -458,7 +458,7 @@ export const OUTPATIENT_CASES = [
       "explain": "Болезнь Грейвса: аутоантитела к рецептору ТТГ → стимуляция синтеза Т3/Т4 → тиреотоксикоз. Клиника: тахикардия, потеря веса, тремор, экзофтальм. Тиамазол блокирует синтез тиреоидных гормонов; β-блокаторы купируют симптомы."
     },
     "sourceReference": {
-      "name": "ATA Hyperthyroidism Guidelines",
+      "name": "ATA Hyperthyroidism Клинические рекомендации",
       "year": 2024
     },
     "diagnosisVariants": [
@@ -559,7 +559,7 @@ export const OUTPATIENT_CASES = [
       "explain": "Восходящая мочевая инфекция: E.coli из уретры → мочевой пузырь → мочеточники → почечная лоханка. Лейкоцитурия + бактериурия + нитриты = пиелонефрит. Антибиотикотерапия 10-14 дней; контроль посева мочи через 7-10 дней."
     },
     "sourceReference": {
-      "name": "IDSA UTI Guidelines",
+      "name": "IDSA UTI Клинические рекомендации",
       "year": 2024
     },
     "diagnosisVariants": [
