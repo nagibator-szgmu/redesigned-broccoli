@@ -5,6 +5,7 @@ import { useTranslate } from "../../locale/useTranslate";
 import { generateSystemPrompt, sendChatMessage, getLocalPatientResponse, generateActionReaction } from "../../engine/llmService";
 import { TREATMENTS } from "../../data/treatments";
 import { DIAGNOSTICS } from "../../data/diagnostics";
+import { IconClipboard, IconSearch } from "../../ui/icons";
 import ABCDEAssessmentPanel from "./ABCDEAssessmentPanel";
 
 function getTreatmentReaction(id) {
@@ -43,7 +44,6 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const chatEndRef = useRef(null);
 
   const prevTreatRef = useRef(selTreat);
   const prevDiagRef = useRef(orderedDiag);
@@ -57,9 +57,11 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
     ]);
   }, [cd.id]);
 
+  const messagesContainerRef = useRef(null);
+
   useEffect(() => {
-    if (mode === "chat") {
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (mode === "chat" && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }, [messages, mode]);
 
@@ -259,7 +261,7 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
           padding: 12, display: "flex", flexDirection: "column", height: 260
         }}>
           {/* Messages wrap */}
-          <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 8, paddingRight: 4, marginBottom: 8 }}>
+          <div ref={messagesContainerRef} style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 8, paddingRight: 4, marginBottom: 8 }}>
             {messages.map((m, idx) => {
               const isDoc = m.sender === "doctor";
               return (
@@ -284,7 +286,6 @@ export default function HistoryPanel({ cd, ps, selTreat = [], orderedDiag = [], 
                 ⏳ Пациент думает...
               </div>
             )}
-            <div ref={chatEndRef} />
           </div>
 
           {/* Form input */}

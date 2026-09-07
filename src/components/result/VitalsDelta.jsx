@@ -8,9 +8,10 @@ export default function VitalsDelta({ cd, ps, isMobile }) {
   const C = useTheme();
   const { t } = useTranslate();
 
-  const initSbp = parseInt(cd.vitals.bp);
+  const parsedBp = parseInt(cd.vitals.bp);
+  const initSbp = isNaN(parsedBp) ? null : parsedBp;
   const vitalDeltas = ps ? [
-    { label: t("vitals.sbp"), init: cd.vitals.bp, final: `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`, delta: Math.round(ps.sbp) - initSbp, warn: ps.sbp < 90 || ps.sbp > 160 },
+    { label: t("vitals.sbp"), init: cd.vitals.bp, final: `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`, delta: initSbp !== null ? Math.round(ps.sbp) - initSbp : null, warn: ps.sbp < 90 || ps.sbp > 160 },
     { label: t("vitals.hr"), init: cd.vitals.hr, final: Math.round(ps.hr), delta: Math.round(ps.hr) - cd.vitals.hr, warn: ps.hr > 100 || ps.hr < 50 },
     { label: t("vitals.spo2"), init: `${cd.vitals.spo2}%`, final: `${r1(ps.spo2)}%`, delta: r1(ps.spo2 - cd.vitals.spo2), warn: ps.spo2 < 94 },
     { label: t("vitals.rr"), init: cd.vitals.rr, final: Math.round(ps.rr), delta: Math.round(ps.rr) - cd.vitals.rr, warn: ps.rr > 20 },
@@ -36,7 +37,7 @@ export default function VitalsDelta({ cd, ps, isMobile }) {
                 <span style={{ fontSize: isMobile ? 10 : 11, color: C.textDim }}>→</span>
                 <span style={{ fontSize: isMobile ? 13 : 15, fontWeight: 700, color: warn ? C.red : C.accent, fontFamily: CODE }}>{final}</span>
               </div>
-              {delta !== 0 && <div style={{ fontSize: isMobile ? 10 : 11, color: dColor, marginTop: 2, fontFamily: CODE }}>{delta > 0 ? "+" : ""}{delta}</div>}
+              {delta != null && !isNaN(delta) && delta !== 0 && <div style={{ fontSize: isMobile ? 10 : 11, color: dColor, marginTop: 2, fontFamily: CODE }}>{delta > 0 ? "+" : ""}{delta}</div>}
             </div>
           );
         })}
@@ -48,9 +49,10 @@ export default function VitalsDelta({ cd, ps, isMobile }) {
 /** Returns raw vitalDeltas array for use in other components (DocLayer etc.) */
 export function computeVitalDeltas(cd, ps, t) {
   if (!ps) return [];
-  const initSbp = parseInt(cd.vitals.bp);
+  const parsedBp = parseInt(cd.vitals.bp);
+  const initSbp = isNaN(parsedBp) ? null : parsedBp;
   return [
-    { label: t("vitals.sbp"), init: cd.vitals.bp, final: `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`, delta: Math.round(ps.sbp) - initSbp, warn: ps.sbp < 90 || ps.sbp > 160 },
+    { label: t("vitals.sbp"), init: cd.vitals.bp, final: `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`, delta: initSbp !== null ? Math.round(ps.sbp) - initSbp : null, warn: ps.sbp < 90 || ps.sbp > 160 },
     { label: t("vitals.hr"), init: cd.vitals.hr, final: Math.round(ps.hr), delta: Math.round(ps.hr) - cd.vitals.hr, warn: ps.hr > 100 || ps.hr < 50 },
     { label: t("vitals.spo2"), init: `${cd.vitals.spo2}%`, final: `${r1(ps.spo2)}%`, delta: r1(ps.spo2 - cd.vitals.spo2), warn: ps.spo2 < 94 },
     { label: t("vitals.rr"), init: cd.vitals.rr, final: Math.round(ps.rr), delta: Math.round(ps.rr) - cd.vitals.rr, warn: ps.rr > 20 },

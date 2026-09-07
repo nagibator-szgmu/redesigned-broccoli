@@ -2,6 +2,7 @@ import { FONT, SER } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { Btn } from "../../ui/components";
+import PillEmblem from "../../ui/PillEmblem";
 
 export default function ResultHeader({ setPhase, isMobile }) {
   const C = useTheme();
@@ -14,16 +15,8 @@ export default function ResultHeader({ setPhase, isMobile }) {
       display: "flex", alignItems: "center", gap: isMobile ? 10 : 12,
       ...(isMobile ? { position: "sticky", top: 0, zIndex: 10 } : {}),
     }}>
-      <div
-        onClick={() => setPhase("menu")}
-        className="icon-btn"
-        style={{
-          width: isMobile ? 26 : 28, height: isMobile ? 26 : 28,
-          background: `${C.accent}20`, border: `1px solid ${C.accent}44`,
-          borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
-        }}
-      >
-        <span style={{ fontFamily: SER, fontSize: isMobile ? 13 : 14, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
+      <div onClick={() => setPhase("menu")} style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+        <PillEmblem size={isMobile ? 26 : 28} />
       </div>
       <span style={{ fontFamily: SER, fontSize: isMobile ? 14 : 16, color: C.accent, fontStyle: "italic", letterSpacing: 1 }}>{t("brand.name")}</span>
       <div style={{ width: 1, height: isMobile ? 14 : 18, background: C.border }} />

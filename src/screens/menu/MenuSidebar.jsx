@@ -1,6 +1,7 @@
 import React from "react";
-import { SER, FONT } from "../../ui/theme";
+import { FONT } from "../../ui/theme";
 import ThreeDTicker from "../../components/ThreeDTicker";
+import PillEmblem from "../../ui/PillEmblem";
 import { Tooltip } from "../../ui/components";
 import {
   IconGrid, IconTheory, IconTarget, IconMap, IconTrophy,
@@ -35,9 +36,7 @@ export default function MenuSidebar({
       {/* Brand logo */}
       <Tooltip title="MEDSIM 3D VIRTUAL SIMULATOR" text="Интерактивный медицинский симулятор реанимации и скорой помощи." position="top" style={{ width: "100%" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "6px 10px", marginBottom: 16 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 11, flexShrink: 0, background: C.accentDim, border: `1px solid ${C.accent}40`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 16px ${C.accent}20` }}>
-            <span style={{ fontFamily: SER, fontSize: 19, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
-          </div>
+          <PillEmblem size={42} />
           <div>
             <div style={{ fontSize: 17, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3, lineHeight: 1 }}>{t("brand.name")}</div>
             <div style={{ fontSize: 10, color: C.accent, fontFamily: FONT, letterSpacing: 1, marginTop: 2, opacity: 0.85 }}>{t("brand.subtitle")}</div>

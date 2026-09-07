@@ -22,7 +22,10 @@ export default function useSettings() {
   const [totalScore, setTotalScore] = useState(() => loadNum("ms_totalScore", 0));
   const [casesPlayed, setCasesPlayed] = useState(() => loadNum("ms_casesPlayed", 0));
   const [sessionHistory, setSessionHistory] = useState(() => loadArr("ms_history"));
-  const [department, setDepartment] = useState(() => loadStr("ms_department", "emergency"));
+  const [department, setDepartment] = useState(() => {
+    const d = loadStr("ms_department", "all");
+    return d === "emergency" ? "all" : d;
+  });
   const [learningMode, setLearningMode] = useState(() => loadStr("ms_learningMode", "false") === "true");
   const [assessmentMode, setAssessmentMode] = useState(() => loadStr("ms_assessmentMode", "false") === "true");
   const [progressionMode, setProgressionMode] = useState(() => loadStr("ms_progressionMode", "free"));

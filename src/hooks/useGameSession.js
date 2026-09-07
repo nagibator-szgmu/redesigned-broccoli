@@ -61,8 +61,8 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
     const { difficulty: diff, gameMode: mode, usedIds: prevIds } = stateRef.current;
     const pool = prevIds.length >= CASES.length ? CASES : CASES.filter(c => !prevIds.includes(c.id));
     let chosen;
-    if (mode === "random") chosen = CASES[Math.floor(Math.random() * CASES.length)];
-    else if (caseId) chosen = CASES.find(c => c.id === caseId) || pool[Math.floor(Math.random() * pool.length)];
+    if (caseId) chosen = CASES.find(c => c.id === caseId) || pool[Math.floor(Math.random() * pool.length)];
+    else if (mode === "random") chosen = CASES[Math.floor(Math.random() * CASES.length)];
     else chosen = pool[Math.floor(Math.random() * pool.length)];
 
     setCd(chosen);

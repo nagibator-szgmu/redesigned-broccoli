@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SER, FONT, CODE, RADIUS } from "../../ui/theme";
+import PillEmblem from "../../ui/PillEmblem";
 import { CASES } from "../../data/cases";
 import { IS_DEV_MODE } from "../../config";
 import { getVisibleCases } from "../../hooks/useReviewRegistry";
@@ -59,9 +60,7 @@ export default function MenuMobileView(props) {
         padding: "0 16px", paddingTop: "env(safe-area-inset-top, 0px)"
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 34, height: 34, borderRadius: RADIUS.sm, background: "linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))", border: `1px solid ${C.accent}55`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontFamily: SER, fontSize: 16, color: C.accent, fontStyle: "italic", fontWeight: 700 }}>М</span>
-          </div>
+          <PillEmblem size={34} />
           <span style={{ fontSize: 16, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3 }}>{t("brand.name")}</span>
         </div>
 

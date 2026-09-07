@@ -20,6 +20,7 @@ const CertificateScreen = lazy(() => import("./screens/CertificateScreen"));
 const OnboardingScreen = lazy(() => import("./screens/OnboardingScreen"));
 const CourseMapScreen = lazy(() => import("./screens/CourseMapScreen"));
 const TeacherDashboardScreen = lazy(() => import("./screens/TeacherDashboardScreen"));
+const DevInspector = lazy(() => import("./ui/inspector/DevInspector"));
 
 function ScreenFallback() {
   return (
@@ -82,6 +83,13 @@ export default function MedSimApp() {
     setExtraResult(null);
     return origStartGame(...args);
   }, [origStartGame]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.__START_CASE__ = startGameWrapped;
+      window.__SET_PHASE__ = game.setPhase;
+    }
+  }, [startGameWrapped, game.setPhase]);
 
   useEffect(() => {
     if (game.phase !== "result" || !game.cd) return;
@@ -285,6 +293,11 @@ export default function MedSimApp() {
             orderedDiag={game.orderedDiag}
             handleOrderTests={game.handleOrderTests}
           />
+          {(import.meta.env.DEV || IS_DEV_MODE) && (
+            <Suspense fallback={null}>
+              <DevInspector />
+            </Suspense>
+          )}
         </div>
       </ThemeCtx.Provider>
     </ErrorBoundary>

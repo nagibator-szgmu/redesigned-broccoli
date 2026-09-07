@@ -10,6 +10,7 @@ export default function ScoreCard({ result, cd, isMobile }) {
   const gCol = gradeColor[result.gradeId] || C.accent;
 
   const outcomeMap = {
+    stabilized: { color: C.green, label: t("outcome.stabilized") || t("outcome.stable"), icon: "✓" },
     stable: { color: C.green, label: t("outcome.stable"), icon: "✓" },
     unstable: { color: C.yellow, label: t("outcome.unstable"), icon: "⚠" },
     critical: { color: C.red, label: t("outcome.critical"), icon: "🚨" },

@@ -23,9 +23,7 @@ html, body {
 }
 
 /* ── Light theme root ── */
-[data-theme="light"] body,
-html[data-theme="light"],
-[data-theme="light"] #root {
+[data-theme="light"] body, html[data-theme="light"], [data-theme="light"] #root {
   background-color: #F9F8F3 !important;
   color-scheme: light;
 }
@@ -47,13 +45,8 @@ html[data-theme="light"],
 }
 
 /* ── Scrollbars ── */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(59, 130, 246, 0.25) transparent;
-}
-[data-theme="light"] * {
-  scrollbar-color: rgba(0, 71, 171, 0.2) transparent;
-}
+* { scrollbar-width: thin; scrollbar-color: rgba(59, 130, 246, 0.25) transparent; }
+[data-theme="light"] * { scrollbar-color: rgba(0, 71, 171, 0.2) transparent; }
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.25); border-radius: 4px; }
@@ -79,15 +72,21 @@ html[data-theme="light"],
   100% { transform: rotate(0deg); }
 }
 
-.spin-on-hover svg, .ring-on-hover svg {
+.spin-on-hover svg {
   will-change: transform;
   transform-origin: center center;
   backface-visibility: hidden;
 }
 
-.spin-on-hover:hover svg { animation: spinGear 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-.ring-on-hover:hover svg { animation: ringBell 0.8s ease-in-out infinite; }
-.spin-on-hover:active svg { animation: spinGear 0.4s linear infinite; }
+.ring-on-hover svg {
+  will-change: transform;
+  transform-origin: 50% 15%;
+  backface-visibility: hidden;
+}
+
+.spin-on-hover:hover svg { animation: spinGear 0.6s cubic-bezier(0.4, 0, 0.2, 1) 1; }
+.ring-on-hover:hover svg { animation: ringBell 0.6s ease-in-out 1; }
+.spin-on-hover:active svg { animation: spinGear 0.3s linear 1; }
 
 /* ── Buttons (Btn component) ── */
 .med-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
@@ -116,11 +115,7 @@ html[data-theme="light"],
 
 /* ── "Следующий кейс" button ── */
 .next-case-btn { transition: all 0.25s cubic-bezier(0.16,1,0.3,1) !important; }
-.next-case-btn:hover {
-  filter: brightness(1.15);
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 32px rgba(37,99,235,0.45) !important;
-}
+.next-case-btn:hover { filter: brightness(1.15); transform: translateY(-2px) !important; box-shadow: 0 8px 32px rgba(37,99,235,0.45) !important; }
 .next-case-btn:active { transform: translateY(0) !important; }
 
 /* ── MenuScreen existing classes ── */
@@ -144,24 +139,11 @@ html[data-theme="light"],
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 
-/* ── Focus visible across all interactive elements ── */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-[role="button"]:focus-visible,
-[tabindex]:focus-visible {
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid #2563EB !important;
   outline-offset: 2px !important;
 }
-[data-theme="light"] button:focus-visible,
-[data-theme="light"] a:focus-visible,
-[data-theme="light"] input:focus-visible,
-[data-theme="light"] textarea:focus-visible,
-[data-theme="light"] select:focus-visible,
-[data-theme="light"] [role="button"]:focus-visible,
-[data-theme="light"] [tabindex]:focus-visible {
+[data-theme="light"] button:focus-visible, [data-theme="light"] a:focus-visible, [data-theme="light"] input:focus-visible, [data-theme="light"] textarea:focus-visible, [data-theme="light"] select:focus-visible, [data-theme="light"] [role="button"]:focus-visible, [data-theme="light"] [tabindex]:focus-visible {
   outline: 2px solid #0047AB !important;
   outline-offset: 2px !important;
 }
@@ -179,16 +161,9 @@ select:focus-visible,
 }
 
 /* Hide WebKit native search decorations & autofill backgrounds */
-input::-webkit-search-decoration,
-input::-webkit-search-cancel-button,
-input::-webkit-search-results-button,
-input::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-}
+input::-webkit-search-decoration, input::-webkit-search-cancel-button, input::-webkit-search-results-button, input::-webkit-search-results-decoration { -webkit-appearance: none; }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #0E1015 inset !important;
   -webkit-text-fill-color: #ffffff !important;
   caret-color: #2563EB !important;

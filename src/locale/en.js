@@ -19,7 +19,7 @@ export default {
   notifications:{title:"Notifications",welcome:"Welcome to MedSim!",welcomeSub:"Select a case and start your first simulation",casesAvailable:"{n} clinical cases available",casesSub:"Cardiology, neurology, toxicology and more",sessionResult:"{name} — {score} points",died:"Patient died in a recent session",repeatCase:"retry the case",avgScore:"Avg score: {avg} · Total: {total} points",milestone20:"20 cases — excellent progress!",milestone10:"10 cases completed!",milestone5:"5 cases completed!",milestone1:"First case completed!",perfect:"Perfect score: {score}/100",tryCategory:"Try {name}",notPlayedYet:"You haven't tried cases from this specialty yet",readDebrief:"Read the debrief after each case",debriefSub:"Pathophysiology and explanations in the Debrief tab"},
   grades:{excellent:"Excellent",good:"Good",satisfactory:"Satisfactory",unsatisfactory:"Unsatisfactory"},
   gradeEmoji:{excellent:"🏆",good:"📈",satisfactory:"📊",unsatisfactory:"📉"},
-  outcome:{stable:"Stabilized",unstable:"Unstable",critical:"Critical condition",dead:"Fatal outcome",transferToICU:"Transferred to ICU",unknown:"Unknown"},
+  outcome:{stable:"Stabilized",stabilized:"Stabilized",unstable:"Unstable",critical:"Critical condition",dead:"Fatal outcome",transferToICU:"Transferred to ICU",unknown:"Unknown"},
   game:{timeRemaining:"remaining",critical:"⚠ CRITICAL",fatal:"💀 FATAL OUTCOME",stable:"✓ STABLE",stress:"🔥 STRESS",random:"🎲 RANDOM",dangerous:"⚠ dangerous",learning:"Learning",paused:"PAUSED",tapToResume:"Tap to resume"},
   patientStatus:{stable:"Stable",deteriorating:"Deteriorating",critical:"Critical",resuscitated:"Resuscitated",deceased:"Deceased"},
   phases:{order_tests:"Tests",awaiting_results:"Waiting",diagnose:"Diagnosis+Treatment"},

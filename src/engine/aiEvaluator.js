@@ -77,7 +77,7 @@ export async function evaluateDiagnosisWithAI(cd, diagText = "", selDiag = [], s
       success: true
     };
   } catch (error) {
-    console.error("[AI Evaluator] Ошибка оценивания диагноза с помощью ИИ:", error);
+    console.warn("[AI Evaluator] Оценка ИИ недоступна (используется эвристическое правило):", error.message);
     return {
       diagScore: 0,
       feedback: "Не удалось получить оценку ИИ (таймаут или ошибка сети).",

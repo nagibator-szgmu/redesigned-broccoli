@@ -7,3 +7,6 @@ dist/
 .DS_Store
 *.DS_Store
 *.zip
+test-artifacts/
+test_*.png
+
