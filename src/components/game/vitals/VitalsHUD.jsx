@@ -51,8 +51,9 @@ export default function VitalsHUD({
     <div style={{
       flexShrink: 0,
       position: "sticky", top: 0, zIndex: 100, background: C.headerBg2, backdropFilter: "blur(20px)",
-      WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}`, padding: compact ? "6px 10px" : "8px 14px",
-      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+      WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}`, padding: compact ? "6px 8px" : "7px 12px",
+      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+      width: "100%", maxWidth: "100%", boxSizing: "border-box", overflow: "hidden",
       paddingTop: "max(6px, env(safe-area-inset-top, 6px))"
     }}>
       {/* Brand & Department Badge */}
@@ -85,13 +86,13 @@ export default function VitalsHUD({
         <EcgWaveform
           hr={ps.hr}
           status={status}
-          width={compact ? 75 : 105}
+          width={compact ? 70 : 90}
           height={compact ? 26 : 30}
         />
       </div>
 
       {/* Telemetry Vitals Cards Container (Smooth touch scroll) */}
-      <div className="no-scrollbar" style={{ flex: 1, display: "flex", alignItems: "center", gap: 6, overflowX: "auto", minWidth: 0, WebkitOverflowScrolling: "touch" }}>
+      <div className="no-scrollbar" style={{ flex: 1, display: "flex", alignItems: "center", gap: 4, overflowX: "auto", minWidth: 0, WebkitOverflowScrolling: "touch" }}>
         {vitalsConfig.map(v => (
           <VitalsMetricCard key={v.key} label={v.label} value={v.value} unit={compact ? "" : v.unit} trend={trend(v.key)} warn={v.warn} critical={v.critical} icon={v.icon} compact={compact} />
         ))}

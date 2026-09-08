@@ -114,9 +114,9 @@ export default function DesktopWorkstation({
       position: "relative",
     }}>
       {/* Background Ambient Glow Effects */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
         <div style={{ position: "absolute", left: "-5%", top: "-10%", width: 500, height: 500, background: C.glowBg1, borderRadius: "50%" }} />
-        <div style={{ position: "absolute", right: "-5%", bottom: "-10%", width: 400, height: 400, background: C.glowBg2, borderRadius: "50%" }} />
+        <div style={{ position: "absolute", right: 0, bottom: 0, width: 400, height: 400, background: C.glowBg2, borderRadius: "50%" }} />
       </div>
 
       {/* Top Clinical Telemetry Header Monitor (Firmly Fixed) */}

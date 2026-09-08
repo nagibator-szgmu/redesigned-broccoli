@@ -1,19 +1,20 @@
 :root {
   --app-height: 100vh;
   --app-height-dvh: 100dvh;
-  --font-base: 16px;
-  --font-xs: 12px;
-  --font-sm: 13.5px;
-  --font-md: 15px;
-  --font-lg: 17px;
-  --font-xl: 20px;
-  --font-2xl: 24px;
+  --font-base: 18px;
+  --font-xs: 13.5px;
+  --font-sm: 15px;
+  --font-md: 17px;
+  --font-lg: 19.5px;
+  --font-xl: 23px;
+  --font-2xl: 27.5px;
 }
 
 html {
-  font-size: 16px;
+  font-size: 18px;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  zoom: 1.15;
 }
 
 html, body {
@@ -27,7 +28,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
 }
 
