@@ -60,6 +60,7 @@ export default function useGameSession({ difficulty, gameMode, learningMode, set
     fxTimersRef.current = [];
     const { difficulty: diff, gameMode: mode, usedIds: prevIds } = stateRef.current;
     const pool = prevIds.length >= CASES.length ? CASES : CASES.filter(c => !prevIds.includes(c.id));
+    let chosen;
     if (caseId != null && (typeof caseId === "string" || typeof caseId === "number")) {
       chosen = CASES.find(c => String(c.id) === String(caseId)) || pool[Math.floor(Math.random() * pool.length)];
     } else if (mode === "random") {

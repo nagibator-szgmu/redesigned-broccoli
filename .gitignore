@@ -9,4 +9,5 @@ dist/
 *.zip
 test-artifacts/
 test_*.png
-
+.serena/
+.playwright-mcp/
