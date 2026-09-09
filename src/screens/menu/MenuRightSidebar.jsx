@@ -19,7 +19,7 @@ export default function MenuRightSidebar({
   const avgScore = casesPlayed ? Math.round(totalScore / casesPlayed) : 0;
 
   return (
-    <div style={{ width: 280, flexShrink: 0, overflowY: "auto", padding: "26px 20px 40px 10px", display: "flex", flexDirection: "column", gap: 14 }}>
+    <div style={{ width: 280, height: "100%", boxSizing: "border-box", flexShrink: 0, overflowY: "auto", overscrollBehavior: "contain", padding: "26px 20px 40px 10px", display: "flex", flexDirection: "column", gap: 14 }}>
       {/* Player Progress Card */}
       <div style={{ background: C.panelBg, backdropFilter: "blur(16px)", border: `1px solid ${C.border}`, borderRadius: 18, padding: "18px 14px", boxShadow: "0 4px 24px rgba(0,0,0,0.15)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>

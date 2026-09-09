@@ -84,7 +84,8 @@ export default function Tooltip({
   const triggerRef = useRef(null);
   const timerRef = useRef(null);
 
-  if (!text && !title && !formula && !refRange && !details) return children;
+  const ENABLE_TOOLTIPS = false;
+  if (!ENABLE_TOOLTIPS || (!text && !title && !formula && !refRange && !details)) return children;
 
   const updateCoords = () => {
     if (!triggerRef.current) return;

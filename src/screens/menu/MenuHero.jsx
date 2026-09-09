@@ -5,54 +5,120 @@ import { FONT, SER } from "../../ui/theme";
  */
 export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame, setProgressionMode, setPhase, theme, t, C }) {
   return (
-    <div onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ position: "relative", borderRadius: 23, padding: 1, marginBottom: 28, animation: "fadeUp 0.5s ease", background: C.border }}>
-      {/* Glowing border — follows cursor */}
-      <div style={{ position: "absolute", inset: 0, borderRadius: 23, pointerEvents: "none", background: `radial-gradient(350px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, ${C.accent}55, transparent 65%)`, opacity: heroMouse.over ? 1 : 0, transition: "opacity 0.5s ease" }} />
+    <div
+      onMouseMove={onHeroMove}
+      onMouseLeave={onHeroLeave}
+      style={{
+        position: "relative",
+        borderRadius: 23,
+        padding: 1,
+        marginBottom: 28,
+        animation: "fadeUp 0.5s ease",
+        background: "linear-gradient(135deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.09) 45%, rgba(255,255,255,0.20) 100%)",
+        boxShadow: "0 0 16px rgba(0, 230, 200, 0.06)",
+      }}
+    >
+      {/* Glowing border — illuminates frame and corners, follows cursor */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: 23,
+          pointerEvents: "none",
+          background: `radial-gradient(360px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, rgba(255,255,255,0.45) 0%, ${C.accent}66 35%, transparent 70%)`,
+          opacity: heroMouse.over ? 1 : 0.35,
+          transition: "opacity 0.4s ease",
+        }}
+      />
 
-      {/* Inner card */}
-      <div style={{ position: "relative", minHeight: 220, borderRadius: 22, overflow: "hidden", background: C.heroGrad, display: "flex", alignItems: "center", boxShadow: theme === "dark" ? "0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)" : "0 8px 30px rgba(0,71,171,0.12), 0 2px 8px rgba(0,0,0,0.04)" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${C.border} 1px, transparent 1px), linear-gradient(90deg, ${C.border} 1px, transparent 1px)`, backgroundSize: "28px 28px", opacity: 0.35 }} />
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: heroMouse.over ? 1 : 0, transition: "opacity 0.4s ease", background: `radial-gradient(78px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, ${C.accent}20 0%, transparent 100%)` }} />
-        <div style={{ position: "absolute", left: "-5%", top: "-20%", width: 320, height: 320, background: `radial-gradient(circle, ${C.accent}14 0%, transparent 65%)`, borderRadius: "50%" }} />
-        <div style={{ position: "absolute", right: "-5%", top: "-10%", width: 400, height: 400, background: `radial-gradient(circle, ${C.accent}10 0%, transparent 65%)`, borderRadius: "50%" }} />
+      {/* Inner card — height 252px aligns exactly to 9 rows of 28px squares */}
+      <div
+        style={{
+          position: "relative",
+          height: 252,
+          borderRadius: 22,
+          overflow: "hidden",
+          background: C.heroGrad,
+          display: "flex",
+          alignItems: "center",
+          boxSizing: "border-box",
+          boxShadow: theme === "dark"
+            ? "0 8px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)"
+            : "0 8px 30px rgba(0,71,171,0.12), 0 2px 8px rgba(0,0,0,0.04)",
+        }}
+      >
+        {/* Base grid pattern — silky smooth fade-out before the telemetry radar zone */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+            backgroundSize: "28px 28px",
+            backgroundPosition: "0 0",
+            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 76%)",
+            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 76%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+        {/* Highlighted grid lines under cursor */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.20) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.20) 1px, transparent 1px)`,
+            backgroundSize: "28px 28px",
+            backgroundPosition: "0 0",
+            opacity: heroMouse.over ? 0.95 : 0,
+            WebkitMaskImage: `radial-gradient(130px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, black 0%, transparent 100%), linear-gradient(to right, black 50%, transparent 76%)`,
+            maskImage: `radial-gradient(130px circle at ${heroMouse.x * 100}% ${heroMouse.y * 100}%, black 0%, transparent 100%), linear-gradient(to right, black 50%, transparent 76%)`,
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect",
+            transition: "opacity 0.3s ease",
+            zIndex: 0,
+          }}
+        />
+        <div style={{ position: "absolute", left: "-5%", top: "50%", transform: "translateY(-50%)", width: 340, height: 340, background: `radial-gradient(circle, ${C.accent}14 0%, transparent 70%)`, borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)", width: 280, height: 280, background: `radial-gradient(circle, ${C.accent}12 0%, transparent 70%)`, borderRadius: "50%", pointerEvents: "none" }} />
 
-        {/* Animated SVG medical radar graphic */}
-        <div style={{ position: "absolute", right: 36, top: "50%", transform: "translateY(-50%)", opacity: 0.85 }}>
+        {/* Animated SVG medical radar graphic — matching the brand blue of "Новый пациент" button */}
+        <div style={{ position: "absolute", right: 36, top: "50%", transform: "translateY(-50%)", zIndex: 2, pointerEvents: "none", filter: "drop-shadow(0 0 10px rgba(37, 99, 235, 0.45))" }}>
           <svg width="170" height="170" viewBox="0 0 170 170">
             <g>
-              <circle cx="85" cy="85" r="75" fill="none" stroke={C.accent} strokeWidth="1" opacity="0.12" />
-              <circle cx="85" cy="85" r="60" fill="none" stroke={C.accent} strokeWidth="1" opacity="0.16" />
-              <circle cx="85" cy="85" r="45" fill="none" stroke={C.accent} strokeWidth="1" opacity="0.22" />
-              <circle cx="85" cy="85" r="30" fill="none" stroke={C.accent} strokeWidth="1" opacity="0.28" />
-              <line x1="85" y1="10" x2="85" y2="160" stroke={C.accent} strokeWidth="1" opacity="0.10" />
-              <line x1="10" y1="85" x2="160" y2="85" stroke={C.accent} strokeWidth="1" opacity="0.10" />
+              <circle cx="85" cy="85" r="75" fill="none" stroke="#3B82F6" strokeWidth="1.2" opacity="0.30" />
+              <circle cx="85" cy="85" r="60" fill="none" stroke="#3B82F6" strokeWidth="1.2" opacity="0.42" />
+              <circle cx="85" cy="85" r="45" fill="none" stroke="#3B82F6" strokeWidth="1.4" opacity="0.58" />
+              <circle cx="85" cy="85" r="30" fill="none" stroke="#3B82F6" strokeWidth="1.4" opacity="0.75" />
+              <line x1="85" y1="10" x2="85" y2="160" stroke="#3B82F6" strokeWidth="1" opacity="0.30" />
+              <line x1="10" y1="85" x2="160" y2="85" stroke="#3B82F6" strokeWidth="1" opacity="0.30" />
               <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="30s" repeatCount="indefinite" />
             </g>
-            <circle cx="85" cy="85" r="68" fill="none" stroke={C.accent} strokeWidth="1" strokeDasharray="6 14" opacity="0.35">
+            <circle cx="85" cy="85" r="68" fill="none" stroke="#3B82F6" strokeWidth="1.3" strokeDasharray="6 12" opacity="0.65">
               <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="-360 85 85" dur="20s" repeatCount="indefinite" />
             </circle>
             <g>
-              <path d="M 85 10 A 75 75 0 0 1 152 52" stroke={C.accent} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <path d="M 85 160 A 75 75 0 0 1 18 118" stroke={C.accent} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.4" />
-              <circle cx="85" cy="10" r="2.5" fill={C.accent} />
-              <circle cx="152" cy="52" r="3" fill={C.accent} />
-              <circle cx="160" cy="85" r="2.5" fill={C.accent} opacity="0.6" />
+              <path d="M 85 10 A 75 75 0 0 1 152 52" stroke="#2563EB" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <path d="M 85 160 A 75 75 0 0 1 18 118" stroke="#3B82F6" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
+              <circle cx="85" cy="10" r="3" fill="#FFFFFF" />
+              <circle cx="152" cy="52" r="3.5" fill="#3B82F6" />
+              <circle cx="160" cy="85" r="3" fill="#60A5FA" opacity="0.9" />
               <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="10s" repeatCount="indefinite" />
             </g>
-            <circle cx="85" cy="10" r="6" fill={C.accent} opacity="0.15">
+            <circle cx="85" cy="10" r="6" fill="#3B82F6" opacity="0.25">
               <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="6s" repeatCount="indefinite" />
             </circle>
-            <circle cx="85" cy="10" r="3" fill={C.accent}>
+            <circle cx="85" cy="10" r="3" fill="#3B82F6">
               <animateTransform attributeName="transform" type="rotate" from="0 85 85" to="360 85 85" dur="6s" repeatCount="indefinite" />
             </circle>
-            <circle cx="85" cy="85" r="5" fill={C.accent} opacity="0.9">
-              <animate attributeName="r" values="4;6.5;4" dur="2s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
+            <circle cx="85" cy="85" r="5" fill="#2563EB">
+              <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />
             </circle>
           </svg>
         </div>
 
-        <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", padding: "24px 38px", maxWidth: "62%", zIndex: 1 }}>
+        <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", padding: "24px 38px", maxWidth: "62%", zIndex: 2 }}>
           <div style={{ fontSize: 10, color: C.heroLabel, letterSpacing: 5, textTransform: "uppercase", marginBottom: 10, fontFamily: FONT, fontWeight: 600 }}>{t("brand.tagline")}</div>
           <div key={theme} style={{ fontSize: 40, fontWeight: 700, fontFamily: SER, fontStyle: "italic", lineHeight: 1.15, background: C.heroTitleGrad, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", marginBottom: 12 }}>{t("brand.name")}</div>
           <div style={{ fontSize: 13, color: C.heroText, fontFamily: FONT, marginBottom: 20, lineHeight: 1.6 }}>{t("hero.desc1")} {t("hero.desc2")}</div>

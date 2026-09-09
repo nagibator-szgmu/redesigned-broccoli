@@ -14,7 +14,7 @@ import { getUserAvatar } from "./AccountModal";
  * MenuSidebar component for desktop left navigation drawer.
  */
 export default function MenuSidebar({
-  setPhase, progressionMode, setProgressionMode,
+  setPhase, setProgressionMode,
   showTutorialMenu, setShowTutorialMenu, tutorialMenuRef,
   restartTutorial, showTutorialTips, forceShowDeptTutorial,
   department, setDepartment, checkDeptTutorial,
@@ -25,14 +25,14 @@ export default function MenuSidebar({
 
   const mainNavs = [
     { label: t("nav.theory"), icon: <IconTheory size={16} color={C.accent} />, onClick: () => setPhase("theory"), title: "ТЕОРЕТИЧЕСКИЕ БАЗЫ", text: "Справочник протоколов, фармацевтических гайдлайнов и алгоритмов АХА/ERC." },
-    { label: t("nav.course"), icon: <IconTarget size={16} color={C.accent} />, onClick: () => { setProgressionMode("strict"); setPhase("theory"); }, active: progressionMode === "strict", id: "tutorial-curriculum", title: "ПОСЛЕДОВАТЕЛЬНЫЙ КУРС", text: "Строгое прохождение клинических модулей от простых патологий к тяжелым мультиорганным шокам." },
+    { label: t("nav.course"), icon: <IconTarget size={16} color={C.accent} />, onClick: () => { setProgressionMode("strict"); setPhase("theory"); }, id: "tutorial-curriculum", title: "ПОСЛЕДОВАТЕЛЬНЫЙ КУРС", text: "Строгое прохождение клинических модулей от простых патологий к тяжелым мультиорганным шокам." },
     { label: t("nav.map"), icon: <IconMap size={16} color={C.accent} />, onClick: () => setPhase("map"), title: "КАРТА КЛИНИЧЕСКИХ КЕЙСОВ", text: "Интерактивное древо специализаций и взаимосвязей синдромов." },
     { label: "Достижения и сертификаты", icon: <IconTrophy size={16} color={C.accent} />, onClick: () => setPhase("leaderboard"), title: "ТАБЛИЦА ЛИДЕРОВ И СЕРТИФИКАТЫ", text: "Рейтинг врачей по баллам ОСКЭ, статистика пройденных симуляций и государственные дипломы." },
     { label: t("nav.teacherDashboard"), icon: <IconChartBar size={16} color={C.accent} />, onClick: () => setPhase("teacher_dashboard"), title: "КАБИНЕТ ПРЕПОДАВАТЕЛЯ", text: "Аналитика группы, тепловая карта когнитивных ошибок (Blindness/Anchoring) и протоколы проверок." },
   ];
 
   return (
-    <aside style={{ width: 220, flexShrink: 0, zIndex: 10, background: C.sidebarBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", padding: "22px 12px", overflowY: "auto" }}>
+    <aside style={{ width: 220, height: "100%", boxSizing: "border-box", flexShrink: 0, zIndex: 10, background: C.sidebarBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", padding: "22px 12px", overflowY: "auto", overscrollBehavior: "contain" }}>
       {/* Brand logo */}
       <Tooltip title="MEDSIM 3D VIRTUAL SIMULATOR" text="Интерактивный медицинский симулятор реанимации и скорой помощи." position="top" style={{ width: "100%" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "6px 10px", marginBottom: 16 }}>
@@ -70,7 +70,6 @@ export default function MenuSidebar({
       <div className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "10px 12px", borderRadius: 11, marginBottom: 2, cursor: "default", background: C.accentDim, border: `1px solid ${C.accent}40` }}>
         <IconGrid size={16} color={C.accent} />
         <span style={{ fontSize: 13, color: C.accent, fontWeight: 600, fontFamily: FONT }}>{t("nav.mainMenu")}</span>
-        <div style={{ marginLeft: "auto", width: 6, height: 6, borderRadius: "50%", background: C.accent, boxShadow: `0 0 8px ${C.accent}` }} />
       </div>
       {mainNavs.map(({ label, icon, onClick, active, id, title, text }) => (
         <Tooltip key={label} title={title} text={text} position="top" style={{ width: "100%" }}>
@@ -110,7 +109,6 @@ export default function MenuSidebar({
               <div onClick={() => { setDepartment(key); if (key !== "all") checkDeptTutorial?.(key); }} className="nav-item" style={{ display: "flex", alignItems: "center", gap: 11, padding: "9px 12px 9px 18px", borderRadius: 10, cursor: "pointer", background: isActive ? C.accentDim : "transparent", border: `1px solid ${isActive ? `${C.accent}40` : "transparent"}`, width: "100%", boxSizing: "border-box" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 18, opacity: isActive ? 1 : 0.65 }}>{icon}</span>
                 <span style={{ fontSize: 12, fontFamily: FONT, color: isActive ? C.accent : C.text, fontWeight: isActive ? 600 : 400, opacity: isActive ? 1 : 0.75 }}>{label}</span>
-                {isActive && <div style={{ marginLeft: "auto", width: 5, height: 5, borderRadius: "50%", background: C.accent, boxShadow: `0 0 6px ${C.accent}` }} />}
               </div>
             </Tooltip>
           );

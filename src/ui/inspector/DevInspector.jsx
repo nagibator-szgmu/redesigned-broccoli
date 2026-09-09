@@ -84,6 +84,10 @@ export default function DevInspector() {
     };
   }, [inspecting, handleInspectTarget]);
 
+  const zoom = typeof window !== "undefined"
+    ? parseFloat(window.getComputedStyle(document.documentElement).zoom) || 1
+    : 1;
+
   return (
     <>
       {inspecting && hoveredRect && (
@@ -91,10 +95,10 @@ export default function DevInspector() {
           data-inspector-ui
           style={{
             position: "fixed",
-            left: hoveredRect.left,
-            top: hoveredRect.top,
-            width: hoveredRect.width,
-            height: hoveredRect.height,
+            left: hoveredRect.left / zoom,
+            top: hoveredRect.top / zoom,
+            width: hoveredRect.width / zoom,
+            height: hoveredRect.height / zoom,
             border: "2px solid #00e6c8",
             background: "rgba(0, 230, 200, 0.08)",
             boxShadow: "0 0 10px rgba(0, 230, 200, 0.4)",
@@ -107,7 +111,7 @@ export default function DevInspector() {
           <span
             style={{
               position: "absolute",
-              top: hoveredRect.top < 24 ? 2 : -22,
+              top: (hoveredRect.top / zoom) < 24 ? 2 : -22,
               left: 0,
               background: "#0d1a2e",
               border: "1px solid #00e6c8",

@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import pillEmblem512 from "../assets/pill-emblem.png";
+import pillEmblem128 from "../assets/pill-emblem-128.png";
 
 /**
  * PillEmblem - Реалистичная статичная эмблема-таблетка с синим медицинским крестом.
@@ -21,8 +23,8 @@ export default function PillEmblem({ size = 40, className = "", style = {} }) {
       }}
     >
       <img
-        src="/pill-emblem.png"
-        srcSet="/pill-emblem-128.png 128w, /pill-emblem.png 512w"
+        src={pillEmblem512}
+        srcSet={`${pillEmblem128} 128w, ${pillEmblem512} 512w`}
         sizes={`${size}px`}
         alt="MedSim Emblem"
         draggable={false}

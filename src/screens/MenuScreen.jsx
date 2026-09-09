@@ -113,7 +113,7 @@ export default function MenuScreen(props) {
   );
 
   return (
-    <div style={{ height: "100vh", background: C.bgGrad, display: "flex", fontFamily: FONT, overflow: "hidden", position: "relative" }}>
+    <div style={{ height: "100%", width: "100%", maxHeight: "100vh", background: C.bgGrad, display: "flex", fontFamily: FONT, overflow: "hidden", position: "relative" }}>
       <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}} @keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}`}</style>
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
         <div style={{ position: "absolute", left: "-10%", top: "-5%", width: 600, height: 600, background: `radial-gradient(circle, ${C.accent}10 0%, transparent 65%)`, borderRadius: "50%" }} />
@@ -122,7 +122,7 @@ export default function MenuScreen(props) {
 
       <MenuSidebar {...sharedProps} />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, zIndex: 1 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, height: "100%", overflow: "hidden", zIndex: 1 }}>
         <MenuHeader {...sharedProps} />
         <MenuNotificationsModal {...sharedProps} isMobile={false} />
         <MenuSettingsModal {...sharedProps} isMobile={false} />
@@ -132,6 +132,7 @@ export default function MenuScreen(props) {
           style={{
             flex: 1,
             display: "flex",
+            height: "100%",
             overflow: "hidden",
             transition: "background 0.5s ease-in-out",
             background: {
@@ -146,7 +147,9 @@ export default function MenuScreen(props) {
           <div
             style={{
               flex: 1,
+              height: "100%",
               overflowY: "auto",
+              overscrollBehavior: "contain",
               padding: "26px 24px 40px",
               background: "transparent",
             }}

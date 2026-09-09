@@ -51,7 +51,7 @@ export default function MenuMobileView(props) {
   ];
 
   return (
-    <div style={{ minHeight: "100dvh", background: C.bgGrad, fontFamily: FONT, overflowY: "auto", position: "relative", WebkitTapHighlightColor: "transparent" }}>
+    <div style={{ height: "100%", maxHeight: "100dvh", background: C.bgGrad, fontFamily: FONT, overflowY: "auto", overscrollBehavior: "contain", position: "relative", WebkitTapHighlightColor: "transparent" }}>
       {/* Mobile Sticky Header (Strictly responsive, no overflow) */}
       <header style={{
         position: "sticky", top: 0, zIndex: 100, height: 56,
