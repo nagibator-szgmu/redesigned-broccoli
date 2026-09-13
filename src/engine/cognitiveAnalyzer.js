@@ -41,8 +41,8 @@ export function analyzeCognitiveErrors(caseData, orderedDiag = [], selTreat = []
   if (hasAlteredMental && !orderedDiag.includes("glucose") && !orderedDiag.includes("glu")) {
     errors.diagnosticBlindness = true;
   }
-  // Проверка пропуска УЗИ/КТ при подозрении на острую хирургию живота
-  if (hasAbdominalPain && !orderedDiag.includes("us_abd") && !orderedDiag.includes("ct_abd") && !orderedDiag.includes("ultrasound_abdomen")) {
+  // Проверка пропуска УЗИ/КТ при острой боли в животе
+  if (hasAbdominalPain && !orderedDiag.includes("us_abd") && !orderedDiag.includes("ct_abd") && !orderedDiag.includes("ultrasound_abdomen") && !orderedDiag.includes("usg_abdo")) {
     errors.diagnosticBlindness = true;
   }
 

@@ -428,31 +428,50 @@
       "checklistResults": null
     },
     "31": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по феохромоцитоме и параганглиоме (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по феохромоцитоме"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по феохромоцитоме"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Изолированные бета-блокаторы противопоказаны без альфа-блокады"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "32": {
       "status": "reviewed",
       "reviewedBy": "author",
-      "reviewDate": "2026-07-24",
+      "reviewDate": "2026-09-13",
       "checklistResults": {
         "diagnosisMatchesKR": {
           "passed": true,
-          "explanation": "Критерии по КР по язвенной болезни (2024)"
+          "explanation": "Критерии по КР по острым отравлениям метанолом (2023)"
         },
         "needDiagMatchesKR": {
           "passed": true,
-          "explanation": "Обследования по алгоритму КР по язвенной болезни"
+          "explanation": "Обследования по алгоритму КР по токсикологии (лактат, КЩС, этанол крови)"
         },
         "needTreatMatchesKR": {
           "passed": true,
-          "explanation": "Лечение по протоколу КР по язвенной болезни"
+          "explanation": "Лечение по протоколу КР: этанол, бикарбонат, гемодиализ"
         },
         "wrongTreatMatchesKR": {
           "passed": true,
-          "explanation": "Противопоказания по КР по язвенной болезни"
+          "explanation": "Противопоказания по КР по токсикологии"
         },
         "routeMatchesKR": null,
         "dayPlanMatchesKR": null
@@ -461,23 +480,23 @@
     "33": {
       "status": "reviewed",
       "reviewedBy": "author",
-      "reviewDate": "2026-07-24",
+      "reviewDate": "2026-09-13",
       "checklistResults": {
         "diagnosisMatchesKR": {
           "passed": true,
-          "explanation": "Критерии по КР по хирургическим заболеваниям (2020)"
+          "explanation": "Критерии по КР по ботулизму у взрослых (2024)"
         },
         "needDiagMatchesKR": {
           "passed": true,
-          "explanation": "Обследования по алгоритму КР по хирургическим заболеваниям"
+          "explanation": "Обследования по алгоритму КР по ботулизму"
         },
         "needTreatMatchesKR": {
           "passed": true,
-          "explanation": "Лечение по протоколу КР по хирургическим заболеваниям"
+          "explanation": "Лечение по протоколу КР: противоботулиническая сыворотка А, В, Е, ИВЛ"
         },
         "wrongTreatMatchesKR": {
           "passed": true,
-          "explanation": "Противопоказания по КР по хирургическим заболеваниям"
+          "explanation": "Сукцинилхолин и аминогликозиды противопоказаны при нарушении нервно-мышечной передачи"
         },
         "routeMatchesKR": null,
         "dayPlanMatchesKR": null
@@ -486,33 +505,52 @@
     "34": {
       "status": "reviewed",
       "reviewedBy": "author",
-      "reviewDate": "2026-07-24",
+      "reviewDate": "2026-09-13",
       "checklistResults": {
         "diagnosisMatchesKR": {
           "passed": true,
-          "explanation": "Критерии по КР по заболеваниям аорты (2025)"
+          "explanation": "Критерии по КР по желудочковым нарушениям ритма (2024)"
         },
         "needDiagMatchesKR": {
           "passed": true,
-          "explanation": "Обследования по алгоритму КР по заболеваниям аорты"
+          "explanation": "Обследования по алгоритму КР: ЭКГ, тропонин, калий/магний"
         },
         "needTreatMatchesKR": {
           "passed": true,
-          "explanation": "Лечение по протоколу КР по заболеваниям аорты"
+          "explanation": "Лечение по протоколу КР: кардиоверсия, амиодарон"
         },
         "wrongTreatMatchesKR": {
           "passed": true,
-          "explanation": "Противопоказания по КР по заболеваниям аорты"
+          "explanation": "Противопоказания по КР (дигоксин при ЖТ)"
         },
         "routeMatchesKR": null,
         "dayPlanMatchesKR": null
       }
     },
     "35": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по синдрому Гийена-Барре (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР: люмбальная пункция, ЭНМГ"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР: ВВИГ, плазмаферез"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Глюкокортикоиды неэффективны; сукцинилхолин вызывает фатальную гиперкалиемию"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "36": {
       "status": "pending",
@@ -628,6 +666,12 @@
       "reviewDate": null,
       "checklistResults": null
     },
+    "55": {
+      "status": "pending",
+      "reviewedBy": null,
+      "reviewDate": null,
+      "checklistResults": null
+    },
     "outp_1": {
       "status": "reviewed",
       "reviewedBy": "author",
@@ -657,10 +701,29 @@
       }
     },
     "outp_2": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "author",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по ХОБЛ (2023)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обследования по алгоритму КР по ХОБЛ (спирометрия, КТ ОГК)"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лечение по протоколу КР по ХОБЛ (тиотропий, вакцинация)"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Неселективные бета-блокаторы противопоказаны при бронхообструкции"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "outp_3": {
       "status": "reviewed",
@@ -916,12 +979,6 @@
         "routeMatchesKR": null,
         "dayPlanMatchesKR": null
       }
-    },
-    "55": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
     }
   }
 }

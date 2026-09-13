@@ -26,7 +26,6 @@ export const SPEC_CERTIFICATES = [
   {id:"infect_master",category:"infectious",required:3,iconKey:"infectious",title:"Инфекционист",desc:"Завершите 3 случая по инфекционным болезням",color:"#f57c42"},
   {id:"endo_master",category:"endocrine",required:3,iconKey:"endocrine",title:"Эндокринолог",desc:"Завершите 3 случая по эндокринологии",color:"#f5c842"},
   {id:"tox_master",category:"toxicology",required:3,iconKey:"toxicology",title:"Токсиколог",desc:"Завершите 3 случая по токсикологии",color:"#f57c42"},
-  {id:"surg_master",category:"abdominal",required:3,iconKey:"abdominal",title:"Хирург",desc:"Завершите 3 случая по хирургии",color:"#00e6c8"},
 ];
 
 export function computeEarnedCertificates(sessionHistory) {

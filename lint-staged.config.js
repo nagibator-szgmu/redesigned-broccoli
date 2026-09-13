@@ -1,3 +1,3 @@
-module.exports = {
-  '*.{js,jsx}': ['eslint --fix', 'prettier --write'],
-}
+export default {
+  'src/**/*.{js,jsx}': ['eslint --max-warnings=50'],
+};

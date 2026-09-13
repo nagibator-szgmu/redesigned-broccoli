@@ -36,12 +36,6 @@ const ALTERNATIVE_POOLS = {
     { id: "alt_alcohol", name: "Тяжелая алкогольная кома", baseWeight: 20, danger: false },
     { id: "alt_co", name: "Отравление угарным газом (CO)", baseWeight: 20, danger: true },
   ],
-  abdominal: [
-    { id: "alt_pancreatitis", name: "Острый деструктивный панкреатит", baseWeight: 30, danger: true },
-    { id: "alt_peritonitis", name: "Острый перитонит / Перфорация полого органа", baseWeight: 35, danger: true },
-    { id: "alt_cholecystitis", name: "Острый деструктивный холецистит", baseWeight: 20, danger: false },
-    { id: "alt_obstruction", name: "Острая кишечная непроходимость", baseWeight: 15, danger: true },
-  ],
 };
 
 function calculateProbabilities(baseHypotheses, neededDiag, evidenceList) {

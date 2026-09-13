@@ -4,7 +4,7 @@ import { FONT, CODE } from "../ui/theme";
 import { TOPICS } from "../data/topics";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
-  IconEndocrine, IconToxicology, IconAbdominal, IconLock
+  IconEndocrine, IconToxicology, IconLock
 } from "../ui/icons";
 
 const CAT_ICONS = {
@@ -14,7 +14,6 @@ const CAT_ICONS = {
   infectious: IconInfectious,
   endocrine: IconEndocrine,
   toxicology: IconToxicology,
-  abdominal: IconAbdominal,
 };
 
 export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {

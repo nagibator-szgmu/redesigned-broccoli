@@ -5,7 +5,7 @@ import useIsMobile from "../hooks/useIsMobile";
 import { HeaderBackBtn } from "../ui/components";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
-  IconEndocrine, IconToxicology, IconAbdominal, IconTrophy,
+  IconEndocrine, IconToxicology, IconTrophy,
   IconGraduationCap, IconTarget, IconCheck
 } from "../ui/icons";
 
@@ -19,7 +19,6 @@ function renderCertIcon(cert, isEarned) {
     case "infectious": return <IconInfectious size={size} color={color} />;
     case "endocrine": return <IconEndocrine size={size} color={color} />;
     case "toxicology": return <IconToxicology size={size} color={color} />;
-    case "abdominal": return <IconAbdominal size={size} color={color} />;
     case "graduationCap": return <IconGraduationCap size={size} color={color} />;
     case "target": return <IconTarget size={size} color={color} />;
     default: return <IconTrophy size={size} color={color} />;

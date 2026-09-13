@@ -25,11 +25,11 @@ export const PROTOCOLS = {
       {title:"5H и 5T — обратимые причины",content:"5H: Hypovolemia, Hypoxia, Hydrogen ion (acidosis), Hypo/Hyperkalemia, Hypothermia.\n5T: Tension pneumothorax, Tamponade (cardiac), Toxins, Thrombosis (coronary), Thrombosis (pulmonary)."},
     ],
     keyPoints:["Адреналин 1 мг в/в каждые 3-5 мин","Амиодарон 300→150 мг при рефрактерной ФЖ","Атропин 0.5 мг при брадикардии (макс 3 мг)","Проверять 5H и 5T после ROSC"],
-    relatedCases:[38,5,36],
+    relatedCases:[38,5,36,34],
   },
   atls: {
     id:"atls", name:"ATLS — Алгоритм первичной оценки травмы",
-    iconKey:"abdominal", color:"#f57c42",
+    iconKey:"respiratory", color:"#00e5a0",
     source:"ACS ATLS 10th Ed / Клинические рекомендации МЗ РФ",
     sections:[
       {title:"A — Airway (Дыхательные пути)",content:"Оценка проходимости с иммобилизацией шейного отдела. Методика jaw thrust (не head tilt при травме). При обструкции — коникотомия или интубация."},
@@ -39,7 +39,7 @@ export const PROTOCOLS = {
       {title:"E — Exposure (Экспозиция)",content:"Полное обнажение для осмотра. Согревание пациента (гипотермия ухудшает коагулопатию). FAST/POCUS для выявления свободной жидкости в брюшной полости, перикарда, плевральной полости."},
     ],
     keyPoints:["C-ABCDE порядок оценки","Напряжённый пневмоторакс → немедленное дренирование","Контроль кровотечения — приоритет №1","FAST/POCUS для скрининга травмы","Согревание — профилактика коагулопатии"],
-    relatedCases:[37,13,34],
+    relatedCases:[37,13],
   },
   sepsis: {
     id:"sepsis", name:"Sepsis-3 / Surviving Sepsis Campaign",

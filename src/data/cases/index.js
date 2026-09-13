@@ -9,7 +9,6 @@ import { RESPIRATORY_CASES } from './emergency/respiratory.js';
 import { INFECTIOUS_CASES } from './emergency/infectious.js';
 import { ENDOCRINE_CASES } from './emergency/endocrine.js';
 import { TOXICOLOGY_CASES } from './emergency/toxicology.js';
-import { ABDOMINAL_CASES } from './emergency/abdominal.js';
 import { OUTPATIENT_CASES } from './outpatient.js';
 import { STATIONARY_CASES } from './stationary.js';
 
@@ -21,7 +20,6 @@ export const EMERGENCY_CASES = [
   ...INFECTIOUS_CASES,
   ...ENDOCRINE_CASES,
   ...TOXICOLOGY_CASES,
-  ...ABDOMINAL_CASES,
 ];
 
 /** ICU cases (department === "icu") */
@@ -53,7 +51,6 @@ export const CASES_BY_SPECIALTY = {
   infectious: INFECTIOUS_CASES,
   endocrine: ENDOCRINE_CASES,
   toxicology: TOXICOLOGY_CASES,
-  abdominal: ABDOMINAL_CASES,
 };
 
 export default CASES;

@@ -4,14 +4,14 @@ import { FONT } from "../../ui/theme";
 import { Tooltip } from "../../ui/components";
 import {
   IconGraduationCap, IconStethoscope, IconCardiac,
-  IconAbdominal, IconNeuro, IconCheck
+  IconAmbulance, IconNeuro, IconCheck
 } from "../../ui/icons";
 
 export const AVATARS = [
   { id: "student", label: "Студент-интерн", role: "Лечебное дело", icon: IconGraduationCap, color: "#00e6c8", bg: "linear-gradient(135deg, rgba(0,230,200,0.25), rgba(0,180,216,0.15))", desc: "Начальный уровень клинициста. Обучение первичным алгоритмам диагностики и терапии." },
   { id: "therapist", label: "Врач-терапевт", role: "Поликлиника", icon: IconStethoscope, color: "#00e5a0", bg: "linear-gradient(135deg, rgba(0,229,160,0.25), rgba(0,200,140,0.15))", desc: "Уверенная терапевтическая практика, дифф. диагностика внутренних болезней." },
   { id: "cardiologist", label: "Кардиолог", role: "ОРИТ / Кардио", icon: IconCardiac, color: "#ff3d5a", bg: "linear-gradient(135deg, rgba(255,61,90,0.25), rgba(245,124,66,0.15))", desc: "Эксперт по острому коронарному синдрому, аритмиям и кардиогенному шоку." },
-  { id: "surgeon", label: "Хирург-реаниматолог", role: "Приёмное / Хирургия", icon: IconAbdominal, color: "#f57c42", bg: "linear-gradient(135deg, rgba(245,124,66,0.25), rgba(245,200,66,0.15))", desc: "Специалист по острому животу, перитонитам, травме и экстренной хирургии." },
+  { id: "intensivist", label: "Врач-реаниматолог", role: "ОРИТ / Неотложная помощь", icon: IconAmbulance, color: "#f57c42", bg: "linear-gradient(135deg, rgba(245,124,66,0.25), rgba(245,200,66,0.15))", desc: "Специалист по критическим состояниям, шокам, токсикологии и интенсивной терапии." },
   { id: "professor", label: "Профессор медицины", role: "Кафедра / Эксперт", icon: IconNeuro, color: "#9d6ff5", bg: "linear-gradient(135deg, rgba(157,111,245,0.25), rgba(0,230,200,0.15))", desc: "Высший квалификационный статус. Консилиумное мышление и разбор редких патологий." },
 ];
 
