@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import { CASES } from "../data/cases";
 import scormService from "../services/scormService";
 import { initPS } from "../engine/patient";
@@ -7,6 +7,7 @@ import { useSessionTimers } from "./gameSession/useSessionTimers";
 import { useDiagnosticOrders } from "./gameSession/useDiagnosticOrders";
 import { finalizeSession } from "./gameSession/sessionScorer";
 import { selectCase, computeCaseDuration, buildInitialTrajectory, formatElapsed } from "./gameSession/sessionInit";
+import { useSessionState } from "./gameSession/useSessionState";
 
 export default function useGameSession({
   difficulty,
@@ -16,23 +17,26 @@ export default function useGameSession({
   setCasesPlayed,
   setSessionHistory,
 }) {
-  const [phase, setPhase] = useState("menu");
-  const [cd, setCd] = useState(null);
-  const [usedIds, setUsedIds] = useState([]);
-  const [ps, setPs] = useState(null);
-  const [prevPs, setPrevPs] = useState(null);
-  const [eventLog, setEventLog] = useState([]);
-  const [trajectory, setTrajectory] = useState([]);
-  const [gameOver, setGameOver] = useState(false);
-  const [diagText, setDiagText] = useState("");
-  const [diagCat, setDiagCat] = useState("all");
-  const [treatCat, setTreatCat] = useState("all");
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [totalTime, setTotalTime] = useState(0);
-  const [result, setResult] = useState(null);
-  const [paused, setPaused] = useState(false);
-  const [selectedRoute, setSelectedRoute] = useState(null);
-  const [revealedAnamnesis, setRevealedAnamnesis] = useState(new Set());
+  const sessionState = useSessionState();
+  const {
+    phase, setPhase,
+    cd, setCd,
+    usedIds, setUsedIds,
+    ps, setPs,
+    setPrevPs,
+    setEventLog,
+    setTrajectory,
+    gameOver, setGameOver,
+    diagText, setDiagText,
+    setDiagCat,
+    setTreatCat,
+    timeLeft, setTimeLeft,
+    totalTime, setTotalTime,
+    setResult,
+    paused,
+    selectedRoute, setSelectedRoute,
+    revealedAnamnesis, setRevealedAnamnesis,
+  } = sessionState;
 
   const timerRef = useRef(null);
   const detRef = useRef(null);
@@ -42,7 +46,7 @@ export default function useGameSession({
   const addEvent = useCallback((text, type = "info") => {
     const timeStr = formatElapsed(stateRef.current.totalTime, stateRef.current.timeLeft);
     setEventLog((prev) => [{ id: Date.now() + Math.random(), text, type, elapsed: timeStr }, ...prev.slice(0, 29)]);
-  }, []);
+  }, [setEventLog]);
 
   const treatment = useTreatmentManager({ addEvent, setPs, stateRef, fxTimersRef });
   const diagnostics = useDiagnosticOrders({ stateRef, setPhase, addEvent });
@@ -84,7 +88,7 @@ export default function useGameSession({
         setPhase,
       });
     },
-    [setTotalScore, setCasesPlayed, setSessionHistory, selectedRoute]
+    [setTotalScore, setCasesPlayed, setSessionHistory, selectedRoute, setPhase, setPs, setResult]
   );
 
   useSessionTimers({
@@ -145,24 +149,16 @@ export default function useGameSession({
 
       setPhase("order_tests");
     },
-    [diagnostics, treatment]
+    [diagnostics, treatment, setCd, setDiagCat, setDiagText, setEventLog, setGameOver, setPhase, setPrevPs, setPs, setResult, setRevealedAnamnesis, setSelectedRoute, setTimeLeft, setTotalTime, setTrajectory, setTreatCat, setUsedIds]
   );
 
   const recordTrajectoryCheckpoint = useCallback((checkpointData) => {
     const timeStr = formatElapsed(stateRef.current.totalTime, stateRef.current.timeLeft);
     setTrajectory((prev) => [...prev, { ...checkpointData, elapsed: timeStr, timestamp: Date.now() }]);
-  }, []);
+  }, [setTrajectory]);
 
   return {
-    phase,
-    setPhase,
-    cd,
-    ps,
-    prevPs,
-    eventLog,
-    gameOver,
-    trajectory,
-    setTrajectory,
+    ...sessionState,
     recordTrajectoryCheckpoint,
     appliedFx: treatment.appliedFx,
     pendingFx: treatment.pendingFx,
@@ -173,23 +169,7 @@ export default function useGameSession({
     newResultIds: diagnostics.newResultIds,
     selTreat: treatment.selTreat,
     toggleTreatment: treatment.toggleTreatment,
-    diagText,
-    setDiagText,
-    diagCat,
-    setDiagCat,
-    treatCat,
-    setTreatCat,
-    timeLeft,
-    totalTime,
-    paused,
-    setPaused,
-    learningMode,
-    selectedRoute,
-    setSelectedRoute,
-    revealedAnamnesis,
-    setRevealedAnamnesis,
     processingTests: diagnostics.processingTests,
-    result,
     allResultsReady: diagnostics.allResultsReady,
     addEvent,
     startGame,
