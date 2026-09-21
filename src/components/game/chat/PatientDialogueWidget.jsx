@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { FONT, RADIUS } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { IconBot } from "../../../ui/icons";
+import DialogueMessageList from "./DialogueMessageList";
 
 /**
  * PatientDialogueWidget — Виджет опроса и общения с пациентом.
- * 
- * Создан в рамках Фазы 0 как точка расширения для Разработчика 2.
- * 
+ *
  * @param {Object} props
  * @param {Object} props.caseData - Данные текущего клинического кейса
  * @param {Object} props.patientState - Текущие витальные функции (hr, sbp, spo2, gcs, pain)
@@ -33,7 +32,6 @@ export default function PatientDialogueWidget({
   const [inputQuestion, setInputQuestion] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Стандартные чипсы-вопросы
   const quickQuestions = [
     { label: "Где болит?", key: "complaint", answer: caseData?.complaint || "Болит здесь..." },
     { label: "Когда началось?", key: "historyOfIllness", answer: caseData?.anamnesis || "Несколько часов назад..." },
@@ -69,7 +67,6 @@ export default function PatientDialogueWidget({
       { sender: "doctor", text: question, timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) },
     ]);
 
-    // Заглушка под подключение Разработчиком 2 реального llmService.sendChatMessage
     setLoading(true);
     setTimeout(() => {
       setMessages((prev) => [
@@ -111,62 +108,23 @@ export default function PatientDialogueWidget({
       </div>
 
       {/* Список сообщений диалога */}
-      <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: 6,
-          paddingRight: 4,
-          marginBottom: 8,
-          minHeight: 120,
-        }}
-      >
-        {messages.map((m, idx) => {
-          const isDoc = m.sender === "doctor";
-          return (
-            <div
-              key={idx}
-              style={{
-                alignSelf: isDoc ? "flex-end" : "flex-start",
-                maxWidth: "85%",
-                background: isDoc ? `${C.accent}20` : C.card,
-                border: `1px solid ${isDoc ? C.accent : C.border}`,
-                borderRadius: 8,
-                padding: "6px 10px",
-                fontSize: 12,
-                color: C.text,
-                lineHeight: 1.4,
-              }}
-            >
-              <div>{m.text}</div>
-              <div style={{ fontSize: 9, color: C.textDim, textAlign: "right", marginTop: 2 }}>{m.timestamp}</div>
-            </div>
-          );
-        })}
-        {loading && (
-          <div style={{ alignSelf: "flex-start", fontSize: 11, color: C.textDim, fontStyle: "italic" }}>
-            Пациент думает...
-          </div>
-        )}
-      </div>
+      <DialogueMessageList messages={messages} loading={loading} />
 
       {/* Быстрые чипсы-вопросы */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 8 }}>
-        {quickQuestions.map((q, idx) => (
+      <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 8 }}>
+        {quickQuestions.map((q) => (
           <button
-            key={idx}
+            key={q.label}
             onClick={() => handleAskChip(q)}
             style={{
-              background: C.dimBg,
+              background: C.card,
               border: `1px solid ${C.border}`,
               borderRadius: 6,
               padding: "4px 8px",
               fontSize: 11,
-              color: C.textDim,
+              color: C.accent,
               cursor: "pointer",
-              transition: "all 0.15s ease",
+              fontFamily: FONT,
             }}
           >
             {q.label}
@@ -174,7 +132,7 @@ export default function PatientDialogueWidget({
         ))}
       </div>
 
-      {/* Поле ввода вопроса (в гибридном режиме) */}
+      {/* Текстовый ввод для свободного вопроса в гибридном режиме */}
       {mode === "hybrid" && (
         <form onSubmit={handleSendFreeForm} style={{ display: "flex", gap: 6 }}>
           <input
@@ -182,11 +140,12 @@ export default function PatientDialogueWidget({
             value={inputQuestion}
             onChange={(e) => setInputQuestion(e.target.value)}
             placeholder="Задать свой вопрос пациенту..."
+            disabled={loading}
             style={{
               flex: 1,
               background: C.card,
               border: `1px solid ${C.border}`,
-              borderRadius: RADIUS.xs,
+              borderRadius: 6,
               padding: "6px 10px",
               fontSize: 12,
               color: C.text,
@@ -199,15 +158,15 @@ export default function PatientDialogueWidget({
             disabled={!inputQuestion.trim() || loading}
             style={{
               background: C.accent,
-              color: "#070d18",
+              color: C.bg,
               border: "none",
-              borderRadius: RADIUS.xs,
-              padding: "0 12px",
+              borderRadius: 6,
+              padding: "6px 12px",
               fontSize: 12,
               fontWeight: 700,
-              cursor: inputQuestion.trim() && !loading ? "pointer" : "default",
-              opacity: inputQuestion.trim() && !loading ? 1 : 0.5,
+              cursor: "pointer",
               fontFamily: FONT,
+              opacity: !inputQuestion.trim() || loading ? 0.5 : 1,
             }}
           >
             Спросить
