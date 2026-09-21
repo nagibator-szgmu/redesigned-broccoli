@@ -2,7 +2,7 @@ import React from 'react';
 import { CASES } from "../../data/cases";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
-  IconEndocrine, IconToxicology, IconHospital,
+  IconEndocrine, IconToxicology, IconGastro, IconHospital,
   IconAmbulance, IconXRay, IconStethoscope, IconBed
 } from "../../ui/icons";
 
@@ -20,6 +20,7 @@ export const makeCatMeta = (t) => ({
   infectious: { icon: React.createElement(IconInfectious, { size: 20, color: BRAND_BLUE }), label: t("spec.infectious"), color: BRAND_BLUE },
   endocrine: { icon: React.createElement(IconEndocrine, { size: 20, color: BRAND_BLUE }), label: t("spec.endocrine"), color: BRAND_BLUE },
   toxicology: { icon: React.createElement(IconToxicology, { size: 20, color: BRAND_BLUE }), label: t("spec.toxicology"), color: BRAND_BLUE },
+  gastro: { icon: React.createElement(IconGastro, { size: 20, color: BRAND_BLUE }), label: t("spec.gastro"), color: BRAND_BLUE },
 });
 
 /**
@@ -34,6 +35,7 @@ export const makeNavSpec = (t) => [
   { icon: React.createElement(IconInfectious, { size: 16, color: BRAND_BLUE }), label: t("spec.infectious"), cat: "infectious" },
   { icon: React.createElement(IconEndocrine, { size: 16, color: BRAND_BLUE }), label: t("spec.endocrine"), cat: "endocrine" },
   { icon: React.createElement(IconToxicology, { size: 16, color: BRAND_BLUE }), label: t("spec.toxicology"), cat: "toxicology" },
+  { icon: React.createElement(IconGastro, { size: 16, color: BRAND_BLUE }), label: t("spec.gastro"), cat: "gastro" },
 ];
 
 /**

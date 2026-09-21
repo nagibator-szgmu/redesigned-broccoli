@@ -7,7 +7,9 @@ import { Tooltip } from "../../ui/components";
  */
 export default function MenuSettingsModal({
   showSettings, setShowSettings, difficulty, setDifficulty, gameMode, setGameMode,
-  learningMode, setLearningMode, assessmentMode, setAssessmentMode, audioEnabled, setAudioEnabled,
+  learningMode, setLearningMode, assessmentMode, setAssessmentMode,
+  patientDialogueMode = "hybrid", setPatientDialogueMode,
+  audioEnabled, setAudioEnabled,
   hideWarnings, setHideWarnings, theme, setTheme, locale, setLocaleGlobal, LOCALES,
   llmProvider, setLlmProvider, llmKey, setLlmKey, showDevSettings, setShowDevSettings,
   isMobile, t, C,
@@ -164,6 +166,31 @@ export default function MenuSettingsModal({
             </div>
             <div style={{ width: 36, height: 20, borderRadius: 10, background: assessmentMode ? C.green : `${C.textDim}30`, position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
               <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: assessmentMode ? 18 : 2, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.3)" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Patient Dialogue Mode Toggle */}
+        <div style={{ marginBottom: 14 }}>
+          <div
+            onClick={() => setPatientDialogueMode && setPatientDialogueMode((m) => (m === "hybrid" ? "standard" : "hybrid"))}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px",
+              background: patientDialogueMode === "hybrid" ? `${C.accent}12` : "transparent",
+              border: `1px solid ${patientDialogueMode === "hybrid" ? `${C.accent}44` : "rgba(0,230,200,0.1)"}`,
+              borderRadius: 8, cursor: "pointer"
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 12, color: patientDialogueMode === "hybrid" ? C.accent : C.text, fontWeight: 600, fontFamily: FONT }}>
+                💬 {t("settings.patientDialogueMode")}
+              </div>
+              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
+                {t("settings.patientDialogueModeDesc")} ({patientDialogueMode === "hybrid" ? "Гибрид (LLM)" : "Стандарт"})
+              </div>
+            </div>
+            <div style={{ width: 36, height: 20, borderRadius: 10, background: patientDialogueMode === "hybrid" ? C.accent : `${C.textDim}30`, position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: patientDialogueMode === "hybrid" ? 18 : 2, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.3)" }} />
             </div>
           </div>
         </div>

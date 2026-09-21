@@ -187,6 +187,7 @@ export default function MedSimApp() {
         theme={settings.theme} setTheme={settings.setTheme}
         learningMode={settings.learningMode} setLearningMode={settings.setLearningMode}
         assessmentMode={settings.assessmentMode} setAssessmentMode={settings.setAssessmentMode}
+        patientDialogueMode={settings.patientDialogueMode} setPatientDialogueMode={settings.setPatientDialogueMode}
         progressionMode={settings.progressionMode} setProgressionMode={settings.setProgressionMode}
         audioEnabled={settings.audioEnabled} setAudioEnabled={settings.setAudioEnabled}
         hideWarnings={settings.hideWarnings} setHideWarnings={settings.setHideWarnings}
@@ -252,6 +253,7 @@ export default function MedSimApp() {
         processingTests={game.processingTests} allResultsReady={game.allResultsReady}
         gameMode={settings.gameMode}
         learningMode={settings.learningMode} assessmentMode={settings.assessmentMode}
+        patientDialogueMode={settings.patientDialogueMode}
         paused={game.paused} setPaused={game.setPaused}
         selectedRoute={game.selectedRoute} setSelectedRoute={game.setSelectedRoute}
         revealedAnamnesis={game.revealedAnamnesis} setRevealedAnamnesis={game.setRevealedAnamnesis}

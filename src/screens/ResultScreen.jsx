@@ -1,24 +1,18 @@
+import React, { useState } from "react";
 import { FONT, RADIUS } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
-import { STitle } from "../ui/components";
 import { getTopicsForCase } from "../data/topics";
 import { getRelatedProtocols } from "../engine/protocols";
 import useIsMobile from "../hooks/useIsMobile";
-import ScoringBreakdown from "../components/result/ScoringBreakdown";
-import { WRONG_TREATMENT_PENALTY } from "../engine/scoring";
+import { ResultHeader, computeVitalDeltas, ResultActions } from "../components/result";
 import {
-  IconParty, IconPlay, IconBook, IconGear, IconStethoscope,
-  IconMicroscope, IconPill, IconAlertTriangle, IconHeart,
-  IconClock, IconBot
-} from "../ui/icons";
-import {
-  ResultHeader, ScoreCard, VitalsDelta, computeVitalDeltas,
-  DiagnosisBlock, OutpatientRouteResult, StationaryDaySummary,
-  ChecklistBlock, TestAnalysis, TreatmentAnalysis, DocLayer,
-  ProtocolReferences, RelatedTheory, EventLog, ResultActions,
-} from "../components/result";
-import DebriefPanel from "../components/game/DebriefPanel";
+  ResultSummaryTab,
+  ResultErrorsTab,
+  ResultTheoryTab,
+  ResultTimelineTab,
+} from "../components/result/tabs";
+import { IconParty, IconPlay, IconBook, IconGear } from "../ui/icons";
 
 const CHECKLIST_MAP = {
   ecg: "ecg", troponin: "troponin", тропонин: "troponin", aspirin: "aspirin",
@@ -35,197 +29,185 @@ const CHECKLIST_MAP = {
   thyroid: "thyroid", eeg: "eeg", usg: "usg_abdo", cohb: "cohb",
   ketone: "ketones", lactate: "lactate", toxicol: "tox_screen", type: "type_cross",
 };
-const DIAG_ALIASES = { ct: ["ct_head", "ct_chest"], blood: ["cbc", "bmp"], antibiotic: ["antibiotics_broad"],
-  epinephrine: ["epinephrine", "epinephrine_im"], "iv fluid": ["iv_fluids"] };
+const DIAG_ALIASES = {
+  ct: ["ct_head", "ct_chest"], blood: ["cbc", "bmp"], antibiotic: ["antibiotics_broad"],
+  epinephrine: ["epinephrine", "epinephrine_im"], "iv fluid": ["iv_fluids"]
+};
 
-export default function ResultScreen({ result, cd, ps, trajectory = [], orderedDiag, selTreat, diagText, eventLog, setPhase, startGame, assessmentMode, curriculum, advanceCurriculum, getNextCurriculumCase, clearCurriculum, getNextCurriculumTopic, extraResult, tutorialMode, elapsedSec, revealedAnamnesis }) {
+export default function ResultScreen({
+  result, cd, ps, trajectory = [], orderedDiag, selTreat, diagText,
+  eventLog, setPhase, startGame, assessmentMode, curriculum, advanceCurriculum,
+  getNextCurriculumCase, clearCurriculum, getNextCurriculumTopic, extraResult,
+  tutorialMode, elapsedSec, revealedAnamnesis,
+}) {
   const C = useTheme();
   const isMobile = useIsMobile();
   const { t } = useTranslate();
+  const [activeTab, setActiveTab] = useState("summary");
 
-  const relatedTopics = getTopicsForCase(cd.id);
-  const relatedProtocols = getRelatedProtocols(cd.id);
+  const relatedTopics = getTopicsForCase(cd?.id);
+  const relatedProtocols = getRelatedProtocols(cd?.id);
   const vitalDeltas = computeVitalDeltas(cd, ps, t);
 
   const isChecklistDone = (item) => {
     const lc = item.toLowerCase();
     for (const [keyword, id] of Object.entries(CHECKLIST_MAP)) {
-      if (lc.includes(keyword) && (orderedDiag.includes(id) || selTreat.includes(id))) return true;
+      if (lc.includes(keyword) && ((orderedDiag || []).includes(id) || (selTreat || []).includes(id))) return true;
     }
     for (const [keyword, ids] of Object.entries(DIAG_ALIASES)) {
-      if (lc.includes(keyword) && ids.some(id => orderedDiag.includes(id) || selTreat.includes(id))) return true;
+      if (lc.includes(keyword) && ids.some(id => (orderedDiag || []).includes(id) || (selTreat || []).includes(id))) return true;
     }
     return false;
   };
 
-  const checklistItems = assessmentMode && cd.checklistItems ? cd.checklistItems : [];
+  const checklistItems = assessmentMode && cd?.checklistItems ? cd.checklistItems : [];
   const checklistDone = checklistItems.filter(isChecklistDone).length;
+
+  const tabs = [
+    { id: "summary", label: "Итог и оценка", icon: "📊" },
+    { id: "errors", label: "Разбор ошибок", icon: "🚨" },
+    { id: "theory", label: "Обоснование и КР", icon: "📖" },
+    { id: "timeline", label: "Хронология", icon: "⏱️" },
+  ];
 
   return (
     <div style={{ position: "fixed", inset: 0, overflowY: "auto", background: C.bg, fontFamily: FONT }}>
       <ResultHeader setPhase={setPhase} isMobile={isMobile} />
       <div style={isMobile ? { padding: "14px 14px 80px" } : { maxWidth: 900, margin: "0 auto", padding: "24px 20px 80px" }}>
+        
+        {/* Баннер завершения туториала */}
         {tutorialMode && (
-          <>
-            <div style={{ background: `${C.green}18`, border: `1px solid ${C.green}44`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 12 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                <IconParty size={24} color={C.green} />
-                <div>
-                  <div style={{ fontSize: 13, color: C.green, fontWeight: 700, marginBottom: 6 }}>Обучение пройдено!</div>
-                  <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7, marginBottom: 10 }}>
-                    Вы ознакомились с основными механиками симулятора. Теперь вы готовы к самостоятельной работе.
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
-                      <IconPlay size={12} color={C.accent} /> <span>Выберите любой кейс и начните симуляцию</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
-                      <IconBook size={12} color={C.accent} /> <span>Изучайте теорию и протоколы в разделе «Теория»</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
-                      <IconGear size={12} color={C.accent} /> <span>В настройках доступны режимы обучения и оценки</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style={{ background: `${C.accent}12`, border: `1px solid ${C.accent}33`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 12, display: "flex", alignItems: "flex-start", gap: 10 }}>
-              <IconBook size={20} color={C.accent} />
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, color: C.accent, fontWeight: 700, marginBottom: 6 }}>Разбор случая и оценка</div>
+          <div style={{ background: `${C.green}18`, border: `1px solid ${C.green}44`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 12 }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+              <IconParty size={24} color={C.green} />
+              <div>
+                <div style={{ fontSize: 13, color: C.green, fontWeight: 700, marginBottom: 6 }}>Обучение пройдено!</div>
                 <div style={{ fontSize: 12, color: C.text, lineHeight: 1.7, marginBottom: 10 }}>
-                  На этом экране показан детальный разбор вашего решения. Оценка (0–100 баллов) складывается из следующих показателей:
+                  Вы ознакомились с основными механиками симулятора. Теперь вы готовы к самостоятельной работе.
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12, color: C.text, lineHeight: 1.5 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <IconStethoscope size={14} color={C.accent} />
-                    <span><strong style={{ color: C.white }}>Диагноз (до 35 б.):</strong> Степень совпадения вашего диагноза с эталонным («Гипогликемия»).</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
+                    <IconPlay size={12} color={C.accent} /> <span>Выберите любой кейс и начните симуляцию</span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <IconMicroscope size={14} color={C.accent} />
-                    <span><strong style={{ color: C.white }}>Исследования (до 20 б.):</strong> Пропорционально числу назначенных обязательных тестов (глюкоза и биохимия).</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
+                    <IconBook size={12} color={C.accent} /> <span>Изучайте теорию и протоколы в разделе «Теория»</span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <IconPill size={14} color={C.accent} />
-                    <span><strong style={{ color: C.white }}>Лечение (до 25 б.):</strong> Пропорционально числу назначенных верных препаратов (декстроза).</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <IconAlertTriangle size={14} color={C.red} />
-                    <span><strong style={{ color: C.red }}>Опасные назначения (штраф):</strong> Каждое противопоказанное лечение (например, инсулин) вычитает {WRONG_TREATMENT_PENALTY} баллов.</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <IconHeart size={14} color={C.green} />
-                    <span><strong style={{ color: C.white }}>Исход (до 20 б.):</strong> Бонус за стабильное состояние пациента в конце. При гибели вычитается 20 баллов.</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <IconClock size={14} color={C.yellow} />
-                    <span><strong style={{ color: C.white }}>Время (до 15 б.):</strong> Дополнительные баллы за быстроту принятия решений в экстренных ситуациях.</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: C.text }}>
+                    <IconGear size={12} color={C.accent} /> <span>В настройках доступны режимы обучения и оценки</span>
                   </div>
                 </div>
               </div>
             </div>
-          </>
-        )}
-        <ScoreCard result={result} cd={cd} isMobile={isMobile} />
-        <ScoringBreakdown cd={cd} selDiag={orderedDiag} selTreat={selTreat} diagText={diagText} ps={ps} elapsedSec={elapsedSec} revealedAnamnesis={revealedAnamnesis} />
-        <VitalsDelta cd={cd} ps={ps} isMobile={isMobile} />
-        <DiagnosisBlock result={result} cd={cd} diagText={diagText} isMobile={isMobile} />
-        <OutpatientRouteResult cd={cd} extraResult={extraResult} isMobile={isMobile} />
-        <StationaryDaySummary cd={cd} extraResult={extraResult} isMobile={isMobile} />
-        <div style={{
-          background: C.panel,
-          border: `1px solid ${result.aiEvaluated ? `${C.green}40` : `${C.yellow}40`}`,
-          borderRadius: isMobile ? RADIUS.sm : RADIUS.md,
-          padding: isMobile ? 14 : 16,
-          marginBottom: 10
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <IconBot size={18} color={C.accent} />
-              <strong style={{ fontSize: 13.5, color: C.white, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                ИИ-Анализ ответа
-              </strong>
-            </div>
-            <span style={{
-              fontSize: 11,
-              fontWeight: 700,
-              padding: "2px 8px",
-              borderRadius: RADIUS.xs,
-              background: result.aiEvaluated ? `${C.green}15` : `${C.yellow}15`,
-              color: result.aiEvaluated ? C.green : C.yellow,
-              border: `1px solid ${result.aiEvaluated ? C.green : C.yellow}`
-            }}>
-              {result.aiEvaluated ? "Анализ завершен" : "Анализ выполняется..."}
-            </span>
           </div>
+        )}
 
-          {result.aiEvaluated ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
-                <strong>Оценка диагноза:</strong> <span style={{ color: C.accent, fontWeight: 700 }}>{result.aiDiagScore} из 35 баллов</span> 
-                <span style={{ color: C.textDim, fontSize: 11.5, marginLeft: 6 }}>
-                  (локальный скор был: {result.localDiagScore})
-                </span>
-              </div>
-              <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
-                <strong>Комментарий ИИ:</strong> {result.aiFeedback}
-              </div>
-              {result.aiErrors && result.aiErrors.length > 0 && (
-                <div>
-                  <div style={{ fontSize: 12.5, fontWeight: 700, color: C.red, marginBottom: 6 }}>Замечания ИИ:</div>
-                  <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12.5, color: C.text, display: "flex", flexDirection: "column", gap: 4 }}>
-                    {result.aiErrors.map((err, idx) => (
-                      <li key={idx} style={{ lineHeight: 1.5 }}>{err}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div style={{ fontSize: 12.5, color: C.textDim, fontStyle: "italic" }}>
-              <span>⏳</span> Оцениваем ваш диагноз и терапию с помощью искусственного интеллекта...
-            </div>
+        {/* Таб-навигация */}
+        <div
+          style={{
+            display: "flex",
+            gap: 6,
+            marginBottom: 16,
+            padding: 4,
+            background: C.panel,
+            border: `1px solid ${C.border}`,
+            borderRadius: RADIUS.md,
+            overflowX: "auto",
+          }}
+        >
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 6,
+                  padding: isMobile ? "8px 10px" : "10px 14px",
+                  borderRadius: RADIUS.xs,
+                  border: isActive ? `1px solid ${C.accent}` : "1px solid transparent",
+                  background: isActive ? `${C.accent}18` : "transparent",
+                  color: isActive ? C.accent : C.textDim,
+                  fontSize: isMobile ? 12 : 13,
+                  fontWeight: isActive ? 700 : 500,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  transition: "all 0.15s ease",
+                  fontFamily: FONT,
+                }}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Контент активной вкладки */}
+        <div style={{ marginBottom: 20 }}>
+          {activeTab === "summary" && (
+            <ResultSummaryTab
+              result={result}
+              cd={cd}
+              ps={ps}
+              diagText={diagText}
+              vitalDeltas={vitalDeltas}
+              isMobile={isMobile}
+              extraResult={extraResult}
+            />
+          )}
+
+          {activeTab === "errors" && (
+            <ResultErrorsTab
+              result={result}
+              cd={cd}
+              orderedDiag={orderedDiag}
+              selTreat={selTreat}
+              isMobile={isMobile}
+              assessmentMode={assessmentMode}
+              checklistItems={checklistItems}
+              checklistDone={checklistDone}
+              isChecklistDone={isChecklistDone}
+              revealedAnamnesis={revealedAnamnesis}
+            />
+          )}
+
+          {activeTab === "theory" && (
+            <ResultTheoryTab
+              cd={cd}
+              extraResult={extraResult}
+              vitalDeltas={vitalDeltas}
+              selTreat={selTreat}
+              relatedProtocols={relatedProtocols}
+              relatedTopics={relatedTopics}
+              setPhase={setPhase}
+              isMobile={isMobile}
+            />
+          )}
+
+          {activeTab === "timeline" && (
+            <ResultTimelineTab
+              eventLog={eventLog}
+              trajectory={trajectory}
+              elapsedSec={elapsedSec}
+              isMobile={isMobile}
+            />
           )}
         </div>
 
-        {cd.debrief?.explain && (
-          <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-            <STitle icon="🔬" label={t("result.pathophys")} color={C.accent} />
-            <p style={{ color: C.text, fontSize: 13, lineHeight: isMobile ? 1.8 : 1.85, margin: 0 }}>{cd.debrief.explain}</p>
-          </div>
-        )}
-        <ChecklistBlock assessmentMode={assessmentMode} checklistItems={checklistItems} checklistDone={checklistDone} isChecklistDone={isChecklistDone} isMobile={isMobile} />
-        <TestAnalysis cd={cd} orderedDiag={orderedDiag} isMobile={isMobile} />
-        <TreatmentAnalysis cd={cd} selTreat={selTreat} isMobile={isMobile} />
-        <DebriefPanel
-          cd={cd}
-          initialPS={cd?.vitals}
-          trajectory={trajectory}
-          selTreat={selTreat}
-          selDiag={orderedDiag}
-          revealedResults={cd?.testResults || {}}
-          revealedAnamnesis={revealedAnamnesis}
-          diagText={diagText}
-          extraResult={extraResult}
+        {/* Действия по завершении кейса */}
+        <ResultActions
+          curriculum={curriculum}
+          advanceCurriculum={advanceCurriculum}
+          getNextCurriculumCase={getNextCurriculumCase}
+          clearCurriculum={clearCurriculum}
+          startGame={startGame}
+          setPhase={setPhase}
+          getNextCurriculumTopic={getNextCurriculumTopic}
         />
-        <div data-tutorial="result_screen" style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 18, marginBottom: 10 }}>
-          <STitle icon="💡" label={t("result.debrief")} color={C.accent} />
-          <p style={{ color: C.text, fontSize: 13, lineHeight: 1.9, margin: 0 }}>{cd.tip}</p>
-        </div>
-        {cd.sourceReference && (
-          <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-            <STitle icon="📖" label={t("sourceRef.title")} color={C.accent} />
-            <div style={{ fontSize: isMobile ? 12 : 13, color: C.text, fontFamily: FONT, lineHeight: 1.6 }}>
-              {t("sourceRef.label")}: <span style={{ color: C.accent, fontWeight: 600 }}>{cd.sourceReference.name}</span>
-              {cd.sourceReference.year ? <span style={{ color: C.textDim }}>, {cd.sourceReference.year}</span> : null}
-            </div>
-          </div>
-        )}
-        <DocLayer cd={cd} extraResult={extraResult} vitalDeltas={vitalDeltas} selTreat={selTreat} isMobile={isMobile} />
-        <ProtocolReferences protocols={relatedProtocols} setPhase={setPhase} isMobile={isMobile} />
-        <RelatedTheory topics={relatedTopics} setPhase={setPhase} isMobile={isMobile} />
-        <EventLog eventLog={eventLog} isMobile={isMobile} />
-        <ResultActions curriculum={curriculum} advanceCurriculum={advanceCurriculum} getNextCurriculumCase={getNextCurriculumCase} clearCurriculum={clearCurriculum} startGame={startGame} setPhase={setPhase} getNextCurriculumTopic={getNextCurriculumTopic} />
       </div>
     </div>
   );

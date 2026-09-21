@@ -20,7 +20,7 @@ export default function MenuMobileView(props) {
     searchFocused, setSearchFocused, department, setDepartment, specFilter, setSpecFilter,
     showAllCases, setShowAllCases, showNotif, setShowNotif, showSettings, setShowSettings,
     difficulty, setDifficulty, gameMode, setGameMode, theme, setTheme, learningMode, setLearningMode,
-    assessmentMode, setAssessmentMode, setProgressionMode, audioEnabled, setAudioEnabled,
+    assessmentMode, setAssessmentMode, patientDialogueMode, setPatientDialogueMode, setProgressionMode, audioEnabled, setAudioEnabled,
     hideWarnings, setHideWarnings, isDevMode, checkDeptTutorial, unreadCount,
     readNotifIds, notifications, openNotif, logout, locale, setLocaleGlobal, LOCALES,
     llmProvider, setLlmProvider, llmKey, setLlmKey, showDevSettings, setShowDevSettings,
@@ -138,7 +138,7 @@ export default function MenuMobileView(props) {
       )}
 
       <MenuNotificationsModal showNotif={showNotif} setShowNotif={setShowNotif} notifications={notifications} readNotifIds={readNotifIds} isMobile={true} t={t} C={C} />
-      <MenuSettingsModal showSettings={showSettings} setShowSettings={setShowSettings} difficulty={difficulty} setDifficulty={setDifficulty} gameMode={gameMode} setGameMode={setGameMode} learningMode={learningMode} setLearningMode={setLearningMode} assessmentMode={assessmentMode} setAssessmentMode={setAssessmentMode} audioEnabled={audioEnabled} setAudioEnabled={setAudioEnabled} hideWarnings={hideWarnings} setHideWarnings={setHideWarnings} theme={theme} setTheme={setTheme} locale={locale} setLocaleGlobal={setLocaleGlobal} LOCALES={LOCALES} llmProvider={llmProvider} setLlmProvider={setLlmProvider} llmKey={llmKey} setLlmKey={setLlmKey} showDevSettings={showDevSettings} setShowDevSettings={setShowDevSettings} isMobile={true} t={t} C={C} />
+      <MenuSettingsModal showSettings={showSettings} setShowSettings={setShowSettings} difficulty={difficulty} setDifficulty={setDifficulty} gameMode={gameMode} setGameMode={setGameMode} learningMode={learningMode} setLearningMode={setLearningMode} assessmentMode={assessmentMode} setAssessmentMode={setAssessmentMode} patientDialogueMode={patientDialogueMode} setPatientDialogueMode={setPatientDialogueMode} audioEnabled={audioEnabled} setAudioEnabled={setAudioEnabled} hideWarnings={hideWarnings} setHideWarnings={setHideWarnings} theme={theme} setTheme={setTheme} locale={locale} setLocaleGlobal={setLocaleGlobal} LOCALES={LOCALES} llmProvider={llmProvider} setLlmProvider={setLlmProvider} llmKey={llmKey} setLlmKey={setLlmKey} showDevSettings={showDevSettings} setShowDevSettings={setShowDevSettings} isMobile={true} t={t} C={C} />
 
       {/* Search Input (16px font to prevent iOS Safari auto-zoom) */}
       <div style={{ padding: "14px 16px 6px" }}>

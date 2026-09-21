@@ -61,6 +61,15 @@ export function IconToxicology({ size = 16, color = "currentColor" }) {
   );
 }
 
+export function IconGastro({ size = 16, color = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, display: "block" }}>
+      <path d="M12 2v4c0 2-2 3-4 4-2.5 1.2-4 3.5-4 6.5A6.5 6.5 0 0 0 10.5 23c4.5 0 7.5-3.5 7.5-8 0-3-1.5-5-3.5-6.5-1.5-1-2.5-2.5-2.5-4.5V2" />
+      <path d="M9 13c1.5 1 3.5 1 5 0" opacity="0.6" />
+    </svg>
+  );
+}
+
 export function IconAbdominal({ size = 16, color = "currentColor" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, display: "block" }}>

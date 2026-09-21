@@ -45,6 +45,7 @@ export default function useSettings() {
       return saved === "true";
     } catch { return false; }
   });
+  const [patientDialogueMode, setPatientDialogueMode] = useState(() => loadStr("ms_patientDialogueMode", "hybrid"));
   const [searchQuery, setSearchQuery] = useState("");
   const [specFilter, setSpecFilter] = useState(null);
   const [showAllCases, setShowAllCases] = useState(false);
@@ -119,6 +120,7 @@ export default function useSettings() {
   useEffect(() => { localStorage.setItem("ms_progressionChosen", String(progressionChosen)); }, [progressionChosen]);
   useEffect(() => { localStorage.setItem("ms_audioEnabled", String(audioEnabled)); }, [audioEnabled]);
   useEffect(() => { localStorage.setItem("ms_hideWarnings", String(hideWarnings)); }, [hideWarnings]);
+  useEffect(() => { localStorage.setItem("ms_patientDialogueMode", patientDialogueMode); }, [patientDialogueMode]);
 
   return {
     difficulty, setDifficulty,
@@ -127,6 +129,7 @@ export default function useSettings() {
     department, setDepartment,
     learningMode, setLearningMode,
     assessmentMode, setAssessmentMode,
+    patientDialogueMode, setPatientDialogueMode,
     progressionMode, setProgressionMode,
     progressionChosen, setProgressionChosen,
     audioEnabled, setAudioEnabled,
