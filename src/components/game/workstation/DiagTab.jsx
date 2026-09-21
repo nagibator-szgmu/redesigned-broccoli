@@ -4,9 +4,8 @@ import { FONT } from "../../../ui/theme";
 import { CAT_COLOR, DIAGNOSTICS } from "../../../data/diagnostics";
 import { STitle, Btn, CheckRow } from "../../../ui/components";
 import DiagFilterBar from "../DiagFilterBar";
-import SearchableCombobox from "../../ui/SearchableCombobox";
 
-/** Diagnostics selection tab component with integrated SearchableCombobox */
+/** Diagnostics selection tab component */
 export default function DiagTab({
   selDiag,
   setSelDiag,

@@ -1,39 +1,8 @@
 import { TREATMENTS } from "../data/treatments.js";
 import { computeOutcome } from "./patient.js";
+import { matchDiagnosisFuzzy } from "../lib/stringMatcher.js";
 
 export const WRONG_TREATMENT_PENALTY = 15;
-
-function stemRu(word) {
-  return word
-    .replace(/(?:ого|ему|ой|ый|ий|ая|яя|ого|ому|ым|ом|ать|ять|ить|еть|уть|тся|ться|тся|сь|т|е|и|а|у|о|ы|ь)$/g, "")
-    .replace(/(?:овск|евск|инск|ниц|тель|ость|ение|ание|ение)$/g, "");
-}
-
-function normalizeMedicalTerms(text) {
-  if (!text) return "";
-  return text.toLowerCase()
-    .replace(/\bоим\b/g, "острый инфаркт миокарда")
-    .replace(/\bоимпst\b/g, "инфаркт миокарда с подъемом st")
-    .replace(/\bоимбst\b/g, "инфаркт миокарда без подъема st")
-    .replace(/\bонмк\b/g, "инсульт нарушение мозгового кровообращения")
-    .replace(/\bтиа\b/g, "транзиторная ишемическая атака")
-    .replace(/\bтэла\b/g, "тромбоэмболия легочной артерии")
-    .replace(/\bхсн\b/g, "хроническая сердечная недостаточность")
-    .replace(/\bодн\b/g, "острая дыхательная недостаточность")
-    .replace(/\bдн\b/g, "дыхательная недостаточность")
-    .replace(/\bибс\b/g, "ишемическая болезнь сердца")
-    .replace(/\bовп\b/g, "острая воспалительная патология")
-    .replace(/\bоа\b/g, "острый аппендицит")
-    .replace(/\bож\b/g, "острый живот")
-    .replace(/\bпкс\b/g, "посткоронарный синдром")
-    .replace(/\bабсцесс\b/g, "гнойник")
-    .replace(/\bокн\b/g, "острая кишечная непроходимость")
-    .replace(/\bст\b/g, "подъем сегмента st")
-    .replace(/\bпst\b/g, "подъем st")
-    .replace(/\bнst\b/g, "без подъема st");
-}
-
-import { matchDiagnosisFuzzy } from "../lib/stringMatcher.js";
 
 /** Доля слов диагноза, встретившихся в ответе игрока с учетом расстояния Левенштейна (допуск 1-2 опечаток) и нормализации */
 export function diagMatchRatio(diagnosis, diagText) {

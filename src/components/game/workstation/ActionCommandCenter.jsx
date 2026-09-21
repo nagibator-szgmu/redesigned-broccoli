@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
 import { useTranslate } from "../../../locale/useTranslate";
-import { IconMicroscope, IconPill, IconClipboard, IconLightbulb } from "../../../ui/icons";
+import { IconMicroscope, IconPill, IconClipboard } from "../../../ui/icons";
 import DiagTab from "./DiagTab";
 import TreatTab from "./TreatTab";
 import DiagnosisRoutingTab from "./DiagnosisRoutingTab";
-import ConsultationTab from "./ConsultationTab";
 
 /** Tabbed Action Command Center container component */
 export default function ActionCommandCenter({
@@ -31,9 +30,6 @@ export default function ActionCommandCenter({
   selectedRoute,
   setSelectedRoute,
   setExtraResult,
-  learningTip,
-  relatedTopics = [],
-  setShowTheory
 }) {
   const C = useTheme();
   const { t } = useTranslate();
