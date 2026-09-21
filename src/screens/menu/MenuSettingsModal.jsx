@@ -1,6 +1,11 @@
 import { createPortal } from "react-dom";
 import { FONT } from "../../ui/theme";
-import { Tooltip } from "../../ui/components";
+import {
+  SettingsSimulationSection,
+  SettingsGeneralSection,
+  SettingsDevSection,
+  SettingsModeSwitches,
+} from "./settings/index";
 
 /**
  * MenuSettingsModal component for app settings and developer LLM configuration.
@@ -29,171 +34,50 @@ export default function MenuSettingsModal({
           <span onClick={() => setShowSettings(false)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
         </div>
 
-        {/* Difficulty */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.difficulty")}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            {[
-              { l: t("settings.easy"), v: "easy", title: "ЛЕГКИЙ РЕЖИМ", refRange: "Таймер × 1.5", text: "Увеличенный лимит времени, автоматические подсказки по дозировкам и подсветка критических состояний.", details: { category: "Уровень сложности", mechanism: "Замедление декомпенсации показания пациентов", indications: "Для начинающих студентов и ознакомления с кейсами", contraindications: "Официальные аттестационные экзамены" } },
-              { l: t("settings.normal"), v: "normal", title: "СТАНДАРТНЫЙ РЕЖИМ", refRange: "Реалистичный таймер 1:1", text: "Стандартная скорость изменения физиологии пациента. Базовые подсказки по протоколам.", details: { category: "Уровень сложности", mechanism: "Реалистичная физиология и обычное время реакций", indications: "Основное обучение и регулярная практика", contraindications: "Нет" } },
-              { l: t("settings.hard"), v: "hard", title: "ХАРДКОР / СТРЕСС", refRange: "Таймер × 0.7 | Стресс 100%", text: "Ускоренная декомпенсация, внезапные аритмии, скрытые осложнения и жесткий контроль времени.", details: { category: "Уровень сложности", mechanism: "Высокая динамика гемодинамического коллапса", indications: "Тренировка стрессоустойчивости врачей скорой помощи", contraindications: "Первичный просмотр незнакомого сценария" } }
-            ].map(({ l, v, title, refRange, text, details }) => (
-              <Tooltip key={v} title={title} refRange={refRange} text={text} details={details} style={{ flex: 1 }}>
-                <button onClick={() => setDifficulty(v)} style={{ width: "100%", background: difficulty === v ? `${C.accent}18` : "transparent", border: `1px solid ${difficulty === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", fontSize: 11, color: difficulty === v ? C.accent : C.textDim, cursor: "pointer", fontFamily: FONT }}>{l}</button>
-              </Tooltip>
-            ))}
-          </div>
-        </div>
+        <SettingsSimulationSection
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          gameMode={gameMode}
+          setGameMode={setGameMode}
+          C={C}
+          t={t}
+        />
 
-        {/* Game Mode */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.gameMode")}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            {[
-              { l: t("settings.modeNormal"), v: "normal", d: t("settings.modeNormalDesc"), title: "СЦЕНАРНЫЙ РЕЖИМ", text: "Последовательное прохождение клинического случая от поступления до стабилизации." },
-              { l: t("settings.modeRandom"), v: "random", d: t("settings.modeRandomDesc"), title: "СЛУЧАЙНЫЙ БОЛЬНОЙ", text: "Генерация случайного клинического случая с непредсказуемой патологией." },
-              { l: t("settings.modeStress"), v: "stress", d: t("settings.modeStressDesc"), title: "РЕЖИМ КАТАСТРОФЫ", text: "Симуляция масс-поступления или тяжелого шокового состояния с помехами и шумом." }
-            ].map(({ l, v, d, title, text }) => (
-              <Tooltip key={v} title={title} text={text} style={{ flex: 1 }}>
-                <button onClick={() => setGameMode(v)} style={{ width: "100%", background: gameMode === v ? `${C.accent}18` : "transparent", border: `1px solid ${gameMode === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", textAlign: "center", cursor: "pointer", fontFamily: FONT }}>
-                  <div style={{ fontSize: 11, color: gameMode === v ? C.accent : C.textDim, marginBottom: 2 }}>{l}</div>
-                  <div style={{ fontSize: 9, color: C.textDim, opacity: 0.7 }}>{d}</div>
-                </button>
-              </Tooltip>
-            ))}
-          </div>
-        </div>
+        <SettingsGeneralSection
+          audioEnabled={audioEnabled}
+          setAudioEnabled={setAudioEnabled}
+          hideWarnings={hideWarnings}
+          setHideWarnings={setHideWarnings}
+          theme={theme}
+          setTheme={setTheme}
+          locale={locale}
+          setLocaleGlobal={setLocaleGlobal}
+          LOCALES={LOCALES}
+          C={C}
+          t={t}
+        />
 
-        {/* Audio Toggle */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.audio")}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            {[
-              { l: t("settings.learningOn"), v: true, title: "ЗВУКОВЫЕ ЭФФЕКТЫ И ЗВУКИ МОНИТОРА", text: "Включает реальные звуки пульсоксиметра, тревог кардиомонитора и аускультации." },
-              { l: t("settings.learningOff"), v: false, title: "БЕЗЗВУЧНЫЙ РЕЖИМ", text: "Отключает фоновые звуковые эффекты реанимационной." }
-            ].map(({ l, v, title, text }) => (
-              <Tooltip key={String(v)} title={title} text={text} style={{ flex: 1 }}>
-                <button onClick={() => setAudioEnabled(v)} style={{ width: "100%", background: audioEnabled === v ? `${C.accent}18` : "transparent", border: `1px solid ${audioEnabled === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", fontSize: 11, color: audioEnabled === v ? C.accent : C.textDim, cursor: "pointer", fontFamily: FONT }}>{l}</button>
-              </Tooltip>
-            ))}
-          </div>
-        </div>
+        <SettingsDevSection
+          showDevSettings={showDevSettings}
+          setShowDevSettings={setShowDevSettings}
+          llmProvider={llmProvider}
+          setLlmProvider={setLlmProvider}
+          llmKey={llmKey}
+          setLlmKey={setLlmKey}
+          C={C}
+          t={t}
+        />
 
-        {/* Hide Warnings Toggle */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.hideWarnings") || "Подсказки по ЛС"}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            {[
-              { l: t("settings.warningsShow") || "Показывать", v: false, title: "ПОДСКАЗКИ О ПРОТИВОПОКАЗАНИЯХ", text: "Отображает предупреждающие значки ⚠ возле потенциально опасных препаратов." },
-              { l: t("settings.warningsHide") || "Скрывать", v: true, title: "ЭКЗАМЕНАЦИОННЫЙ РЕЖИМ", text: "Скрывает значки предупреждений, требуя от врача самостоятельного контроля противопоказаний." }
-            ].map(({ l, v, title, text }) => (
-              <Tooltip key={String(v)} title={title} text={text} style={{ flex: 1 }}>
-                <button onClick={() => setHideWarnings(v)} style={{ width: "100%", background: hideWarnings === v ? `${C.accent}18` : "transparent", border: `1px solid ${hideWarnings === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", fontSize: 11, color: hideWarnings === v ? C.accent : C.textDim, cursor: "pointer", fontFamily: FONT }}>{l}</button>
-              </Tooltip>
-            ))}
-          </div>
-        </div>
-
-        {/* Theme */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.theme")}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            {[{ l: t("settings.dark"), v: "dark" }, { l: t("settings.light"), v: "light" }].map(({ l, v }) => (
-              <button key={v} onClick={() => setTheme(v)} style={{ flex: 1, background: theme === v ? `${C.accent}18` : "transparent", border: `1px solid ${theme === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", fontSize: 11, color: theme === v ? C.accent : C.textDim, cursor: "pointer", fontFamily: FONT }}>{l}</button>
-            ))}
-          </div>
-        </div>
-
-        {/* Language */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: C.textDim, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.langLabel")}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            {Object.entries(LOCALES).map(([v, l]) => (
-              <button key={v} onClick={() => setLocaleGlobal(v)} style={{ flex: 1, background: locale === v ? `${C.accent}18` : "transparent", border: `1px solid ${locale === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", fontSize: 11, color: locale === v ? C.accent : C.textDim, cursor: "pointer", fontFamily: FONT }}>{l}</button>
-            ))}
-          </div>
-        </div>
-
-        {/* Developer Key Accordion */}
-        <div style={{ marginBottom: 14, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <div onClick={() => setShowDevSettings((prev) => !prev)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", padding: "4px 0" }}>
-            <div style={{ fontSize: 11, color: C.textDim, textTransform: "uppercase", letterSpacing: 1 }}>{t("settings.devSection")}</div>
-            <span style={{ fontSize: 10, color: C.textDim }}>{showDevSettings ? "▲" : "▼"}</span>
-          </div>
-          {showDevSettings && (
-            <div style={{ marginTop: 8 }}>
-              <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
-                {[
-                  { l: "Gemini", v: "gemini", title: "GOOGLE GEMINI PRO / FLASH", text: "Высокоскоростная медицинская нейросеть Google для анализа тактики врачей." },
-                  { l: "OpenAI", v: "openai", title: "OPENAI GPT-4O", text: "Анализ дебрифинга с помощью модели GPT-4o." },
-                  { l: "OpenRouter", v: "openrouter", title: "OPENROUTER API HUB", text: "Шлюз доступа к любым нейросетям (DeepSeek R1, Llama 3, Claude 3.5)." }
-                ].map(({ l, v, title, text }) => (
-                  <Tooltip key={v} title={title} text={text} style={{ flex: 1 }}>
-                    <button onClick={() => { setLlmProvider(v); localStorage.setItem("ms_llm_provider", v); }} style={{ width: "100%", background: llmProvider === v ? `${C.accent}18` : "transparent", border: `1px solid ${llmProvider === v ? C.accent : "rgba(0,230,200,0.1)"}`, borderRadius: 8, padding: "7px 4px", fontSize: 11, color: llmProvider === v ? C.accent : C.textDim, cursor: "pointer", fontFamily: FONT }}>{l}</button>
-                  </Tooltip>
-                ))}
-              </div>
-              <div style={{ background: C.inputBg || "rgba(7,13,24,0.6)", border: "1px solid rgba(0,230,200,0.15)", borderRadius: 8, padding: "5px 10px", display: "flex", alignItems: "center", marginBottom: llmProvider === "openrouter" ? 6 : 0 }}>
-                <input type="password" value={llmKey} onChange={(e) => { setLlmKey(e.target.value); localStorage.setItem("ms_llm_key", e.target.value); }} placeholder={t("settings.apiKeyPlaceholder")} style={{ background: "transparent", border: "none", outline: "none", color: C.white, fontSize: 11, fontFamily: FONT, flex: 1 }} />
-                {llmKey && <span onClick={() => { setLlmKey(""); localStorage.setItem("ms_llm_key", ""); }} style={{ color: C.textDim, fontSize: 11, cursor: "pointer", marginLeft: 5 }}>✕</span>}
-              </div>
-              {llmProvider === "openrouter" && (
-                <div style={{ fontSize: 9, color: C.textDim, lineHeight: 1.3, marginTop: 4 }}>{t("settings.openrouterGuide")}</div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Learning Mode Toggle */}
-        <div style={{ marginBottom: 14 }}>
-          <div onClick={() => setLearningMode((v) => !v)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px", background: learningMode ? `${C.yellow}12` : "transparent", border: `1px solid ${learningMode ? `${C.yellow}44` : "rgba(0,230,200,0.1)"}`, borderRadius: 8, cursor: "pointer" }}>
-            <div>
-              <div style={{ fontSize: 12, color: learningMode ? C.yellow : C.text, fontWeight: 600, fontFamily: FONT }}>📚 {t("settings.learningMode")}</div>
-              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>{t("settings.learningModeDesc")}</div>
-            </div>
-            <div style={{ width: 36, height: 20, borderRadius: 10, background: learningMode ? C.yellow : `${C.textDim}30`, position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: learningMode ? 18 : 2, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.3)" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* Assessment Mode Toggle */}
-        <div style={{ marginBottom: 14 }}>
-          <div onClick={() => setAssessmentMode((v) => !v)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px", background: assessmentMode ? `${C.green}12` : "transparent", border: `1px solid ${assessmentMode ? `${C.green}44` : "rgba(0,230,200,0.1)"}`, borderRadius: 8, cursor: "pointer" }}>
-            <div>
-              <div style={{ fontSize: 12, color: assessmentMode ? C.green : C.text, fontWeight: 600, fontFamily: FONT }}>✅ {t("settings.assessmentMode")}</div>
-              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>{t("settings.assessmentModeDesc")}</div>
-            </div>
-            <div style={{ width: 36, height: 20, borderRadius: 10, background: assessmentMode ? C.green : `${C.textDim}30`, position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: assessmentMode ? 18 : 2, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.3)" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* Patient Dialogue Mode Toggle */}
-        <div style={{ marginBottom: 14 }}>
-          <div
-            onClick={() => setPatientDialogueMode && setPatientDialogueMode((m) => (m === "hybrid" ? "standard" : "hybrid"))}
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px",
-              background: patientDialogueMode === "hybrid" ? `${C.accent}12` : "transparent",
-              border: `1px solid ${patientDialogueMode === "hybrid" ? `${C.accent}44` : "rgba(0,230,200,0.1)"}`,
-              borderRadius: 8, cursor: "pointer"
-            }}
-          >
-            <div>
-              <div style={{ fontSize: 12, color: patientDialogueMode === "hybrid" ? C.accent : C.text, fontWeight: 600, fontFamily: FONT }}>
-                💬 {t("settings.patientDialogueMode")}
-              </div>
-              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
-                {t("settings.patientDialogueModeDesc")} ({patientDialogueMode === "hybrid" ? "Гибрид (LLM)" : "Стандарт"})
-              </div>
-            </div>
-            <div style={{ width: 36, height: 20, borderRadius: 10, background: patientDialogueMode === "hybrid" ? C.accent : `${C.textDim}30`, position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: patientDialogueMode === "hybrid" ? 18 : 2, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.3)" }} />
-            </div>
-          </div>
-        </div>
+        <SettingsModeSwitches
+          learningMode={learningMode}
+          setLearningMode={setLearningMode}
+          assessmentMode={assessmentMode}
+          setAssessmentMode={setAssessmentMode}
+          patientDialogueMode={patientDialogueMode}
+          setPatientDialogueMode={setPatientDialogueMode}
+          C={C}
+          t={t}
+        />
 
         <div style={{ paddingTop: 12, borderTop: "1px solid rgba(0,230,200,0.06)", fontSize: 11, color: C.textDim, textAlign: "center", opacity: 0.7 }}>
           {t("settings.moreComing")}
