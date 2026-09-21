@@ -39,7 +39,9 @@
 | **1.3** | `StationaryPanels.jsx` | 323 строки | **14 строк** (декомпозировано в `src/screens/game/stationary/`: `PatientCard`, `StepBar`, `MorningPanel`, `TestSelection`, `ResultsPanel`, `TreatPanel`) | [x] Выполнено |
 | **1.4** | `ABCDEAssessmentPanel.jsx` | 358 строк | **119 строк** (вынесены `abcdeEngine.js`, `ABCDESummaryView.jsx`, `ABCDEStepTab.jsx`) | [x] Выполнено |
 | **1.5** | Интеграция `PatientDialogueWidget` | — | Встроен в `PatientRecordColumn.jsx`, проброшен `patientDialogueMode` через `EmergencyGameScreen` и `MobileWorkstation` | [x] Выполнено |
-| **1.6** | Верификация качества | — | ESLint (0 ошибок), Validator (67 кейсов валидны), Vite build (успешно 2.5с) | [x] Выполнено |
+| **1.6** | `LeaderboardScreen.jsx` | 501 строка | **93 строки** (вынесены `src/screens/leaderboard/`: `leaderboardUtils.jsx`, `LeaderboardNavbar`, `LeaderboardTabSwitcher`, `LeaderboardStatsTab`, `LeaderboardTopCases`, `LeaderboardCertsTab`, `LeaderboardEmptyState`) | [x] Выполнено |
+| **1.7** | `QuizModal.jsx` | 418 строк | **82 строки** (вынесены `src/screens/quiz/`: `useQuizSession.js`, `QuizHeader`, `QuizQuestionCard`, `QuizQuestionOptions`, `QuizResultView`) | [x] Выполнено |
+| **1.8** | Верификация качества | — | ESLint (0 ошибок), Validator (67 кейсов валидны), Vite build (успешно), алгоритмические тесты (100% пройдены) | [x] Выполнено |
 
 ---
 
