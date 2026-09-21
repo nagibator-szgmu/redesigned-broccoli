@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { buildMarkdownReport } from "./inspectorUtils";
+import { buildMarkdownReport, copyTextToClipboard } from "./inspectorUtils";
+import { ElementInfoCard } from "./ElementInfoCard";
 
 export default function FeedbackModal({ elementData, onClose }) {
   const [comment, setComment] = useState("");
@@ -23,21 +24,9 @@ export default function FeedbackModal({ elementData, onClose }) {
       domMeta,
       userComment: comment,
     });
-    try {
-      await navigator.clipboard.writeText(markdown);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    } catch {
-      // Fallback
-      const ta = document.createElement("textarea");
-      ta.value = markdown;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    }
+    await copyTextToClipboard(markdown);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
   };
 
   return (
@@ -92,28 +81,7 @@ export default function FeedbackModal({ elementData, onClose }) {
           </button>
         </div>
 
-        <div style={{ background: "#08111d", borderRadius: 8, padding: 12, marginBottom: 14, fontSize: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-            <span style={{ color: "#8aa2be" }}>Компонент:</span>
-            <code style={{ background: "#132845", color: "#38bdf8", padding: "2px 6px", borderRadius: 4 }}>
-              &lt;{componentInfo.componentName}&gt;
-            </code>
-          </div>
-          {componentInfo.source && (
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-              <span style={{ color: "#8aa2be" }}>Файл:</span>
-              <code style={{ background: "#132845", color: "#a5f3fc", padding: "2px 6px", borderRadius: 4 }}>
-                {componentInfo.source}
-              </code>
-            </div>
-          )}
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ color: "#8aa2be" }}>Элемент:</span>
-            <span style={{ color: "#e2e8f0" }}>
-              &lt;{domMeta.tagName}&gt; {domMeta.text ? `"${domMeta.text}"` : ""} ({domMeta.dimensions})
-            </span>
-          </div>
-        </div>
+        <ElementInfoCard componentInfo={componentInfo} domMeta={domMeta} />
 
         <div style={{ marginBottom: 16 }}>
           <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#8aa2be", marginBottom: 6 }}>

@@ -112,3 +112,18 @@ export function buildMarkdownReport({ componentInfo, domMeta, userComment, conte
 
   return lines.join("\n");
 }
+
+export async function copyTextToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    return true;
+  }
+}
