@@ -3,7 +3,16 @@
  * Сервис интеграции MedSim с системами дистанционного обучения (LMS, Moodle)
  * по стандартам SCORM 1.2 и SCORM 2004.
  */
-import { detectAPI, formatTimeSCORM12, formatTimeSCORM2004, getLastErrorMsg } from './scormUtils';
+import { detectAPI, getLastErrorMsg } from "./scormUtils";
+import { scormSetValue, scormGetValue, scormCommit, scormTerminate } from "./scormCore";
+import {
+  writeScormScore,
+  writeScormStatus,
+  writeScormSessionTime,
+  writeScormSuspendData,
+  readScormSuspendData,
+  readScormMasteryScore,
+} from "./scormData";
 
 class ScormService {
   constructor() {
@@ -64,124 +73,41 @@ class ScormService {
 
   _set(element12, element2004, value) {
     if (!this.isConnected()) return false;
-    const element = this.version === "2004" ? element2004 : element12;
-    if (!element) return false;
-
-    try {
-      let result = "false";
-      if (this.version === "2004") {
-        result = this.api.SetValue(element, String(value));
-      } else {
-        result = this.api.LMSSetValue(element, String(value));
-      }
-
-      if (result !== "true") {
-        this.error(`Ошибка записи элемента ${element} = ${value}:`, getLastErrorMsg(this.api, this.version));
-        return false;
-      }
-      this.log(`Установлено значение: ${element} = ${value}`);
-      return true;
-    } catch (e) {
-      this.error(`Исключение при записи элемента ${element}:`, e);
-      return false;
-    }
+    return scormSetValue(this.api, this.version, element12, element2004, value, this);
   }
 
   _get(element12, element2004) {
     if (!this.isConnected()) return "";
-    const element = this.version === "2004" ? element2004 : element12;
-    if (!element) return "";
-
-    try {
-      if (this.version === "2004") {
-        return this.api.GetValue(element);
-      } else {
-        return this.api.LMSGetValue(element);
-      }
-    } catch (e) {
-      this.error(`Исключение при чтении элемента ${element}:`, e);
-      return "";
-    }
+    return scormGetValue(this.api, this.version, element12, element2004, this);
   }
 
   setScore(rawScore, maxScore = 100, minScore = 0) {
-    this._set("cmi.core.score.raw", "cmi.score.raw", rawScore);
-    this._set("cmi.core.score.max", "cmi.score.max", maxScore);
-    this._set("cmi.core.score.min", "cmi.score.min", minScore);
-
-    if (this.version === "2004") {
-      const scaled = Math.max(0, Math.min(1, rawScore / (maxScore || 100)));
-      this._set(null, "cmi.score.scaled", scaled.toFixed(2));
-    }
+    writeScormScore(this._set.bind(this), this.version, rawScore, maxScore, minScore);
   }
 
   setStatus(status) {
-    if (this.version === "2004") {
-      if (status === "passed" || status === "failed") {
-        this._set(null, "cmi.success_status", status);
-        this._set(null, "cmi.completion_status", "completed");
-      } else if (status === "completed") {
-        this._set(null, "cmi.completion_status", "completed");
-      } else {
-        this._set(null, "cmi.completion_status", "incomplete");
-      }
-    } else {
-      this._set("cmi.core.lesson_status", null, status);
-    }
+    writeScormStatus(this._set.bind(this), this.version, status);
   }
 
   setSessionTime(elapsedSeconds) {
-    const formattedTime = this.version === "2004"
-      ? formatTimeSCORM2004(elapsedSeconds)
-      : formatTimeSCORM12(elapsedSeconds);
-    this._set("cmi.core.session_time", "cmi.session_time", formattedTime);
+    writeScormSessionTime(this._set.bind(this), this.version, elapsedSeconds);
   }
 
   saveSuspendData(data) {
-    try {
-      const serialized = JSON.stringify(data);
-      const limit = this.version === "2004" ? 64000 : 4096;
-      if (serialized.length > limit) {
-        this.error(`Превышен лимит suspend_data (${serialized.length} > ${limit} символов)`);
-        return false;
-      }
-      return this._set("cmi.suspend_data", "cmi.suspend_data", serialized);
-    } catch (e) {
-      this.error("Ошибка при сохранении suspend_data:", e);
-      return false;
-    }
+    return writeScormSuspendData(this._set.bind(this), this.version, data, this);
   }
 
   loadSuspendData() {
-    const raw = this._get("cmi.suspend_data", "cmi.suspend_data");
-    if (!raw) return null;
-    try {
-      return JSON.parse(raw);
-    } catch (e) {
-      this.error("Ошибка парсинга suspend_data:", e);
-      return null;
-    }
+    return readScormSuspendData(this._get.bind(this), this);
   }
 
   getMasteryScore() {
-    if (this.version === "2004") {
-      const val = this._get(null, "cmi.scaled_passing_score");
-      if (val) return parseFloat(val) * 100;
-    } else {
-      const val = this._get("cmi.student_data.mastery_score", null);
-      if (val) return parseFloat(val);
-    }
-    return null;
+    return readScormMasteryScore(this._get.bind(this), this.version);
   }
 
   commit() {
     if (!this.isConnected()) return false;
-    try {
-      return (this.version === "2004" ? this.api.Commit("") : this.api.LMSCommit("")) === "true";
-    } catch (e) {
-      this.error("Ошибка при выполнении Commit:", e);
-      return false;
-    }
+    return scormCommit(this.api, this.version, this);
   }
 
   terminate() {
@@ -192,8 +118,8 @@ class ScormService {
         this._set("cmi.core.exit", "cmi.exit", "suspend");
       }
       this.commit();
-      const res = this.version === "2004" ? this.api.Terminate("") : this.api.LMSFinish("");
-      if (res === "true") this.initialized = false;
+      const res = scormTerminate(this.api, this.version, this);
+      if (res) this.initialized = false;
     } catch (e) {
       this.error("Ошибка при выполнении terminate:", e);
     }
@@ -211,8 +137,8 @@ class ScormService {
       this.setSessionTime(timeSec || 0);
       this._set("cmi.core.exit", "cmi.exit", "normal");
       this.commit();
-      const res = this.version === "2004" ? this.api.Terminate("") : this.api.LMSFinish("");
-      if (res === "true") {
+      const res = scormTerminate(this.api, this.version, this);
+      if (res) {
         this.initialized = false;
         this.log("SCORM сессия успешно закрыта.");
       }
@@ -224,3 +150,4 @@ class ScormService {
 
 const scormService = new ScormService();
 export default scormService;
+
