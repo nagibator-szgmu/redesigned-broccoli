@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { TREATMENTS } from "../../data/treatments";
 import { DIAGNOSTICS } from "../../data/diagnostics";
+import { getNavPaletteItems, getAbcdePaletteItems } from "./paletteStaticItems";
 
 export function usePaletteItems({
   phase,
@@ -19,48 +20,7 @@ export function usePaletteItems({
     const result = [];
 
     // 1. Navigation items
-    const navItems = [
-      {
-        id: "nav_menu",
-        cat: "Навигация",
-        title: "Главное меню",
-        sub: "Перейти к выбору кейсов",
-        action: () => {
-          setPhase("menu");
-          onClose();
-        },
-      },
-      {
-        id: "nav_theory",
-        cat: "Навигация",
-        title: "Клинические протоколы и теория",
-        sub: "35 конспектов по КР Минздрава",
-        action: () => {
-          setPhase("theory");
-          onClose();
-        },
-      },
-      {
-        id: "nav_leaderboard",
-        cat: "Навигация",
-        title: "Достижения и статистика",
-        sub: "Портфолио и баллы",
-        action: () => {
-          setPhase("leaderboard");
-          onClose();
-        },
-      },
-      {
-        id: "nav_map",
-        cat: "Навигация",
-        title: "Карта курса и специализаций",
-        sub: "Дерево клинических тем",
-        action: () => {
-          setPhase("map");
-          onClose();
-        },
-      },
-    ];
+    const navItems = getNavPaletteItems(setPhase, onClose);
     navItems.forEach((n) => {
       if (!q || n.title.toLowerCase().includes(q) || n.sub.toLowerCase().includes(q)) {
         result.push(n);
@@ -69,58 +29,7 @@ export function usePaletteItems({
 
     // 2. ABCDE Assessment (in simulation)
     if (isSim && onSelectABCDE) {
-      const abcde = [
-        {
-          id: "abcde_a",
-          cat: "Осмотр ABCDE",
-          title: "A — Airway (Дыхательные пути)",
-          sub: "Проходимость ВДП, стридор",
-          action: () => {
-            onSelectABCDE("A");
-            onClose();
-          },
-        },
-        {
-          id: "abcde_b",
-          cat: "Осмотр ABCDE",
-          title: "B — Breathing (Дыхание)",
-          sub: "Аускультация, ЧДД, SpO2",
-          action: () => {
-            onSelectABCDE("B");
-            onClose();
-          },
-        },
-        {
-          id: "abcde_c",
-          cat: "Осмотр ABCDE",
-          title: "C — Circulation (Кровообращение)",
-          sub: "Пульс, АД, капиллярный ответ",
-          action: () => {
-            onSelectABCDE("C");
-            onClose();
-          },
-        },
-        {
-          id: "abcde_d",
-          cat: "Осмотр ABCDE",
-          title: "D — Disability (Неврология)",
-          sub: "Шкала Глазго, зрачки, глюкоза",
-          action: () => {
-            onSelectABCDE("D");
-            onClose();
-          },
-        },
-        {
-          id: "abcde_e",
-          cat: "Осмотр ABCDE",
-          title: "E — Exposure (Осмотр тела)",
-          sub: "Температура, сыпь, живот, травмы",
-          action: () => {
-            onSelectABCDE("E");
-            onClose();
-          },
-        },
-      ];
+      const abcde = getAbcdePaletteItems(onSelectABCDE, onClose);
       abcde.forEach((a) => {
         if (!q || a.title.toLowerCase().includes(q) || a.sub.toLowerCase().includes(q)) {
           result.push(a);
