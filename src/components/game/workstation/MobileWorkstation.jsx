@@ -24,7 +24,7 @@ export default function MobileWorkstation({
   learningMode, paused, setPaused, showTheory, setShowTheory, relatedTopics,
   activeTheoryTopic, setActiveTheoryTopic, learningTip, showInfo, setShowInfo,
   selectedRoute, setSelectedRoute, setExtraResult, handleRevealAnamnesis,
-  audioEnabled, setAudioEnabled, addEvent, eventLog = []
+  audioEnabled, setAudioEnabled, patientDialogueMode, addEvent, eventLog = []
 }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -84,6 +84,7 @@ export default function MobileWorkstation({
             cd={cd} ps={ps} trajectory={trajectory} orderedDiag={orderedDiag} revealedResults={revealedResults}
             newResultIds={newResultIds} selTreat={selTreat} showInfo={showInfo}
             setShowInfo={setShowInfo} onRevealAnamnesis={handleRevealAnamnesis}
+            patientDialogueMode={patientDialogueMode}
             addEvent={addEvent} isMobile
           />
         )}

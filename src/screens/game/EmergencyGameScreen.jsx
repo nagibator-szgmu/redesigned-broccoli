@@ -20,6 +20,7 @@ export default function EmergencyGameScreen({
   selectedRoute, setSelectedRoute, setExtraResult,
   setRevealedAnamnesis,
   audioEnabled, setAudioEnabled,
+  patientDialogueMode = "hybrid",
   addEvent,
 }) {
   const isMobile = useIsMobile();
@@ -92,6 +93,7 @@ export default function EmergencyGameScreen({
     selectedRoute, setSelectedRoute, setExtraResult,
     handleRevealAnamnesis,
     audioEnabled, setAudioEnabled,
+    patientDialogueMode,
     trajectory, recordTrajectoryCheckpoint,
     addEvent,
   };
