@@ -13,10 +13,19 @@ export default function MenuRightSidebar({
   startGame,
   setShowAllCases,
   theme,
+  resetProgress,
   t,
   C,
 }) {
   const avgScore = casesPlayed ? Math.round(totalScore / casesPlayed) : 0;
+  let streak = 0;
+  if (Array.isArray(sessionHistory)) {
+    for (let i = 0; i < sessionHistory.length; i++) {
+      const g = sessionHistory[i]?.gradeId;
+      if (g === "excellent" || g === "good") streak++;
+      else break;
+    }
+  }
 
   return (
     <div style={{ width: 280, height: "100%", boxSizing: "border-box", flexShrink: 0, overflowY: "auto", overscrollBehavior: "contain", padding: "26px 20px 40px 10px", display: "flex", flexDirection: "column", gap: 14 }}>
@@ -24,7 +33,29 @@ export default function MenuRightSidebar({
       <div style={{ background: C.panelBg, backdropFilter: "blur(16px)", border: `1px solid ${C.border}`, borderRadius: 18, padding: "18px 14px", boxShadow: "0 4px 24px rgba(0,0,0,0.15)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <span style={{ fontSize: 11, color: C.textDim, textTransform: "uppercase", letterSpacing: 1.2, fontFamily: FONT, fontWeight: 600 }}>{t("progress.title")}</span>
-          <span style={{ fontSize: 11, color: C.accent, fontFamily: FONT, background: C.accentDim, borderRadius: 5, padding: "2px 8px", fontWeight: 600 }}>{t("progress.streak")}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            {casesPlayed > 0 && resetProgress && (
+              <span
+                onClick={resetProgress}
+                title={t("progress.reset") || "Сбросить"}
+                style={{
+                  fontSize: 10,
+                  color: C.textDim,
+                  fontFamily: FONT,
+                  background: "transparent",
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 5,
+                  padding: "2px 6px",
+                  cursor: "pointer",
+                }}
+              >
+                {t("progress.reset") || "Сброс"}
+              </span>
+            )}
+            <span style={{ fontSize: 11, color: C.accent, fontFamily: FONT, background: C.accentDim, borderRadius: 5, padding: "2px 8px", fontWeight: 600 }}>
+              {t("progress.streak")} {streak}
+            </span>
+          </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
           {[
@@ -60,10 +91,6 @@ export default function MenuRightSidebar({
         </div>
       </div>
 
-      {/* Primary New Patient CTA */}
-      <button className="start-btn" onClick={startGame} style={{ background: theme === "dark" ? "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)" : "linear-gradient(135deg, #0047AB 0%, #1E6BFF 100%)", border: "none", borderRadius: 14, padding: "16px", fontSize: 15, fontWeight: 800, color: "#FFFFFF", cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, width: "100%", boxShadow: theme === "dark" ? "0 8px 24px rgba(37,99,235,0.35)" : "0 6px 20px rgba(0,71,171,0.22)", transition: "all 0.2s" }}>
-        {t("cta.newPatient")}
-      </button>
 
       {/* Recent Sessions List */}
       <div style={{ background: C.panelBg, backdropFilter: "blur(16px)", border: `1px solid ${C.border}`, borderRadius: 18, padding: "18px 16px", boxShadow: theme === "dark" ? "0 4px 24px rgba(0,0,0,0.15)" : "0 2px 12px rgba(44,46,49,0.05)" }}>

@@ -1,5 +1,4 @@
 import { FONT } from "../../ui/theme";
-import { CASES } from "../../data/cases";
 import CaseCard from "./CaseCard";
 
 /**

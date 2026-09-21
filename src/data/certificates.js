@@ -15,8 +15,6 @@ export const SCORE_THRESHOLDS = [
 export const MODE_CERTIFICATES = [
   {id:"all_excellent",iconKey:"trophy",title:"Все на отлично",desc:"Завершите все 40 случаев с оценкой «Отлично»",color:"#f5c842",
     check:(h)=>h.length>=40&&h.every(s=>s.gradeId==="excellent")},
-  {id:"stress_master",iconKey:"warning",title:"Мастер стресса",desc:"Завершите 5 случаев в стресс-режиме",color:"#ff3d5a",
-    check:(h)=>h.filter(s=>s.gameMode==="stress").length>=5},
 ];
 
 export const SPEC_CERTIFICATES = [

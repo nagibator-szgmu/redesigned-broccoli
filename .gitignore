@@ -11,3 +11,7 @@ test-artifacts/
 test_*.png
 .serena/
 .playwright-mcp/
+грант/
+*.py
+*.swift
+ocr_runner

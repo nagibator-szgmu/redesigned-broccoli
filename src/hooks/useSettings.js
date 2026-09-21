@@ -15,10 +15,20 @@ function loadObj(key, fallback) {
   catch { return fallback; }
 }
 
+const STATS_RESET_KEY = "ms_stats_reset_v1";
+try {
+  if (typeof window !== "undefined" && !localStorage.getItem(STATS_RESET_KEY)) {
+    localStorage.setItem(STATS_RESET_KEY, "true");
+    localStorage.setItem("ms_casesPlayed", "0");
+    localStorage.setItem("ms_totalScore", "0");
+    localStorage.setItem("ms_history", "[]");
+  }
+} catch { /* ignore */ }
+
 export default function useSettings() {
   const [difficulty, setDifficulty] = useState(() => loadStr("ms_difficulty", "normal"));
   const [theme, setTheme] = useState(() => loadStr("ms_theme", "dark"));
-  const [gameMode, setGameMode] = useState(() => loadStr("ms_gameMode", "normal"));
+  const [gameMode, setGameMode] = useState("normal");
   const [totalScore, setTotalScore] = useState(() => loadNum("ms_totalScore", 0));
   const [casesPlayed, setCasesPlayed] = useState(() => loadNum("ms_casesPlayed", 0));
   const [sessionHistory, setSessionHistory] = useState(() => loadArr("ms_history"));
@@ -26,7 +36,7 @@ export default function useSettings() {
     const d = loadStr("ms_department", "all");
     return d === "emergency" ? "all" : d;
   });
-  const [learningMode, setLearningMode] = useState(() => loadStr("ms_learningMode", "false") === "true");
+  const [learningMode, setLearningMode] = useState(false);
   const [assessmentMode, setAssessmentMode] = useState(() => loadStr("ms_assessmentMode", "false") === "true");
   const [progressionMode, setProgressionMode] = useState(() => loadStr("ms_progressionMode", "free"));
   const [progressionChosen, setProgressionChosen] = useState(() => {
@@ -64,6 +74,17 @@ export default function useSettings() {
   const resetSeenTutorial = useCallback(() => {
     setSeenTutorial({ outpatient: false, admission: false, stationary: false });
     try { localStorage.removeItem("ms_seenTutorial"); } catch { /* ignore */ }
+  }, []);
+
+  const resetProgress = useCallback(() => {
+    setTotalScore(0);
+    setCasesPlayed(0);
+    setSessionHistory([]);
+    try {
+      localStorage.setItem("ms_totalScore", "0");
+      localStorage.setItem("ms_casesPlayed", "0");
+      localStorage.setItem("ms_history", "[]");
+    } catch { /* ignore */ }
   }, []);
 
   // Инициализация SCORM сессии при первом запуске
@@ -139,6 +160,6 @@ export default function useSettings() {
     showAllCases, setShowAllCases,
     showNotif, setShowNotif,
     showSettings, setShowSettings,
-    seenTutorial, markSeenTutorial, resetSeenTutorial,
+    seenTutorial, markSeenTutorial, resetSeenTutorial, resetProgress,
   };
 }

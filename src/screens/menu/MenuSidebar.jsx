@@ -5,8 +5,7 @@ import PillEmblem from "../../ui/PillEmblem";
 import { Tooltip } from "../../ui/components";
 import {
   IconGrid, IconTheory, IconTarget, IconMap, IconTrophy,
-  IconChartBar, IconBook, IconLogOut,
-  IconRefresh, IconLightbulb, IconHospital, IconStethoscope, IconBed
+  IconChartBar, IconLogOut,
 } from "../../ui/icons";
 import { getUserAvatar } from "./AccountModal";
 
@@ -15,8 +14,6 @@ import { getUserAvatar } from "./AccountModal";
  */
 export default function MenuSidebar({
   setPhase, setProgressionMode,
-  showTutorialMenu, setShowTutorialMenu, tutorialMenuRef,
-  restartTutorial, showTutorialTips, forceShowDeptTutorial,
   department, setDepartment, checkDeptTutorial,
   deptFilters, logout, setShowAccount, t, C,
 }) {
@@ -80,23 +77,6 @@ export default function MenuSidebar({
         </Tooltip>
       ))}
 
-      {/* Interactive Tutorial Menu */}
-      <div id="tutorial-training" onClick={() => setShowTutorialMenu((v) => !v)} style={{ position: "relative", display: "flex", alignItems: "center", gap: 11, padding: "10px 12px", borderRadius: 11, marginBottom: 12, cursor: "pointer", background: showTutorialMenu ? C.accentDim : C.btnBg, border: `1px solid ${showTutorialMenu ? `${C.accent}40` : "transparent"}` }}>
-        <IconBook size={16} color={showTutorialMenu ? C.accent : C.textDim} />
-        <span style={{ fontSize: 13, color: showTutorialMenu ? C.accent : C.text, fontWeight: 500, fontFamily: FONT }}>{t("nav.tutorial")}</span>
-        {showTutorialMenu && (
-          <div ref={tutorialMenuRef} onClick={(e) => e.stopPropagation()} style={{ position: "absolute", left: "100%", top: 0, marginLeft: 4, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: `1px solid ${C.border}`, borderRadius: 12, padding: "6px", boxShadow: "0 8px 32px rgba(0,0,0,0.6)", minWidth: 200 }}>
-            <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1, padding: "6px 12px 4px", fontFamily: FONT, fontWeight: 600 }}>{t("tutorial.mainCourse")}</div>
-            <div onClick={() => { setShowTutorialMenu(false); restartTutorial?.(); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><IconRefresh size={14} color={C.accent} /> {t("tutorial.restart")}</div>
-            <div onClick={() => { setShowTutorialMenu(false); showTutorialTips?.(); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}><IconLightbulb size={14} color={C.accent} /> {t("tutorial.showTips")}</div>
-            <div style={{ height: 1, background: C.border, margin: "6px 8px" }} />
-            <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1, padding: "6px 12px 4px", fontFamily: FONT, fontWeight: 600 }}>{t("tutorial.miniTutorials")}</div>
-            {[{ key: "outpatient", icon: <IconHospital size={14} color={C.accent} />, label: t("tutorial.outpatient") }, { key: "admission", icon: <IconStethoscope size={14} color={C.accent} />, label: t("tutorial.outpatient") }, { key: "stationary", icon: <IconBed size={14} color={C.accent} />, label: t("tutorial.stationary") }].map(({ key, icon, label }) => (
-              <div key={key} onClick={() => { setShowTutorialMenu(false); forceShowDeptTutorial?.(key); }} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer", fontSize: 12, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}>{icon} {label}</div>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* Department Section */}
       <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT, fontWeight: 600 }}>{t("nav.departmentHeader")}</div>

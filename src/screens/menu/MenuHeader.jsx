@@ -100,7 +100,7 @@ export default function MenuHeader({
           )}
         </div>
       </Tooltip>
-      <Tooltip title="НАСТРОЙКИ СИМУЛЯЦИИ И ИИ" text="Управление звуками, уровнем сложности, языком и API-ключами LLM." position="top">
+      <Tooltip title="НАСТРОЙКИ СИМУЛЯЦИИ" text="Управление звуками, уровнем сложности и языком интерфейса." position="top">
         <div
           onClick={() => {
             setShowSettings((v) => !v);

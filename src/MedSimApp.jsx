@@ -191,6 +191,7 @@ export default function MedSimApp() {
         audioEnabled={settings.audioEnabled} setAudioEnabled={settings.setAudioEnabled}
         hideWarnings={settings.hideWarnings} setHideWarnings={settings.setHideWarnings}
         sessionHistory={settings.sessionHistory}
+        resetProgress={settings.resetProgress}
         isDevMode={IS_DEV_MODE}
         checkDeptTutorial={checkDeptTutorial}
         forceShowDeptTutorial={forceShowDeptTutorial}

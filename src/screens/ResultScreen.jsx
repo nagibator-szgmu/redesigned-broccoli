@@ -10,12 +10,12 @@ import { WRONG_TREATMENT_PENALTY } from "../engine/scoring";
 import {
   IconParty, IconPlay, IconBook, IconGear, IconStethoscope,
   IconMicroscope, IconPill, IconAlertTriangle, IconHeart,
-  IconClock, IconBot
+  IconClock,
 } from "../ui/icons";
 import {
-  ResultHeader, ScoreCard, VitalsDelta, computeVitalDeltas,
+  ResultHeader, ScoreCard, VitalsDelta,
   DiagnosisBlock, OutpatientRouteResult, StationaryDaySummary,
-  ChecklistBlock, TestAnalysis, TreatmentAnalysis, DocLayer,
+  ChecklistBlock, TestAnalysis, TreatmentAnalysis,
   ProtocolReferences, RelatedTheory, EventLog, ResultActions,
 } from "../components/result";
 import DebriefPanel from "../components/game/DebriefPanel";
@@ -45,7 +45,6 @@ export default function ResultScreen({ result, cd, ps, trajectory = [], orderedD
 
   const relatedTopics = getTopicsForCase(cd.id);
   const relatedProtocols = getRelatedProtocols(cd.id);
-  const vitalDeltas = computeVitalDeltas(cd, ps, t);
 
   const isChecklistDone = (item) => {
     const lc = item.toLowerCase();
@@ -132,61 +131,6 @@ export default function ResultScreen({ result, cd, ps, trajectory = [], orderedD
         <DiagnosisBlock result={result} cd={cd} diagText={diagText} isMobile={isMobile} />
         <OutpatientRouteResult cd={cd} extraResult={extraResult} isMobile={isMobile} />
         <StationaryDaySummary cd={cd} extraResult={extraResult} isMobile={isMobile} />
-        <div style={{
-          background: C.panel,
-          border: `1px solid ${result.aiEvaluated ? `${C.green}40` : `${C.yellow}40`}`,
-          borderRadius: isMobile ? RADIUS.sm : RADIUS.md,
-          padding: isMobile ? 14 : 16,
-          marginBottom: 10
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <IconBot size={18} color={C.accent} />
-              <strong style={{ fontSize: 13.5, color: C.white, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                ИИ-Анализ ответа
-              </strong>
-            </div>
-            <span style={{
-              fontSize: 11,
-              fontWeight: 700,
-              padding: "2px 8px",
-              borderRadius: RADIUS.xs,
-              background: result.aiEvaluated ? `${C.green}15` : `${C.yellow}15`,
-              color: result.aiEvaluated ? C.green : C.yellow,
-              border: `1px solid ${result.aiEvaluated ? C.green : C.yellow}`
-            }}>
-              {result.aiEvaluated ? "Анализ завершен" : "Анализ выполняется..."}
-            </span>
-          </div>
-
-          {result.aiEvaluated ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
-                <strong>Оценка диагноза:</strong> <span style={{ color: C.accent, fontWeight: 700 }}>{result.aiDiagScore} из 35 баллов</span> 
-                <span style={{ color: C.textDim, fontSize: 11.5, marginLeft: 6 }}>
-                  (локальный скор был: {result.localDiagScore})
-                </span>
-              </div>
-              <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
-                <strong>Комментарий ИИ:</strong> {result.aiFeedback}
-              </div>
-              {result.aiErrors && result.aiErrors.length > 0 && (
-                <div>
-                  <div style={{ fontSize: 12.5, fontWeight: 700, color: C.red, marginBottom: 6 }}>Замечания ИИ:</div>
-                  <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12.5, color: C.text, display: "flex", flexDirection: "column", gap: 4 }}>
-                    {result.aiErrors.map((err, idx) => (
-                      <li key={idx} style={{ lineHeight: 1.5 }}>{err}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div style={{ fontSize: 12.5, color: C.textDim, fontStyle: "italic" }}>
-              <span>⏳</span> Оцениваем ваш диагноз и терапию с помощью искусственного интеллекта...
-            </div>
-          )}
-        </div>
 
         {cd.debrief?.explain && (
           <div style={{ background: C.panel, border: `1px solid ${C.accentDim}`, borderRadius: isMobile ? RADIUS.sm : RADIUS.md, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
@@ -221,7 +165,6 @@ export default function ResultScreen({ result, cd, ps, trajectory = [], orderedD
             </div>
           </div>
         )}
-        <DocLayer cd={cd} extraResult={extraResult} vitalDeltas={vitalDeltas} selTreat={selTreat} isMobile={isMobile} />
         <ProtocolReferences protocols={relatedProtocols} setPhase={setPhase} isMobile={isMobile} />
         <RelatedTheory topics={relatedTopics} setPhase={setPhase} isMobile={isMobile} />
         <EventLog eventLog={eventLog} isMobile={isMobile} />

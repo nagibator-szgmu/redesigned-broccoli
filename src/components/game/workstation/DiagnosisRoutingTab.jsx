@@ -194,7 +194,7 @@ export default function DiagnosisRoutingTab({
           <span style={{ fontSize: 10, color: C.textDim, fontFamily: CODE }}>МКБ-10 поиск активен</span>
         </div>
         <p style={{ margin: "0 0 8px 0", fontSize: 11, color: C.textDim, fontFamily: FONT, lineHeight: 1.4 }}>
-          Сформулируйте основной клинический диагноз или начните вводить для подсказки по МКБ-10:
+          Сформулируйте основной клинический диагноз или начните вводить для поиска по МКБ-10:
         </p>
 
         <div style={{ position: "relative" }}>
@@ -258,7 +258,7 @@ export default function DiagnosisRoutingTab({
                   fontWeight: 600,
                 }}
               >
-                <span>Подсказки нозологий и кодов МКБ-10:</span>
+                <span>Справочник нозологий и кодов МКБ-10:</span>
                 <span style={{ fontSize: 9.5, color: C.textDim }}>Нажмите для выбора (или Enter)</span>
               </div>
               {suggestions.map((item, idx) => {
