@@ -13,6 +13,10 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "validate": "node scripts/validate-cases.mjs",
     "review-status": "node scripts/review-status.mjs",
+    "test": "playwright test",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
     "prepare": "husky"
   },
   "dependencies": {

@@ -91,7 +91,7 @@ export default function RegisterPage() {
             {error}
           </div>
         )}
-        <Btn style={{ width: '100%', marginTop: 8 }} disabled={loading}>
+        <Btn type="submit" style={{ width: '100%', marginTop: 8 }} disabled={loading}>
           {loading ? 'Создание...' : 'Создать аккаунт'}
         </Btn>
       </form>

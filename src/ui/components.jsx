@@ -45,11 +45,11 @@ export const HeaderBackBtn = ({ onClick, label = "В главное меню" })
   );
 };
 
-export const Btn = ({ onClick, disabled, color: colorProp, children, style = {} }) => {
+export const Btn = ({ onClick, disabled, color: colorProp, children, style = {}, type, ...rest }) => {
   const C = useTheme();
   const color = colorProp ?? C.accent;
   return (
-    <button onClick={onClick} disabled={disabled} className="med-btn" style={{
+    <button type={type} onClick={onClick} disabled={disabled} className="med-btn" style={{
       background: `${color}12`,
       backdropFilter: "blur(8px)",
       WebkitBackdropFilter: "blur(8px)",
@@ -65,7 +65,7 @@ export const Btn = ({ onClick, disabled, color: colorProp, children, style = {} 
       opacity: disabled ? 0.35 : 1,
       boxShadow: "0 1px 2px rgba(0,0,0,0.2)",
       ...style,
-    }}>{children}</button>
+    }} {...rest}>{children}</button>
   );
 };
 

@@ -72,7 +72,7 @@ export default function LoginPage() {
             {error}
           </div>
         )}
-        <Btn style={{ width: '100%', marginTop: 8 }} disabled={loading}>
+        <Btn type="submit" style={{ width: '100%', marginTop: 8 }} disabled={loading}>
           {loading ? 'Вход...' : 'Войти'}
         </Btn>
       </form>

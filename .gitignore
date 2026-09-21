@@ -11,3 +11,5 @@ test-artifacts/
 test_*.png
 .serena/
 .playwright-mcp/
+test-results/
+playwright-report/
