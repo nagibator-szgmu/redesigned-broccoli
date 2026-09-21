@@ -1,8 +1,9 @@
 import React from "react";
 import { useTheme } from "../ui/ThemeContext";
-import { FONT, CODE } from "../ui/theme";
+import { FONT } from "../ui/theme";
 import useIsMobile from "../hooks/useIsMobile";
-import { HeaderBackBtn } from "../ui/components";
+import TeacherHeader from "./teacher/TeacherHeader";
+import TeacherMockControls from "./teacher/TeacherMockControls";
 
 /**
  * Teacher Dashboard screen placeholder.
@@ -26,48 +27,7 @@ export default function TeacherDashboardScreen({ setPhase }) {
         boxSizing: "border-box",
       }}
     >
-      {/* Top Header Bar with active return button */}
-      <header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: isMobile ? "12px 16px" : "16px 28px",
-          background: C.headerBg,
-          borderBottom: `1px solid ${C.border}`,
-          zIndex: 10,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <HeaderBackBtn onClick={() => setPhase("menu")} />
-          <div>
-            <div style={{ fontSize: isMobile ? 15 : 17, fontWeight: 800, color: C.white, letterSpacing: -0.2 }}>
-              Кабинет преподавателя
-            </div>
-            <div style={{ fontSize: 11, color: C.textDim, fontFamily: CODE }}>
-              Аналитика групп и когнитивный аудит ОСКЭ
-            </div>
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            background: `${C.yellow}15`,
-            border: `1px solid ${C.yellow}44`,
-            borderRadius: 9999,
-            padding: "4px 12px",
-            fontSize: 11,
-            fontWeight: 700,
-            color: C.yellow,
-          }}
-        >
-          <span style={{ fontSize: 12 }}>🚧</span>
-          <span>В разработке</span>
-        </div>
-      </header>
+      <TeacherHeader onBack={() => setPhase("menu")} isMobile={isMobile} C={C} />
 
       {/* Main Content Area */}
       <div
@@ -153,93 +113,7 @@ export default function TeacherDashboardScreen({ setPhase }) {
             Модуль преподавателя (управление группами студентов, централизованная выгрузка протоколов ОСКЭ, тепловая карта когнитивных ошибок и SCORM-интеграция) готовится к релизу в следующем обновлении.
           </p>
 
-          {/* Muted Non-interactive Mock Control Panel (Non-clickable / Disabled) */}
-          <div
-            data-testid="teacher-disabled-controls"
-            style={{
-              opacity: 0.5,
-              pointerEvents: "none",
-              userSelect: "none",
-              cursor: "not-allowed",
-              background: C.headerBg2,
-              border: `1px solid ${C.border}`,
-              borderRadius: 12,
-              padding: "16px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 12,
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button
-                  tabIndex={-1}
-                  disabled
-                  style={{
-                    padding: "8px 14px",
-                    borderRadius: 8,
-                    background: C.panelBg,
-                    border: `1px solid ${C.border}`,
-                    color: C.textDim,
-                    fontSize: 12,
-                    fontWeight: 600,
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Студенты группы
-                </button>
-                <button
-                  tabIndex={-1}
-                  disabled
-                  style={{
-                    padding: "8px 14px",
-                    borderRadius: 8,
-                    background: C.panelBg,
-                    border: `1px solid ${C.border}`,
-                    color: C.textDim,
-                    fontSize: 12,
-                    fontWeight: 600,
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Тепловая карта ошибок
-                </button>
-              </div>
-
-              <button
-                tabIndex={-1}
-                disabled
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: 8,
-                  background: `${C.accent}20`,
-                  border: `1px solid ${C.accent}40`,
-                  color: C.textDim,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: "not-allowed",
-                }}
-              >
-                📥 Экспорт отчёта CSV
-              </button>
-            </div>
-
-            <div
-              style={{
-                height: 54,
-                borderRadius: 8,
-                background: `${C.dimBg}`,
-                border: `1px dashed ${C.border}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 12,
-                color: C.textDim,
-              }}
-            >
-              Интерактивные функции временно отключены
-            </div>
-          </div>
+          <TeacherMockControls C={C} />
 
           <div style={{ marginTop: 24 }}>
             <button
