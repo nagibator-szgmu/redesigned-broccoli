@@ -25,10 +25,11 @@ export default function WorkstationOverlays({
   curProblems = [],
   iteration = 1,
   onConfirmReassessment,
+  isMobile = false,
 }) {
   return (
     <>
-      {learningMode && learningTip && <LearningTipToast tip={learningTip} isMobile={false} />}
+      {learningMode && learningTip && <LearningTipToast tip={learningTip} isMobile={isMobile} />}
       {learningMode && paused && <PauseOverlay onResume={() => setPaused(false)} />}
       <TheoryModal
         relatedTopics={relatedTopics}
@@ -36,7 +37,7 @@ export default function WorkstationOverlays({
         setShowTheory={setShowTheory}
         activeTheoryTopic={activeTheoryTopic}
         setActiveTheoryTopic={setActiveTheoryTopic}
-        isMobile={false}
+        isMobile={isMobile}
       />
       <ReassessmentModal
         isOpen={reassessModalOpen}
@@ -47,7 +48,7 @@ export default function WorkstationOverlays({
         curProblems={curProblems}
         iteration={iteration}
         onConfirmReassessment={onConfirmReassessment}
-        isMobile={false}
+        isMobile={isMobile}
       />
     </>
   );
