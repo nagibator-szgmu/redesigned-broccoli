@@ -28,30 +28,18 @@
 
 ---
 
-## 🎯 Контракты данных (НЕ ИЗМЕНЯТЬ БЕЗ СОГЛАСОВАНИЯ)
+## 📌 Завершённый этап: Декомпозиция GameScreen, Workstation и Панелей (`ab6d70a`)
 
-### 1. Формат объекта ошибки в `result.mistakes[]`
-```javascript
-{
-  id: "string",             // e.g. "err_wrong_nsaid"
-  category: "treatment" | "diagnostic" | "anamnesis" | "tactical",
-  severity: "critical" | "warning" | "info",
-  title: "string",          // Краткое название ошибки
-  reason: "string",         // Клиническое объяснение
-  penalty: number,          // Штраф в баллах (0, 5, 15)
-  guidelineRef: "string"    // Ссылка на пункт КР Минздрава РФ
-}
-```
+Цель: Разгрузить монолитные компоненты рабочей станции врача (>300–460 строк), разбить их на модули до 150 строк и подготовить чистую эргономику под редизайн и ИИ-пациента.
 
-### 2. Пропсы виджета ИИ-пациента (`PatientDialogueWidget`)
-```javascript
-<PatientDialogueWidget
-  caseData={cd}
-  patientState={ps}
-  mode={settings.patientDialogueMode} // "hybrid" | "standard"
-  onRevealAnamnesis={(key) => {}}
-/>
-```
+| Шаг | Модуль | Исходный размер | Результат | Статус |
+| :---: | :--- | :---: | :--- | :---: |
+| **1.1** | `DiagnosisRoutingTab.jsx` | 468 строк | **103 строки** (вынесены `criteriaUtils.js`, `DiagnosisSearchSection.jsx`, `DiagnosisCriteriaSection.jsx`, `RoutingSection.jsx`, `DiagnosisFooter.jsx`) | [x] Выполнено |
+| **1.2** | `DesktopWorkstation.jsx` | 323 строки | **263 строки** (вынесены `WorkstationTimelineBar.jsx` и `WorkstationOverlays.jsx`) | [x] Выполнено |
+| **1.3** | `StationaryPanels.jsx` | 323 строки | **14 строк** (декомпозировано в `src/screens/game/stationary/`: `PatientCard`, `StepBar`, `MorningPanel`, `TestSelection`, `ResultsPanel`, `TreatPanel`) | [x] Выполнено |
+| **1.4** | `ABCDEAssessmentPanel.jsx` | 358 строк | **119 строк** (вынесены `abcdeEngine.js`, `ABCDESummaryView.jsx`, `ABCDEStepTab.jsx`) | [x] Выполнено |
+| **1.5** | Интеграция `PatientDialogueWidget` | — | Встроен в `PatientRecordColumn.jsx`, проброшен `patientDialogueMode` через `EmergencyGameScreen` и `MobileWorkstation` | [x] Выполнено |
+| **1.6** | Верификация качества | — | ESLint (0 ошибок), Validator (67 кейсов валидны), Vite build (успешно 2.5с) | [x] Выполнено |
 
 ---
 
