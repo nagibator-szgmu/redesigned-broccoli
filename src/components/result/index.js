@@ -12,3 +12,6 @@ export { default as ProtocolReferences } from "./ProtocolReferences";
 export { default as RelatedTheory } from "./RelatedTheory";
 export { default as EventLog } from "./EventLog";
 export { default as ResultActions } from "./ResultActions";
+export { ResultTutorialBanner } from "./ResultTutorialBanner";
+export { ResultTabBar } from "./ResultTabBar";
+export { isChecklistDone, CHECKLIST_MAP, DIAG_ALIASES } from "./checklistUtils";
