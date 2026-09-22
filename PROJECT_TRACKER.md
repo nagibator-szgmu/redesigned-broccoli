@@ -45,16 +45,18 @@
 
 ---
 
-## 👥 Разделение зон ответственности после Фазы 0
+## 👥 Разделение зон ответственности параллельной разработки
 
-### Разработчик 1 (Ветка: `feat/ui-redesign-results`)
-* `src/screens/game/*` (редизайн игрового интерфейса под десктоп и мобилки)
-* `src/components/result/tabs/*` (наполнение вкладок результатами без свалки)
-* `src/screens/ResultScreen.jsx`
-* `src/ui/*`
+> 📄 **Полная матрица файлов и регламент зафиксированы в отдельном документе:**  
+> 👉 [**`TASKS_DISTRIBUTION.md`**](file:///c:/Users/мишка/Desktop/redesigned-broccoli-main/redesigned-broccoli/TASKS_DISTRIBUTION.md)
 
-### Разработчик 2 (Ветка: `feat/gastro-ai-patient-scoring`)
-* `src/data/cases/gastroenterology/*` (кейсы панкреатита, ЖКК, колита, цирроза)
-* `src/components/game/chat/PatientDialogueWidget.jsx` (чипсы + запрос в LLM)
-* `src/engine/scoring.js` (генерация единого массива `result.mistakes[]`)
-* `src/engine/llmService.js`
+### 🎨 Разработчик 2: Дизайн, UI/UX и Рабочая станция врача
+* **Ветка:** `feat/ui-redesign-workstation`
+* **Файлы:** `src/ui/*`, `src/index.css`, `src/screens/game/*`, `src/components/game/workstation/*`, `src/components/game/vitalMonitor/*`, `src/components/game/abcde/*`.
+* **Задачи:** Эргономика рабочей станции, мониторы виталов, HUD, оформление панелей, мобильная адаптация.
+
+### 🧠 Разработчик 1 (Мы): Логика ИИ-пациента, Диалоговое дерево и Движки
+* **Ветка:** `feat/ai-patient-dialogue`
+* **Файлы:** `src/components/game/chat/*`, `src/engine/dialogue/*`, `src/engine/llmService.js`, `src/hooks/usePatientDialogue.js`, `tests/patient-dialogue.test.mjs`, `e2e/patient-dialogue.spec.js`.
+* **Задачи:** Полноценный виджет опроса, быстрое дерево симптомов, классификация свободных вопросов, эмоциональный статус больного, учет анамнеза в скоринге.
+
