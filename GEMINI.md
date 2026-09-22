@@ -99,3 +99,17 @@ SOLID, DRY, KISS, SoC. Файлы строго в пределах 80–150 ст
    - Проверять статус, дифф, коммиты.
 5. **`fetch` & `obsidian`**:
    - Внешние HTTP-запросы и локальные заметки.
+
+---
+
+## 14. СТРОГИЙ БАРЬЕР ЗОН РАЗРАБОТКИ (МИХАИЛ vs АРСЕНИЙ)
+- Границы зафиксированы в `TASKS_DISTRIBUTION.md`.
+- Наша роль: **Разработчик 2 (Арсений)** — Дизайн, UI/UX, Рабочая станция врача (`src/ui/*`, `src/screens/game/*`, `src/components/game/workstation/*`, `src/components/game/vitalMonitor/*`, `src/components/game/abcde/*`, `src/screens/ResultScreen.jsx`, `src/screens/MenuScreen.jsx`).
+- **Зона Михаила (Разработчик 1 — `feat/ai-patient-dialogue`):**
+  - `src/components/game/chat/*`
+  - `src/engine/dialogue/*`
+  - `src/engine/llmService.js`, `src/engine/llmPrompts.js`, `src/engine/localPatientResponse.js`
+  - `src/hooks/usePatientDialogue.js`
+  - `tests/patient-dialogue.test.mjs`, `e2e/patient-dialogue.spec.js`
+- **Замороженные файлы (Read-Only):** `src/data/cases/*`, `package.json`, `src/engine/problemListEngine.js`, `src/engine/reassessmentEngine.js`, `playwright.config.js`.
+- **ОБЯЗАТЕЛЬНОЕ ПРАВИЛО:** Перед ЛЮБЫМ изменением файлов из Зоны Михаила или Замороженных файлов агент **ОБЯЗАН СНАЧАЛА СПРОСИТЬ ПОЛЬЗОВАТЕЛЯ** и получить прямое одобрение. Без разрешения пользователя в эти файлы не вносится ни одной строчки.

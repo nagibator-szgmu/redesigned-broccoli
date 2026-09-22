@@ -6,11 +6,45 @@
 1. Прочитать `TASKS.md` — это трекер задач проекта
 2. Прочитать `medsim-tz-v4.md` — это ТЗ, единственный источник истины
 3. Убедиться, что `TASKS.md` и `AGENTS.md` синхронизированы
+4. Проверить `TASKS_DISTRIBUTION.md` — строго соблюдать границы разработки (мы — Разработчик 2: Дизайн и Рабочая станция, ветка `feat/ui-redesign-workstation`)
 
 **ПЕРЕД КОММИТОМ** проверять:
-1. `npm run lint` — 0 ошибок
-2. Все файлы < 200 строк
+1. `npm run lint` — 0 ошибок и ворнингов
+2. Все файлы < 180 строк
 3. `node scripts/validate-cases.mjs` — 0 ошибок
+4. Запрет на вход в Зону Михаила (`src/components/game/chat/*`, `src/engine/dialogue/*`, `src/engine/llmService.js`, `src/hooks/usePatientDialogue.js`) без явного разрешения пользователя!
+---
+
+## 🛑 СТРОГОЕ ПРАВИЛО: ГРАНИЦЫ ЗОН ПАРАЛЛЕЛЬНОЙ РАЗРАБОТКИ (МИХАИЛ vs АРСЕНИЙ)
+
+Мы работаем в роли **Разработчика 2 (Арсений)**: Дизайн, UI/UX, Рабочая станция врача, ветка `feat/ui-redesign-workstation`.
+
+**Зона ответственности Разработчика 2 (Арсений — наши файлы):**
+- `src/ui/*`, `src/index.css`
+- `src/screens/game/*` (ОРИТ, приёмное, стационар, поликлиника)
+- `src/components/game/workstation/*` (рабочая станция, таймлайн, карточка больного, табы)
+- `src/components/game/vitalMonitor/*` (мониторы виталов, HUD, ЭКГ)
+- `src/components/game/abcde/*` (панели ABCDE)
+- `src/screens/ResultScreen.jsx`, `src/components/result/tabs/*`
+- `src/screens/MenuScreen.jsx`, `src/screens/menu/*`
+
+**Зона ответственности Разработчика 1 (Михаил — `feat/ai-patient-dialogue`):**
+- `src/components/game/chat/*` (виджет диалога, рендер сообщений, инпут, чипсы)
+- `src/engine/dialogue/*` (дерево вопросов-ответов, эмоциональный статус больного)
+- `src/engine/llmService.js`, `src/engine/llmPrompts.js`, `src/engine/localPatientResponse.js`
+- `src/hooks/usePatientDialogue.js`
+- `tests/patient-dialogue.test.mjs`, `e2e/patient-dialogue.spec.js`
+
+**Замороженные файлы (Read-Only):**
+- `src/data/cases/*` (клиническая база кейсов)
+- `src/engine/problemListEngine.js`, `src/engine/reassessmentEngine.js`
+- `playwright.config.js`, `package.json`
+
+⚠️ **ОБЯЗАТЕЛЬНАЯ ОСТАНОВКА И ВОПРОС ПОЛЬЗОВАТЕЛЮ:**
+Если любая задача, рефакторинг или исправление бага хотя бы потенциально затрагивает файлы из **Зоны Михаила** или **Замороженные файлы**, агент **КАТЕГОРИЧЕСКИ НЕ ИМЕЕТ ПРАВА** вносить изменения молча.
+Агент **ОБЯЗАН ОСТАНОВИТЬСЯ** и явно спросить подтверждения у пользователя:
+> *«Внимание: данная задача затрагивает зону ответственности Михаила / замороженный файл `<путь к файлу>`. Вы уверены, что хотите внести эти изменения?»*  
+Изменения вносятся **ТОЛЬКО** после явного утвердительного ответа пользователя.
 
 ---
 
