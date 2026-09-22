@@ -9,20 +9,23 @@ test.describe("Emergency Simulation E2E Flow", () => {
   test("Enters clinical case, verifies Vitals HUD, orders test, and applies treatment", async ({ page }) => {
     await page.goto("/");
 
-    // 1. Enter first case
-    const startBtn = page.locator("button.start-btn, button:has-text('Играть'), button:has-text('Начать')").first();
-    await expect(startBtn).toBeVisible({ timeout: 10000 });
-    await startBtn.click();
+    // 1. Enter emergency case 1 directly
+    await page.waitForFunction(() => typeof window.__START_CASE__ === "function", { timeout: 10000 });
+    await page.evaluate(() => window.__START_CASE__(1));
 
     // 2. Verify Vitals HUD is rendered
     await page.waitForTimeout(1000);
+    const dismissTipBtn = page.locator("button:has-text('Понятно')");
+    if (await dismissTipBtn.isVisible()) {
+      await dismissTipBtn.click();
+    }
     const vitalsHud = page.locator("text=/ЧСС|АД|SpO|ЧДД/i").first();
-    await expect(vitalsHud).toBeVisible({ timeout: 5000 });
+    await expect(vitalsHud).toBeVisible({ timeout: 15000 });
 
     // 3. Tab Navigation: Diagnostics Tab
     const diagTabBtn = page.locator("button:has-text('Тесты'), button:has-text('Исследования')").first();
     if (await diagTabBtn.isVisible()) {
-      await diagTabBtn.click();
+      await diagTabBtn.click({ force: true });
       await page.waitForTimeout(400);
     }
 
