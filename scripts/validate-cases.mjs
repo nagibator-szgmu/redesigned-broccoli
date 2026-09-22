@@ -21,7 +21,7 @@ import { TREATMENTS, TREAT_FX, ADVERSE_FX, ADVERSE_REASONS } from "../src/data/t
 
 const diagIds = new Set(DIAGNOSTICS.map(d => d.id));
 const treatIds = new Set(TREATMENTS.map(t => t.id));
-const VALID_CAT = new Set(["cardiac", "neuro", "respiratory", "infectious", "endocrine", "toxicology", "abdominal"]);
+const VALID_CAT = new Set(["cardiac", "neuro", "respiratory", "infectious", "endocrine", "toxicology", "abdominal", "gastro", "gastroenterology"]);
 const VALID_SEV = new Set(["critical", "moderate", "mild"]);
 const VALID_DEPT = new Set(["emergency", "outpatient", "stationary", "icu", "admission"]);
 const VALID_DT = new Set(["sbp", "spo2", "gcs", "hr", "rr", "dbp", "temp", "pain"]);
