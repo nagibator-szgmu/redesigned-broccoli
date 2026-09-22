@@ -17,7 +17,7 @@ export default function MenuSettingsModal({
   audioEnabled, setAudioEnabled,
   hideWarnings, setHideWarnings, theme, setTheme, locale, setLocaleGlobal, LOCALES,
   llmProvider, setLlmProvider, llmKey, setLlmKey, showDevSettings, setShowDevSettings,
-  isMobile, t, C,
+  resetProgress, isMobile, t, C,
 }) {
   if (!showSettings) return null;
 
@@ -78,6 +78,33 @@ export default function MenuSettingsModal({
           C={C}
           t={t}
         />
+
+        {/* Reset Progress */}
+        {resetProgress && (
+          <div style={{ marginBottom: 14 }}>
+            <button
+              onClick={() => {
+                resetProgress();
+                setShowSettings(false);
+              }}
+              style={{
+                width: "100%",
+                background: "rgba(255, 61, 90, 0.08)",
+                border: "1px solid rgba(255, 61, 90, 0.25)",
+                borderRadius: 8,
+                padding: "8px 10px",
+                fontSize: 11,
+                color: C.red,
+                cursor: "pointer",
+                fontFamily: FONT,
+                fontWeight: 600,
+                textAlign: "center",
+              }}
+            >
+              🗑️ {t("progress.reset")} прогресс и статистику
+            </button>
+          </div>
+        )}
 
         <div style={{ paddingTop: 12, borderTop: "1px solid rgba(0,230,200,0.06)", fontSize: 11, color: C.textDim, textAlign: "center", opacity: 0.7 }}>
           {t("settings.moreComing")}

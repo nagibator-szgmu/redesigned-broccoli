@@ -13,3 +13,8 @@ test_*.png
 .playwright-mcp/
 test-results/
 playwright-report/
+грант/
+*.py
+*.swift
+ocr_runner
+

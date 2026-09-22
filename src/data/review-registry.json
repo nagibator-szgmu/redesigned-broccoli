@@ -51,16 +51,57 @@
       }
     },
     "3": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острый коронарный синдром без подъема сегмента ST электрокардиограммы» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭКГ, тропонин, липидный профиль и коагулограмма по алгоритму КР ОКСбпST"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Двойная антитромбоцитарная терапия, антикоагулянты, нитраты по протоколу КР ОКСбпST"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Тромболитическая терапия противопоказана при ОКС без подъема сегмента ST"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в блок кардиореанимации / рентгенэндоваскулярную операционную"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "4": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по заболеваниям перикарда (2024) и ESC Pericardial Disease"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭхоКГ (эхо-признаки компрессии полостей) и рентгенография ОГК по алгоритму КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Экстренный перикардиоцентез и волемическая поддержка по протоколу тампонады"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Диуретики и вазодилататоры категорически противопоказаны при тампонаде сердца"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "5": {
       "status": "reviewed",
@@ -238,16 +279,57 @@
       }
     },
     "12": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Хроническая обструктивная болезнь легких» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Газы артериальной крови, рентгенография ОГК и пульсоксиметрия по алгоритму КР ХОБЛ"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Кислородотерапия, бронходилататоры короткого действия и системные ГКС по КР ХОБЛ"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Седативные препараты и неселективные бета-блокаторы противопоказаны при обострении ХОБЛ"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "13": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Спонтанный пневмоторакс» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Рентгенография органов грудной клетки и оценка газообмена по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Экстренная плевральная декомпрессия и дренирование плевральной полости"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "ИВЛ с положительным давлением без предварительного дренирования противопоказана"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в экстренную торакальную хирургию"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "14": {
       "status": "reviewed",
@@ -275,22 +357,82 @@
       }
     },
     "15": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Тромбоэмболия легочных артерий» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ-ангиопульмонография, ЭхоКГ, D-димер и тропонин по алгоритму КР ТЭЛА"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Системный тромболизис и антикоагулянтная терапия при ТЭЛА высокого риска по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бета-блокаторы и агрессивная инфузия противопоказаны при правожелудочковой недостаточности"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в отделение реанимации и интенсивной терапии (ОРИТ)"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "16": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Сепсис и септический шок у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Посевы крови/мочи, лактат крови, прокальцитонин и газы крови по протоколу сепсиса"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ранняя инфузионная терапия, антибиотики широкого спектра и норадреналин по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Форсированный диурез и задержка антибиотикотерапии недопустимы при септическом шоке"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "17": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Инфекционный эндокардит» (2024) (модифицированные критерии Duke)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Эхокардиография (детекция вегетаций) и серийные гемокультуры до начала АБТ по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Парентеральная бактерицидная антибиотикотерапия и консультация кардиохирурга по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Тромболизис и бесконтрольная антикоагуляция противопоказаны из-за риска кровоизлияния"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "18": {
       "status": "reviewed",
@@ -318,10 +460,32 @@
       }
     },
     "19": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Хирургические инфекции кожи и мягких тканей» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Шкала LRINEC, ОАК, СРБ, прокальцитонин и визуализация мягких тканей по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Немедленная хирургическая некрэктомия и системная полимикробная антибиотикотерапия"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Отказ от экстренной хирургической санации и консервативное выжидание фатальны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в операционный блок для экстренного хирургического вмешательства"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "20": {
       "status": "reviewed",
@@ -349,40 +513,160 @@
       }
     },
     "21": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Сахарный диабет 1 типа у взрослых» (2024) (раздел ДКА)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Гликемия, газы крови, кетонемия/кетонурия, калий и электролиты сыворотки по КР ДКА"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Инфузия изотонического раствора NaCl, малые дозы инсулина и коррекция калия по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Глюкокортикоиды и диуретики противопоказаны при диабетическом кетоацидозе"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "22": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Диффузный токсический зоб. Тиреотоксикоз» (2024) и шкала Burch-Wartofsky"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Гормоны щитовидной железы (ТТГ, св. Т4/Т3), ЭКГ и электролиты по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бета-адреноблокаторы, глюкокортикоиды и тиреостатики по протоколу тиреотоксического криза"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ацетилсалициловая кислота (вытесняет Т4 из связи с белком) и амиодарон противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "23": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Сахарный диабет 2 типа у взрослых» (2024) (раздел ГГС)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Осмолярность плазмы, гликемия, газы крови и электролиты по алгоритму КР ГГС"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Массивная регидратация, последующая инсулинотерапия и калиевая поддержка по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Петлевые диуретики и болюсы высоких доз инсулина без регидратации противопоказаны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в эндокринологическое / терапевтическое отделение стационара"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "24": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Первичная надпочечниковая недостаточность» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Электролиты (калий, натрий), гликемия, кортизол и АКТГ по протоколу криза"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Немедленное в/в введение гидрокортизона и инфузионная регидратация по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Диуретики и бета-блокаторы противопоказаны при аддисоническом кризе"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "25": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Сахарный диабет: острые осложнения (гипогликемия)» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Экспресс-анализ глюкозы крови и динамический контроль гликемии по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Внутривенное болюсное введение 40% раствора декстрозы по алгоритмам СМП и КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Инсулин и седативные препараты категорически противопоказаны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторное наблюдение после полного восстановления сознания и нормогликемии"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "26": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острые отравления фосфорорганическими соединениями» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Токсикологический скрининг, активность холинэстеразы, КЩС и ЭКГ по КР токсикологии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ранняя атропинизация до признаков гипервентиляции/сухости, оксигенация и реактиваторы ХЭ"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин, бета-адреноблокаторы и деполяризующие миорелаксанты противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "27": {
       "status": "reviewed",
@@ -410,22 +694,85 @@
       }
     },
     "28": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острые отравления алкоголем и его суррогатами» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Этанол крови/мочи, токсикологический скрининг, гликемия, газы крови по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Защита дыхательных путей, интубация при аспирации, инфузионная терапия и глюкоза"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Седативные препараты (диазепам) и опиоиды противопоказаны из-за синергизма депрессии ЦНС"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в токсикологическое отделение стационара"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "29": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острые отравления психостимуляторами» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Токсикологический скрининг, ЭКГ, тропонин и биохимия крови по алгоритму КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бензодиазепины (диазепам) как терапия первой линии и нитраты при спазме коронаров"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Неселективные и чистые бета-блокаторы противопоказаны (риск парадоксального криза)"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в стационар для кардиомониторинга и детоксикации"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "30": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острые отравления монооксидом углерода» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Карбоксигемоглобин (HbCO), газы артериальной крови, тропонин и ЭКГ по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Нормобарическая 100% оксигенация / ГБО и защита дыхательных путей по протоколу КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Седативные препараты без защиты дыхательных путей противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "31": {
       "status": "reviewed",
@@ -553,124 +900,534 @@
       }
     },
     "36": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острый инфаркт миокарда с подъемом сегмента ST» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭКГ в 12 отведениях (включая правые), тропонин, ЭхоКГ по алгоритму КР ОКСпST"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Экстренная реваскуляризация (ЧКВ), ДАТТ, антикоагулянты и атропин при брадикардии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бета-блокаторы и нитраты противопоказаны при брадикардии и подозрении на инфаркт ПЖ"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "37": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Хроническая сердечная недостаточность» (2024) (раздел ОДСН)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭхоКГ, натрийуретические пептиды (NT-proBNP), рентгенография ОГК, газы крови по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Внутривенные петлевые диуретики, вазодилататоры (нитроглицерин) и респираторная поддержка"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Назначение/титрование бета-блокаторов в острую фазу отека легких и инфузия жидкостей"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в блок кардиореанимации / ОРИТ"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "38": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Хроническая сердечная недостаточность» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭхоКГ с оценкой ФВ ЛЖ, NT-proBNP, ЭКГ и почечный профиль по протоколу КР ХСН"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Квадротерапия ХСН: петлевой диуретик, ингибиторы РАС, АМКР и дапаглифлозин по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Недигидропиридиновые антагонисты кальция (верапамил/дилтиазем) противопоказаны при низкой ФВ"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в кардиологическое отделение стационара"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "39": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по заболеваниям перикарда (2024) и ESC Pericardial Disease"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭхоКГ (диастолический коллапс правых камер), ЭКГ и рентген ОГК по протоколу"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Перикардиоцентез, волемическая терапия и системные ГКС при волчаночном генезе"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Петлевые диуретики и периферические вазодилататоры категорически противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "40": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР по выпотному перикардиту (2024) и NCCN Guidelines"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Эхокардиография и цитологическое исследование перикардиальной жидкости по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Дренирование перикарда / перикардиоцентез и восполнение ОЦК по протоколу"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Диуретики противопоказаны при гемодинамически значимом сдавлении полостей сердца"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в отделение реанимации и интенсивной терапии (ОРИТ)"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "41": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Брадиаритмии и нарушения проводимости» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭКГ-мониторинг, электролиты сыворотки (калий), концентрация дигоксина по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Временная трансвенозная/чрескожная кардиостимуляция и атропин по алгоритмам КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бета-блокаторы, верапамил, дилтиазем и амиодарон абсолютно противопоказаны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в отделение реанимации / блок кардиостимуляции"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "42": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Первичный гипотиреоз» (2024) и алгоритм ведения брадиаритмий"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ТТГ, свободный Т4, ЭКГ и электролиты сыворотки по алгоритму КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Временная ЭКС при симптоматической брадикардии, заместительная гормональная терапия"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Препараты, замедляющие АВ-проведение (бета-блокаторы, амиодарон), противопоказаны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в отделение реанимации и интенсивной терапии (ОРИТ)"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "43": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Внезапная сердечная смерть» (2024) и международным протоколам ACLS"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭКГ-мониторинг сердечного ритма и раннее распознавание фибрилляции желудочков"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Немедленная электрическая дефибрилляция, СЛР, адреналин и амиодарон по протоколу ACLS"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Введение атропина при фибрилляции желудочков не показано и исключено из протоколов"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "44": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Внезапная сердечная смерть» (2024) и алгоритмам ведения рефрактерной ФЖ"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭКГ-мониторинг, газы крови, электролиты и маркеры некроза миокарда по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Продолжение расширенной СЛР, повторная дефибрилляция, антиаритмики (амиодарон/лидокаин)"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Атропин и введение бета-блокаторов во время активной реанимации противопоказаны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в отделение реанимации и интенсивной терапии (ОРИТ)"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "45": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Геморрагический инсульт» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ головного мозга, коагулограмма, ОАК, биохимия и контроль АД по алгоритму КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Осмотерапия (маннитол) при дислокационном синдроме и экстренная консультация нейрохирурга"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Тромболитики и антикоагулянты категорически противопоказаны (смертельный риск)"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "46": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Субарахноидальное кровоизлияние вследствие разрыва аневризмы» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ головного мозга / КТ-ангиография и коагулограмма по алгоритму КР САК"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Нимодипин для профилактики церебрального вазоспазма и экстренная консультация нейрохирурга"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Антитромботическая терапия и тромболизис абсолютно противопоказаны"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в экстренную нейрохирургическую операционную"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "47": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Ишемический инсульт и транзиторная ишемическая атака у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ головного мозга (исключение кровоизлияния), глюкоза, коагулограмма, ЭКГ по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Системная тромболитическая терапия в пределах терапевтического окна по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Антиагреганты в первые 24 часа после тромболизиса и агрессивная гипотензивная терапия"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в неврологическое отделение для больных с ОНМК (ПСО/РСЦ)"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "48": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Ишемический инсульт и транзиторная ишемическая атака у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ головного мозга, УЗДГ брахиоцефальных артерий, ЭКГ, коагулограмма и шкала ABCD2"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ранняя антиагрегантная терапия (аспирин) и стратификация сосудистого риска по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Тромболизис при полном регрессе очаговой симптоматики не проводится"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в первичное сосудистое отделение стационара"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "49": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Менингококковая инфекция у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Люмбальная пункция с исследованием ликвора, микроскопия мазка, посевы крови по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Немедленная антибиотикотерапия (цефтриаксон), дексаметазон до/с первой дозой АБ и инфузии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Противовирусная монотерапия и задержка антибиотиков до получения анализов недопустимы"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Маршрутизация в инфекционное отделение / палату интенсивной терапии"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "50": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Гнойные менингиты у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ головного мозга перед ЛП, анализ ликвора, прокальцитонин, лактат крови по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Внутривенные бактерицидные антибиотики широкого спектра, дексаметазон, норадреналин при шоке"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ацикловир как монотерапия и нерациональная осмодиуретическая терапия без дислокации"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "51": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Эпилепсия и эпилептический статус у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Гликемия, газы крови, электролиты, ЭКГ и ЭЭГ-мониторинг по протоколу эпистатуса"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бензодиазепины (диазепам), антиэпилептики 2-й линии (леветирацетам) и защита ДП/ИВЛ по КР"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин, опиоиды и проаритмогенные препараты противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "52": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Бактериальные гнойные менингиты у детей» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Исследование спинномозговой жидкости, прокальцитонин, СРБ и бактериологический посев"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Эмпирическая антибиотикотерапия (цефалоспорины III + ванкомицин), дексаметазон и кислород"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ацикловир при доказанном бактериальном генезе и гипотонические инфузии противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "53": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Вирусные энцефалиты у взрослых» (2024) (герпетическая этиология)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ПЦР ликвора на ВПГ 1/2 типа, МРТ головного мозга (височные доли), ЭЭГ по алгоритму КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ранняя этиотропная терапия ацикловиром в/в и бензодиазепины при судорожном синдроме"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Опиоиды и антибактериальная монотерапия без противовирусного прикрытия недопустимы"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "54": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Аутоиммунные энцефалиты» (2024) (Graus et al., 2016/2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Антитела к NMDA-рецепторам в ликворе и сыворотке, МРТ головного мозга, ЭЭГ по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Иммунотерапия первой линии (пульс-терапия метилпреднизолоном, ВВИГ/плазмаферез)"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Тромболизис и необоснованное назначение бета-блокаторов не показаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "55": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Острые отравления опиоидами» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Токсикологический экспресс-тест мочи, газы крови (гиперкапния), сатурация и гликемия"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Титрованное введение налоксона (специфический антагонист опиоидных рецепторов), кислород"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин и другие опиоиды абсолютно фатальны; седативные усугубляют кому"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
     },
     "outp_1": {
       "status": "reviewed",
@@ -810,10 +1567,32 @@
       }
     },
     "outp_6": {
-      "status": "pending",
-      "reviewedBy": null,
-      "reviewDate": null,
-      "checklistResults": null
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-13",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "Критерии по КР «Инфекции мочевыводящих путей у взрослых» (2024) / IDSA UTI Guidelines"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Общий анализ мочи, посев мочи с антибиотикограммой, ОАК и функция почек по КР"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Пероральная эмпирическая антибиотикотерапия (фторхинолоны/цефалоспорины), обильное питьё"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин и фибринолитики не показаны и противопоказаны при неосложнённом пиелонефрите"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторное лечение с повторным контролем через 48-72 часа"
+        },
+        "dayPlanMatchesKR": null
+      }
     },
     "stat_1": {
       "status": "reviewed",

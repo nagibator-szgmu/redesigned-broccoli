@@ -59,6 +59,7 @@ export default function MedSimApp() {
 
   const themeValue = settings.theme === "light" ? LIGHT : DARK;
 
+
   return (
     <ErrorBoundary>
       <ThemeCtx.Provider value={themeValue}>

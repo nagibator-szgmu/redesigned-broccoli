@@ -64,6 +64,7 @@ export default function AppContentRouter({
           hideWarnings={settings.hideWarnings}
           setHideWarnings={settings.setHideWarnings}
           sessionHistory={settings.sessionHistory}
+          resetProgress={settings.resetProgress}
           isDevMode={IS_DEV_MODE}
           checkDeptTutorial={tutorial.checkDeptTutorial}
           forceShowDeptTutorial={tutorial.forceShowDeptTutorial}
