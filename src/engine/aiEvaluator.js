@@ -1,30 +1,19 @@
 /**
  * aiEvaluator.js
- * 
- * Модуль для асинхронной ИИ-оценки введенных студентом диагнозов
- * и формирования рекомендаций по лечению на основе клинреков.
+ * Гибридный модуль оценки клинического мышления:
+ * запрос к LLM при наличии ключа или мгновенный экспертный анализ локальным движком.
  */
 
-import { sendChatMessage } from "./llmService";
+import { sendChatMessage } from "./llmService.js";
+import { generateLocalClinicalFeedback } from "./debrief/localClinicalFeedback.js";
 
-/**
- * Отправляет диагноз и действия студента на оценку ИИ.
- * 
- * @param {Object} cd - Данные клинического случая
- * @param {string} diagText - Диагноз, введенный студентом
- * @param {Array<string>} selDiag - Выбранные исследования
- * @param {Array<string>} selTreat - Выбранное лечение
- * @returns {Promise<Object>} Оценка и разбор от ИИ
- */
-export async function evaluateDiagnosisWithAI(cd, diagText = "", selDiag = [], selTreat = []) {
-  const cleanDiagText = (diagText || "").trim();
-  
-  const systemPrompt = `
+function buildEvaluatorPrompt(cd, diagText, selDiag, selTreat) {
+  return `
 Ты — независимый медицинский эксперт ОСКЭ в РФ. Оцени диагноз студента и качество ведения случая.
 
 Клинический случай: "${cd.name || "Пациент"}", ${cd.age} л.
 Эталонный правильный диагноз: "${cd.diagnosis}"
-Диагноз студента: "${cleanDiagText || "(не введен)"}"
+Диагноз студента: "${(diagText || "").trim() || "(не введен)"}"
 
 Действия студента:
 - Назначенные исследования: [${selDiag.join(", ")}]
@@ -36,53 +25,82 @@ export async function evaluateDiagnosisWithAI(cd, diagText = "", selDiag = [], s
 - Противопоказанные/опасные лекарства: [${(cd.wrongTreat || []).join(", ")}]
 
 Критерии начисления баллов за диагноз (максимум 35 баллов):
-- Полное соответствие (совпадение ключевых нозологий, локализации, характера изменений): 30-35 баллов.
-- Частичное соответствие (верно определена основная патология, но упущены важные детали): 15-29 баллов.
-- Слабое соответствие (назван только симптом или неверный класс патологии): 5-14 баллов.
+- Полное соответствие: 30-35 баллов.
+- Частичное соответствие: 15-29 баллов.
+- Слабое соответствие: 5-14 баллов.
 - Абсолютно неверно или пусто: 0 баллов.
 
-Отвечай СТРОГО в формате JSON. Любые другие форматы, комментарии, вводный или пояснительный текст вокруг JSON категорически запрещены.
-Формат ответа:
+Отвечай СТРОГО в формате JSON:
 {
-  "diagScore": 30, // целое число от 0 до 35
-  "feedback": "...", // краткое пояснение на русском языке (1-2 предложения) о том, почему выставлен такой балл
-  "errors": [] // массив строк (кратких замечаний) о замеченных неточностях или пропусках в действиях студента (если есть)
+  "diagScore": 30,
+  "feedback": "краткое экспертное пояснение на русском языке (1-2 предложения)",
+  "errors": ["замечание 1", "замечание 2"]
 }
 `.trim();
+}
 
+/**
+ * Оценивает диагноз и действия студента с помощью LLM или локального клинического эксперта.
+ * @param {Object} cd - Клинический кейс
+ * @param {string} diagText - Введенный студентом диагноз
+ * @param {Array<string>} selDiag - Назначенные исследования
+ * @param {Array<string>} selTreat - Назначенное лечение
+ * @param {Object} [safety] - Данные evaluateClinicalSafety
+ * @returns {Promise<Object>} Оценка и разбор от ИИ или локального эксперта
+ */
+export async function evaluateDiagnosisWithAI(cd = {}, diagText = "", selDiag = [], selTreat = [], safety = {}) {
+  const localRes = generateLocalClinicalFeedback(cd, diagText, selDiag, selTreat, safety);
+
+  const provider = typeof window !== "undefined"
+    ? localStorage.getItem("ms_llmProvider") || localStorage.getItem("ms_llm_provider") || "openrouter"
+    : "openrouter";
+  const apiKey = typeof window !== "undefined"
+    ? localStorage.getItem("ms_llmKey") || localStorage.getItem("ms_llm_key") || ""
+    : "";
+
+  // 1. Оффлайн-режим (нет ключа API) -> моментальный локальный экспертный разбор
+  if (!apiKey || !apiKey.trim()) {
+    return {
+      ...localRes,
+      success: true,
+      source: "local",
+    };
+  }
+
+  // 2. Онлайн-режим с обращением к LLM и таймаутом
   try {
-    const provider = localStorage.getItem("ms_llm_provider") || "openrouter";
-    const apiKey = localStorage.getItem("ms_llm_key") || "";
-    // Вызываем sendChatMessage с пустой историей чата
-    const responseText = await sendChatMessage({
+    const systemPrompt = buildEvaluatorPrompt(cd, diagText, selDiag, selTreat);
+    const llmPromise = sendChatMessage({
       provider,
       apiKey,
       systemPrompt,
       chatHistory: [],
       userMessage: "Оцени диагноз и действия студента.",
-      model: provider === "openrouter" ? "google/gemma-4-26b-a4b-it:free" : undefined
+      model: provider === "openrouter" ? "google/gemma-4-26b-a4b-it:free" : undefined,
     });
 
-    // Находим JSON в ответе на случай, если модель добавила лишний текст
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error("JSON not found in LLM response");
-    }
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("LLM_TIMEOUT")), 3500)
+    );
+
+    const responseText = await Promise.race([llmPromise, timeoutPromise]);
+    const jsonMatch = String(responseText || "").match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error("JSON not found in LLM response");
 
     const data = JSON.parse(jsonMatch[0]);
     return {
-      diagScore: typeof data.diagScore === "number" ? Math.max(0, Math.min(35, data.diagScore)) : 0,
-      feedback: data.feedback || "ИИ проверил диагноз.",
-      errors: Array.isArray(data.errors) ? data.errors : [],
-      success: true
+      diagScore: typeof data.diagScore === "number" ? Math.max(0, Math.min(35, data.diagScore)) : localRes.diagScore,
+      feedback: data.feedback || localRes.feedback,
+      errors: Array.isArray(data.errors) && data.errors.length > 0 ? data.errors : localRes.errors,
+      success: true,
+      source: "llm",
     };
-  } catch (error) {
-    console.warn("[AI Evaluator] Оценка ИИ недоступна (используется эвристическое правило):", error.message);
+  } catch {
+    // 3. Бесшовный фоллбэк на локальный экспертный анализ при ошибке сети/таймауте
     return {
-      diagScore: 0,
-      feedback: "Не удалось получить оценку ИИ (таймаут или ошибка сети).",
-      errors: [],
-      success: false
+      ...localRes,
+      success: true,
+      source: "local_fallback",
     };
   }
 }
