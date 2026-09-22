@@ -28,7 +28,7 @@ export default function MenuHeader({
         background: C.headerBg2,
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(0,230,200,0.06)",
+        borderBottom: `1px solid ${C.border}`,
         position: "relative",
       }}
     >
@@ -39,7 +39,7 @@ export default function MenuHeader({
           style={{
             width: "100%",
             background: C.btnBg,
-            border: `1px solid ${theorySearchFocused ? `${C.accent}55` : "rgba(0,230,200,0.1)"}`,
+            border: `1px solid ${theorySearchFocused ? `${C.accent}55` : C.border}`,
             boxShadow: theorySearchFocused ? `0 0 16px -2px ${C.accent}15, 0 4px 20px rgba(0,0,0,0.3)` : "none",
             borderRadius: 12,
             padding: "10px 16px",
@@ -86,7 +86,7 @@ export default function MenuHeader({
             width: 38,
             height: 38,
             background: showNotif ? `${C.accent}1a` : C.btnBg,
-            border: `1px solid ${showNotif ? `${C.accent}55` : "rgba(0,230,200,0.08)"}`,
+            border: `1px solid ${showNotif ? `${C.accent}55` : C.border}`,
             borderRadius: 10,
             display: "flex",
             alignItems: "center",
@@ -96,7 +96,7 @@ export default function MenuHeader({
         >
           <IconBell size={18} color={showNotif ? C.accent : C.textDim} />
           {unreadCount > 0 && (
-            <div style={{ position: "absolute", top: 6, right: 6, width: 7, height: 7, background: C.red, borderRadius: "50%", border: "1px solid #070d18" }} />
+            <div style={{ position: "absolute", top: 6, right: 6, width: 7, height: 7, background: C.red, borderRadius: "50%", border: `1px solid ${C.headerBg}` }} />
           )}
         </div>
       </Tooltip>
@@ -111,7 +111,7 @@ export default function MenuHeader({
             width: 38,
             height: 38,
             background: showSettings ? `${C.accent}1a` : C.btnBg,
-            border: `1px solid ${showSettings ? `${C.accent}55` : "rgba(0,230,200,0.08)"}`,
+            border: `1px solid ${showSettings ? `${C.accent}55` : C.border}`,
             borderRadius: 10,
             display: "flex",
             alignItems: "center",

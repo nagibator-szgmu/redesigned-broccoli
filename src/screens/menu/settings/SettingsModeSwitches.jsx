@@ -21,7 +21,7 @@ export function SettingsModeSwitches({
             justifyContent: "space-between",
             padding: "8px 10px",
             background: learningMode ? `${C.yellow}12` : "transparent",
-            border: `1px solid ${learningMode ? `${C.yellow}44` : "rgba(0,230,200,0.1)"}`,
+            border: `1px solid ${learningMode ? `${C.yellow}44` : C.border}`,
             borderRadius: 8,
             cursor: "pointer",
           }}
@@ -71,7 +71,7 @@ export function SettingsModeSwitches({
             justifyContent: "space-between",
             padding: "8px 10px",
             background: assessmentMode ? `${C.green}12` : "transparent",
-            border: `1px solid ${assessmentMode ? `${C.green}44` : "rgba(0,230,200,0.1)"}`,
+            border: `1px solid ${assessmentMode ? `${C.green}44` : C.border}`,
             borderRadius: 8,
             cursor: "pointer",
           }}
@@ -121,7 +121,7 @@ export function SettingsModeSwitches({
             justifyContent: "space-between",
             padding: "8px 10px",
             background: patientDialogueMode === "hybrid" ? `${C.accent}12` : "transparent",
-            border: `1px solid ${patientDialogueMode === "hybrid" ? `${C.accent}44` : "rgba(0,230,200,0.1)"}`,
+            border: `1px solid ${patientDialogueMode === "hybrid" ? `${C.accent}44` : C.border}`,
             borderRadius: 8,
             cursor: "pointer",
           }}

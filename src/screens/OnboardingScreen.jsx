@@ -95,7 +95,7 @@ export default function OnboardingScreen({ onComplete }) {
 
         {step < STEPS.length - 1 ? (
           <>
-            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px rgba(0,230,200,0.3)`}}>
+            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:"#FFFFFF",cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px ${C.accent}40`}}>
               {t("onboarding.next")} →
             </button>
             <div onClick={skip} style={{textAlign:"center",fontSize:13,color:C.textDim,cursor:"pointer",padding:"10px",borderRadius:8,transition:"background 0.15s"}}>
@@ -104,7 +104,7 @@ export default function OnboardingScreen({ onComplete }) {
           </>
         ) : (
           <>
-            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px rgba(0,230,200,0.3)`}}>
+            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:"#FFFFFF",cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px ${C.accent}40`}}>
               {t("onboarding.startLearning")} →
             </button>
             <div onClick={skip} style={{textAlign:"center",fontSize:13,color:C.textDim,cursor:"pointer",padding:"10px",borderRadius:8,transition:"background 0.15s"}}>

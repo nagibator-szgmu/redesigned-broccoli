@@ -46,7 +46,7 @@ export default function ProtocolContent({ protocol, C }) {
           {protocol.keyPoints.map((point, i) => (
             <div key={i} style={{
               display: "flex", gap: 10, marginBottom: 6, padding: "8px 12px", borderRadius: 8,
-              background: "rgba(245,200,66,0.06)", border: "1px solid rgba(245,200,66,0.12)",
+              background: `${C.yellow}12`, border: `1px solid ${C.yellow}30`,
             }}>
               <span style={{ color: C.yellow, fontSize: 12, flexShrink: 0 }}>•</span>
               <span style={{ fontSize: 13, color: C.text, fontFamily: FONT, lineHeight: 1.5 }}>{point}</span>
@@ -67,7 +67,7 @@ export default function ProtocolContent({ protocol, C }) {
             {protocol.relatedCases.map(caseId => (
               <span key={caseId} style={{
                 fontSize: 12, padding: "5px 12px", borderRadius: 8,
-                background: "rgba(0,230,200,0.08)", border: "1px solid rgba(0,230,200,0.15)",
+                background: C.accentDim, border: `1px solid ${C.accent}33`,
                 color: C.accent, fontFamily: FONT,
               }}>
                 #{caseId}

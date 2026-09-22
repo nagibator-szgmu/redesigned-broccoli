@@ -18,7 +18,7 @@ export default function VitalsMetricCard({
 
   const statusColor = critical ? C.red : warn ? C.yellow : C.accent;
   const bg = critical ? `${C.red}18` : warn ? `${C.yellow}14` : `${C.accent}0a`;
-  const border = critical ? `${C.red}55` : warn ? `${C.yellow}44` : "rgba(0,230,200,0.12)";
+  const border = critical ? `${C.red}55` : warn ? `${C.yellow}44` : `${C.accent}25`;
 
   return (
     <div
@@ -43,7 +43,7 @@ export default function VitalsMetricCard({
           {label}
         </span>
         {trend !== 0 && (
-          <span style={{ fontSize: 8, color: trend > 0 ? (warn || critical ? statusColor : C.green) : C.blue, fontWeight: 700 }}>
+          <span style={{ fontSize: 8, color: trend > 0 ? (warn || critical ? statusColor : C.green) : C.accent, fontWeight: 700 }}>
             {trend > 0 ? "▲" : "▼"}
           </span>
         )}

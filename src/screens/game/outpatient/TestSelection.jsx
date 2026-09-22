@@ -1,8 +1,8 @@
 import React from "react";
-import { FONT } from "../../../ui/theme";
+import { FONT, getCategoryColor } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
-import { DIAGNOSTICS, CAT_COLOR } from "../../../data/diagnostics";
+import { DIAGNOSTICS } from "../../../data/diagnostics";
 
 /** Test ordering panel with full diagnostics catalog (FR-С.3) */
 export function TestSelection({ selDiag, setSelDiag, handleOrderTests }) {
@@ -22,7 +22,7 @@ export function TestSelection({ selDiag, setSelDiag, handleOrderTests }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 240, overflowY: "auto", marginTop: 8 }}>
         {DIAGNOSTICS.map(item => {
           const selected = selDiag.includes(item.id);
-          const color = CAT_COLOR[item.cat] || C.green;
+          const color = getCategoryColor(item.cat, C);
           return (
             <div
               key={item.id}

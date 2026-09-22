@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { buildMarkdownReport, copyTextToClipboard } from "./inspectorUtils";
 import { ElementInfoCard } from "./ElementInfoCard";
+import { FONT } from "../theme";
 
 export default function FeedbackModal({ elementData, onClose }) {
   const [comment, setComment] = useState("");
@@ -41,7 +42,7 @@ export default function FeedbackModal({ elementData, onClose }) {
         alignItems: "center",
         justifyContent: "center",
         padding: 16,
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: FONT,
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -51,18 +52,18 @@ export default function FeedbackModal({ elementData, onClose }) {
         style={{
           width: "100%",
           maxWidth: 480,
-          background: "#0d1a2e",
-          border: "1px solid #1a3a60",
+          background: "#161920",
+          border: "1px solid rgba(255, 255, 255, 0.12)",
           borderRadius: 14,
           padding: 20,
           boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
-          color: "#e8f4ff",
+          color: "#F1F5F9",
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 18 }}>🎯</span>
-            <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#00e6c8" }}>
+            <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#38BDF8" }}>
               Инспектор элемента UI
             </h3>
           </div>
@@ -71,7 +72,7 @@ export default function FeedbackModal({ elementData, onClose }) {
             style={{
               background: "transparent",
               border: "none",
-              color: "#8aa2be",
+              color: "#94A3B8",
               fontSize: 18,
               cursor: "pointer",
               padding: "4px 8px",
@@ -84,7 +85,7 @@ export default function FeedbackModal({ elementData, onClose }) {
         <ElementInfoCard componentInfo={componentInfo} domMeta={domMeta} />
 
         <div style={{ marginBottom: 16 }}>
-          <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#8aa2be", marginBottom: 6 }}>
+          <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#94A3B8", marginBottom: 6 }}>
             Что не так или что изменить? (необязательно)
           </label>
           <textarea
@@ -96,12 +97,12 @@ export default function FeedbackModal({ elementData, onClose }) {
             style={{
               width: "100%",
               boxSizing: "border-box",
-              background: "#08111d",
-              border: "1px solid #1a3a60",
+              background: "#0E1015",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
               borderRadius: 8,
               padding: 10,
               fontSize: 13,
-              color: "#e8f4ff",
+              color: "#F1F5F9",
               resize: "vertical",
               outline: "none",
               fontFamily: "inherit",
@@ -114,7 +115,7 @@ export default function FeedbackModal({ elementData, onClose }) {
             onClick={handleCopy}
             style={{
               flex: 1,
-              background: copied ? "#10b981" : "#2563eb",
+              background: copied ? "#10B981" : "#2563EB",
               border: "none",
               borderRadius: 8,
               padding: "10px 16px",
@@ -130,11 +131,11 @@ export default function FeedbackModal({ elementData, onClose }) {
           <button
             onClick={onClose}
             style={{
-              background: "#16283f",
-              border: "1px solid #233e60",
+              background: "#1D212A",
+              border: "1px solid rgba(255, 255, 255, 0.10)",
               borderRadius: 8,
               padding: "10px 16px",
-              color: "#94a3b8",
+              color: "#94A3B8",
               fontSize: 13,
               fontWeight: 600,
               cursor: "pointer",

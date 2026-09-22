@@ -25,7 +25,7 @@ function DrugCard({ drug, C }) {
   return (
     <div style={{
       marginBottom: 10, borderRadius: 12, background: C.panelBg,
-      border: `1px solid ${expanded ? "rgba(0,230,200,0.2)" : C.btnBorder}`,
+      border: `1px solid ${expanded ? `${C.accent}55` : C.btnBorder}`,
       overflow: "hidden", transition: "all 0.15s",
     }}>
       <div
@@ -85,7 +85,7 @@ function DrugCard({ drug, C }) {
             <div style={{
               fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 8,
               padding: "6px 10px", borderRadius: 6,
-              background: "rgba(0,230,200,0.04)", border: "1px solid rgba(0,230,200,0.08)",
+              background: C.accentDim, border: `1px solid ${C.accent}20`,
             }}>
               {drug.notes}
             </div>

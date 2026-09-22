@@ -63,7 +63,7 @@ export function SettingsDevSection({
                   style={{
                     width: "100%",
                     background: llmProvider === v ? `${C.accent}18` : "transparent",
-                    border: `1px solid ${llmProvider === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                    border: `1px solid ${llmProvider === v ? C.accent : C.border}`,
                     borderRadius: 8,
                     padding: "7px 4px",
                     fontSize: 11,
@@ -81,7 +81,7 @@ export function SettingsDevSection({
           <div
             style={{
               background: C.inputBg || "rgba(7,13,24,0.6)",
-              border: "1px solid rgba(0,230,200,0.15)",
+              border: `1px solid ${C.border}`,
               borderRadius: 8,
               padding: "5px 10px",
               display: "flex",

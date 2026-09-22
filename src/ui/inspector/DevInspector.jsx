@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { extractComponentInfo, getDomMeta } from "./inspectorUtils";
 import FeedbackModal from "./FeedbackModal";
+import { FONT } from "../theme";
 
 export default function DevInspector() {
   const [inspecting, setInspecting] = useState(false);
@@ -99,9 +100,9 @@ export default function DevInspector() {
             top: hoveredRect.top / zoom,
             width: hoveredRect.width / zoom,
             height: hoveredRect.height / zoom,
-            border: "2px solid #00e6c8",
-            background: "rgba(0, 230, 200, 0.08)",
-            boxShadow: "0 0 10px rgba(0, 230, 200, 0.4)",
+            border: "2px solid #2563EB",
+            background: "rgba(37, 99, 235, 0.12)",
+            boxShadow: "0 0 10px rgba(37, 99, 235, 0.4)",
             pointerEvents: "none",
             zIndex: 999999,
             borderRadius: 4,
@@ -113,14 +114,14 @@ export default function DevInspector() {
               position: "absolute",
               top: (hoveredRect.top / zoom) < 24 ? 2 : -22,
               left: 0,
-              background: "#0d1a2e",
-              border: "1px solid #00e6c8",
-              color: "#00e6c8",
+              background: "#161920",
+              border: "1px solid #2563EB",
+              color: "#38BDF8",
               fontSize: 11,
               fontWeight: 700,
               padding: "1px 6px",
               borderRadius: 4,
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: FONT,
               whiteSpace: "nowrap",
             }}
           >
@@ -128,7 +129,6 @@ export default function DevInspector() {
           </span>
         </div>
       )}
-
       <div
         data-inspector-ui
         style={{
@@ -136,7 +136,7 @@ export default function DevInspector() {
           bottom: 4,
           right: 8,
           zIndex: 999990,
-          fontFamily: "'Inter', sans-serif",
+          fontFamily: FONT,
         }}
       >
         <button
@@ -146,16 +146,16 @@ export default function DevInspector() {
             display: "flex",
             alignItems: "center",
             gap: 5,
-            background: inspecting ? "#00e6c8" : "rgba(13, 26, 46, 0.9)",
-            color: inspecting ? "#070d18" : "#e8f4ff",
-            border: inspecting ? "1px solid #00e6c8" : "1px solid rgba(0, 230, 200, 0.3)",
+            background: inspecting ? "#2563EB" : "rgba(22, 25, 32, 0.92)",
+            color: "#ffffff",
+            border: inspecting ? "1px solid #2563EB" : "1px solid rgba(255, 255, 255, 0.12)",
             borderRadius: 14,
             padding: "4px 10px",
             fontSize: 11,
             fontWeight: 700,
             cursor: "pointer",
             boxShadow: inspecting
-              ? "0 0 15px rgba(0, 230, 200, 0.5)"
+              ? "0 0 15px rgba(37, 99, 235, 0.45)"
               : "0 2px 8px rgba(0,0,0,0.4)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",

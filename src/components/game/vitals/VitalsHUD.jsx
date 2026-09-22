@@ -62,7 +62,7 @@ export default function VitalsHUD({
           onClick={() => setPhase && setPhase("menu")}
           aria-label="В меню"
           style={{
-            width: 32, height: 32, borderRadius: RADIUS.xs, background: "linear-gradient(135deg,rgba(0,230,200,0.2),rgba(0,150,200,0.1))",
+            width: 32, height: 32, borderRadius: RADIUS.xs, background: `linear-gradient(135deg, ${C.accent}33, ${C.accent}15)`,
             border: `1px solid ${C.accent}50`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0
           }}
         >

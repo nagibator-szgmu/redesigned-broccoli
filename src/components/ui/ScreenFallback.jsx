@@ -1,3 +1,5 @@
+import { FONT } from "../../ui/theme";
+
 export default function ScreenFallback() {
   return (
     <div
@@ -8,7 +10,7 @@ export default function ScreenFallback() {
         justifyContent: "center",
         background: "transparent",
         color: "#2563EB",
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: FONT,
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { FONT } from "../../ui/theme";
+import { HeaderBackBtn } from "../../ui/components";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import useIsMobile from "../../hooks/useIsMobile";
@@ -79,8 +80,8 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
   if (isMobile) return (
     <div style={{ height: "100vh", background: C.bgGrad, fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-      <header style={{ flexShrink: 0, padding: "0 14px", height: 48, display: "flex", alignItems: "center", gap: 10, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
-        <div onClick={() => setPhase("menu")} style={{ fontSize: 18, color: C.accent, cursor: "pointer", padding: "4px 8px" }}>←</div>
+      <header style={{ flexShrink: 0, padding: "0 14px", minHeight: 52, display: "flex", alignItems: "center", gap: 10, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
+        <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={true} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
           <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏥 {t("department.outpatient")} · {t("outpatient.appointment")}</div>
@@ -102,8 +103,8 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
     <div style={{ height: "100vh", background: C.bgGrad, fontFamily: FONT, display: "flex", overflow: "hidden" }}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <header style={{ flexShrink: 0, padding: "0 20px", height: 52, display: "flex", alignItems: "center", gap: 12, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
-          <div onClick={() => setPhase("menu")} style={{ fontSize: 18, color: C.accent, cursor: "pointer", padding: "4px 8px" }}>←</div>
+        <header style={{ flexShrink: 0, padding: "0 20px", height: 54, display: "flex", alignItems: "center", gap: 12, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
+          <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={false} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name} · {cd.age} {t("cases.ageSuffix")} · {cd.gender}</div>
             <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏥 {t("department.outpatient")} · {t("outpatient.appointment")}</div>

@@ -69,8 +69,8 @@ export default function CaseGrid({
                 cursor: "pointer",
                 padding: "5px 13px",
                 borderRadius: 8,
-                border: "1px solid rgba(0,230,200,0.25)",
-                background: "rgba(0,230,200,0.1)",
+                border: `1px solid ${C.accent}44`,
+                background: `${C.accent}14`,
               }}
             >
               {t("cases.clear")}
@@ -86,8 +86,8 @@ export default function CaseGrid({
                 cursor: "pointer",
                 padding: "5px 13px",
                 borderRadius: 8,
-                border: `1px solid ${showAllCases ? "rgba(0,230,200,0.35)" : "rgba(0,230,200,0.2)"}`,
-                background: showAllCases ? "rgba(0,230,200,0.15)" : "rgba(0,230,200,0.06)",
+                border: `1px solid ${showAllCases ? `${C.accent}55` : `${C.accent}30`}`,
+                background: showAllCases ? `${C.accent}25` : `${C.accent}10`,
                 fontWeight: showAllCases ? 600 : 400,
               }}
             >

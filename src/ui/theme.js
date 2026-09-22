@@ -60,6 +60,50 @@ export const LIGHT = {
   heroTagText:"#E0ECFF",
 };
 
-export const FONT = "'Geist','Outfit','Inter',-apple-system,'BlinkMacSystemFont','SF Pro Text',sans-serif";
+export const FONT = "'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
+export const FONT_BODY = FONT;
+export const FONT_HEADING = "'IBM Plex Serif',Georgia,'Times New Roman',serif";
+export const SER = "'IBM Plex Serif',Georgia,'Times New Roman',serif";
 export const CODE = "'JetBrains Mono','SF Mono','Menlo','Monaco','Courier New',monospace";
-export const SER = "'Murs Gothic','Outfit','Inter',-apple-system,sans-serif";
+
+/**
+ * Resolves semantic theme color for diagnostic, drug, and specialty categories.
+ * @param {string} cat - Category identifier
+ * @param {object} C - Theme tokens object
+ * @returns {string} Hex color token
+ */
+export function getCategoryColor(cat, C) {
+  if (!cat || !C) return C?.accent || "#2563EB";
+  switch (cat) {
+    case "cardiac":
+    case "antiplatelet":
+    case "anticoagulant":
+    case "intervention":
+    case "vasopressor":
+      return C.red;
+    case "lab":
+    case "diuretic":
+    case "renal":
+      return C.accent;
+    case "respiratory":
+    case "supportive":
+    case "antibiotic":
+    case "antidote":
+    case "antiviral":
+      return C.green;
+    case "vital":
+    case "steroid":
+    case "endocrine":
+      return C.yellow;
+    case "neuro":
+    case "analgesic":
+    case "anticonvulsant":
+      return C.orange;
+    case "imaging":
+    case "betablocker":
+    case "antiarrhythmic":
+      return C.purple;
+    default:
+      return C.accent;
+  }
+}

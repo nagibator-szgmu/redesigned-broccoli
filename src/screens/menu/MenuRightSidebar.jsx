@@ -1,4 +1,4 @@
-import { FONT } from "../../ui/theme";
+import { FONT, CODE } from "../../ui/theme";
 import { CASES } from "../../data/cases";
 import { IconTrophy } from "../../ui/icons";
 
@@ -72,7 +72,7 @@ export default function MenuRightSidebar({
                     <circle cx="36" cy="36" r={r} fill="none" stroke={color} strokeWidth="4.5" strokeDasharray={circ} strokeDashoffset={circ * (1 - pct)} strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.8s ease" }} />
                   </svg>
                   <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: C.white, fontFamily: "'SF Mono','Menlo',monospace", lineHeight: 1 }}>{value}</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: C.white, fontFamily: CODE, lineHeight: 1 }}>{value}</div>
                   </div>
                 </div>
                 <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 600, whiteSpace: "nowrap" }}>{label}</div>
@@ -85,7 +85,7 @@ export default function MenuRightSidebar({
             <IconTrophy size={22} color={C.accent} />
           </div>
           <div>
-            <div style={{ fontSize: 26, fontWeight: 700, color: C.accent, fontFamily: "'SF Mono','Menlo',monospace", lineHeight: 1 }}>{totalScore}</div>
+            <div style={{ fontSize: 26, fontWeight: 700, color: C.accent, fontFamily: CODE, lineHeight: 1 }}>{totalScore}</div>
             <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 3 }}>{t("progress.totalPoints")}</div>
           </div>
         </div>

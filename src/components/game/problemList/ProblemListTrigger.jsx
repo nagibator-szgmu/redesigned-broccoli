@@ -9,7 +9,7 @@ export default function ProblemListTrigger({ onStart, C }) {
         style={{
           width: "100%",
           padding: "10px 14px",
-          background: `linear-gradient(135deg, ${C.panelBg} 0%, rgba(0, 230, 200, 0.08) 100%)`,
+          background: `linear-gradient(135deg, ${C.panelBg} 0%, ${C.accentDim} 100%)`,
           border: `1px solid ${C.accent}44`,
           borderRadius: 12,
           color: C.white,
@@ -25,7 +25,7 @@ export default function ProblemListTrigger({ onStart, C }) {
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = C.accent;
           e.currentTarget.style.transform = "translateY(-1px)";
-          e.currentTarget.style.boxShadow = "0 6px 18px rgba(0,230,200,0.2)";
+          e.currentTarget.style.boxShadow = `0 6px 18px ${C.accent}40`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.borderColor = `${C.accent}44`;

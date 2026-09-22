@@ -8,7 +8,8 @@ import { CASES } from "../data/cases";
 import { IS_DEV_MODE } from "../config";
 import { getVisibleCases } from "../hooks/useReviewRegistry";
 import useIsMobile from "../hooks/useIsMobile";
-import { makeCatMeta, makeNavSpec, DEPT_FILTERS, buildNotifications } from "./menu/menuUtils";
+import { makeCatMeta, makeNavSpec, DEPT_FILTERS } from "./menu/menuUtils";
+import { useNotifications } from "../hooks/useNotifications";
 import MenuHeader from "./menu/MenuHeader";
 import CaseExplorerBar from "./menu/CaseExplorerBar";
 import CaseGrid from "./menu/CaseGrid";
@@ -43,16 +44,19 @@ export default function MenuScreen(props) {
   const [showTutorialMenu, setShowTutorialMenu] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const tutorialMenuRef = useRef(null);
-  const [readNotifIds, setReadNotifIds] = useState(() => {
-    try { return new Set(JSON.parse(localStorage.getItem("ms_readNotifs") || "[]")); } catch { return new Set(); }
-  });
-  const [llmProvider, setLlmProvider] = useState(() => localStorage.getItem("ms_llmProvider") || "openrouter");
-  const [llmKey, setLlmKey] = useState(() => localStorage.getItem("ms_llmKey") || "");
-  const [showDevSettings, setShowDevSettings] = useState(false);
 
   const catMeta = useMemo(() => makeCatMeta(t), [t]);
   const navSpec = useMemo(() => makeNavSpec(t), [t]);
   const deptFilters = useMemo(() => DEPT_FILTERS(t), [t]);
+
+  const {
+    notifications, unreadCount, readNotifIds, setReadNotifIds,
+    pinnedNotifIds, togglePinNotif, deleteNotif, markAllRead,
+  } = useNotifications(sessionHistory, casesPlayed, totalScore, t, catMeta);
+
+  const [llmProvider, setLlmProvider] = useState(() => localStorage.getItem("ms_llmProvider") || "openrouter");
+  const [llmKey, setLlmKey] = useState(() => localStorage.getItem("ms_llmKey") || "");
+  const [showDevSettings, setShowDevSettings] = useState(false);
 
   useEffect(() => {
     if (!showTutorialMenu) return;
@@ -63,9 +67,6 @@ export default function MenuScreen(props) {
     return () => document.removeEventListener("mousedown", handler);
   }, [showTutorialMenu]);
 
-  const notifications = buildNotifications(sessionHistory, casesPlayed, totalScore, t, catMeta);
-  const unreadCount = notifications.filter((n) => !readNotifIds.has(n.id)).length;
-
   const caseScores = {};
   sessionHistory.forEach((s) => {
     if (!caseScores[s.caseId] || s.score > caseScores[s.caseId]) caseScores[s.caseId] = s.score;
@@ -74,11 +75,7 @@ export default function MenuScreen(props) {
   const openNotif = () => {
     if (setShowNotif) setShowNotif((v) => !v);
     if (setShowSettings) setShowSettings(false);
-    setReadNotifIds((prev) => {
-      const next = new Set([...prev, ...notifications.map((n) => n.id)]);
-      localStorage.setItem("ms_readNotifs", JSON.stringify([...next]));
-      return next;
-    });
+    markAllRead();
   };
 
   const onHeroMove = (e) => {
@@ -98,7 +95,8 @@ export default function MenuScreen(props) {
 
   const sharedProps = {
     ...props, C, logout, locale, setLocaleGlobal, LOCALES, t, catMeta, navSpec, deptFilters,
-    readNotifIds, setReadNotifIds, llmProvider, setLlmProvider, llmKey, setLlmKey,
+    readNotifIds, setReadNotifIds, pinnedNotifIds, togglePinNotif, deleteNotif,
+    llmProvider, setLlmProvider, llmKey, setLlmKey,
     showDevSettings, setShowDevSettings, heroMouse, setHeroMouse, searchFocused, setSearchFocused,
     theorySearchFocused, setTheorySearchFocused, showTutorialMenu, setShowTutorialMenu,
     showAccount, setShowAccount,

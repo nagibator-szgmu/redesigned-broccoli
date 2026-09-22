@@ -10,10 +10,10 @@ const scoreHR = (v) => (v >= 50 && v <= 99 ? 0 : (v >= 100 && v <= 119) || (v >=
 const scoreRR = (v) => (v >= 12 && v <= 20 ? 0 : (v >= 21 && v <= 24) || (v >= 10 && v <= 11) ? 1 : (v >= 25 && v <= 30) || v < 10 ? 2 : 3);
 
 const SEV_LEVELS = [
-  { max: 4, label: "mild", color: "#66bb6a" },
-  { max: 9, label: "moderate", color: "#ffa726" },
-  { max: 14, label: "severe", color: "#ef5350" },
-  { max: Infinity, label: "critical", color: "#e53935" },
+  { max: 4, label: "mild", color: "#10B981" },
+  { max: 9, label: "moderate", color: "#F59E0B" },
+  { max: 14, label: "severe", color: "#F97316" },
+  { max: Infinity, label: "critical", color: "#F43F5E" },
 ];
 
 /**
@@ -22,7 +22,7 @@ const SEV_LEVELS = [
  * @returns {{total:number, label:string, color:string, subs:{spo2:number,sbp:number,gcs:number,hr:number,rr:number}}}
  */
 export function computeSeverity(ps) {
-  if (!ps) return { total: 0, label: "mild", color: "#66bb6a", subs: {} };
+  if (!ps) return { total: 0, label: "mild", color: "#10B981", subs: {} };
   const subs = {
     spo2: scoreSpO2(ps.spo2),
     sbp: scoreSBP(ps.sbp),

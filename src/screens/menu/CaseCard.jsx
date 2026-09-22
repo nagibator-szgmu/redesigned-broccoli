@@ -57,9 +57,9 @@ export default function CaseCard({ caseData: c, catMeta, caseScores, startGame, 
             {c.department && (
               <span style={{
                 fontSize: 10,
-                color: c.department === "admission" ? (C.purple || "#a855f7") : c.department === "outpatient" ? C.accent : c.department === "stationary" ? (C.blue || "#38bdf8") : C.red,
-                background: `${c.department === "admission" ? (C.purple || "#a855f7") : c.department === "outpatient" ? C.accent : c.department === "stationary" ? (C.blue || "#38bdf8") : C.red}18`,
-                border: `1px solid ${c.department === "admission" ? (C.purple || "#a855f7") : c.department === "outpatient" ? C.accent : c.department === "stationary" ? (C.blue || "#38bdf8") : C.red}35`,
+                color: c.department === "admission" ? C.purple : c.department === "outpatient" ? C.accent : c.department === "stationary" ? C.yellow : C.red,
+                background: `${c.department === "admission" ? C.purple : c.department === "outpatient" ? C.accent : c.department === "stationary" ? C.yellow : C.red}18`,
+                border: `1px solid ${c.department === "admission" ? C.purple : c.department === "outpatient" ? C.accent : c.department === "stationary" ? C.yellow : C.red}35`,
                 borderRadius: 5,
                 padding: "1px 6px",
                 fontFamily: FONT,
@@ -76,7 +76,7 @@ export default function CaseCard({ caseData: c, catMeta, caseScores, startGame, 
               </div>
             </Tooltip>
           </div>
-          <div style={{ fontSize: 14, fontWeight: 600, color: C.white, fontFamily: FONT, marginBottom: 5, lineHeight: 1.3 }}>
+          <div style={{ fontSize: 14.5, fontWeight: 700, color: C.white, fontFamily: FONT, marginBottom: 5 }}>
             {c.name}, {c.age} {t("cases.ageSuffix") || "л"}
           </div>
           <div
@@ -96,7 +96,7 @@ export default function CaseCard({ caseData: c, catMeta, caseScores, startGame, 
           </div>
         </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid rgba(0,230,200,0.06)" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 12, borderTop: `1px solid ${C.border}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Tooltip title="ЛИМИТ ВРЕМЕНИ" refRange={`Время: ${c.timeLimit} мин.`} text="Максимальное отведённое время на оказание экстренной помощи до фатального коллапса." position="top">
             <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, color: C.textDim, fontFamily: FONT, cursor: "help" }}>
@@ -130,11 +130,11 @@ export default function CaseCard({ caseData: c, catMeta, caseScores, startGame, 
               padding: "8px 20px",
               fontSize: 13,
               fontWeight: 700,
-              color: C.bg,
+              color: "#FFFFFF",
               cursor: "pointer",
               fontFamily: FONT,
               transition: "all 0.2s",
-              boxShadow: `0 3px 12px rgba(0,230,200,0.25)`,
+              boxShadow: `0 3px 12px ${C.accentDim}`,
             }}
           >
             {t("cases.start")}

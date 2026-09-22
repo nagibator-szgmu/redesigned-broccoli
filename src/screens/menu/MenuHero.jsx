@@ -15,7 +15,7 @@ export default function MenuHero({ onHeroMove, onHeroLeave, heroMouse, startGame
         marginBottom: 28,
         animation: "fadeUp 0.5s ease",
         background: "linear-gradient(135deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.09) 45%, rgba(255,255,255,0.20) 100%)",
-        boxShadow: "0 0 16px rgba(0, 230, 200, 0.06)",
+        boxShadow: `0 0 16px ${C.accentDim}`,
       }}
     >
       {/* Glowing border — illuminates frame and corners, follows cursor */}

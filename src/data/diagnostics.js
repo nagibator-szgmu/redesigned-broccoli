@@ -76,9 +76,9 @@ export const MISSED_TEST_REASONS = {
 };
 
 export const CAT_COLOR = {
-  cardiac: "#ff3d5a", lab: "#00e6c8", imaging: "#9d6ff5", respiratory: "#00e5a0", vital: "#f5c842", neuro: "#f57c42",
-  antiplatelet: "#ff3d5a", anticoagulant: "#ff3d5a", intervention: "#ff3d5a", supportive: "#00e5a0", analgesic: "#f57c42",
-  betablocker: "#9d6ff5", diuretic: "#00e6c8", antibiotic: "#00e5a0", steroid: "#f5c842", endocrine: "#f5c842",
-  antidote: "#00e5a0", vasopressor: "#ff3d5a", anticonvulsant: "#f57c42", antiarrhythmic: "#9d6ff5",
-  antiviral: "#00e5a0", renal: "#00e6c8",
+  cardiac: "#F43F5E", lab: "#2563EB", imaging: "#8B5CF6", respiratory: "#10B981", vital: "#F59E0B", neuro: "#F97316",
+  antiplatelet: "#F43F5E", anticoagulant: "#F43F5E", intervention: "#F43F5E", supportive: "#10B981", analgesic: "#F97316",
+  betablocker: "#8B5CF6", diuretic: "#2563EB", antibiotic: "#10B981", steroid: "#F59E0B", endocrine: "#F59E0B",
+  antidote: "#10B981", vasopressor: "#F43F5E", anticonvulsant: "#F97316", antiarrhythmic: "#8B5CF6",
+  antiviral: "#10B981", renal: "#2563EB",
 };

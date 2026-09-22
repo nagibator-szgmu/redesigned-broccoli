@@ -53,8 +53,8 @@ export default function TheoryModal({ relatedTopics, showTheory, setShowTheory, 
   if (isMobile) {
     return createPortal(<>
       <div style={{ position: "fixed", inset: 0, zIndex: 99998, background: "rgba(0,0,0,0.6)" }} onClick={close} />
-      <div style={{ position: "fixed", top: 60, right: 12, left: 12, bottom: 60, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: "1px solid rgba(0,230,200,0.2)", borderRadius: 16, boxShadow: "0 16px 48px rgba(0,0,0,0.8)", fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderBottom: "1px solid rgba(0,230,200,0.08)", flexShrink: 0 }}>
+      <div style={{ position: "fixed", top: 60, right: 12, left: 12, bottom: 60, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: `1px solid ${C.accent}40`, borderRadius: 16, boxShadow: "0 16px 48px rgba(0,0,0,0.8)", fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: C.white }}>📚 Теория</span>
           <span onClick={close} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "4px 10px", borderRadius: 6, background: C.dimBg }}>✕</span>
         </div>
@@ -65,8 +65,8 @@ export default function TheoryModal({ relatedTopics, showTheory, setShowTheory, 
               <div key={topic.id} onClick={() => hasTheory && setActiveTheoryTopic(topic.id)} style={{
                 display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", marginBottom: 6,
                 borderRadius: 10, cursor: hasTheory ? "pointer" : "default",
-                background: hasTheory ? "rgba(0,230,200,0.06)" : "transparent",
-                border: `1px solid ${hasTheory ? "rgba(0,230,200,0.12)" : C.border}`,
+                background: hasTheory ? C.accentDim : "transparent",
+                border: `1px solid ${hasTheory ? `${C.accent}33` : C.border}`,
               }}>
                 <span style={{ fontSize: 14 }}>{topic.categoryIcon}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -90,8 +90,8 @@ export default function TheoryModal({ relatedTopics, showTheory, setShowTheory, 
 
   return createPortal(<>
     <div style={{ position: "fixed", inset: 0, zIndex: 99998, background: "rgba(0,0,0,0.5)" }} onClick={close} />
-    <div style={{ position: "fixed", top: "10%", left: "15%", right: "15%", bottom: "10%", zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: "1px solid rgba(0,230,200,0.2)", borderRadius: 18, boxShadow: "0 20px 60px rgba(0,0,0,0.8)", fontFamily: FONT, display: "flex", overflow: "hidden" }}>
-      <div style={{ width: 260, flexShrink: 0, borderRight: "1px solid rgba(0,230,200,0.08)", overflowY: "auto", padding: "16px 12px" }}>
+    <div style={{ position: "fixed", top: "10%", left: "15%", right: "15%", bottom: "10%", zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: `1px solid ${C.accent}40`, borderRadius: 18, boxShadow: "0 20px 60px rgba(0,0,0,0.8)", fontFamily: FONT, display: "flex", overflow: "hidden" }}>
+      <div style={{ width: 260, flexShrink: 0, borderRight: `1px solid ${C.border}`, overflowY: "auto", padding: "16px 12px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: C.white }}>📚 Теория</span>
           <span onClick={close} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "3px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
@@ -103,8 +103,8 @@ export default function TheoryModal({ relatedTopics, showTheory, setShowTheory, 
             <div key={topic.id} onClick={() => hasTheory && setActiveTheoryTopic(topic.id)} style={{
               display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", marginBottom: 3,
               borderRadius: 8, cursor: hasTheory ? "pointer" : "default",
-              background: isActive ? "rgba(0,230,200,0.1)" : "transparent",
-              border: `1px solid ${isActive ? "rgba(0,230,200,0.2)" : "transparent"}`,
+              background: isActive ? C.accentDim : "transparent",
+              border: `1px solid ${isActive ? `${C.accent}33` : "transparent"}`,
             }}>
               <span style={{ fontSize: 12 }}>{topic.categoryIcon}</span>
               <span style={{ fontSize: 12, color: isActive ? C.accent : C.text, fontWeight: isActive ? 600 : 400, flex: 1 }}>{topic.name}</span>

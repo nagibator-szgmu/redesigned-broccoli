@@ -28,7 +28,7 @@ export default function MenuSettingsModal({
   return createPortal(
     <>
       <div style={{ position: "fixed", inset: 0, zIndex: 99998 }} onClick={() => setShowSettings(false)} />
-      <div style={{ position: "fixed", ...positionStyle, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: "1px solid rgba(0,230,200,0.2)", borderRadius: 16, padding: "16px", boxShadow: "0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,230,200,0.05)", fontFamily: FONT }}>
+      <div style={{ position: "fixed", ...positionStyle, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: `1px solid ${C.borderBright}`, borderRadius: 16, padding: "16px", boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 16px ${C.accentDim}`, fontFamily: FONT }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{t("settings.title")}</span>
           <span onClick={() => setShowSettings(false)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
@@ -106,7 +106,7 @@ export default function MenuSettingsModal({
           </div>
         )}
 
-        <div style={{ paddingTop: 12, borderTop: "1px solid rgba(0,230,200,0.06)", fontSize: 11, color: C.textDim, textAlign: "center", opacity: 0.7 }}>
+        <div style={{ paddingTop: 12, borderTop: `1px solid ${C.border}`, fontSize: 11, color: C.textDim, textAlign: "center", opacity: 0.7 }}>
           {t("settings.moreComing")}
         </div>
       </div>

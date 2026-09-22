@@ -39,8 +39,8 @@ export default function TheoryCurriculumBox({ topicId, onQuiz, progress, startGa
                   style={{
                     flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                     padding: "10px 16px", borderRadius: 10,
-                    background: "linear-gradient(135deg,rgba(0,230,200,0.15),rgba(0,229,160,0.1))",
-                    border: "1px solid rgba(0,230,200,0.25)", color: C.accent, fontSize: 13,
+                    background: `linear-gradient(135deg, ${C.accentDim}, ${C.greenDim})`,
+                    border: `1px solid ${C.accent}40`, color: C.accent, fontSize: 13,
                     fontWeight: 600, fontFamily: FONT, cursor: "pointer", transition: "all 0.15s"
                   }}>
                   <span style={{ fontSize: 16 }}>▶</span>
@@ -72,8 +72,8 @@ export default function TheoryCurriculumBox({ topicId, onQuiz, progress, startGa
           <button onClick={onQuiz}
             style={{
               display: "flex", alignItems: "center", gap: 10, padding: "12px 20px", borderRadius: 12,
-              background: "linear-gradient(135deg, rgba(0,230,200,0.12), rgba(0,229,160,0.08))",
-              border: "1px solid rgba(0,230,200,0.2)", color: C.accent, fontSize: 14,
+              background: `linear-gradient(135deg, ${C.accentDim}, ${C.greenDim})`,
+              border: `1px solid ${C.accent}33`, color: C.accent, fontSize: 14,
               fontWeight: 600, fontFamily: FONT, cursor: "pointer", transition: "all 0.15s"
             }}>
             <span style={{ fontSize: 18 }}>📝</span>

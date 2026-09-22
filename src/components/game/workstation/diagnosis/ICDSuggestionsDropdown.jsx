@@ -22,10 +22,10 @@ export default function ICDSuggestionsDropdown({
         left: 0,
         right: 0,
         marginTop: 6,
-        background: "#0d131f",
+        background: C.panelBg2,
         border: `1px solid ${C.accent}`,
         borderRadius: 10,
-        boxShadow: "0 12px 36px rgba(0,0,0,0.9), 0 0 15px rgba(0,230,200,0.15)",
+        boxShadow: `0 12px 36px rgba(0,0,0,0.35), 0 0 15px ${C.accent}25`,
         zIndex: 100,
         overflow: "hidden",
         maxHeight: 250,
@@ -86,7 +86,7 @@ export default function ICDSuggestionsDropdown({
               <span
                 style={{
                   fontSize: 12,
-                  color: isSelected ? C.accent : C.white,
+                  color: isSelected ? C.accent : C.text,
                   fontFamily: FONT,
                   fontWeight: 500,
                   lineHeight: 1.3,

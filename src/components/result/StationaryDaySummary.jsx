@@ -2,8 +2,7 @@ import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
-
-const DAY_COLORS = ["#e8e8e8", "#4fc3f7", "#81c784", "#ffcc02", "#ffb74d", "#ef5350", "#ce93d8", "#4dd0e1"];
+import { DAY_COLORS } from "../../screens/game/stationary/constants";
 
 export default function StationaryDaySummary({ cd, extraResult, isMobile }) {
   const C = useTheme();

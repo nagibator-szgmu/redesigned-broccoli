@@ -43,7 +43,7 @@ export default function DepartmentTutorial({ dept, onClose }) {
         zIndex: 2147483647, maxWidth: 460, width: "90%", maxHeight: "90vh", overflowY: "auto",
         background: C.overlayBg, border: `1px solid ${C.accent}66`,
         borderRadius: RADIUS.md, padding: "20px 22px",
-        boxShadow: "0 24px 72px rgba(0,0,0,0.9), 0 0 0 1px rgba(0,230,200,0.15)",
+        boxShadow: `0 24px 72px rgba(0,0,0,0.9), 0 0 0 1px ${C.accent}33`,
         fontFamily: FONT, WebkitOverflowScrolling: "touch"
       }}>
         <div style={{ fontSize: 13, color: C.accent, fontWeight: 700, marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>

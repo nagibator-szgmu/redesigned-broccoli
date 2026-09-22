@@ -87,7 +87,7 @@ export default function DiagnosisSearchSection({ diagText, setDiagText, t }) {
             width: "100%",
             minHeight: 75,
             background: C.headerBg2,
-            border: `1px solid ${diagText ? `${C.purple}55` : "rgba(0,230,200,0.1)"}`,
+            border: `1px solid ${diagText ? `${C.purple}55` : C.border}`,
             borderRadius: 10,
             padding: "10px 12px",
             color: C.white,

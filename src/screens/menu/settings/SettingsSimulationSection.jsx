@@ -89,7 +89,7 @@ export function SettingsSimulationSection({
                 style={{
                   width: "100%",
                   background: difficulty === v ? `${C.accent}18` : "transparent",
-                  border: `1px solid ${difficulty === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                  border: `1px solid ${difficulty === v ? C.accent : C.border}`,
                   borderRadius: 8,
                   padding: "7px 4px",
                   fontSize: 11,
@@ -117,7 +117,7 @@ export function SettingsSimulationSection({
                 style={{
                   width: "100%",
                   background: gameMode === v ? `${C.accent}18` : "transparent",
-                  border: `1px solid ${gameMode === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                  border: `1px solid ${gameMode === v ? C.accent : C.border}`,
                   borderRadius: 8,
                   padding: "7px 4px",
                   textAlign: "center",

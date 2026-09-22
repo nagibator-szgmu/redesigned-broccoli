@@ -8,11 +8,11 @@ import {
 } from "../../ui/icons";
 
 export const AVATARS = [
-  { id: "student", label: "Студент-интерн", role: "Лечебное дело", icon: IconGraduationCap, color: "#00e6c8", bg: "linear-gradient(135deg, rgba(0,230,200,0.25), rgba(0,180,216,0.15))", desc: "Начальный уровень клинициста. Обучение первичным алгоритмам диагностики и терапии." },
-  { id: "therapist", label: "Врач-терапевт", role: "Поликлиника", icon: IconStethoscope, color: "#00e5a0", bg: "linear-gradient(135deg, rgba(0,229,160,0.25), rgba(0,200,140,0.15))", desc: "Уверенная терапевтическая практика, дифф. диагностика внутренних болезней." },
-  { id: "cardiologist", label: "Кардиолог", role: "ОРИТ / Кардио", icon: IconCardiac, color: "#ff3d5a", bg: "linear-gradient(135deg, rgba(255,61,90,0.25), rgba(245,124,66,0.15))", desc: "Эксперт по острому коронарному синдрому, аритмиям и кардиогенному шоку." },
-  { id: "intensivist", label: "Врач-реаниматолог", role: "ОРИТ / Неотложная помощь", icon: IconAmbulance, color: "#f57c42", bg: "linear-gradient(135deg, rgba(245,124,66,0.25), rgba(245,200,66,0.15))", desc: "Специалист по критическим состояниям, шокам, токсикологии и интенсивной терапии." },
-  { id: "professor", label: "Профессор медицины", role: "Кафедра / Эксперт", icon: IconNeuro, color: "#9d6ff5", bg: "linear-gradient(135deg, rgba(157,111,245,0.25), rgba(0,230,200,0.15))", desc: "Высший квалификационный статус. Консилиумное мышление и разбор редких патологий." },
+  { id: "student", label: "Студент-интерн", role: "Лечебное дело", icon: IconGraduationCap, color: "#2563EB", bg: "linear-gradient(135deg, rgba(37,99,235,0.25), rgba(56,189,248,0.15))", desc: "Начальный уровень клинициста. Обучение первичным алгоритмам диагностики и терапии." },
+  { id: "therapist", label: "Врач-терапевт", role: "Поликлиника", icon: IconStethoscope, color: "#10B981", bg: "linear-gradient(135deg, rgba(16,185,129,0.25), rgba(5,150,105,0.15))", desc: "Уверенная терапевтическая практика, дифф. диагностика внутренних болезней." },
+  { id: "cardiologist", label: "Кардиолог", role: "ОРИТ / Кардио", icon: IconCardiac, color: "#F43F5E", bg: "linear-gradient(135deg, rgba(244,63,94,0.25), rgba(249,115,22,0.15))", desc: "Эксперт по острому коронарному синдрому, аритмиям и кардиогенному шоку." },
+  { id: "intensivist", label: "Врач-реаниматолог", role: "ОРИТ / Неотложная помощь", icon: IconAmbulance, color: "#F97316", bg: "linear-gradient(135deg, rgba(249,115,22,0.25), rgba(245,158,11,0.15))", desc: "Специалист по критическим состояниям, шокам, токсикологии и интенсивной терапии." },
+  { id: "professor", label: "Профессор медицины", role: "Кафедра / Эксперт", icon: IconNeuro, color: "#8B5CF6", bg: "linear-gradient(135deg, rgba(139,92,246,0.25), rgba(37,99,235,0.15))", desc: "Высший квалификационный статус. Консилиумное мышление и разбор редких патологий." },
 ];
 
 export function getUserAvatar() {
@@ -47,7 +47,7 @@ export default function AccountModal({ showAccount, setShowAccount, C, isMobile 
         position: "fixed", ...positionStyle, zIndex: 99999,
         background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
         border: `1px solid ${C.accent}33`, borderRadius: 18, padding: "20px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(0,230,200,0.1)", fontFamily: FONT
+        boxShadow: `0 20px 60px rgba(0,0,0,0.85), 0 0 0 1px ${C.border}`, fontFamily: FONT
       }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: C.white }}>Профиль и Аккаунт</span>

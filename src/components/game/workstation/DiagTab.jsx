@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
-import { FONT } from "../../../ui/theme";
-import { CAT_COLOR, DIAGNOSTICS } from "../../../data/diagnostics";
+import { FONT, getCategoryColor } from "../../../ui/theme";
+import { DIAGNOSTICS } from "../../../data/diagnostics";
 import { STitle, Btn, CheckRow } from "../../../ui/components";
 import DiagFilterBar from "../DiagFilterBar";
 
@@ -53,7 +53,7 @@ export default function DiagTab({
             item={item}
             selected={selDiag.includes(item.id)}
             onToggle={toggleDiag}
-            color={CAT_COLOR[item.cat] || C.accent}
+            color={getCategoryColor(item.cat, C)}
             disabled={processingTests || orderedDiag.includes(item.id)}
           />
         ))}

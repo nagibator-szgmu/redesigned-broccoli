@@ -16,6 +16,7 @@ export default function TeacherHeader({ onBack, isMobile, C }) {
     >
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <HeaderBackBtn onClick={onBack} />
+        <div style={{ width: 1, height: 18, background: C.border }} />
         <div>
           <div
             style={{

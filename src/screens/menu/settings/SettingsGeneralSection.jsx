@@ -58,7 +58,7 @@ export function SettingsGeneralSection({
                 style={{
                   width: "100%",
                   background: audioEnabled === v ? `${C.accent}18` : "transparent",
-                  border: `1px solid ${audioEnabled === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                  border: `1px solid ${audioEnabled === v ? C.accent : C.border}`,
                   borderRadius: 8,
                   padding: "7px 4px",
                   fontSize: 11,
@@ -86,7 +86,7 @@ export function SettingsGeneralSection({
                 style={{
                   width: "100%",
                   background: hideWarnings === v ? `${C.accent}18` : "transparent",
-                  border: `1px solid ${hideWarnings === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                  border: `1px solid ${hideWarnings === v ? C.accent : C.border}`,
                   borderRadius: 8,
                   padding: "7px 4px",
                   fontSize: 11,
@@ -117,7 +117,7 @@ export function SettingsGeneralSection({
               style={{
                 flex: 1,
                 background: theme === v ? `${C.accent}18` : "transparent",
-                border: `1px solid ${theme === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                border: `1px solid ${theme === v ? C.accent : C.border}`,
                 borderRadius: 8,
                 padding: "7px 4px",
                 fontSize: 11,
@@ -144,7 +144,7 @@ export function SettingsGeneralSection({
               style={{
                 flex: 1,
                 background: locale === v ? `${C.accent}18` : "transparent",
-                border: `1px solid ${locale === v ? C.accent : "rgba(0,230,200,0.1)"}`,
+                border: `1px solid ${locale === v ? C.accent : C.border}`,
                 borderRadius: 8,
                 padding: "7px 4px",
                 fontSize: 11,

@@ -1,8 +1,8 @@
 import React from "react";
-import { FONT } from "../../../ui/theme";
+import { FONT, getCategoryColor } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
-import { DIAGNOSTICS, CAT_COLOR } from "../../../data/diagnostics";
+import { DIAGNOSTICS } from "../../../data/diagnostics";
 import { DAY_COLORS } from "./constants";
 
 /** Test ordering panel in stationary game */
@@ -24,7 +24,7 @@ export default function TestSelection({ selDiag, setSelDiag, handleOrderTests, c
       <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 240, overflowY: "auto", marginTop: 8 }}>
         {DIAGNOSTICS.map((item) => {
           const selected = selDiag.includes(item.id);
-          const color = CAT_COLOR[item.cat] || dayColor;
+          const color = getCategoryColor(item.cat, C);
           return (
             <div
               key={item.id}

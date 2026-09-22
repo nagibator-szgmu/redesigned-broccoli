@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { ThemeCtx } from "./ui/ThemeContext";
-import { DARK, LIGHT } from "./ui/theme";
+import { DARK, LIGHT, FONT } from "./ui/theme";
 import useSettings from "./hooks/useSettings";
 import useGameSession from "./hooks/useGameSession";
 import useProgress from "./hooks/useProgress";
@@ -72,7 +72,7 @@ export default function MedSimApp() {
               right: 0,
               zIndex: 99999,
               paddingTop: "env(safe-area-inset-top)",
-              background: "linear-gradient(90deg,#ff3d5a,#f57c42)",
+              background: "linear-gradient(90deg, #F43F5E, #F97316)",
               textAlign: "center",
               paddingBottom: 4,
               paddingLeft: 0,
@@ -80,7 +80,7 @@ export default function MedSimApp() {
               fontSize: 11,
               fontWeight: 700,
               color: "#fff",
-              fontFamily: "'Inter',sans-serif",
+              fontFamily: FONT,
               letterSpacing: 1,
             }}
           >

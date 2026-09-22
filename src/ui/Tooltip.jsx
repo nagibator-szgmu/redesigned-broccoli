@@ -13,15 +13,15 @@ function TooltipDetails({ details, coords, C, onLeave, timerRef }) {
       onMouseLeave={onLeave}
       style={{
         position: "fixed", top: coords.top, left: coords.left, zIndex: 9999999,
-        background: "#08101e", border: `1.5px solid ${C.yellow || "#f59e0b"}`,
-        color: "#ffffff", padding: "12px 14px", borderRadius: 12, fontSize: 11.5,
+        background: C.panelBg2, border: `1.5px solid ${C.yellow}`,
+        color: C.text, padding: "12px 14px", borderRadius: 12, fontSize: 11.5,
         lineHeight: 1.5, width: 290, maxWidth: "calc(100vw - 24px)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.98), 0 0 24px rgba(245,158,11,0.3)",
+        boxShadow: `0 20px 60px rgba(0,0,0,0.7), 0 0 24px ${C.yellowDim}`,
         animation: "fadeIn 0.15s ease", fontFamily: FONT,
       }}
     >
       <div style={{
-        fontSize: 11, fontWeight: 800, color: C.yellow || "#f59e0b",
+        fontSize: 11, fontWeight: 800, color: C.yellow,
         textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8,
         paddingBottom: 4, borderBottom: "1px solid rgba(245,158,11,0.3)"
       }}>
@@ -141,19 +141,19 @@ export default function Tooltip({
           style={{
             position: "fixed", top: coords.top, left: coords.left,
             transform: coords.placement === "top" ? "translate(-50%, -100%)" : "translate(-50%, 0)",
-            zIndex: 999999, background: "#0c182b", border: `1.5px solid ${C.accent || "#00e6c8"}`,
-            color: "#ffffff", padding: "10px 14px", borderRadius: 12, fontSize: 12, lineHeight: 1.45,
+            zIndex: 999999, background: C.panelBg2, border: `1.5px solid ${C.accent}`,
+            color: C.text, padding: "10px 14px", borderRadius: 12, fontSize: 12, lineHeight: 1.45,
             width: "max-content", maxWidth: "calc(100vw - 24px)", fontFamily: FONT, textAlign: "left",
-            boxShadow: "0 16px 48px rgba(0,0,0,0.95), 0 0 20px rgba(0,230,200,0.25)",
+            boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 20px ${C.accentDim}`,
           }}
         >
           {title && <div style={{ fontSize: 11, fontWeight: 800, color: C.accent, textTransform: "uppercase", marginBottom: 6 }}>{title}</div>}
           {(formula || refRange) && (
-            <div style={{ fontSize: 11, fontWeight: 600, color: C.yellow, background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.3)", padding: "4px 8px", borderRadius: 6, marginBottom: text ? 6 : 0, fontFamily: CODE }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: C.yellow, background: `${C.yellow}18`, border: `1px solid ${C.yellow}44`, padding: "4px 8px", borderRadius: 6, marginBottom: text ? 6 : 0, fontFamily: CODE }}>
               {formula || refRange}
             </div>
           )}
-          {text && <div style={{ fontSize: 11.5, color: "#e2e8f0" }}>{text}</div>}
+          {text && <div style={{ fontSize: 11.5, color: C.textDim }}>{text}</div>}
           {hasDetails && (
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
               <button

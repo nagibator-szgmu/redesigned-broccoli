@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FONT } from "./theme";
+import { FONT, getCategoryColor } from "./theme";
 import { useTheme } from "./ThemeContext";
-import { DIAGNOSTICS, DIAGNOSTIC_REFS, CAT_COLOR } from "../data/diagnostics";
+import { DIAGNOSTICS, DIAGNOSTIC_REFS } from "../data/diagnostics";
 import DicomViewer from "../components/game/DicomViewer";
 import Tooltip from "./Tooltip";
 
@@ -10,7 +10,7 @@ export default function ResultCard({ id, text, isNew, cd }) {
   const [showDicom, setShowDicom] = useState(false);
   const diag = DIAGNOSTICS.find(d => d.id === id);
   const meta = DIAGNOSTIC_REFS?.[id] || {};
-  const color = CAT_COLOR[diag?.cat] || C.accent;
+  const color = getCategoryColor(diag?.cat, C);
   const isCritical = text.startsWith("🔴") || text.toLowerCase().includes("критич") || text.toLowerCase().includes("патолог");
   const isAbnormal = isCritical || text.includes("↑") || text.includes("↓") || text.toLowerCase().includes("повыш") || text.toLowerCase().includes("сниж");
   const isDicom = ["ct_head", "mri"].includes(id);

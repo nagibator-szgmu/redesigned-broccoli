@@ -1,6 +1,7 @@
 import { useTranslate } from "../locale/useTranslate";
 import { useTheme } from "../ui/ThemeContext";
 import { FONT, CODE } from "../ui/theme";
+import { HeaderBackBtn } from "../ui/components";
 import { TOPICS } from "../data/topics";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
@@ -8,12 +9,8 @@ import {
 } from "../ui/icons";
 
 const CAT_ICONS = {
-  cardiology: IconCardiac,
-  neurology: IconNeuro,
-  respiratory: IconRespiratory,
-  infectious: IconInfectious,
-  endocrine: IconEndocrine,
-  toxicology: IconToxicology,
+  cardiology: IconCardiac, neurology: IconNeuro, respiratory: IconRespiratory,
+  infectious: IconInfectious, endocrine: IconEndocrine, toxicology: IconToxicology,
 };
 
 export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {
@@ -43,14 +40,18 @@ export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {
       {/* Header */}
       <header style={{
         height: 54, background: C.headerBg, backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,230,200,0.06)",
-        display: "flex", alignItems: "center", gap: 10, padding: "0 20px", flexShrink: 0
+        WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}`,
+        display: "flex", alignItems: "center", gap: 12, padding: "0 20px", flexShrink: 0
       }}>
-        <div onClick={() => {
-          if (setActiveTab) setActiveTab("cases");
-          setPhase("menu");
-        }} style={{ fontSize: 16, color: C.accent, cursor: "pointer" }}>←</div>
-        <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>{t("nav.map")}</span>
+        <HeaderBackBtn
+          onClick={() => {
+            if (setActiveTab) setActiveTab("cases");
+            setPhase("menu");
+          }}
+          label={t("theory.back")}
+        />
+        <div style={{ width: 1, height: 18, background: C.border }} />
+        <span style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: FONT }}>{t("nav.map")}</span>
       </header>
 
       {/* Main Path Area */}

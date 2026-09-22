@@ -46,7 +46,7 @@ export default function TreatPanel({
         <TooltipBtn text={t("onboarding.tooltipTreatDelay")} C={C} />
         <TooltipBtn text={t("onboarding.tooltipContinuous")} C={C} />
       </div>
-      <div style={{ background: C.redDim, border: "1px solid rgba(255,61,90,0.12)", borderRadius: 8, padding: "7px 10px", marginBottom: 10, fontSize: 12, color: C.red, fontFamily: FONT }}>
+      <div style={{ background: C.redDim, border: `1px solid ${C.red}33`, borderRadius: 8, padding: "7px 10px", marginBottom: 10, fontSize: 12, color: C.red, fontFamily: FONT }}>
         {t("treatment.dangerous")}
       </div>
 
@@ -109,7 +109,7 @@ export default function TreatPanel({
         })}
       </div>
       {selTreat.length > 0 && (
-        <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(0,230,200,0.06)", fontSize: 12, color: C.textDim, fontFamily: FONT }}>
+        <div style={{ marginTop: 10, paddingTop: 10, borderTop: `1px solid ${C.border}`, fontSize: 12, color: C.textDim, fontFamily: FONT }}>
           {appliedFx?.size > 0 && <div style={{ color: C.green, marginBottom: 2 }}>{t("treatment.applied", { n: appliedFx.size })}</div>}
           {pendingFx?.size > 0 && <div style={{ color: C.yellow }}>{t("treatment.inProgress", { n: pendingFx.size })}</div>}
         </div>

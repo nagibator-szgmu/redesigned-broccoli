@@ -1,4 +1,4 @@
-import { FONT, CODE } from "./theme";
+import { FONT, FONT_HEADING, CODE } from "./theme";
 import { useTheme } from "./ThemeContext";
 import { DIAGNOSTIC_REFS } from "../data/diagnostics";
 import { DRUG_REFERENCE } from "../data/drugReference";
@@ -16,32 +16,32 @@ export const STitle = ({ icon, label, color: colorProp }) => {
   );
 };
 
-export const HeaderBackBtn = ({ onClick, label = "В главное меню" }) => {
+export const HeaderBackBtn = ({ onClick, label = "Назад", style = {}, isMobile = false }) => {
   const C = useTheme();
   return (
-    <button
+    <div
       onClick={onClick}
-      className="icon-btn"
+      className="header-back-btn"
       style={{
         display: "inline-flex",
         alignItems: "center",
         gap: 8,
+        padding: isMobile ? "6px 11px" : "8px 14px",
+        borderRadius: 11,
         background: C.btnBg,
-        border: `1px solid ${C.border}`,
-        borderRadius: 12,
-        padding: "8px 16px",
-        fontFamily: FONT,
-        fontSize: 12,
-        fontWeight: 600,
-        color: C.accent,
+        border: `1px solid ${C.btnBorder}`,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
         cursor: "pointer",
-        transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.25)"
+        userSelect: "none",
+        flexShrink: 0,
+        ...style,
       }}
     >
-      <span style={{ fontSize: 14, lineHeight: 1 }}>←</span>
-      <span>{label}</span>
-    </button>
+      <span style={{ fontSize: 14, fontWeight: 800, color: C.accent, lineHeight: 1 }}>←</span>
+      <span style={{ fontSize: isMobile ? 12 : 13, fontWeight: 700, color: C.white, fontFamily: FONT_HEADING, letterSpacing: -0.2, lineHeight: 1 }}>
+        {label}
+      </span>
+    </div>
   );
 };
 

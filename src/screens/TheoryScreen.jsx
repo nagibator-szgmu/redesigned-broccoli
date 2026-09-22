@@ -10,6 +10,7 @@ import { PROTOCOLS } from "../data/protocols";
 import QuizModal from "./QuizModal";
 import CalculatorContent from "./CalculatorContent";
 import { IconBrain, IconChartBar, IconMicroscope } from "../ui/icons";
+import { HeaderBackBtn } from "../ui/components";
 import TheorySidebar from "./theory/TheorySidebar";
 import TheoryContent from "./theory/TheoryContent";
 import ProtocolContent from "./theory/ProtocolContent";
@@ -102,8 +103,12 @@ export default function TheoryScreen({
           backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${C.border}`,
           display: "flex", alignItems: "center", gap: 10, padding: "0 16px"
         }}>
-          <div onClick={() => activeItem.id ? setActiveItem({ type: null, id: null }) : setPhase("menu")}
-            style={{ fontSize: 16, color: C.accent, cursor: "pointer" }}>←</div>
+          <HeaderBackBtn
+            onClick={() => activeItem.id ? setActiveItem({ type: null, id: null }) : setPhase("menu")}
+            label={t("theory.back")}
+            style={{ padding: "6px 8px" }}
+          />
+          <div style={{ width: 1, height: 16, background: C.border }} />
           <span style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: FONT }}>{getActiveTitle()}</span>
         </div>
         <div style={{ padding: 16 }}>{activeItem.id ? renderContent() : <TheorySidebar {...sidebarProps} />}</div>

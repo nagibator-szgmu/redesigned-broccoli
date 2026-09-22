@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { FONT } from "../../ui/theme";
+import { HeaderBackBtn } from "../../ui/components";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import useIsMobile from "../../hooks/useIsMobile";
@@ -13,14 +14,7 @@ import { getExplanationForCase } from "../../hooks/useReviewRegistry";
 
 const DAY_COLORS = ["#e8e8e8", "#4fc3f7", "#81c784", "#ffcc02", "#ffb74d", "#ef5350", "#ce93d8", "#4dd0e1"];
 
-/**
- * Stationary department game screen.
- * FR-Е.1 (decision): Diagnosis is NOT entered by the player in stationary cases.
- * Rationale: the patient is admitted with an established diagnosis from emergency/outpatient.
- * The stationary game focuses on daily management (treatment, monitoring, escalation),
- * not diagnostic workup. The `diagnosisVariants` field exists in case data for assessment
- * scoring but is not exposed as an interactive step in this screen.
- */
+/** Stationary department game screen: daily management, monitoring and treatment. */
 export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests, handleOrderTests: handleOrderTestsRaw, selTreat, toggleTreatment, setPhase, setExtraResult, setRevealedAnamnesis, learningMode, appliedFx, pendingFx, treatCat, setTreatCat }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -125,8 +119,8 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
   if (isMobile) return (
     <div style={{ height: "100vh", background: C.bgGrad, fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>{anamnesisOverlay}
-      <header style={{ flexShrink: 0, padding: "0 14px", height: 48, display: "flex", alignItems: "center", gap: 10, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
-        <div onClick={() => setPhase("menu")} style={{ fontSize: 18, color: C.accent, cursor: "pointer", padding: "4px 8px" }}>←</div>
+      <header style={{ flexShrink: 0, padding: "0 14px", minHeight: 52, display: "flex", alignItems: "center", gap: 10, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
+        <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={true} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
           <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏨 {t("department.stationary")} · {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}</div>
@@ -149,8 +143,8 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
     <div style={{ height: "100vh", background: C.bgGrad, fontFamily: FONT, display: "flex", overflow: "hidden" }}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>{anamnesisOverlay}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <header style={{ flexShrink: 0, padding: "0 20px", height: 52, display: "flex", alignItems: "center", gap: 12, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
-          <div onClick={() => setPhase("menu")} style={{ fontSize: 18, color: C.accent, cursor: "pointer", padding: "4px 8px" }}>←</div>
+        <header style={{ flexShrink: 0, padding: "0 20px", height: 54, display: "flex", alignItems: "center", gap: 12, background: C.headerBg, borderBottom: `1px solid ${C.border}` }}>
+          <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={false} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name} · {cd.age} {t("cases.ageSuffix")} · {cd.gender}</div>
             <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏨 {t("department.stationary")} · {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}</div>
