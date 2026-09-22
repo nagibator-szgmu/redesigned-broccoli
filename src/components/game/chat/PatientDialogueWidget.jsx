@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FONT, RADIUS } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
-import { IconBot } from "../../../ui/icons";
+import DialogueHeader from "./DialogueHeader";
 import DialogueMessageList from "./DialogueMessageList";
+import QuickInterviewChips from "./QuickInterviewChips";
+import FreeformQuestionInput from "./FreeformQuestionInput";
+import UnconsciousPatientBanner from "./UnconsciousPatientBanner";
+import { applyVitalsSpeechFilter, isPatientUnconscious } from "../../../engine/dialogue/patientPersonalityEngine";
+import { askPatientQuestion } from "../../../engine/dialogue/llmDialogueClient";
 
-/**
- * PatientDialogueWidget — Виджет опроса и общения с пациентом.
- *
- * @param {Object} props
- * @param {Object} props.caseData - Данные текущего клинического кейса
- * @param {Object} props.patientState - Текущие витальные функции (hr, sbp, spo2, gcs, pain)
- * @param {'hybrid'|'standard'} [props.mode='hybrid'] - Режим (чипсы + LLM или только чипсы)
- * @param {Function} [props.onRevealAnamnesis] - Регистрация открытого факта для скоринга
- * @param {boolean} [props.isMobile=false] - Флаг мобильного отображения
- */
 export default function PatientDialogueWidget({
   caseData,
   patientState,
@@ -22,6 +17,8 @@ export default function PatientDialogueWidget({
   isMobile = false,
 }) {
   const C = useTheme();
+  const isUnconscious = isPatientUnconscious(patientState);
+
   const [messages, setMessages] = useState(() => [
     {
       sender: "patient",
@@ -32,146 +29,102 @@ export default function PatientDialogueWidget({
   const [inputQuestion, setInputQuestion] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const quickQuestions = [
-    { label: "Где болит?", key: "complaint", answer: caseData?.complaint || "Болит здесь..." },
-    { label: "Когда началось?", key: "historyOfIllness", answer: caseData?.anamnesis || "Несколько часов назад..." },
-    { label: "Аллергии на лекарства?", key: "lifeHistory", answer: caseData?.lifeHistory || "Аллергий вроде нет..." },
-    { label: "Хронические болезни?", key: "lifeHistory", answer: caseData?.exam || "Особо ничем не болел..." },
-  ];
+  // Обновление приветственного статуса при изменении кейса
+  useEffect(() => {
+    if (!caseData) return;
+    const initialText = isUnconscious
+      ? "(Пациент без сознания, речевой контакт отсутствует...)"
+      : caseData.complaint
+      ? `«${caseData.complaint}»`
+      : "Здравствуйте, доктор...";
+
+    setMessages([
+      {
+        sender: "patient",
+        text: initialText,
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      },
+    ]);
+  }, [caseData?.id, isUnconscious]);
 
   const handleAskChip = (q) => {
-    const userMsg = {
-      sender: "doctor",
-      text: q.label,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    };
-    const patientMsg = {
-      sender: "patient",
-      text: q.answer,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    };
-    setMessages((prev) => [...prev, userMsg, patientMsg]);
-    if (onRevealAnamnesis) {
+    const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const doctorMsg = { sender: "doctor", text: q.label, timestamp: time };
+    const patientText = applyVitalsSpeechFilter(q.answer, patientState);
+    const patientMsg = { sender: "patient", text: patientText, timestamp: time };
+
+    setMessages((prev) => [...prev, doctorMsg, patientMsg]);
+    if (onRevealAnamnesis && !isUnconscious && q.key) {
       onRevealAnamnesis(q.key);
     }
   };
 
   const handleSendFreeForm = async (e) => {
     e?.preventDefault();
-    if (!inputQuestion.trim() || loading) return;
+    if (!inputQuestion.trim() || loading || isUnconscious) return;
 
     const question = inputQuestion.trim();
+    const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     setInputQuestion("");
-    setMessages((prev) => [
-      ...prev,
-      { sender: "doctor", text: question, timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) },
-    ]);
-
+    setMessages((prev) => [...prev, { sender: "doctor", text: question, timestamp: time }]);
     setLoading(true);
-    setTimeout(() => {
+
+    const provider = typeof window !== "undefined" ? localStorage.getItem("ms_llmProvider") || "openrouter" : "openrouter";
+    const apiKey = typeof window !== "undefined" ? localStorage.getItem("ms_llmKey") || "" : "";
+
+    try {
+      const res = await askPatientQuestion({
+        question,
+        caseData,
+        patientState,
+        chatHistory: messages,
+        provider,
+        apiKey,
+      });
+
       setMessages((prev) => [
         ...prev,
-        {
-          sender: "patient",
-          text: `(Ответ пациента на «${question}» с учетом боли ${patientState?.pain || 5}/10)`,
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        },
+        { sender: "patient", text: res.text, timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) },
       ]);
+
+      if (onRevealAnamnesis && res.revealedKey) {
+        onRevealAnamnesis(res.revealedKey);
+      }
+    } finally {
       setLoading(false);
-    }, 600);
+    }
   };
 
   return (
     <div
+      data-testid="patient-dialogue-widget"
       style={{
         display: "flex",
         flexDirection: "column",
         background: C.panel,
-        border: `1px solid ${C.accentDim}`,
+        border: `1px solid ${isUnconscious ? "rgba(255, 77, 79, 0.4)" : C.accentDim}`,
         borderRadius: isMobile ? RADIUS.sm : RADIUS.md,
-        padding: isMobile ? 12 : 14,
+        padding: isMobile ? 10 : 12,
         fontFamily: FONT,
-        maxHeight: 360,
+        maxHeight: 390,
       }}
     >
-      {/* Шапка виджета */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <IconBot size={16} color={C.accent} />
-          <span style={{ fontSize: 12, fontWeight: 700, color: C.accent, textTransform: "uppercase", letterSpacing: 0.5 }}>
-            Диалог с пациентом
-          </span>
-        </div>
-        <span style={{ fontSize: 10, color: C.textDim, padding: "2px 6px", borderRadius: 4, background: C.dimBg }}>
-          {mode === "hybrid" ? "⚡ Гибридный (LLM)" : "📋 Стандартный"}
-        </span>
-      </div>
-
-      {/* Список сообщений диалога */}
+      <DialogueHeader mode={mode} isUnconscious={isUnconscious} />
+      {isUnconscious && <UnconsciousPatientBanner gcs={patientState?.gcs} />}
       <DialogueMessageList messages={messages} loading={loading} />
-
-      {/* Быстрые чипсы-вопросы */}
-      <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 8 }}>
-        {quickQuestions.map((q) => (
-          <button
-            key={q.label}
-            onClick={() => handleAskChip(q)}
-            style={{
-              background: C.card,
-              border: `1px solid ${C.border}`,
-              borderRadius: 6,
-              padding: "4px 8px",
-              fontSize: 11,
-              color: C.accent,
-              cursor: "pointer",
-              fontFamily: FONT,
-            }}
-          >
-            {q.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Текстовый ввод для свободного вопроса в гибридном режиме */}
+      <QuickInterviewChips
+        caseData={caseData}
+        onSelectQuestion={handleAskChip}
+        disabled={isUnconscious || loading}
+      />
       {mode === "hybrid" && (
-        <form onSubmit={handleSendFreeForm} style={{ display: "flex", gap: 6 }}>
-          <input
-            type="text"
-            value={inputQuestion}
-            onChange={(e) => setInputQuestion(e.target.value)}
-            placeholder="Задать свой вопрос пациенту..."
-            disabled={loading}
-            style={{
-              flex: 1,
-              background: C.card,
-              border: `1px solid ${C.border}`,
-              borderRadius: 6,
-              padding: "6px 10px",
-              fontSize: 12,
-              color: C.text,
-              fontFamily: FONT,
-              outline: "none",
-            }}
-          />
-          <button
-            type="submit"
-            disabled={!inputQuestion.trim() || loading}
-            style={{
-              background: C.accent,
-              color: C.bg,
-              border: "none",
-              borderRadius: 6,
-              padding: "6px 12px",
-              fontSize: 12,
-              fontWeight: 700,
-              cursor: "pointer",
-              fontFamily: FONT,
-              opacity: !inputQuestion.trim() || loading ? 0.5 : 1,
-            }}
-          >
-            Спросить
-          </button>
-        </form>
+        <FreeformQuestionInput
+          inputQuestion={inputQuestion}
+          setInputQuestion={setInputQuestion}
+          onSubmit={handleSendFreeForm}
+          loading={loading}
+          disabled={isUnconscious}
+        />
       )}
     </div>
   );
