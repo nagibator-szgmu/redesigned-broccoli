@@ -53,6 +53,8 @@ export const TREAT_FX = {
   lactulose:    {eff:{gcs:2},               delay:180, desc:"Элиминация аммиака"},
   mesalazine:   {eff:{pain:-1},             delay:180, desc:"Противовоспалительное в ЖКТ"},
   spasmolytics: {eff:{pain:-3,sbp:-5},      delay:30,  desc:"Купирование спазма"},
+  salbutamol_inh:{eff:{spo2:12,rr:-8,hr:8}, delay:30,  continuous:true, desc:"Бронходилатация, SpO₂↑↑"},
+  urapidil_iv:  {eff:{sbp:-35,dbp:-18,pain:-3},delay:60, desc:"Управляемое снижение АД"},
 };
 
 export const ADVERSE_FX = {
@@ -93,6 +95,8 @@ export const ADVERSE_FX = {
   endoscopic_hemostasis:{},
   lactulose:       {},
   mesalazine:      {},
+  salbutamol_inh:  {hr:20},
+  urapidil_iv:     {sbp:-20},
 };
 
 export const TREATMENTS = [
@@ -146,4 +150,6 @@ export const TREATMENTS = [
   {id:"lactulose",name:"Лактулоза per os / через зонд",cat:"gastro"},
   {id:"mesalazine",name:"Месалазин (препарат 5-АСК)",cat:"gastro"},
   {id:"spasmolytics",name:"Дротаверин / спазмолитики в/в",cat:"analgesic"},
+  {id:"salbutamol_inh",name:"Сальбутамол ингаляционно (небулайзер)",cat:"supportive"},
+  {id:"urapidil_iv",name:"Урапидил в/в",cat:"cardiac"},
 ];

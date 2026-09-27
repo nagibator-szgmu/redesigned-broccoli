@@ -10,14 +10,32 @@ import { TOXICOLOGY_CASES } from './emergency/toxicology.js';
 import { GASTRO_CASES } from './gastroenterology/index.js';
 import { OUTPATIENT_CASES } from './outpatient.js';
 import { STATIONARY_CASES } from './stationary.js';
+import { ASTHMA_CASES } from './emergency/asthmaCases.js';
+import { HYPERTENSION_CASES } from './emergency/hypertensionCases.js';
+import { HEART_FAILURE_CASES } from './emergency/heartFailureCases.js';
+import { PYELONEPHRITIS_CASES } from './emergency/pyelonephritisCases.js';
+import { MYXEDEMA_CASES } from './emergency/myxedemaCases.js';
+
+export {
+  ASTHMA_CASES,
+  HYPERTENSION_CASES,
+  HEART_FAILURE_CASES,
+  PYELONEPHRITIS_CASES,
+  MYXEDEMA_CASES,
+};
 
 /** All emergency cases combined */
 export const EMERGENCY_CASES = [
   ...CARDIAC_CASES,
+  ...HYPERTENSION_CASES,
+  ...HEART_FAILURE_CASES,
   ...NEURO_CASES,
   ...RESPIRATORY_CASES,
+  ...ASTHMA_CASES,
   ...INFECTIOUS_CASES,
+  ...PYELONEPHRITIS_CASES,
   ...ENDOCRINE_CASES,
+  ...MYXEDEMA_CASES,
   ...TOXICOLOGY_CASES,
   ...GASTRO_CASES.filter(c => c.department === "icu" || c.department === "admission"),
 ];
@@ -46,11 +64,11 @@ export const CASES_BY_DEPARTMENT = {
 
 /** Cases grouped by specialty */
 export const CASES_BY_SPECIALTY = {
-  cardiac: CARDIAC_CASES,
+  cardiac: [...CARDIAC_CASES, ...HYPERTENSION_CASES, ...HEART_FAILURE_CASES],
   neuro: NEURO_CASES,
-  respiratory: RESPIRATORY_CASES,
-  infectious: INFECTIOUS_CASES,
-  endocrine: ENDOCRINE_CASES,
+  respiratory: [...RESPIRATORY_CASES, ...ASTHMA_CASES],
+  infectious: [...INFECTIOUS_CASES, ...PYELONEPHRITIS_CASES],
+  endocrine: [...ENDOCRINE_CASES, ...MYXEDEMA_CASES],
   toxicology: TOXICOLOGY_CASES,
   gastro: GASTRO_CASES,
 };

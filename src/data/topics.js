@@ -23,7 +23,7 @@ export const TOPICS = [
       {
         id: "hf_chronic",
         name: "Хроническая сердечная недостаточность",
-        cases: [],
+        cases: [62],
         combined: false,
         difficulty: 3,
         order: 2.5,
@@ -56,7 +56,7 @@ export const TOPICS = [
       {
         id: "hypertension_crisis",
         name: "Гипертонический криз",
-        cases: [],
+        cases: [61],
         combined: false,
         difficulty: 3,
         order: 5.5,
@@ -159,7 +159,7 @@ export const TOPICS = [
       {
         id: "asthma_exac",
         name: "Астматический статус",
-        cases: [],
+        cases: [60],
         combined: false,
         difficulty: 4,
         order: 14.5,
@@ -190,7 +190,7 @@ export const TOPICS = [
       {
         id: "pyelonephritis",
         name: "Острый пиелонефрит",
-        cases: [],
+        cases: [63],
         combined: false,
         difficulty: 3,
         order: 16.5,
@@ -294,7 +294,7 @@ export const TOPICS = [
       {
         id: "hypothyroidism",
         name: "Гипотиреоз",
-        cases: [],
+        cases: [64],
         combined: false,
         difficulty: 2,
         order: 23.5,
