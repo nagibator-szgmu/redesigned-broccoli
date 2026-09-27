@@ -1,5 +1,5 @@
 export const FALLBACK_KEYS = [
-  import.meta.env.VITE_OPENROUTER_API_KEY || ""
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_OPENROUTER_API_KEY) || ""
 ].filter(Boolean);
 
 export function resolveActiveKeys(provider, apiKey) {

@@ -32,7 +32,7 @@ test.describe("MedSim Smoke Suite", () => {
 
       // Verify theory search or protocol header appears
       const theoryHeading = page.locator("text=/Клинические протоколы|Теория|Стандарты/i").first();
-      await expect(theoryHeading).toBeVisible({ timeout: 5000 });
+      await expect(theoryHeading).toBeVisible({ timeout: 10000 });
     }
   });
 

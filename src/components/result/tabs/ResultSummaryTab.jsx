@@ -26,7 +26,7 @@ export default function ResultSummaryTab({
 
       {/* Динамика витальных функций */}
       {vitalDeltas && vitalDeltas.length > 0 && (
-        <VitalsDelta vitalDeltas={vitalDeltas} isMobile={isMobile} />
+        <VitalsDelta cd={cd} ps={ps} vitalDeltas={vitalDeltas} isMobile={isMobile} />
       )}
 
       {/* Специфичные результаты отделений */}

@@ -48,8 +48,9 @@ export default function MedSimApp() {
     if (typeof window !== "undefined") {
       window.__START_CASE__ = startGameWrapped;
       window.__SET_PHASE__ = game.setPhase;
+      window.__FINISH_CASE__ = game.handleSubmit;
     }
-  }, [startGameWrapped, game.setPhase]);
+  }, [startGameWrapped, game.setPhase, game.handleSubmit]);
 
   useEffect(() => {
     if (game.phase !== "result" || !game.cd) return;

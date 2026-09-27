@@ -19,6 +19,7 @@ export async function setupApp(page) {
     localStorage.setItem("ms_onboarding_done", "true");
     localStorage.setItem("ms_tutorialDone", "true");
     localStorage.setItem("ms_audio_enabled", "false");
+    localStorage.setItem("ms_department", "icu");
     localStorage.setItem(
       "medsim_profile",
       JSON.stringify({

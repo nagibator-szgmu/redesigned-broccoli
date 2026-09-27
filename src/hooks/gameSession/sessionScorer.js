@@ -2,8 +2,27 @@ import { initPS, computeOutcome } from "../../engine/patient";
 import { computeScore, diagMatchRatio } from "../../engine/scoring";
 import { applyUnfinishedTreatments } from "../../engine/deterioration";
 import { analyzeCognitiveErrors } from "../../engine/cognitiveAnalyzer";
+import { evaluateClinicalSafety } from "../../engine/safetyEngine";
+import { mapSafetyToMistakes } from "../../engine/debrief/safetyMistakesMapper";
 import { evaluateDiagnosisWithAI } from "../../engine/aiEvaluator";
 import scormService from "../../services/scormService";
+
+function toGradeId(score) {
+  if (score >= 85) return "excellent";
+  if (score >= 70) return "good";
+  if (score >= 50) return "satisfactory";
+  return "unsatisfactory";
+}
+
+function syncScorm(score, gradeId, died, outcome, elapsedSec) {
+  if (!scormService.isConnected()) return;
+  const passThreshold = scormService.getMasteryScore() || 70;
+  const isPassed = !died && score >= passThreshold && gradeId !== "unsatisfactory" && outcome !== "timeout_no_route";
+  scormService.setScore(score);
+  scormService.setStatus(isPassed ? "passed" : "failed");
+  if (elapsedSec != null) scormService.setSessionTime(elapsedSec);
+  scormService.commit();
+}
 
 export function finalizeSession({
   state,
@@ -25,42 +44,18 @@ export function finalizeSession({
 
   let outcome;
   if (s.cd.department === "admission") {
-    if (selectedRoute) {
-      outcome = "routed";
-    } else if (timeout) {
-      outcome = "timeout_no_route";
-    } else {
-      outcome = computeOutcome(finalPS, s.cd, s.cd.department);
-    }
+    outcome = selectedRoute ? "routed" : timeout ? "timeout_no_route" : computeOutcome(finalPS, s.cd, s.cd.department);
   } else {
     outcome = computeOutcome(finalPS, s.cd, s.cd.department);
   }
 
-  finalPS.status =
-    outcome === "dead"
-      ? "dead"
-      : outcome === "stable" || outcome === "stabilized"
-      ? "stable"
-      : finalPS.status;
+  finalPS.status = outcome === "dead" ? "dead" : outcome === "stable" || outcome === "stabilized" ? "stable" : finalPS.status;
 
   const elapsedSec = s.totalTime - s.timeLeft;
-  const res = computeScore(
-    s.cd,
-    s.orderedDiag,
-    s.selTreat,
-    s.diagText,
-    finalPS,
-    elapsedSec,
-    s.revealedAnamnesis
-  );
-  const cogAnalysis = analyzeCognitiveErrors(
-    s.cd,
-    s.orderedDiag,
-    s.selTreat,
-    s.diagText,
-    finalPS,
-    elapsedSec
-  );
+  const res = computeScore(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec, s.revealedAnamnesis);
+  const cogAnalysis = analyzeCognitiveErrors(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec);
+  const safety = evaluateClinicalSafety(s.cd, s.selTreat, s.orderedDiag, s.revealedAnamnesis, s.trajectory);
+  const mistakes = mapSafetyToMistakes(safety, s.cd);
 
   setResult({
     ...res,
@@ -71,10 +66,13 @@ export function finalizeSession({
     routeOptions: s.cd.routeOptions,
     correctRoute: s.cd.correctRoute,
     cogAnalysis,
+    safety,
+    mistakes,
   });
   setPs(finalPS);
   setTotalScore((prev) => prev + res.score);
   setCasesPlayed((prev) => prev + 1);
+
   setSessionHistory((prev) => [
     {
       id: Date.now(),
@@ -90,43 +88,24 @@ export function finalizeSession({
       timeout,
       died,
       cogAnalysis,
+      safety,
+      mistakes,
     },
     ...prev,
   ].slice(0, 50));
 
-  // SCORM Integration
-  if (scormService.isConnected()) {
-    const passThreshold = scormService.getMasteryScore() || 70;
-    const isPassed =
-      !died &&
-      res.score >= passThreshold &&
-      res.gradeId !== "unsatisfactory" &&
-      outcome !== "timeout_no_route";
-    scormService.setScore(res.score);
-    scormService.setStatus(isPassed ? "passed" : "failed");
-    scormService.setSessionTime(elapsedSec);
-    scormService.commit();
-  }
+  syncScorm(res.score, res.gradeId, died, outcome, elapsedSec);
 
-  // Asynchronous AI evaluation
-  evaluateDiagnosisWithAI(s.cd, s.diagText, s.orderedDiag, s.selTreat).then((aiRes) => {
+  // Asynchronous AI & Clinical evaluation
+  evaluateDiagnosisWithAI(s.cd, s.diagText, s.orderedDiag, s.selTreat, safety).then((aiRes) => {
     if (aiRes.success) {
       setResult((prev) => {
         if (!prev) return prev;
         const localRatio = diagMatchRatio(s.cd.diagnosis, s.diagText);
-        const localDiagScore =
-          localRatio >= 0.6 ? 35 : localRatio >= 0.3 ? 20 : localRatio > 0 ? 10 : 0;
+        const localDiagScore = localRatio >= 0.6 ? 35 : localRatio >= 0.3 ? 20 : localRatio > 0 ? 10 : 0;
 
-        let newScore = prev.score - localDiagScore + aiRes.diagScore;
-        newScore = Math.min(100, Math.max(0, newScore));
-        const newGradeId =
-          newScore >= 85
-            ? "excellent"
-            : newScore >= 70
-            ? "good"
-            : newScore >= 50
-            ? "satisfactory"
-            : "unsatisfactory";
+        const newScore = Math.min(100, Math.max(0, prev.score - localDiagScore + aiRes.diagScore));
+        const newGradeId = toGradeId(newScore);
 
         setTotalScore((total) => total - prev.score + newScore);
 
@@ -145,17 +124,7 @@ export function finalizeSession({
           return copy;
         });
 
-        if (scormService.isConnected()) {
-          const passThreshold = scormService.getMasteryScore() || 70;
-          const isPassed =
-            !died &&
-            newScore >= passThreshold &&
-            newGradeId !== "unsatisfactory" &&
-            outcome !== "timeout_no_route";
-          scormService.setScore(newScore);
-          scormService.setStatus(isPassed ? "passed" : "failed");
-          scormService.commit();
-        }
+        syncScorm(newScore, newGradeId, died, outcome);
 
         return {
           ...prev,

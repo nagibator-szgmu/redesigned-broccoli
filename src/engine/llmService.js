@@ -1,10 +1,10 @@
 /**
  * LLM Integration Service for MedSim with Fallback Key Pool
  */
-import { callOpenRouter, callGemini, callOpenAI } from './llmAdapters';
-import { generateSystemPrompt, generateActionReactionPrompt } from './llmPrompts';
-import { getLocalPatientResponse } from './localPatientResponse';
-import { resolveActiveKeys } from './llmKeys';
+import { callOpenRouter, callGemini, callOpenAI } from './llmAdapters.js';
+import { generateSystemPrompt, generateActionReactionPrompt } from './llmPrompts.js';
+import { getLocalPatientResponse } from './localPatientResponse.js';
+import { resolveActiveKeys } from './llmKeys.js';
 
 export { generateSystemPrompt, getLocalPatientResponse };
 

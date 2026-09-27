@@ -4,22 +4,12 @@ import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
 import { r1 } from "../../engine/patient";
 
-export default function VitalsDelta({ cd, ps, isMobile }) {
+export default function VitalsDelta({ cd, ps, vitalDeltas: propDeltas, isMobile }) {
   const C = useTheme();
   const { t } = useTranslate();
 
-  const parsedBp = parseInt(cd.vitals.bp);
-  const initSbp = isNaN(parsedBp) ? null : parsedBp;
-  const vitalDeltas = ps ? [
-    { label: t("vitals.sbp"), init: cd.vitals.bp, final: `${Math.round(ps.sbp)}/${Math.round(ps.dbp)}`, delta: initSbp !== null ? Math.round(ps.sbp) - initSbp : null, warn: ps.sbp < 90 || ps.sbp > 160 },
-    { label: t("vitals.hr"), init: cd.vitals.hr, final: Math.round(ps.hr), delta: Math.round(ps.hr) - cd.vitals.hr, warn: ps.hr > 100 || ps.hr < 50 },
-    { label: t("vitals.spo2"), init: `${cd.vitals.spo2}%`, final: `${r1(ps.spo2)}%`, delta: r1(ps.spo2 - cd.vitals.spo2), warn: ps.spo2 < 94 },
-    { label: t("vitals.rr"), init: cd.vitals.rr, final: Math.round(ps.rr), delta: Math.round(ps.rr) - cd.vitals.rr, warn: ps.rr > 20 },
-    { label: t("vitals.gcs"), init: cd.initialGCS ?? 15, final: Math.round(ps.gcs), delta: r1(ps.gcs - (cd.initialGCS ?? 15)), warn: ps.gcs < 10 },
-    { label: t("vitals.pain"), init: cd.initialPain ?? 6, final: r1(ps.pain), delta: r1(ps.pain - (cd.initialPain ?? 6)), warn: ps.pain > 7 },
-  ] : [];
-
-  if (vitalDeltas.length === 0) return null;
+  const vitalDeltas = propDeltas || (cd?.vitals && ps ? computeVitalDeltas(cd, ps, t) : []);
+  if (!vitalDeltas || vitalDeltas.length === 0) return null;
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
@@ -48,7 +38,7 @@ export default function VitalsDelta({ cd, ps, isMobile }) {
 
 /** Returns raw vitalDeltas array for use in other components (DocLayer etc.) */
 export function computeVitalDeltas(cd, ps, t) {
-  if (!ps) return [];
+  if (!ps || !cd?.vitals) return [];
   const parsedBp = parseInt(cd.vitals.bp);
   const initSbp = isNaN(parsedBp) ? null : parsedBp;
   return [
