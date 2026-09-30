@@ -41,12 +41,12 @@ export default function useTreatmentManager({ addEvent, setPs, stateRef, fxTimer
     if (isWrong) {
       const hideWarnings = localStorage.getItem("ms_hideWarnings") === "true";
       if (hideWarnings) {
-        addEvent(`✓ ${tName}: эффект применён`, "result");
+        addEvent(`${tName}: эффект применён`, "result");
       } else {
-        addEvent(`🚨 ${tName}: ОПАСНЫЙ ЭФФЕКТ — состояние ухудшилось`, "critical");
+        addEvent(`${tName}: ОПАСНЫЙ ЭФФЕКТ — состояние ухудшилось`, "critical");
       }
     } else {
-      addEvent(`✓ ${tName}: ${fx?.desc || "эффект применён"}`, "result");
+      addEvent(`${tName}: ${fx?.desc || "эффект применён"}`, "result");
     }
     setAppliedFx(prev => new Set([...prev, treatId]));
     setPendingFx(prev => { const n = new Set(prev); n.delete(treatId); return n; });
@@ -62,7 +62,7 @@ export default function useTreatmentManager({ addEvent, setPs, stateRef, fxTimer
     }
     setSelTreat(prev => [...prev, treatId]);
     const tName = TREATMENTS.find(t => t.id === treatId)?.name || treatId;
-    addEvent(`💊 Назначен: ${tName}`, "treatment");
+    addEvent(`Назначен: ${tName}`, "treatment");
     const fx = TREAT_FX[treatId];
     const delayMs = Math.round(((fx?.delay || 60) / 6) * 1000);
     setPendingFx(p => new Set([...p, treatId]));

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { extractComponentInfo, getDomMeta } from "./inspectorUtils";
 import FeedbackModal from "./FeedbackModal";
 import { FONT } from "../theme";
+import { IconTarget } from "../icons";
 
 export default function DevInspector() {
   const [inspecting, setInspecting] = useState(false);
@@ -133,7 +134,7 @@ export default function DevInspector() {
         data-inspector-ui
         style={{
           position: "fixed",
-          bottom: 4,
+          bottom: "calc(56px + env(safe-area-inset-bottom, 6px))",
           right: 8,
           zIndex: 999990,
           fontFamily: FONT,
@@ -162,7 +163,7 @@ export default function DevInspector() {
             transition: "all 0.2s ease",
           }}
         >
-          <span style={{ fontSize: 11 }}>🎯</span>
+          <IconTarget size={12} color="#fff" />
           <span>{inspecting ? "Выбор (Esc)" : "Инспектор"}</span>
         </button>
       </div>

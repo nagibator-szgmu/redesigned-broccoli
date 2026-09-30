@@ -1,14 +1,30 @@
 import { FONT } from "../../ui/theme";
 import { useTranslate } from "../../locale/useTranslate";
+import {
+  IconCardiac,
+  IconRespiratory,
+  IconInfectious,
+  IconNeuro,
+  IconFileText,
+} from "../../ui/icons";
+
+const PROTOCOL_ICONS = {
+  cardiac: IconCardiac,
+  respiratory: IconRespiratory,
+  infectious: IconInfectious,
+  neuro: IconNeuro,
+};
 
 export default function ProtocolContent({ protocol, C }) {
   const { t } = useTranslate();
   if (!protocol) return null;
 
+  const ProtoIcon = PROTOCOL_ICONS[protocol.iconKey] || IconFileText;
+
   return (
     <div style={{ maxWidth: 720 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-        <span style={{ fontSize: 28 }}>{protocol.icon}</span>
+        <ProtoIcon size={28} color={protocol.color || C.accent} />
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: C.white, fontFamily: FONT, margin: 0 }}>
             {protocol.name}

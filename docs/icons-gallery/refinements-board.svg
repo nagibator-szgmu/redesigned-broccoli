@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+<style>
+  .bg { fill: #070d17; }
+  .title { fill: #ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 23px; font-weight: 700; letter-spacing: -0.5px; }
+  .subtitle { fill: #94a3b8; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 12.5px; }
+  .status-badge { fill: #064e3b; stroke: #059669; stroke-width: 1; rx: 6; }
+  .status-text { fill: #34d399; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 11px; font-weight: 600; }
+  .row-title { fill: #38bdf8; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 14px; font-weight: 700; }
+  .row-desc { fill: #64748b; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 10.5px; }
+  .col-header { fill: #94a3b8; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 11px; font-weight: 700; text-anchor: middle; letter-spacing: 0.5px; }
+  .card-old { fill: #0f172a; stroke: #334155; stroke-width: 1.2; rx: 10; }
+  .card-va { fill: #0f172a; stroke: #0284c7; stroke-width: 1.6; rx: 10; }
+  .card-vb { fill: #0f172a; stroke: #059669; stroke-width: 1.6; rx: 10; }
+  .badge-rec { fill: #0284c7; rx: 4; }
+  .badge-rec-text { fill: #ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 9px; font-weight: 700; text-anchor: middle; }
+  .icon-label { fill: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; font-size: 10.5px; font-weight: 600; text-anchor: middle; }
+  .icon-sub { fill: #64748b; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9px; text-anchor: middle; }
+  .stroke-old { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .stroke-va { fill: none; stroke: #38bdf8; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .stroke-vb { fill: none; stroke: #34d399; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .sep { stroke: #1e293b; stroke-width: 1; stroke-dasharray: 4 4; }
+</style>
+
+<rect width="1000" height="1000" class="bg" />
+
+<!-- Header -->
+<text x="35" y="44" class="title">Новые варианты 4 иконок MedSim</text>
+<text x="35" y="68" class="subtitle">Токсикология (Вариант 2) и Гастро (Вариант 1) утверждены. Выберите варианты для 4 позиций:</text>
+
+<!-- Confirmed badges -->
+<g transform="translate(35, 86)">
+  <rect width="220" height="24" class="status-badge" />
+  <text x="10" y="16" class="status-text">✓ Токса: Флакон токсина</text>
+</g>
+<g transform="translate(265, 86)">
+  <rect width="240" height="24" class="status-badge" />
+  <text x="10" y="16" class="status-text">✓ Гастро: J-желудок + 12-перстная</text>
+</g>
+
+<!-- Column Headers -->
+<text x="435" y="145" class="col-header">ТЕКУЩАЯ (Было)</text>
+<text x="645" y="145" class="col-header">ВАРИАНТ А (ХИТ)</text>
+<text x="855" y="145" class="col-header">ВАРИАНТ B (Альтернатива)</text>
+
+<!-- ==================== 1. МОЗГ ==================== -->
+<g transform="translate(35, 170)">
+  <text x="0" y="38" class="row-title">1. Мозг / Неврология</text>
+  <text x="0" y="58" class="row-desc">Убрана «капуста» и «рёбра»</text>
+  
+  <!-- Текущая -->
+  <rect x="370" y="0" width="130" height="105" class="card-old" />
+  <g transform="translate(419, 20) scale(1.3333)" class="stroke-old">
+    <path d="M9.3 4.4c-1.9 0-3.4 1.5-3.4 3.3 0 .6.1 1.1.4 1.6-1 .6-1.6 1.7-1.6 2.9 0 1.4.9 2.6 2.1 3.1-.1.3-.1.6-.1 1 0 1.9 1.5 3.4 3.4 3.4.9 0 1.7-.3 2.3-.9.5.4 1.2.7 1.9.7 1.7 0 3-1.3 3-3 0-.3 0-.6-.1-.9 1.2-.5 2-1.7 2-3.1 0-1.1-.5-2.1-1.4-2.7.1-.3.2-.7.2-1.1 0-1.9-1.5-3.4-3.4-3.4-.5 0-.9.1-1.3.3-.7-.8-1.7-1.2-2.8-1.2-.6 0-1.2.1-1.7.4-.4-.2-.9-.4-1.5-.4Z" />
+  </g>
+  <text x="435" y="78" class="icon-label">Аморфное облачко</text>
+  <text x="435" y="94" class="icon-sub">Текущий</text>
+
+  <!-- Вариант А (Латеральный профиль: кора + мозжечок + ствол) -->
+  <rect x="580" y="0" width="130" height="105" class="card-va" />
+  <rect x="662" y="8" width="40" height="15" class="badge-rec" />
+  <text x="682" y="19" class="badge-rec-text">ХИТ</text>
+  <g transform="translate(629, 20) scale(1.3333)" class="stroke-va">
+    <path d="M12 4.5c-4 0-7 2.5-7 6.5 0 2.2 1 4 2.5 5.2V19a1 1 0 0 0 1 1h2.5" />
+    <path d="M12 4.5c4.5 0 7.5 3 7.5 7 0 2.5-1.2 4.5-3 5.5" />
+    <path d="M16.5 17a3 3 0 0 1-5.5 1.5" />
+    <path d="M14 17a2 2 0 0 0-2.5 0" />
+    <path d="M8 10c1.5 1 3.5 1 5-.5" />
+    <path d="M7.5 13.5c2 0 3.5-1 4.5-2.5" />
+    <path d="M13 8c1.5 1.5 3.5 1 4.5 0" />
+  </g>
+  <text x="645" y="78" class="icon-label">Анатомический профиль</text>
+  <text x="645" y="94" class="icon-sub">Cortex, Cerebellum</text>
+
+  <!-- Вариант B (2 Полушария с волнистыми извилинами) -->
+  <rect x="790" y="0" width="130" height="105" class="card-vb" />
+  <g transform="translate(839, 20) scale(1.3333)" class="stroke-vb">
+    <path d="M12 4v16" />
+    <path d="M12 4.5c-2.5 0-4.5 1-5.5 2.5C5.3 8.3 5 10 5 11.5c0 1.8.8 3.2 1.5 4.5-.5 1-.2 2.2.7 2.8 1.1.7 2.8.7 4.8.7" />
+    <path d="M6.5 9c2 .5 3.5 0 4-1.5" />
+    <path d="M6 13.5c2.5 0 4-.5 4.5-2" />
+    <path d="M7.5 16.5c1.5 0 3-.5 3.5-1.5" />
+    <path d="M12 4.5c2.5 0 4.5 1 5.5 2.5 1.2 1.3 1.5 3 1.5 4.5 0 1.8-.8 3.2-1.5 4.5.5 1 .2 2.2-.7 2.8-1.1.7-2.8.7-4.8.7" />
+    <path d="M17.5 9c-2 .5-3.5 0-4-1.5" />
+    <path d="M18 13.5c-2.5 0-4-.5-4.5-2" />
+    <path d="M16.5 16.5c-1.5 0-3-.5-3.5-1.5" />
+  </g>
+  <text x="855" y="78" class="icon-label">2 Полушария (Вид сверху)</text>
+  <text x="855" y="94" class="icon-sub">Organic Gyri &amp; Sulci</text>
+</g>
+<line x1="35" y1="300" x2="965" y2="300" class="sep" />
+
+<!-- ==================== 2. ЛАБОРАТОРНАЯ ДИАГНОСТИКА ==================== -->
+<g transform="translate(35, 325)">
+  <text x="0" y="38" class="row-title">2. Лаб. диагностика</text>
+  <text x="0" y="58" class="row-desc">Устойчивая монолитная форма</text>
+  
+  <!-- Текущая -->
+  <rect x="370" y="0" width="130" height="105" class="card-old" />
+  <g transform="translate(419, 20) scale(1.3333)" class="stroke-old">
+    <path d="M6 20.5h11" />
+    <path d="M8.5 20.5v-2.3a3 3 0 0 1 3-3h1" />
+    <path d="M12.5 15.2h2.2a1.6 1.6 0 0 0 1.6-1.6v-1" />
+    <path d="M14.2 12.6 18 8.8" />
+    <path d="M17 7.8 19 9.8" />
+    <path d="M9 15.2H6.8a1 1 0 0 1-1-1v-.4" />
+  </g>
+  <text x="435" y="78" class="icon-label">Разрозненные палочки</text>
+  <text x="435" y="94" class="icon-sub">Текущий</text>
+
+  <!-- Вариант А (Профессиональный монолитный микроскоп) -->
+  <rect x="580" y="0" width="130" height="105" class="card-va" />
+  <rect x="662" y="8" width="40" height="15" class="badge-rec" />
+  <text x="682" y="19" class="badge-rec-text">ХИТ</text>
+  <g transform="translate(629, 20) scale(1.3333)" class="stroke-va">
+    <path d="M5 21h14" />
+    <path d="M7 18h6" />
+    <path d="M10 21v-3" />
+    <path d="M15 21v-4a3 3 0 0 0-3-3H8" />
+    <path d="M6 14h7" />
+    <path d="M9.5 3.5l5 5" />
+    <path d="M8 5l5 5" />
+    <path d="M11 2l3.5 3.5" />
+    <path d="M12.5 10l-1.5 1.5" />
+    <circle cx="9.5" cy="14" r="0.8" fill="#38bdf8" stroke="none" />
+  </g>
+  <text x="645" y="78" class="icon-label">Клинический микроскоп</text>
+  <text x="645" y="94" class="icon-sub">Microscope Pro</text>
+
+  <!-- Вариант B (Лабораторный дуэт: пробирка + дозатор) -->
+  <rect x="790" y="0" width="130" height="105" class="card-vb" />
+  <g transform="translate(839, 20) scale(1.3333)" class="stroke-vb">
+    <path d="M6 3h5M8.5 3v13a2.5 2.5 0 0 0 5 0V3M11 3h5" />
+    <path d="M8.5 7h2M8.5 10h2M8.5 13h2" />
+    <path d="M18 7v6a2 2 0 0 1-2 2h-1" />
+    <path d="M18 4l2-2" />
+  </g>
+  <text x="855" y="78" class="icon-label">Пробирка + дозатор</text>
+  <text x="855" y="94" class="icon-sub">Lab Tube &amp; Pipette</text>
+</g>
+<line x1="35" y1="455" x2="965" y2="455" class="sep" />
+
+<!-- ==================== 3. ЭНДОКРИНОЛОГИЯ ==================== -->
+<g transform="translate(35, 480)">
+  <text x="0" y="38" class="row-title">3. Эндокринология</text>
+  <text x="0" y="58" class="row-desc">Убрана антенна / насекомое</text>
+  
+  <!-- Текущая -->
+  <rect x="370" y="0" width="130" height="105" class="card-old" />
+  <g transform="translate(419, 20) scale(1.3333)" class="stroke-old">
+    <path d="M12 4v16" />
+    <path d="M11.6 11.3c-1-1.9-3.3-2.6-4.8-1.3-1.5 1.3-1.5 3.9.1 5.5 1.2 1.2 2.9 1.5 4.2.8" />
+    <path d="M12.4 11.3c1-1.9 3.3-2.6 4.8-1.3 1.5 1.3 1.5 3.9-.1 5.5-1.2 1.2-2.9 1.5-4.2.8" />
+  </g>
+  <text x="435" y="78" class="icon-label">Крылья на палке</text>
+  <text x="435" y="94" class="icon-sub">Текущий</text>
+
+  <!-- Вариант А (Анатомическая щитовидная железа "Бабочка" + хрящ) -->
+  <rect x="580" y="0" width="130" height="105" class="card-va" />
+  <rect x="662" y="8" width="40" height="15" class="badge-rec" />
+  <text x="682" y="19" class="badge-rec-text">ХИТ</text>
+  <g transform="translate(629, 20) scale(1.3333)" class="stroke-va">
+    <path d="M9.5 4.5l2.5 2 2.5-2" />
+    <path d="M10 18.5h4M10 21h4" />
+    <path d="M12 6.5v14.5" />
+    <path d="M10 8.5C7 7.5 4.5 9 4.5 12.5c0 3.2 2 5.5 5.5 4.5" />
+    <path d="M14 8.5c3-1 5.5.5 5.5 4 0 3.2-2 5.5-5.5 4.5" />
+    <path d="M9.5 14h5" />
+  </g>
+  <text x="645" y="78" class="icon-label">Щитовидная железа</text>
+  <text x="645" y="94" class="icon-sub">Thyroid &amp; Cartilage</text>
+
+  <!-- Вариант B (Поджелудочная железа — инсулин / диабет) -->
+  <rect x="790" y="0" width="130" height="105" class="card-vb" />
+  <g transform="translate(839, 20) scale(1.3333)" class="stroke-vb">
+    <path d="M19 12c-3-1-7-1-10 1-2.5 1.7-4 1-4.5-.5-.6-2 .5-3.5 2-4 3-1 7-1 10 1" />
+    <path d="M18.5 12.5c.8.5 1.5 1.3 1.5 2.2 0 1.8-1.7 3.3-3.8 3.3-1.5 0-2.8-.7-3.4-1.8" />
+    <path d="M8 12.5c2 0 4-.5 6-1.5" />
+    <circle cx="16" cy="15" r="0.8" fill="#34d399" stroke="none" />
+  </g>
+  <text x="855" y="78" class="icon-label">Поджелудочная железа</text>
+  <text x="855" y="94" class="icon-sub">Pancreas &amp; Islets</text>
+</g>
+<line x1="35" y1="610" x2="965" y2="610" class="sep" />
+
+<!-- ==================== 4. ПУЛЬМОНОЛОГИЯ ==================== -->
+<g transform="translate(35, 635)">
+  <text x="0" y="38" class="row-title">4. Пульмонология</text>
+  <text x="0" y="58" class="row-desc">Мягкие органические лёгкие</text>
+  
+  <!-- Текущая -->
+  <rect x="370" y="0" width="130" height="105" class="card-old" />
+  <g transform="translate(419, 20) scale(1.3333)" class="stroke-old">
+    <path d="M12 3.2v6.3" />
+    <path d="M10.5 4.6h3M10.5 6h3" />
+    <path d="M12 9.5 9.2 12.3M12 9.5l2.8 2.8" />
+    <path d="M9.2 12.3c-2.3 0-3.9 1.9-3.9 4.7 0 2.7 1 4.6 2.8 4.6 1.1 0 1.8-.6 1.8-1.9v-7.4Z" />
+    <path d="M14.8 12.3c2.3 0 3.9 1.9 3.9 4.7 0 2.7-1 4.6-2.8 4.6-1.1 0-1.8-.6-1.8-1.9v-7.4Z" />
+  </g>
+  <text x="435" y="78" class="icon-label">Прямоугольные мешки</text>
+  <text x="435" y="94" class="icon-sub">Текущий</text>
+
+  <!-- Вариант А (Органические лёгкие с сердечной вырезкой и щелью) -->
+  <rect x="580" y="0" width="130" height="105" class="card-va" />
+  <rect x="662" y="8" width="40" height="15" class="badge-rec" />
+  <text x="682" y="19" class="badge-rec-text">ХИТ</text>
+  <g transform="translate(629, 20) scale(1.3333)" class="stroke-va">
+    <path d="M12 3v5.5" />
+    <path d="M10 4.5h4M10 6.5h4" />
+    <path d="M12 8.5l-2.2 2M12 8.5l2.2 2" />
+    <path d="M9.8 10.5C7.5 10.5 5 12 5 15.5c0 3.2 1.8 5 4 5 1.8 0 2.5-1 2.8-2.5V10.5" />
+    <path d="M14.2 10.5c2.3 0 4.8 1.5 4.8 5 0 3.2-1.8 5-4 5-1.5 0-2.3-.8-2.6-2-.3-1.4-.8-2-2-2.5v-5.5" />
+    <path d="M5.5 15.5h3.5" />
+  </g>
+  <text x="645" y="78" class="icon-label">Анатомические лёгкие</text>
+  <text x="645" y="94" class="icon-sub">Organic Lungs &amp; Lobes</text>
+
+  <!-- Вариант B (Древовидная бронхиальная система) -->
+  <rect x="790" y="0" width="130" height="105" class="card-vb" />
+  <g transform="translate(839, 20) scale(1.3333)" class="stroke-vb">
+    <path d="M12 3v6" />
+    <path d="M12 7.5l-2.5 2.5M12 7.5l2.5 2.5" />
+    <path d="M9.5 10l-2 2.5M14.5 10l2 2.5" />
+    <path d="M9.5 10.5c-3 0-5 2-5 5.5 0 3 2 4.5 4.5 4.5 2 0 3-1.5 3-4" />
+    <path d="M14.5 10.5c3 0 5 2 5 5.5 0 3-2 4.5-4.5 4.5-2 0-3-1.5-3-4" />
+  </g>
+  <text x="855" y="78" class="icon-label">Бронхиальное дерево</text>
+  <text x="855" y="94" class="icon-sub">Bronchial Tree</text>
+</g>
+
+</svg>

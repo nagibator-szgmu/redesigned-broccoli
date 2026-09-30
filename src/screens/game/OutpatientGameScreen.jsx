@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { FONT } from "../../ui/theme";
 import { HeaderBackBtn } from "../../ui/components";
+import { IconMicroscope, IconClipboard, IconFileText, IconBook, IconStethoscope } from "../../ui/icons";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import useIsMobile from "../../hooks/useIsMobile";
@@ -58,9 +59,9 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
   };
 
   const steps = [
-    { key: "order_tests", label: t("phases.order_tests"), icon: "🔬" },
-    { key: "results", label: t("phases.awaiting_results"), icon: "📋" },
-    { key: "diagnose", label: t("outpatient.phases.diagnose"), icon: "📝" },
+    { key: "order_tests", label: t("phases.order_tests"), icon: <IconMicroscope size={14} color="currentColor" /> },
+    { key: "results", label: t("phases.awaiting_results"), icon: <IconClipboard size={14} color="currentColor" /> },
+    { key: "diagnose", label: t("outpatient.phases.diagnose"), icon: <IconFileText size={14} color="currentColor" /> },
   ];
   const activeStep = steps.findIndex(s => s.key === localPhase);
 
@@ -84,10 +85,18 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
         <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={true} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
-          <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏥 {t("department.outpatient")} · {t("outpatient.appointment")}</div>
+          <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 4 }}>
+            <IconStethoscope size={11} color="currentColor" /> {t("department.outpatient")} · {t("outpatient.appointment")}
+          </div>
         </div>
-        {learningMode && <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>📚 {t("game.learning")}</span>}
-        <div onClick={() => setShowTheory(v => !v)} style={{ fontSize: 16, cursor: "pointer", color: C.accent, padding: "2px 6px" }}>📚</div>
+        {learningMode && (
+          <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 3 }}>
+            <IconBook size={10} color="currentColor" /> {t("game.learning")}
+          </span>
+        )}
+        <div onClick={() => setShowTheory(v => !v)} style={{ cursor: "pointer", color: C.accent, padding: "2px 6px", display: "flex", alignItems: "center" }}>
+          <IconBook size={16} color="currentColor" />
+        </div>
       </header>
       {learningMode && learningTip && <LearningTipToast tip={learningTip} isMobile />}
       <TheoryModal relatedTopics={relatedTopics} showTheory={showTheory} setShowTheory={setShowTheory} activeTheoryTopic={activeTheoryTopic} setActiveTheoryTopic={setActiveTheoryTopic} isMobile={isMobile} />
@@ -107,11 +116,19 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
           <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={false} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name} · {cd.age} {t("cases.ageSuffix")} · {cd.gender}</div>
-            <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏥 {t("department.outpatient")} · {t("outpatient.appointment")}</div>
+            <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 4 }}>
+              <IconStethoscope size={11} color="currentColor" /> {t("department.outpatient")} · {t("outpatient.appointment")}
+            </div>
           </div>
           <span style={{ background: `${C.accent}20`, border: `1px solid ${C.accent}44`, borderRadius: 5, padding: "2px 8px", fontSize: 10, color: C.accent, fontWeight: 700, fontFamily: FONT }}>{t("outpatient.appointment")}</span>
-          {learningMode && <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>📚 {t("game.learning")}</span>}
-          <div onClick={() => setShowTheory(v => !v)} style={{ fontSize: 16, cursor: "pointer", color: C.accent, padding: "2px 6px" }}>📚</div>
+          {learningMode && (
+            <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 3 }}>
+              <IconBook size={10} color="currentColor" /> {t("game.learning")}
+            </span>
+          )}
+          <div onClick={() => setShowTheory(v => !v)} style={{ cursor: "pointer", color: C.accent, padding: "2px 6px", display: "flex", alignItems: "center" }}>
+            <IconBook size={16} color="currentColor" />
+          </div>
         </header>
         {learningMode && learningTip && <LearningTipToast tip={learningTip} isMobile={false} />}
         <TheoryModal relatedTopics={relatedTopics} showTheory={showTheory} setShowTheory={setShowTheory} activeTheoryTopic={activeTheoryTopic} setActiveTheoryTopic={setActiveTheoryTopic} isMobile={false} />

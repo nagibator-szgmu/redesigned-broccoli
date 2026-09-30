@@ -11,106 +11,107 @@ export default function MobileFilterChips({
   t,
   C,
 }) {
-  return (
-    <>
-      {/* Department filter chips */}
-      <div
-        id="tutorial-filters"
-        className="no-scrollbar"
-        style={{
-          display: "flex",
-          gap: 8,
-          overflowX: "auto",
-          padding: "8px 16px 4px",
-          WebkitOverflowScrolling: "touch",
-        }}
-      >
-        {deptFilters.map(({ key, label }) => {
-          const isA = department === key;
-          return (
-            <button
-              key={key}
-              onClick={() => {
-                setDepartment(key);
-                if (key !== "all") checkDeptTutorial?.(key);
-              }}
-              style={{
-                flexShrink: 0,
-                minHeight: 38,
-                padding: "0 16px",
-                borderRadius: RADIUS.full,
-                fontSize: 13,
-                fontFamily: FONT,
-                fontWeight: 500,
-                cursor: "pointer",
-                background: isA ? `${C.accent}20` : C.btnBg,
-                border: `1px solid ${isA ? C.accent : C.border}`,
-                color: isA ? C.accent : C.textDim,
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-              }}
-            >
-              <span>{label}</span>
-            </button>
-          );
-        })}
-      </div>
+  const isAll = department === "all" && !specFilter;
 
-      {/* Spec chips */}
-      <div
-        className="no-scrollbar"
+  return (
+    <div
+      id="tutorial-filters"
+      className="no-scrollbar"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        overflowX: "auto",
+        padding: "4px 14px 4px",
+        WebkitOverflowScrolling: "touch",
+      }}
+    >
+      {/* 1. All Button */}
+      <button
+        onClick={() => {
+          setDepartment("all");
+          setSpecFilter(null);
+        }}
         style={{
-          display: "flex",
-          gap: 8,
-          overflowX: "auto",
-          padding: "6px 16px 12px",
-          WebkitOverflowScrolling: "touch",
+          flexShrink: 0,
+          minHeight: 34,
+          padding: "0 14px",
+          borderRadius: RADIUS.full,
+          fontSize: 12.5,
+          fontFamily: FONT,
+          fontWeight: isAll ? 700 : 500,
+          cursor: "pointer",
+          background: isAll ? `${C.accent}22` : C.btnBg,
+          border: `1px solid ${isAll ? C.accent : C.border}`,
+          color: isAll ? C.accent : C.textDim,
+          transition: "all 0.15s ease",
         }}
       >
-        <button
-          onClick={() => setSpecFilter(null)}
-          style={{
-            flexShrink: 0,
-            minHeight: 34,
-            padding: "0 14px",
-            borderRadius: RADIUS.full,
-            fontSize: 12,
-            fontFamily: FONT,
-            fontWeight: 500,
-            cursor: "pointer",
-            background: !specFilter ? `${C.accent}20` : C.btnBg,
-            border: `1px solid ${!specFilter ? C.accent : C.border}`,
-            color: !specFilter ? C.accent : C.textDim,
-          }}
-        >
-          {t("filter.all")}
-        </button>
-        {navSpec.map(({ label, cat }) => {
-          const isA = specFilter === cat;
-          return (
-            <button
-              key={cat}
-              onClick={() => setSpecFilter(isA ? null : cat)}
-              style={{
-                flexShrink: 0,
-                minHeight: 34,
-                padding: "0 14px",
-                borderRadius: RADIUS.full,
-                fontSize: 12,
-                fontFamily: FONT,
-                fontWeight: 500,
-                cursor: "pointer",
-                background: isA ? `${C.accent}20` : C.btnBg,
-                border: `1px solid ${isA ? C.accent : C.border}`,
-                color: isA ? C.accent : C.textDim,
-              }}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-    </>
+        {t("filter.all")}
+      </button>
+
+      {/* 2. Departments */}
+      {deptFilters.filter((d) => d.key !== "all").map(({ key, label }) => {
+        const isA = department === key && !specFilter;
+        return (
+          <button
+            key={key}
+            onClick={() => {
+              setDepartment(key);
+              setSpecFilter(null);
+              if (key !== "all") checkDeptTutorial?.(key);
+            }}
+            style={{
+              flexShrink: 0,
+              minHeight: 34,
+              padding: "0 13px",
+              borderRadius: RADIUS.full,
+              fontSize: 12.5,
+              fontFamily: FONT,
+              fontWeight: isA ? 700 : 500,
+              cursor: "pointer",
+              background: isA ? `${C.accent}22` : C.btnBg,
+              border: `1px solid ${isA ? C.accent : C.border}`,
+              color: isA ? C.accent : C.textDim,
+              transition: "all 0.15s ease",
+            }}
+          >
+            {label}
+          </button>
+        );
+      })}
+
+      {/* Divider */}
+      <div style={{ width: 1, height: 18, background: C.border, flexShrink: 0, margin: "0 2px" }} />
+
+      {/* 3. Specialties */}
+      {navSpec.map(({ label, cat }) => {
+        const isA = specFilter === cat;
+        return (
+          <button
+            key={cat}
+            onClick={() => {
+              setSpecFilter(isA ? null : cat);
+            }}
+            style={{
+              flexShrink: 0,
+              minHeight: 34,
+              padding: "0 13px",
+              borderRadius: RADIUS.full,
+              fontSize: 12.5,
+              fontFamily: FONT,
+              fontWeight: isA ? 700 : 500,
+              cursor: "pointer",
+              background: isA ? `${C.accent}22` : C.btnBg,
+              border: `1px solid ${isA ? C.accent : C.border}`,
+              color: isA ? C.accent : C.textDim,
+              transition: "all 0.15s ease",
+            }}
+          >
+            {label}
+          </button>
+        );
+      })}
+    </div>
   );
 }

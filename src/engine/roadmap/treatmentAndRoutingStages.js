@@ -34,7 +34,7 @@ export function buildTreatmentStage({ cd, sourceRef, selTreat = [] }) {
         done: false,
         krStatus: "critical_danger",
         rationale:
-          "🚨 ПРОТИВОПОКАЗАНО по КР: применение ухудшает прогноз или несет риск летального исхода!",
+          "ПРОТИВОПОКАЗАНО по КР: применение ухудшает прогноз или несет риск летального исхода!",
       });
     }
   });
@@ -52,7 +52,7 @@ export function buildTreatmentStage({ cd, sourceRef, selTreat = [] }) {
     id: "treatment",
     stepNumber: 5,
     title: "5. Фармакотерапия и экстренные вмешательства",
-    icon: "💊",
+    icon: "pill",
     status: isTreatFullyDone ? "done" : isTreatPartial ? "partial" : "missed",
     statusLabel: isTreatFullyDone
       ? "Выполнено корректно (хорошо)"
@@ -101,7 +101,7 @@ export function buildRoutingStage({ cd, sourceRef, extraResult }) {
     id: "routing",
     stepNumber: 6,
     title: "6. Маршрутизация пациента и исходы",
-    icon: "🚶",
+    icon: "route",
     status: routingStatus,
     statusLabel: routingLabel,
     statusColor: routingColor,

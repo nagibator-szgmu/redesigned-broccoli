@@ -1,5 +1,6 @@
 import { FONT } from "../../../ui/theme";
 import { Tooltip } from "../../../ui/components";
+import { IconX } from "../../../ui/icons";
 
 export function SettingsDevSection({
   showDevSettings,
@@ -113,9 +114,9 @@ export function SettingsDevSection({
                   setLlmKey("");
                   localStorage.setItem("ms_llm_key", "");
                 }}
-                style={{ color: C.textDim, fontSize: 11, cursor: "pointer", marginLeft: 5 }}
+                style={{ color: C.textDim, cursor: "pointer", marginLeft: 5, display: "flex", alignItems: "center" }}
               >
-                ✕
+                <IconX size={11} color={C.textDim} />
               </span>
             )}
           </div>

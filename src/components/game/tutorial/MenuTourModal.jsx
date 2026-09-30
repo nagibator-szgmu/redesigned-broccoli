@@ -1,6 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { FONT } from "../../../ui/theme";
+import { IconTarget } from "../../../ui/icons";
 import { SpotlightOverlay, TooltipCard } from "./TutorialOverlays";
 import { MENU_TOUR_STEPS } from "./tutorialData";
 
@@ -17,7 +18,7 @@ export default function MenuTourModal({
       <SpotlightOverlay rect={menuRect} accent={C.accent} />
       <TooltipCard accent={C.accent}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-          <span style={{ fontSize: 18, flexShrink: 0 }}>📍</span>
+          <IconTarget size={18} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 11, color: C.accent, fontWeight: 600, marginBottom: 4 }}>
               Тур по меню · {inMenuTour} / {MENU_TOUR_STEPS.length}
@@ -49,15 +50,15 @@ export default function MenuTourModal({
               padding: "6px 16px",
               borderRadius: 8,
               border: "none",
-              background: `linear-gradient(135deg,${C.accent},${C.green})`,
+              background: C.accent,
+              color: "#FFFFFF",
               fontSize: 12,
-              fontWeight: 600,
-              color: C.bg,
+              fontWeight: 700,
               cursor: "pointer",
               fontFamily: FONT,
             }}
           >
-            {inMenuTour < MENU_TOUR_STEPS.length ? "Далее" : "Понятно"}
+            {inMenuTour < MENU_TOUR_STEPS.length ? "Далее" : "Завершить"}
           </button>
         </div>
       </TooltipCard>

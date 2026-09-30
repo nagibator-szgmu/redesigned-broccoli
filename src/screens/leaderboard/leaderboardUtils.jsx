@@ -2,7 +2,7 @@ import React from "react";
 import { TOPICS } from "../../data/topics";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
-  IconEndocrine, IconToxicology, IconTrophy,
+  IconEndocrine, IconToxicology, IconAbdominal, IconTrophy,
   IconGraduationCap, IconStethoscope, IconTarget,
 } from "../../ui/icons";
 
@@ -13,6 +13,7 @@ export const CAT_META = {
   infectious: { icon: <IconInfectious size={18} color="#F97316" />, color: "#F97316" },
   endocrine: { icon: <IconEndocrine size={18} color="#F59E0B" />, color: "#F59E0B" },
   toxicology: { icon: <IconToxicology size={18} color="#F97316" />, color: "#F97316" },
+  abdominal: { icon: <IconAbdominal size={18} color="#F97316" />, color: "#F97316" },
 };
 
 export function renderCertIcon(cert, isEarned) {

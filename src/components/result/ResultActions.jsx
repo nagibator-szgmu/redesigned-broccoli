@@ -1,6 +1,7 @@
 import { useTheme } from "../../ui/ThemeContext";
 import { FONT } from "../../ui/theme";
 import { useTranslate } from "../../locale/useTranslate";
+import { IconBook, IconPlay, IconClipboard, IconCheck, IconArrowRight } from "../../ui/icons";
 import { TOPICS } from "../../data/topics";
 import { QUIZ_QUESTIONS } from "../../data/quiz";
 
@@ -35,30 +36,34 @@ export default function ResultActions({ curriculum, advanceCurriculum, getNextCu
           fontSize: 12, color: C.accent, fontWeight: 600, fontFamily: FONT, marginBottom: 4,
           display: "flex", alignItems: "center", gap: 8
         }}>
-          <span>📚</span>
-          {t("theory.course")}: {topic.name}
+          <IconBook size={14} color={C.accent} />
+          <span>{t("theory.course")}: {topic.name}</span>
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {nextCaseId ? (
             <button onClick={handleNextCase}
-              style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.accent},${C.green})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5 }}>
-              ▶ {t("result.nextCase")} ({(topic.cases.length - curriculum.caseQueue.length) + 1}/{Math.min(topic.cases.length, 3)})
+              style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.accent},${C.green})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <IconPlay size={16} color={C.bg} />
+              <span>{t("result.nextCase")} ({(topic.cases.length - curriculum.caseQueue.length) + 1}/{Math.min(topic.cases.length, 3)})</span>
             </button>
           ) : hasQuiz ? (
             <button onClick={() => setPhase("theory")}
-              style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.yellow},${C.orange || C.yellow})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5 }}>
-              📝 {t("quiz.quiz")}
+              style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.yellow},${C.orange || C.yellow})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <IconClipboard size={16} color={C.bg} />
+              <span>{t("quiz.quiz")}</span>
             </button>
           ) : (
             <>
               <button onClick={handleNextTopic}
-                style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.accent},${C.green})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5 }}>
-                ✓ {t("theory.topicComplete", {n: topic.cases.length})}
+                style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.accent},${C.green})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                <IconCheck size={16} color={C.bg} strokeWidth={3} />
+                <span>{t("theory.topicComplete", {n: topic.cases.length})}</span>
               </button>
               {getNextCurriculumTopic && getNextCurriculumTopic(curriculum.topicId) && (
                 <button onClick={handleNextTopic}
-                  style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.blue || C.accent},${C.accent})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5 }}>
-                  ➜ {t("theory.nextTopic")}
+                  style={{ flex: 1, minWidth: 140, background: `linear-gradient(135deg,${C.blue || C.accent},${C.accent})`, border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, letterSpacing: 0.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                  <IconArrowRight size={16} color={C.bg} strokeWidth={3} />
+                  <span>{t("theory.nextTopic")}</span>
                 </button>
               )}
             </>

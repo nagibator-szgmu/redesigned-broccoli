@@ -1,0 +1,16 @@
+Привет! Я прикрепил два файла:
+1. `MEDSIM_ICONS_REVISION_FOR_CHATGPT.md` — подробная ревизия, дизайн-токены и перечень всех 73 компонентов иконок.
+2. `CURRENT_ICONS_SOURCE.jsx` — текущая версия файла `src/ui/icons.jsx`.
+
+Твоя задача:
+Полностью переписать и сгенерировать новый единый файл `src/ui/icons.jsx` для React-приложения MedSim в соответствии со спецификацией.
+
+Ключевые правила:
+1. Только нативные SVG в чистом React JSX, без сторонних библиотек (только `import React from 'react';`).
+2. Единая сетка `viewBox="0 0 24 24"`, активная область 20x20.
+3. Единый стиль "Medical-grade Minimalist Stroke" (strokeWidth = 2, strokeLinecap="round", strokeLinejoin="round", stroke={color}, fill="none").
+4. Единый интерфейс пропсов:
+   `export function IconName({ size = 20, color = "currentColor", strokeWidth = 2, className = "", style = {}, ...props })`
+5. Реализуй ВСЕ 73 экспорта из спецификации, без `// TODO` и плейсхолдеров, с математически выверенными плавными дугами path d="...".
+
+Выдай готовый файл целиком в одном блоке кода.

@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
 import { FONT } from "../../ui/theme";
+import { IconBell, IconTarget, IconX } from "../../ui/icons";
 
 /** MenuNotificationsModal component for displaying notification overlay with pin and delete. */
 export default function MenuNotificationsModal({
@@ -43,15 +44,15 @@ export default function MenuNotificationsModal({
           </div>
           <button
             type="button" onClick={() => setShowNotif(false)} aria-label="Закрыть"
-            style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg, border: "none" }}
+            style={{ color: C.textDim, cursor: "pointer", padding: "4px 8px", borderRadius: 6, background: C.dimBg, border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}
           >
-            ✕
+            <IconX size={12} color={C.textDim} />
           </button>
         </div>
 
         {notifications.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "28px 12px", color: C.textDim, fontSize: 13 }}>
-            <div style={{ fontSize: 28, marginBottom: 8, opacity: 0.6 }}>🔕</div>
+          <div style={{ textAlign: "center", padding: "28px 12px", color: C.textDim, fontSize: 13, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <IconBell size={28} color={C.textDim} style={{ marginBottom: 8, opacity: 0.6 }} />
             <div>{t("notifications.empty")}</div>
           </div>
         ) : (
@@ -95,14 +96,14 @@ export default function MenuNotificationsModal({
                         color: isPinned ? C.yellow : C.textDim,
                       }}
                     >
-                      📌
+                      <IconTarget size={11} color="currentColor" />
                     </button>
                     <button
                       type="button" title={t("notifications.delete")}
                       onClick={(e) => { e.stopPropagation(); if (deleteNotif) deleteNotif(n.id); }}
                       style={btnBaseStyle}
                     >
-                      ✕
+                      <IconX size={11} color="currentColor" />
                     </button>
                   </div>
                 </div>

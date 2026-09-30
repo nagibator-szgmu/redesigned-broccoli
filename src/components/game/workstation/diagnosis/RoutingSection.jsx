@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "../../../../ui/ThemeContext";
 import { FONT } from "../../../../ui/theme";
 import { STitle } from "../../../../ui/components";
+import { IconRoute, IconCheck } from "../../../../ui/icons";
 import { ROUTE_ICONS } from "../../../../screens/game/OutpatientPanels";
 
 /**
@@ -19,7 +20,7 @@ export default function RoutingSection({ routeOptions = [], selectedRoute, setSe
         padding: "12px 14px",
       }}
     >
-      <STitle icon="🚶" label={t("outpatient.routeTitle")} color={selectedRoute ? C.green : C.yellow} />
+      <STitle icon={<IconRoute size={15} color={selectedRoute ? C.green : C.yellow} />} label={t("outpatient.routeTitle")} color={selectedRoute ? C.green : C.yellow} />
       <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 6 }}>
         {routeOptions.map((opt) => {
           const sel = selectedRoute === opt.id;
@@ -39,11 +40,13 @@ export default function RoutingSection({ routeOptions = [], selectedRoute, setSe
                 transition: "all 0.15s",
               }}
             >
-              <span style={{ fontSize: 18 }}>{ROUTE_ICONS[opt.id] || "📋"}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 20, height: 20, flexShrink: 0, color: sel ? C.green : C.textDim }}>
+                {ROUTE_ICONS[opt.id]}
+              </span>
               <span style={{ fontSize: 13, color: sel ? C.green : C.text, fontWeight: sel ? 600 : 400, fontFamily: FONT, flex: 1 }}>
                 {opt.label}
               </span>
-              {sel && <span style={{ fontSize: 14, color: C.green }}>✓</span>}
+              {sel && <IconCheck size={14} color={C.green} />}
             </div>
           );
         })}

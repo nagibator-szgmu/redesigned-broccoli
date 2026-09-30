@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { FONT } from "../../ui/theme";
+import { IconAlertTriangle } from "../../ui/icons";
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -37,7 +38,9 @@ export default class ErrorBoundary extends Component {
               textAlign: "center",
             }}
           >
-            <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <IconAlertTriangle size={48} color="#F43F5E" />
+            </div>
             <h2 style={{ fontSize: 18, fontWeight: 700, color: "#F43F5E", marginBottom: 12 }}>
               Произошла ошибка
             </h2>

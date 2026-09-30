@@ -1,6 +1,7 @@
 import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
+import { IconCheck, IconAlertTriangle, IconSiren, IconSkull } from "../../ui/icons";
 
 export default function ScoreCard({ result, cd, isMobile }) {
   const C = useTheme();
@@ -10,14 +11,15 @@ export default function ScoreCard({ result, cd, isMobile }) {
   const gCol = gradeColor[result.gradeId] || C.accent;
 
   const outcomeMap = {
-    stabilized: { color: C.green, label: t("outcome.stabilized") || t("outcome.stable"), icon: "✓" },
-    stable: { color: C.green, label: t("outcome.stable"), icon: "✓" },
-    unstable: { color: C.yellow, label: t("outcome.unstable"), icon: "⚠" },
-    critical: { color: C.red, label: t("outcome.critical"), icon: "🚨" },
-    dead: { color: C.red, label: t("outcome.dead"), icon: "💀" },
-    unknown: { color: C.textDim, label: t("outcome.unknown"), icon: "?" },
+    stabilized: { color: C.green, label: t("outcome.stabilized") || t("outcome.stable"), icon: IconCheck },
+    stable: { color: C.green, label: t("outcome.stable"), icon: IconCheck },
+    unstable: { color: C.yellow, label: t("outcome.unstable"), icon: IconAlertTriangle },
+    critical: { color: C.red, label: t("outcome.critical"), icon: IconSiren },
+    dead: { color: C.red, label: t("outcome.dead"), icon: IconSkull },
+    unknown: { color: C.textDim, label: t("outcome.unknown"), icon: null },
   };
   const oc = outcomeMap[result.outcome] || outcomeMap.unknown;
+  const OcIcon = oc.icon;
 
   const scoreSize = isMobile ? 64 : 72;
   const cardStyle = isMobile
@@ -36,7 +38,10 @@ export default function ScoreCard({ result, cd, isMobile }) {
         </div>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: isMobile ? "center" : undefined, marginBottom: isMobile ? 0 : 8 }}>
           <span style={{ background: `${gCol}20`, border: `1px solid ${gCol}55`, borderRadius: 20, padding: `5px ${isMobile ? 16 : 18}px`, fontSize: isMobile ? 13 : 14, color: gCol, fontWeight: 700, fontFamily: FONT }}>{t(`grades.${result.gradeId}`)}</span>
-          <span style={{ background: `${oc.color}20`, border: `1px solid ${oc.color}55`, borderRadius: 20, padding: `5px ${isMobile ? 16 : 18}px`, fontSize: isMobile ? 13 : 14, color: oc.color, fontWeight: 700, fontFamily: FONT }}>{oc.icon} {oc.label}</span>
+          <span style={{ background: `${oc.color}20`, border: `1px solid ${oc.color}55`, borderRadius: 20, padding: `5px ${isMobile ? 16 : 18}px`, fontSize: isMobile ? 13 : 14, color: oc.color, fontWeight: 700, fontFamily: FONT, display: "inline-flex", alignItems: "center", gap: 6 }}>
+            {OcIcon && <OcIcon size={15} color={oc.color} />}
+            <span>{oc.label}</span>
+          </span>
         </div>
         {result.timeout && <div style={{ color: C.red, fontSize: 12, fontFamily: FONT }}>{t("result.timeout")}</div>}
         {result.died && <div style={{ color: C.red, fontSize: 12, fontFamily: FONT }}>{t("result.died")}</div>}

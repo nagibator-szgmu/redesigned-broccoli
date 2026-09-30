@@ -2,6 +2,7 @@ import { FONT } from "../../ui/theme";
 import { useTranslate } from "../../locale/useTranslate";
 import { TOPICS } from "../../data/topics";
 import { QUIZ_QUESTIONS } from "../../data/quiz";
+import { IconCheck, IconPlay, IconClipboard } from "../../ui/icons";
 
 export default function TheoryCurriculumBox({ topicId, onQuiz, progress, startGame, C }) {
   const { t } = useTranslate();
@@ -26,8 +27,9 @@ export default function TheoryCurriculumBox({ topicId, onQuiz, progress, startGa
             {t("theory.practice")}
           </div>
           {isComplete ? (
-            <div style={{ padding: "10px 14px", background: `${C.green}10`, border: `1px solid ${C.green}33`, borderRadius: 10, fontSize: 12, color: C.green, fontFamily: FONT }}>
-              ✓ {t("theory.topicComplete", { n: casesDone })}
+            <div style={{ padding: "10px 14px", background: `${C.green}10`, border: `1px solid ${C.green}33`, borderRadius: 10, fontSize: 12, color: C.green, fontFamily: FONT, display: "flex", alignItems: "center", gap: 8 }}>
+              <IconCheck size={14} color={C.green} />
+              <span>{t("theory.topicComplete", { n: casesDone })}</span>
             </div>
           ) : (
             <>
@@ -43,17 +45,19 @@ export default function TheoryCurriculumBox({ topicId, onQuiz, progress, startGa
                     border: `1px solid ${C.accent}40`, color: C.accent, fontSize: 13,
                     fontWeight: 600, fontFamily: FONT, cursor: "pointer", transition: "all 0.15s"
                   }}>
-                  <span style={{ fontSize: 16 }}>▶</span>
-                  {t("theory.startPractice")}
+                  <IconPlay size={14} color={C.accent} />
+                  <span>{t("theory.startPractice")}</span>
                 </button>
                 {tp && tp.quizPassed === false && casesDone >= topic.cases.length && (
                   <button onClick={onQuiz}
                     style={{
                       padding: "10px 16px", borderRadius: 10, background: `${C.yellow}15`,
                       border: `1px solid ${C.yellow}33`, color: C.yellow, fontSize: 13,
-                      fontWeight: 600, fontFamily: FONT, cursor: "pointer", transition: "all 0.15s"
+                      fontWeight: 600, fontFamily: FONT, cursor: "pointer", transition: "all 0.15s",
+                      display: "flex", alignItems: "center", gap: 6,
                     }}>
-                    📝 {t("quiz.quiz")}
+                    <IconClipboard size={14} color={C.yellow} />
+                    <span>{t("quiz.quiz")}</span>
                   </button>
                 )}
               </div>
@@ -76,8 +80,8 @@ export default function TheoryCurriculumBox({ topicId, onQuiz, progress, startGa
               border: `1px solid ${C.accent}33`, color: C.accent, fontSize: 14,
               fontWeight: 600, fontFamily: FONT, cursor: "pointer", transition: "all 0.15s"
             }}>
-            <span style={{ fontSize: 18 }}>📝</span>
-            {t("theory.quizByTopic", { n: QUIZ_QUESTIONS[topicId].length })}
+            <IconClipboard size={18} color={C.accent} />
+            <span>{t("theory.quizByTopic", { n: QUIZ_QUESTIONS[topicId].length })}</span>
           </button>
           <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 6 }}>
             {t("theory.quizThreshold")}

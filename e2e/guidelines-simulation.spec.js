@@ -28,8 +28,12 @@ test.describe("Russian Clinical Guidelines Emergency Cases Simulation Flow", () 
     const treatTabBtn = page.locator("button:has-text('Лечение'), button:has-text('Назначения')").first();
     if (await treatTabBtn.isVisible()) {
       await treatTabBtn.click();
-      await page.waitForTimeout(400);
-      const salbutamolOption = page.locator("text=/Сальбутамол/i").first();
+      let salbutamolOption = page.locator("text=/Сальбутамол/i").first();
+      if (!(await salbutamolOption.isVisible())) {
+        const catHeader = page.locator("button:has-text('Дыхание')").first();
+        if (await catHeader.isVisible()) await catHeader.click();
+        await page.waitForTimeout(300);
+      }
       await expect(salbutamolOption).toBeVisible({ timeout: 5000 });
     }
 
@@ -67,8 +71,12 @@ test.describe("Russian Clinical Guidelines Emergency Cases Simulation Flow", () 
     const treatTabBtn = page.locator("button:has-text('Лечение'), button:has-text('Назначения')").first();
     if (await treatTabBtn.isVisible()) {
       await treatTabBtn.click();
-      await page.waitForTimeout(400);
-      const urapidilOption = page.locator("text=/Урапидил/i").first();
+      let urapidilOption = page.locator("text=/Урапидил/i").first();
+      if (!(await urapidilOption.isVisible())) {
+        const catHeader = page.locator("button:has-text('Кардиоваскулярные')").first();
+        if (await catHeader.isVisible()) await catHeader.click();
+        await page.waitForTimeout(300);
+      }
       await expect(urapidilOption).toBeVisible({ timeout: 5000 });
     }
   });

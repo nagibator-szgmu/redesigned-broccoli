@@ -1,6 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { FONT } from "../../../ui/theme";
+import { IconBook } from "../../../ui/icons";
 import { SpotlightOverlay, TooltipCard } from "./TutorialOverlays";
 
 export default function GameTipModal({ tip, gameTipRect, onDismiss, C }) {
@@ -21,7 +22,7 @@ export default function GameTipModal({ tip, gameTipRect, onDismiss, C }) {
       )}
       <TooltipCard accent={C.accent}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-          <span style={{ fontSize: 18, flexShrink: 0 }}>📖</span>
+          <IconBook size={18} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 11, color: C.accent, fontWeight: 600, marginBottom: 4 }}>
               Обучение

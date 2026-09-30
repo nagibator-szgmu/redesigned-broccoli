@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FONT, getCategoryColor } from "./theme";
 import { useTheme } from "./ThemeContext";
 import { DIAGNOSTICS, DIAGNOSTIC_REFS } from "../data/diagnostics";
+import { IconXRay } from "./icons";
 import DicomViewer from "../components/game/DicomViewer";
 import Tooltip from "./Tooltip";
 
@@ -68,7 +69,8 @@ export default function ResultCard({ id, text, isNew, cd }) {
                 marginLeft: "auto", transition: "all 0.15s"
               }}
             >
-              📷 PACS Снимки
+              <IconXRay size={12} color={color} />
+              <span>PACS Снимки</span>
             </button>
           )}
         </div>

@@ -2,6 +2,7 @@ import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconFileText, IconCheck } from "../../ui/icons";
 import { TREATMENTS } from "../../data/treatments";
 
 export default function DocLayer({ cd, extraResult, vitalDeltas, selTreat, isMobile }) {
@@ -10,7 +11,7 @@ export default function DocLayer({ cd, extraResult, vitalDeltas, selTreat, isMob
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-      <STitle icon="📄" label={t("docLayer.title")} color={C.accent} />
+      <STitle icon={<IconFileText size={15} color={C.accent} />} label={t("docLayer.title")} color={C.accent} />
       {cd.department === "outpatient" && <OutpatientDoc cd={cd} extraResult={extraResult} C={C} t={t} isMobile={isMobile} />}
       {cd.department === "stationary" && <StationaryDoc cd={cd} extraResult={extraResult} C={C} t={t} isMobile={isMobile} />}
       {cd.department === "emergency" && <EmergencyDoc vitalDeltas={vitalDeltas} selTreat={selTreat} C={C} t={t} isMobile={isMobile} />}
@@ -65,7 +66,7 @@ function StationaryDoc({ cd, extraResult, C, t, isMobile }) {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: 6 }}>
               {extraResult.dayHistory.map((h, i) => (
                 <div key={i} style={{ fontSize: 11, color: C.text, fontFamily: CODE, lineHeight: 1.5 }}>
-                  {t("stationary.day", { n: h.day })}: АД {Math.round(h.vitals.sbp)}/{Math.round(h.vitals.dbp)}, ЧСС {Math.round(h.vitals.hr)}{h.treatments.length > 0 ? `\n  💊 ${h.treatments.join(", ")}` : ""}
+                  {t("stationary.day", { n: h.day })}: АД {Math.round(h.vitals.sbp)}/{Math.round(h.vitals.dbp)}, ЧСС {Math.round(h.vitals.hr)}{h.treatments.length > 0 ? `\n  ${h.treatments.join(", ")}` : ""}
                 </div>
               ))}
             </div>
@@ -111,7 +112,12 @@ function EmergencyDoc({ vitalDeltas, selTreat, C, t, isMobile }) {
             <div style={{ fontSize: isMobile ? 9 : 10, color: C.textDim, textTransform: "uppercase", marginBottom: 3, fontFamily: FONT }}>{t("docLayer.treatLog")}</div>
             {selTreat.map(id => {
               const name = TREATMENTS.find(t => t.id === id)?.name || id;
-              return <div key={id} style={{ fontSize: isMobile ? 10 : 11, color: C.green, fontFamily: FONT, marginBottom: isMobile ? 1 : 2 }}>✓ {name}</div>;
+              return (
+                <div key={id} style={{ fontSize: isMobile ? 10 : 11, color: C.green, fontFamily: FONT, marginBottom: isMobile ? 1 : 2, display: "flex", alignItems: "center", gap: 5 }}>
+                  <IconCheck size={11} color={C.green} strokeWidth={3} />
+                  <span>{name}</span>
+                </div>
+              );
             })}
           </div>
         )}

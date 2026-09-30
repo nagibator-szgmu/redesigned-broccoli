@@ -4,6 +4,7 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
 import { DAY_COLORS } from "./constants";
+import { IconCheck } from "../../../ui/icons";
 
 /** Test ordering panel in stationary game */
 export default function TestSelection({ selDiag, setSelDiag, handleOrderTests, cycle }) {
@@ -54,7 +55,7 @@ export default function TestSelection({ selDiag, setSelDiag, handleOrderTests, c
                   flexShrink: 0,
                 }}
               >
-                {selected && <span style={{ fontSize: 9, color: C.bg, fontWeight: 900 }}>✓</span>}
+                {selected && <IconCheck size={11} color={C.bg} strokeWidth={3} />}
               </div>
               <span style={{ fontSize: 12.5, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
                 {item.name}

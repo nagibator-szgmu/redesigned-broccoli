@@ -1,7 +1,7 @@
 import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { PASS_THRESHOLD } from "../../data/quiz";
-import { IconCheck, IconBook } from "../../ui/icons";
+import { IconCheck, IconBook, IconX } from "../../ui/icons";
 
 export default function QuizResultView({
   quiz,
@@ -63,10 +63,10 @@ export default function QuizResultView({
               border: `1px solid ${isCorrect ? `${C.green}33` : `${C.red}33`}`,
             }}
           >
-            <div style={{ fontSize: 12, color: C.textDim, fontFamily: FONT, marginBottom: 4 }}>
-              {i + 1}. {isCorrect ? "✓" : "✗"}{" "}
-              {question.text.slice(0, 80)}
-              {question.text.length > 80 ? "..." : ""}
+            <div style={{ fontSize: 12, color: C.textDim, fontFamily: FONT, marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
+              <span>{i + 1}.</span>
+              {isCorrect ? <IconCheck size={12} color={C.green} strokeWidth={2.5} /> : <IconX size={12} color={C.red} strokeWidth={2.5} />}
+              <span>{question.text.slice(0, 80)}{question.text.length > 80 ? "..." : ""}</span>
             </div>
             {!isCorrect && (
               <div style={{ fontSize: 11, color: C.accent, fontFamily: FONT, marginTop: 4 }}>

@@ -1,78 +1,97 @@
-import { RADIUS, FONT, CODE } from "../../../ui/theme";
+import React from "react";
+import { FONT } from "../../../ui/theme";
+import { IconHospital, IconBook, IconMap, IconTrophy, IconMenu } from "../../../ui/icons";
 
-export default function MobileBottomBar({ casesPlayed, totalScore, startGame, t, C }) {
-  const avgScore = casesPlayed ? Math.round(totalScore / casesPlayed) : 0;
-  const stats = [
-    { v: casesPlayed, l: t("progress.cases"), c: C.accent },
-    { v: avgScore, l: t("progress.avgScore"), c: C.green },
-    { v: totalScore, l: t("progress.totalPoints"), c: C.yellow },
+export default function MobileBottomBar({ setPhase, setDrawerOpen, t, C }) {
+  const navItems = [
+    {
+      id: "cases",
+      label: "Кейсы",
+      Icon: IconHospital,
+      action: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+      active: true,
+    },
+    {
+      id: "theory",
+      label: t("nav.theory") || "Теория",
+      Icon: IconBook,
+      action: () => setPhase("theory"),
+    },
+    {
+      id: "course",
+      label: t("nav.course") || "Курс",
+      Icon: IconMap,
+      action: () => setPhase("course"),
+    },
+    {
+      id: "leaderboard",
+      label: t("nav.leaderboard") || "Награды",
+      Icon: IconTrophy,
+      action: () => setPhase("leaderboard"),
+    },
+    {
+      id: "menu",
+      label: t("nav.menu") || "Меню",
+      Icon: IconMenu,
+      action: () => setDrawerOpen(true),
+    },
   ];
 
   return (
-    <div
+    <nav
       style={{
         position: "fixed",
         bottom: 0,
         left: 0,
         right: 0,
         zIndex: 90,
+        minHeight: 52,
         background: C.headerBg,
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         borderTop: `1px solid ${C.border}`,
-        padding: "10px 16px calc(10px + env(safe-area-inset-bottom, 10px))",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        paddingBottom: "max(6px, env(safe-area-inset-bottom, 6px))",
+        boxSizing: "border-box",
       }}
     >
-      <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-        {stats.map(({ v, l, c }) => (
-          <div
-            key={l}
+      {navItems.map(({ id, label, Icon, action, active }) => (
+        <button
+          key={id}
+          onClick={action}
+          style={{
+            flex: 1,
+            minHeight: 48,
+            border: "none",
+            background: "transparent",
+            cursor: "pointer",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2,
+            touchAction: "manipulation",
+            padding: "4px 2px",
+          }}
+        >
+          <span style={{ color: active ? C.accent : C.textDim, display: "inline-flex" }}>
+            <Icon size={18} color="currentColor" />
+          </span>
+          <span
             style={{
-              flex: 1,
-              background: C.btnBg,
-              borderRadius: RADIUS.sm,
-              padding: "6px 8px",
-              textAlign: "center",
-              border: `1px solid ${C.border}`,
+              fontSize: 10.5,
+              fontFamily: FONT,
+              fontWeight: active ? 600 : 500,
+              color: active ? C.accent : C.textDim,
+              lineHeight: 1.2,
             }}
           >
-            <div
-              className="tabular-nums"
-              style={{
-                fontSize: 16,
-                fontWeight: 700,
-                color: c,
-                fontFamily: CODE,
-                lineHeight: 1,
-              }}
-            >
-              {v}
-            </div>
-            <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>{l}</div>
-          </div>
-        ))}
-      </div>
-      <button
-        className="start-btn"
-        onClick={startGame}
-        style={{
-          background: `linear-gradient(135deg,${C.accent},${C.green})`,
-          border: "none",
-          borderRadius: RADIUS.sm,
-          minHeight: 46,
-          padding: "0 16px",
-          fontSize: 15,
-          fontWeight: 700,
-          color: C.bg,
-          cursor: "pointer",
-          fontFamily: FONT,
-          letterSpacing: 0.3,
-          width: "100%",
-          boxShadow: `0 4px 20px ${C.accent}30`,
-        }}
-      >
-        {t("cta.newPatient")}
-      </button>
-    </div>
+            {label}
+          </span>
+        </button>
+      ))}
+    </nav>
   );
 }

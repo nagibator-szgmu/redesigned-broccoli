@@ -2,6 +2,7 @@ import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconVial, IconCheck, IconX } from "../../ui/icons";
 import { DIAGNOSTICS, MISSED_TEST_REASONS } from "../../data/diagnostics";
 
 export default function TestAnalysis({ cd, orderedDiag, isMobile }) {
@@ -13,14 +14,19 @@ export default function TestAnalysis({ cd, orderedDiag, isMobile }) {
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-      <STitle icon="🧪" label={t("result.testAnalysis")} color={C.accent} />
+      <STitle icon={<IconVial size={15} color={C.accent} />} label={t("result.testAnalysis")} color={C.accent} />
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 8 : 12 }}>
         <div>
           <div style={{ fontSize: isMobile ? 11 : 12, color: C.textDim, marginBottom: isMobile ? 5 : 6, textTransform: "uppercase", fontFamily: FONT }}>{t("result.ordered")}</div>
           {cd.needDiag.map(id => {
             const done = orderedDiag.includes(id);
             const name = DIAGNOSTICS.find(d => d.id === id)?.name || id;
-            return <div key={id} style={{ fontSize: 13, color: done ? C.green : C.red, marginBottom: 3, fontFamily: FONT }}>{done ? "✓" : "✗"} {name}</div>;
+            return (
+              <div key={id} style={{ fontSize: 13, color: done ? C.green : C.red, marginBottom: 4, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
+                {done ? <IconCheck size={13} color={C.green} /> : <IconX size={13} color={C.red} />}
+                <span>{name}</span>
+              </div>
+            );
           })}
           {extraTests.length > 0 && (
             <div style={{ marginTop: 8 }}>
@@ -40,7 +46,10 @@ export default function TestAnalysis({ cd, orderedDiag, isMobile }) {
                 const reason = MISSED_TEST_REASONS[id];
                 return (
                   <div key={id} style={{ background: C.redDim, border: `1px solid ${C.red}33`, borderRadius: 6, padding: "6px 10px", marginBottom: 6 }}>
-                    <div style={{ fontSize: 13, color: C.red, marginBottom: reason ? 3 : 0, fontFamily: FONT }}>✗ {name}</div>
+                    <div style={{ fontSize: 13, color: C.red, marginBottom: reason ? 3 : 0, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
+                      <IconX size={13} color={C.red} />
+                      <span>{name}</span>
+                    </div>
                     {reason && <div style={{ fontSize: 12, color: C.text, lineHeight: 1.5, fontFamily: FONT }}>{reason}</div>}
                   </div>
                 );

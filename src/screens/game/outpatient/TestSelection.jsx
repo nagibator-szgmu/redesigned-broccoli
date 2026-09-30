@@ -3,6 +3,7 @@ import { FONT, getCategoryColor } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
+import { IconCheck } from "../../../ui/icons";
 
 /** Test ordering panel with full diagnostics catalog (FR-С.3) */
 export function TestSelection({ selDiag, setSelDiag, handleOrderTests }) {
@@ -52,7 +53,7 @@ export function TestSelection({ selDiag, setSelDiag, handleOrderTests }) {
                   flexShrink: 0,
                 }}
               >
-                {selected && <span style={{ fontSize: 9, color: C.bg, fontWeight: 900 }}>✓</span>}
+                {selected && <IconCheck size={11} color={C.bg} strokeWidth={3} />}
               </div>
               <span style={{ fontSize: 12.5, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
                 {item.name}

@@ -84,7 +84,7 @@ export function getDomMeta(node) {
 
 export function buildMarkdownReport({ componentInfo, domMeta, userComment, context = {} }) {
   const lines = [
-    "### 🎯 Отчёт об элементе UI (MedSim)",
+    "### [UI Inspector] Отчёт об элементе UI (MedSim)",
     `- **Файл и строка:** ${componentInfo.source ? `\`${componentInfo.source}\`` : "Не определено в dev-сборке"}`,
     `- **Компонент:** \`<${componentInfo.componentName}>\``,
   ];

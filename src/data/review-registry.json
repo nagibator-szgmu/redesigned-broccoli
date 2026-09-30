@@ -1429,6 +1429,231 @@
         "dayPlanMatchesKR": null
       }
     },
+    "56": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Острый панкреатит» (2024), деструктивная форма (панкреонекроз)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Биохимия (амилаза/липаза), СРБ, ОАК, УЗИ ОБП, КТ брюшной полости с контрастом, КЩС"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Агрессивная инфузионная терапия, ИПП (омепразол в/в), октреотид, адекватное обезболивание, антибиотикопрофилактика, консультация хирурга"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Аспирин, гепарин и фуросемид противопоказаны при панкреонекрозе"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "57": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Язвенная болезнь желудка и/или ДПК» (2024), острое ЖКТ кровотечение"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭГДС экстренная, ОАК (гемоглобин, гематокрит), группа крови и резус-фактор, коагулограмма, биохимия"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Эндоскопический гемостаз, омепразол в/в болюс+инфузия, гемотрансфузия эритроцитарной взвеси, кристаллоиды"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Антикоагулянты, антиагреганты и тромболизис абсолютно противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "58": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Перфоративная язва» (2024), перитонит, абдоминальный сепсис"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Обзорная рентгенография ОБП (свободный газ под куполом диафрагмы), КТ ОБП, ОАК, лактат, группа крови"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Экстренная консультация хирурга / операционная, кристаллоиды, норадреналин, антибиотики широкого спектра, омепразол в/в"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Промывание желудка и наркотические анальгетики до осмотра хирурга запрещены"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "59": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Холангит острый» (2024), билиарный сепсис"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "УЗИ гепатобилиарной зоны, биохимия (билирубин, ЩФ, ГГТ, АЛТ/АСТ), ОАК, СРБ, прокальцитонин"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Антибактериальная терапия широкого спектра, спазмолитики, инфузионная терапия, экстренная консультация хирурга для декомпрессии желчных путей"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин (вызывает спазм сфинктера Одди) и гепарин противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "60": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Бронхиальная астма» (2024), астматический статус"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Газы артериальной крови, SpO2, рентген ОГК, клинический анализ крови, ЭКГ"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ингаляционный сальбутамол через небулайзер, системные глюкокортикоиды, магния сульфат в/в, кислород, интубация при истощении"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Бета-блокаторы (метопролол) и седативные (морфин, диазепам) угнетают дыхательный центр"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "61": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Артериальная гипертензия у взрослых» (2024), гипертонический криз с острой энцефалопатией"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "КТ головного мозга для исключения ОНМК/ВМК, ЭКГ, биохимия крови, общий анализ мочи"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Внутривенный урапидил (Эбрантил), фуросемид, сульфат магния"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Адреналин и тромболизис при гипертензивной энцефалопатии фатальны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "62": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Острая декомпенсация сердечной недостаточности» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "BNP/NT-proBNP, ЭхоКГ, рентгенография ОГК, ЭКГ, биохимия"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Петлевой диуретик (фуросемид), вазодилататор (нитроглицерин), оксигенотерапия"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Внутривенная инфузия жидкости усугубляет отек легких"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "63": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Уролитиаз» и «Сепсис у взрослых» (2024)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "УЗИ почек и забрюшинного пространства, ОАМ, прокальцитонин, посев крови, лактат, ОАК"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Антибиотики широкого спектра, кристаллоиды, вазопрессоры (норадреналин), экстренная консультация уролога/хирурга для дренирования"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Фуросемид при обструкции и аспирин противопоказаны"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "64": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Первичный гипотиреоз» (2024), микседематозная кома"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ТТГ, св. Т4, гликемия, газы крови, электролиты, ЭКГ"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Левотироксин натрия, глюкокортикоиды (гидрокортизон), согревание, оксигенотерапия, глюкоза"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Седативные препараты (диазепам, морфин) угнетают метаболизм и дыхание"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
     "outp_1": {
       "status": "reviewed",
       "reviewedBy": "author",
@@ -1756,6 +1981,90 @@
           "explanation": "Инсулин противопоказан при гипогликемии; гепарин, фуросемид, метопролол не показаны"
         },
         "routeMatchesKR": null,
+        "dayPlanMatchesKR": null
+      }
+    },
+    "stat_gastro_1": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Язвенный колит» (2024), тяжелая атака"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Колоноскопия / ректороманоскопия, ОАК, СРБ, фекальный кальпротектин, коагулограмма, биохимия"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Системные глюкокортикоиды (метилпреднизолон/преднизолон в/в), месалазин, инфузионная регидратация"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "НПВП (аспирин) провоцируют обострение язвенного колита; фуросемид усиливает дегидратацию"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "Мониторинг стула, частоты дефекаций и гемодинамики; эскалация терапии при неэффективности"
+        }
+      }
+    },
+    "stat_gastro_2": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Цирроз печени» (2024), декомпенсация"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Биохимия печени, коагулограмма (МНО), УЗИ ОБП (асцит, портальный кровоток), ЭГДС (ВРВП), ОАК"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Лактулоза (снижение гипераммониемии), инфузионная терапия под контролем ЦВД, петлевой диуретик (фуросемид) со спиронолактоном"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Седативные (диазепам, морфин) провоцируют печеночную кому"
+        },
+        "routeMatchesKR": null,
+        "dayPlanMatchesKR": {
+          "passed": true,
+          "explanation": "Ежедневный контроль массы тела, диуреза и неврологического статуса (шкала West-Haven)"
+        }
+      }
+    },
+    "outp_gastro_1": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-09-28",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Язвенная болезнь желудка и 12-перстной кишки» (2024), амбулаторное ведение"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭГДС с биопсией / тестом на Helicobacter pylori, ОАК, биохимия"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Ингибиторы протонной помпы (омепразол) + эрадикационная антихеликобактерная терапия"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "НПВП (аспирин) и антикоагулянты повышают риск кровотечения"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторное консервативное лечение у гастроэнтеролога / терапевта с контрольной ЭГДС"
+        },
         "dayPlanMatchesKR": null
       }
     }

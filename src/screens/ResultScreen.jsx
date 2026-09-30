@@ -19,12 +19,13 @@ import {
   ResultTheoryTab,
   ResultTimelineTab,
 } from "../components/result/tabs";
+import { IconChartBar, IconAlertTriangle, IconBook, IconClock } from "../ui/icons";
 
 const RESULT_TABS = [
-  { id: "summary", label: "Итог и оценка", icon: "📊" },
-  { id: "errors", label: "Разбор ошибок", icon: "🚨" },
-  { id: "theory", label: "Обоснование и КР", icon: "📖" },
-  { id: "timeline", label: "Хронология", icon: "⏱️" },
+  { id: "summary", label: "Итог и оценка", icon: <IconChartBar size={15} /> },
+  { id: "errors", label: "Разбор ошибок", icon: <IconAlertTriangle size={15} /> },
+  { id: "theory", label: "Обоснование и КР", icon: <IconBook size={15} /> },
+  { id: "timeline", label: "Хронология", icon: <IconClock size={15} /> },
 ];
 
 export default function ResultScreen({

@@ -5,12 +5,13 @@ import { HeaderBackBtn } from "../ui/components";
 import { TOPICS } from "../data/topics";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
-  IconEndocrine, IconToxicology, IconLock
+  IconEndocrine, IconToxicology, IconAbdominal, IconLock
 } from "../ui/icons";
 
 const CAT_ICONS = {
   cardiology: IconCardiac, neurology: IconNeuro, respiratory: IconRespiratory,
   infectious: IconInfectious, endocrine: IconEndocrine, toxicology: IconToxicology,
+  abdominal: IconAbdominal, surgery: IconAbdominal,
 };
 
 export default function CourseMapScreen({ setPhase, progress, setActiveTab }) {

@@ -7,6 +7,7 @@ import { QUIZ_QUESTIONS } from "../data/quiz";
 import EmergencyGameScreen from "./game/EmergencyGameScreen";
 import OutpatientGameScreen from "./game/OutpatientGameScreen";
 import StationaryGameScreen from "./game/StationaryGameScreen";
+import { IconBook, IconFileText } from "../ui/icons";
 
 const DEPT_SCREEN = {
   icu: EmergencyGameScreen,
@@ -47,7 +48,7 @@ export default function GameScreen(props) {
           color: C.accent,
           flexShrink: 0,
         }}>
-          <span>📚</span>
+          <IconBook size={14} color={C.accent} style={{ flexShrink: 0 }} />
           <span style={{ fontWeight: 600 }}>{t("theory.course")}: {currTopic.name}</span>
           <span style={{ color: C.textDim }}>
             ({casesDone}/{casesTotal})
@@ -59,8 +60,9 @@ export default function GameScreen(props) {
             </span>
           )}
           {remaining === 0 && casesDone >= casesTotal && QUIZ_QUESTIONS[curriculum.topicId] && (
-            <span style={{ fontSize: 10, color: C.yellow, background: `${C.yellow}15`, padding: "2px 8px", borderRadius: 4 }}>
-              📝 {t("quiz.quiz")}
+            <span style={{ fontSize: 10, color: C.yellow, background: `${C.yellow}15`, padding: "2px 8px", borderRadius: 4, display: "inline-flex", alignItems: "center", gap: 4 }}>
+              <IconFileText size={11} color={C.yellow} />
+              <span>{t("quiz.quiz")}</span>
             </span>
           )}
         </div>

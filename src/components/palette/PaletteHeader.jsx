@@ -1,5 +1,6 @@
 import React from "react";
 import { FONT } from "../../ui/theme";
+import { IconX } from "../../ui/icons";
 
 export default function PaletteHeader({ query, setQuery, C }) {
   return (
@@ -52,10 +53,13 @@ export default function PaletteHeader({ query, setQuery, C }) {
             border: "none",
             color: C.textDim,
             cursor: "pointer",
-            fontSize: 12,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 4,
           }}
         >
-          ✕
+          <IconX size={14} />
         </button>
       )}
       <span

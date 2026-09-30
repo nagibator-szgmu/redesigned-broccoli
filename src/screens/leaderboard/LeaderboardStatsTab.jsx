@@ -2,7 +2,14 @@ import React from "react";
 import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { CASES } from "../../data/cases";
-import { IconAlertTriangle, IconHospital } from "../../ui/icons";
+import {
+  IconAlertTriangle,
+  IconHospital,
+  IconChartBar,
+  IconTrendingUp,
+  IconStar,
+  IconActivity,
+} from "../../ui/icons";
 import { CAT_META, getErrorAnalysis } from "./leaderboardUtils";
 import LeaderboardEmptyState from "./LeaderboardEmptyState";
 import LeaderboardTopCases from "./LeaderboardTopCases";
@@ -63,16 +70,16 @@ export default function LeaderboardStatsTab({
 
       {/* Stats grid */}
       <div style={{ ...cardStyle }}>
-        {sectionTitle("📊", "Общая статистика")}
+        {sectionTitle(<IconChartBar size={14} color={C.accent} />, "Общая статистика")}
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)", gap: isMobile ? 8 : 12 }}>
           {[
-            { v: totalCases, l: "Случаев", c: C.accent, icon: "🏥" },
-            { v: `${avgScore}`, l: "Ср. балл", c: C.green, icon: "📈" },
-            { v: `${bestScore}`, l: "Лучший", c: C.yellow, icon: "⭐" },
-            { v: `${survivalRate}%`, l: "Выживаемость", c: survivalRate > 80 ? C.green : survivalRate > 50 ? C.yellow : C.red, icon: "💓" },
+            { v: totalCases, l: "Случаев", c: C.accent, icon: <IconHospital size={16} color={C.accent} /> },
+            { v: `${avgScore}`, l: "Ср. балл", c: C.green, icon: <IconTrendingUp size={16} color={C.green} /> },
+            { v: `${bestScore}`, l: "Лучший", c: C.yellow, icon: <IconStar size={16} color={C.yellow} /> },
+            { v: `${survivalRate}%`, l: "Выживаемость", c: survivalRate > 80 ? C.green : survivalRate > 50 ? C.yellow : C.red, icon: <IconActivity size={16} color={survivalRate > 80 ? C.green : survivalRate > 50 ? C.yellow : C.red} /> },
           ].map(({ v, l, c, icon }) => (
             <div key={l} style={{ background: C.btnBg, border: `1px solid ${C.btnBorder}`, borderRadius: isMobile ? 10 : 12, padding: isMobile ? "10px 8px" : "14px 10px", textAlign: "center" }}>
-              <div style={{ fontSize: isMobile ? 11 : 12, marginBottom: 6 }}>{icon}</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 18, marginBottom: 6 }}>{icon}</div>
               <div style={{ fontSize: isMobile ? 20 : 24, fontWeight: 700, color: c, fontFamily: CODE, lineHeight: 1 }}>{v}</div>
               <div style={{ fontSize: isMobile ? 9 : 10, color: C.textDim, fontFamily: FONT, marginTop: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>{l}</div>
             </div>

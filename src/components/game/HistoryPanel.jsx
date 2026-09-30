@@ -17,8 +17,8 @@ export default function HistoryPanel({
   const C = useTheme();
   const { t } = useTranslate();
 
-  const [anamnesisOpen, setAnamnesisOpen] = useState(true);
-  const [examOpen, setExamOpen] = useState(true);
+  const [anamnesisOpen, setAnamnesisOpen] = useState(false);
+  const [examOpen, setExamOpen] = useState(false);
 
   if (!cd) return null;
 

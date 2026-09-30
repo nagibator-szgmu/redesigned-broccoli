@@ -4,6 +4,7 @@ import { FONT } from "../ui/theme";
 import useIsMobile from "../hooks/useIsMobile";
 import TeacherHeader from "./teacher/TeacherHeader";
 import TeacherMockControls from "./teacher/TeacherMockControls";
+import { IconGraduationCap } from "../ui/icons";
 
 /**
  * Teacher Dashboard screen placeholder.
@@ -82,11 +83,10 @@ export default function TeacherDashboardScreen({ setPhase }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 30,
               margin: "0 auto 20px auto",
             }}
           >
-            👨‍🏫
+            <IconGraduationCap size={32} color={C.accent} />
           </div>
 
           <h2

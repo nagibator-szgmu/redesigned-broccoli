@@ -95,8 +95,9 @@ export function matchTreatGroup(item, cat) {
   }
   if (cat === "other") {
     return (
-      ["insulin", "dextrose", "thyroxine", "surgery_consult"].includes(item.id) ||
-      item.cat === "endocrine"
+      ["insulin", "dextrose", "thyroxine", "surgery_consult", "omeprazole_iv"].includes(item.id) ||
+      item.cat === "endocrine" ||
+      item.cat === "gastro"
     );
   }
   // Fallbacks for legacy category strings

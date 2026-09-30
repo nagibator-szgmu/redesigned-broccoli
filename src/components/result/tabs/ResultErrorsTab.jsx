@@ -1,6 +1,7 @@
 import React from "react";
 import { RADIUS } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
+import { IconSiren, IconBook, IconBot } from "../../../ui/icons";
 import { TestAnalysis, TreatmentAnalysis, ChecklistBlock } from "../index";
 
 /**
@@ -39,7 +40,8 @@ export default function ResultErrorsTab({
           }}
         >
           <div style={{ fontSize: 13, fontWeight: 700, color: C.red, marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-            <span>🚨</span> Выявленные клинические дефекты ({mistakes.length})
+            <IconSiren size={15} color={C.red} />
+            <span>Выявленные клинические дефекты ({mistakes.length})</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {mistakes.map((m, idx) => (
@@ -60,8 +62,9 @@ export default function ResultErrorsTab({
                 </div>
                 <div style={{ fontSize: 12, color: C.textDim, lineHeight: 1.5 }}>{m.reason}</div>
                 {m.guidelineRef && (
-                  <div style={{ fontSize: 11, color: C.accent, marginTop: 4, fontWeight: 500 }}>
-                    📖 {m.guidelineRef}
+                  <div style={{ fontSize: 11, color: C.accent, marginTop: 4, fontWeight: 500, display: "flex", alignItems: "center", gap: 5 }}>
+                    <IconBook size={12} color={C.accent} />
+                    <span>{m.guidelineRef}</span>
                   </div>
                 )}
               </div>
@@ -87,7 +90,8 @@ export default function ResultErrorsTab({
           }}
         >
           <div style={{ fontSize: 13, fontWeight: 700, color: C.accent, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
-            <span>🤖</span> Анализ клинического мышления от ИИ
+            <IconBot size={15} color={C.accent} />
+            <span>Анализ клинического мышления от ИИ</span>
           </div>
           <div style={{ fontSize: 12.5, color: C.text, lineHeight: 1.6, marginBottom: 8 }}>
             {result.aiFeedback}

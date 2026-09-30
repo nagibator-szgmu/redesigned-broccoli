@@ -12,7 +12,8 @@
 1. `npm run lint` — 0 ошибок и ворнингов
 2. Все файлы < 180 строк
 3. `node scripts/validate-cases.mjs` — 0 ошибок
-4. Запрет на вход в Зону Михаила (`src/components/game/chat/*`, `src/engine/dialogue/*`, `src/engine/llmService.js`, `src/hooks/usePatientDialogue.js`) без явного разрешения пользователя!
+4. `node scripts/check-no-emojis.mjs` — 0 ошибок (СТРОГИЙ ЗАПРЕТ на смайлики/эмодзи в UI: только векторные SVG из `src/ui/icons/`)
+5. Запрет на вход в Зону Михаила (`src/components/game/chat/*`, `src/engine/dialogue/*`, `src/engine/llmService.js`, `src/hooks/usePatientDialogue.js`) без явного разрешения пользователя!
 ---
 
 ## 🛑 СТРОГОЕ ПРАВИЛО: ГРАНИЦЫ ЗОН ПАРАЛЛЕЛЬНОЙ РАЗРАБОТКИ (МИХАИЛ vs АРСЕНИЙ)
@@ -269,7 +270,8 @@ src/
 4. **Валидация перед коммитом**:
    - `npm run lint` — 0 ошибок и предупреждений.
    - `node scripts/validate-cases.mjs` — 0 ошибок.
-   - Все новые/измененные файлы строго < 200 строк.
+   - `node scripts/check-no-emojis.mjs` — 0 ошибок (СТРОГИЙ ЗАПРЕТ на эмодзи/смайлики в UI).
+   - Все новые/измененные файлы строго < 180 строк.
 
 ---
 

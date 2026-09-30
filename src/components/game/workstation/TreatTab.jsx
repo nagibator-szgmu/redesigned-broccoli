@@ -1,7 +1,7 @@
-import { useTheme } from "../../../ui/ThemeContext";
+import React from "react";
 import TreatPanel from "../TreatPanel";
 
-/** Treatments selection tab component */
+/** Treatments selection tab container component */
 export default function TreatTab({
   cd,
   selTreat = [],
@@ -10,12 +10,20 @@ export default function TreatTab({
   pendingFx,
   treatCat,
   setTreatCat,
-  isMobile = false
+  isMobile = false,
 }) {
-  const C = useTheme();
-
   return (
-    <div style={{ height: "100%", padding: "12px 14px", overflowY: "auto", boxSizing: "border-box" }}>
+    <div
+      style={{
+        flex: 1,
+        minHeight: 0,
+        height: "100%",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        boxSizing: "border-box",
+      }}
+    >
       <TreatPanel
         cd={cd}
         selTreat={selTreat}
@@ -25,7 +33,6 @@ export default function TreatTab({
         treatCat={treatCat}
         setTreatCat={setTreatCat}
         isMobile={isMobile}
-        C={C}
       />
     </div>
   );

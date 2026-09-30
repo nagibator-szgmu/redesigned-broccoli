@@ -5,6 +5,7 @@ import { evaluateReassessment } from "../../engine/reassessmentEngine";
 import { evaluateProblemTransitions } from "../../engine/problemListEngine";
 import { evaluateClinicalDecision } from "../../engine/decisionEngine";
 import { Btn, STitle } from "../../ui/components";
+import { IconRefresh, IconX, IconCheck } from "../../ui/icons";
 
 /**
  * Модальное окно повторной оценки и формирования клинического решения (Iterative Reassessment & Decision).
@@ -56,8 +57,10 @@ export default function ReassessmentModal({
           padding: "12px 16px", borderBottom: `1px solid ${C.border}`,
           display: "flex", justifyContent: "space-between", alignItems: "center", background: C.headerBg2
         }}>
-          <STitle icon="🔄" label={`Повторная оценка #${iteration} (Reassessment)`} color={C.accent} />
-          <button onClick={onClose} style={{ background: "transparent", border: "none", color: C.textDim, fontSize: 16, cursor: "pointer" }}>✕</button>
+          <STitle icon={<IconRefresh size={15} color={C.accent} />} label={`Повторная оценка #${iteration} (Reassessment)`} color={C.accent} />
+          <button onClick={onClose} style={{ background: "transparent", border: "none", color: C.textDim, cursor: "pointer", display: "flex", alignItems: "center", padding: 4 }}>
+            <IconX size={16} />
+          </button>
         </div>
 
         {/* Scrollable Content */}
@@ -98,9 +101,13 @@ export default function ReassessmentModal({
                     fontSize: 9.5, padding: "2px 6px", borderRadius: 4,
                     background: t.status === "resolved" ? `${C.green}20` : t.status === "worsening" ? `${C.red}20` : `${C.accent}15`,
                     color: t.status === "resolved" ? C.green : t.status === "worsening" ? C.red : C.text,
-                    fontFamily: FONT
+                    fontFamily: FONT,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 3,
                   }}>
-                    {t.status === "resolved" ? "✓ " : "• "}{t.label} ({t.status.toUpperCase()})
+                    {t.status === "resolved" && <IconCheck size={10} color={C.green} />}
+                    <span>{t.label} ({t.status.toUpperCase()})</span>
                   </span>
                 ))}
               </div>

@@ -2,6 +2,7 @@ import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconTarget } from "../../ui/icons";
 
 export default function DiagnosisBlock({ result, cd, diagText, isMobile }) {
   const C = useTheme();
@@ -11,7 +12,7 @@ export default function DiagnosisBlock({ result, cd, diagText, isMobile }) {
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-      <STitle icon="🎯" label={t("result.diagnosis")} color={diagColor} />
+      <STitle icon={<IconTarget size={15} color={diagColor} />} label={t("result.diagnosis")} color={diagColor} />
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 8 : 16 }}>
         <div>
           <div style={{ fontSize: isMobile ? 11 : 12, color: C.textDim, marginBottom: isMobile ? 4 : 5, textTransform: "uppercase", fontFamily: FONT }}>{t("result.yourAnswer")}</div>

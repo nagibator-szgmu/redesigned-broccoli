@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FONT, CODE } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
+import { IconHospital, IconCheck } from "../../../ui/icons";
 
 /** Patient vitals card with examination flow (FR-С.2–FR-С.4) */
 export function PatientCard({ cd, examinedVitals = [], setExaminedVitals }) {
@@ -42,7 +43,7 @@ export function PatientCard({ cd, examinedVitals = [], setExaminedVitals }) {
     <>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
         <div style={{ width: 36, height: 36, borderRadius: 10, background: `${C.accent}15`, border: `1px solid ${C.accent}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span style={{ fontSize: 16 }}>🏥</span>
+          <IconHospital size={18} color={C.accent} />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
@@ -66,7 +67,7 @@ export function PatientCard({ cd, examinedVitals = [], setExaminedVitals }) {
               <div key={id} onClick={() => !alreadyExamined && togglePending(id)}
                 style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, cursor: alreadyExamined ? "default" : "pointer", background: isSelected ? `${C.accent}15` : "transparent", border: `1px solid ${isSelected ? C.accent : C.border}`, opacity: alreadyExamined ? 0.6 : 1 }}>
                 <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${isSelected ? C.accent : C.textDim}`, background: isSelected ? C.accent : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  {isSelected && <span style={{ fontSize: 10, color: C.bg, fontWeight: 900 }}>✓</span>}
+                  {isSelected && <IconCheck size={12} color={C.bg} strokeWidth={3} />}
                 </div>
                 <span style={{ fontSize: 12, color: C.text, fontFamily: FONT, flex: 1 }}>{label}</span>
                 {alreadyExamined && <span style={{ fontSize: 10, color: C.green, fontFamily: FONT }}>{t("outpatient.measured")}</span>}

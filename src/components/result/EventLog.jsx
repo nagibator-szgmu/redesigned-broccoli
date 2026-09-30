@@ -2,6 +2,7 @@ import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconClock } from "../../ui/icons";
 
 export default function EventLog({ eventLog, isMobile }) {
   const C = useTheme();
@@ -26,7 +27,7 @@ export default function EventLog({ eventLog, isMobile }) {
           id: `anal_delay`,
           elapsed: e.elapsed,
           type: "analysis_warning",
-          text: `⚠️ Анализ: Первое действие совершено спустя ${e.elapsed}. Задержка начала помощи ухудшает прогноз пациента.`
+          text: `Внимание: Первое действие совершено спустя ${e.elapsed}. Задержка начала помощи ухудшает прогноз пациента.`
         });
       }
     }
@@ -39,7 +40,7 @@ export default function EventLog({ eventLog, isMobile }) {
         id: `anal_crit_${idx}`,
         elapsed: e.elapsed,
         type: "analysis_info",
-        text: `💡 Совет: Состояние пациента критическое. Своевременная интубация или подача кислорода помогают выиграть время.`
+        text: `Совет: Состояние пациента критическое. Своевременная интубация или подача кислорода помогают выиграть время.`
       });
     }
   });
@@ -55,7 +56,7 @@ export default function EventLog({ eventLog, isMobile }) {
       marginBottom: isMobile ? 16 : 18,
       boxShadow: "0 8px 32px 0 rgba(0,0,0,0.3)"
     }}>
-      <STitle icon="📋" label={t("result.timeline")} color={C.textDim} />
+      <STitle icon={<IconClock size={15} color={C.textDim} />} label={t("result.timeline")} color={C.textDim} />
       <div style={{ maxHeight: isMobile ? 160 : 200, overflowY: "auto", display: "flex", flexDirection: "column", gap: 6 }}>
         {analyzedEvents.map((e) => {
           let col = C.textDim;

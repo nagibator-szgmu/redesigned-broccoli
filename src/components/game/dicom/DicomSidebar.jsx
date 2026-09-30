@@ -1,5 +1,6 @@
 import { FONT } from "../../../ui/theme";
 import { WINDOW_PRESETS } from "../../../engine/dicomRenderer";
+import { IconScale } from "../../../ui/icons";
 
 export default function DicomSidebar({
   cd,
@@ -115,13 +116,14 @@ export default function DicomSidebar({
             transition: "all 0.15s",
           }}
         >
-          <span>📏</span> Линейка (измерение в мм)
+          <IconScale size={14} color={rulerMode ? C.green : C.textDim} />
+          <span>Линейка (измерение в мм)</span>
         </button>
       </div>
 
       {!isMobile && (
         <div style={{ marginTop: "auto", fontSize: 10, color: C.textDim, lineHeight: 1.5 }}>
-          💡 Используйте колесо мыши для пролистывания срезов над снимком.
+          Подсказка: используйте колесо мыши для пролистывания срезов над снимком.
         </div>
       )}
     </div>

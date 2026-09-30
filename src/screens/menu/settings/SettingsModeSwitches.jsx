@@ -1,4 +1,5 @@
 import { FONT } from "../../../ui/theme";
+import { IconBook, IconCheckCircle, IconBot } from "../../../ui/icons";
 
 export function SettingsModeSwitches({
   learningMode,
@@ -27,8 +28,8 @@ export function SettingsModeSwitches({
           }}
         >
           <div>
-            <div style={{ fontSize: 12, color: learningMode ? C.yellow : C.text, fontWeight: 600, fontFamily: FONT }}>
-              📚 {t("settings.learningMode")}
+            <div style={{ fontSize: 12, color: learningMode ? C.yellow : C.text, fontWeight: 600, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
+              <IconBook size={14} color="currentColor" /> {t("settings.learningMode")}
             </div>
             <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
               {t("settings.learningModeDesc")}
@@ -77,8 +78,8 @@ export function SettingsModeSwitches({
           }}
         >
           <div>
-            <div style={{ fontSize: 12, color: assessmentMode ? C.green : C.text, fontWeight: 600, fontFamily: FONT }}>
-              ✅ {t("settings.assessmentMode")}
+            <div style={{ fontSize: 12, color: assessmentMode ? C.green : C.text, fontWeight: 600, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
+              <IconCheckCircle size={14} color="currentColor" /> {t("settings.assessmentMode")}
             </div>
             <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
               {t("settings.assessmentModeDesc")}
@@ -127,8 +128,8 @@ export function SettingsModeSwitches({
           }}
         >
           <div>
-            <div style={{ fontSize: 12, color: patientDialogueMode === "hybrid" ? C.accent : C.text, fontWeight: 600, fontFamily: FONT }}>
-              💬 {t("settings.patientDialogueMode")}
+            <div style={{ fontSize: 12, color: patientDialogueMode === "hybrid" ? C.accent : C.text, fontWeight: 600, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
+              <IconBot size={14} color="currentColor" /> {t("settings.patientDialogueMode")}
             </div>
             <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
               {t("settings.patientDialogueModeDesc")} ({patientDialogueMode === "hybrid" ? "Гибрид (LLM)" : "Стандарт"})

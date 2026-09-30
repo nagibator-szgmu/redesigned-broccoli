@@ -1,5 +1,6 @@
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
+import { IconCheck, IconX } from "../../ui/icons";
 
 export default function QuizQuestionOptions({
   options,
@@ -67,8 +68,8 @@ export default function QuizQuestionOptions({
                 background: isCorrectOption ? C.green : isWrongSelected ? C.red : "transparent",
               }}
             >
-              {isCorrectOption && <span style={{ fontSize: 11, color: "#000", fontWeight: 900 }}>✓</span>}
-              {isWrongSelected && <span style={{ fontSize: 11, color: "#fff", fontWeight: 900 }}>✗</span>}
+              {isCorrectOption && <IconCheck size={12} color="#000" strokeWidth={3} />}
+              {isWrongSelected && <IconX size={12} color="#fff" strokeWidth={3} />}
             </div>
             <span
               style={{

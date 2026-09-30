@@ -14,6 +14,7 @@ import ScreenFallback from "./components/ui/ScreenFallback";
 import ErrorBoundary from "./components/ui/ErrorBoundary";
 import useTutorialLifecycle from "./hooks/useTutorialLifecycle";
 import AppContentRouter from "./components/routing/AppContentRouter";
+import { IconGear } from "./ui/icons";
 
 const DevInspector = lazy(() => import("./ui/inspector/DevInspector"));
 
@@ -83,9 +84,14 @@ export default function MedSimApp() {
               color: "#fff",
               fontFamily: FONT,
               letterSpacing: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
             }}
           >
-            🔧 РЕЖИМ РАЗРАБОТЧИКА — Весь контент открыт
+            <IconGear size={12} color="#fff" />
+            <span>РЕЖИМ РАЗРАБОТЧИКА — Весь контент открыт</span>
           </div>
         )}
         <div

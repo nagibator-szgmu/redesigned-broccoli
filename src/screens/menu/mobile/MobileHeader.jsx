@@ -10,14 +10,18 @@ export default function MobileHeader({
   unreadCount,
   drawerOpen,
   setDrawerOpen,
+  casesPlayed = 0,
+  totalScore = 0,
 }) {
+  const avgScore = casesPlayed ? Math.round(totalScore / casesPlayed) : 0;
+
   return (
     <header
       style={{
         position: "sticky",
         top: 0,
         zIndex: 100,
-        height: 56,
+        height: 52,
         background: C.headerBg,
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
@@ -25,12 +29,12 @@ export default function MobileHeader({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 16px",
+        padding: "0 14px",
         paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <PillEmblem size={34} />
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <PillEmblem size={30} />
         <span
           style={{
             fontSize: 16,
@@ -41,6 +45,34 @@ export default function MobileHeader({
           }}
         >
           {t("brand.name")}
+        </span>
+      </div>
+
+      {/* Compact User Statistics */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 5,
+          fontSize: 11,
+          fontFamily: FONT,
+          color: C.textDim,
+          background: C.panelBg,
+          padding: "3px 8px",
+          borderRadius: RADIUS.full,
+          border: `1px solid ${C.border}`,
+        }}
+      >
+        <span>
+          <strong style={{ color: C.accent, fontWeight: 700 }}>{casesPlayed}</strong> к.
+        </span>
+        <span style={{ color: C.borderBright }}>·</span>
+        <span>
+          <strong style={{ color: C.green, fontWeight: 700 }}>{avgScore}</strong> ср.
+        </span>
+        <span style={{ color: C.borderBright }}>·</span>
+        <span>
+          <strong style={{ color: C.yellow, fontWeight: 700 }}>{totalScore}</strong> оч.
         </span>
       </div>
 

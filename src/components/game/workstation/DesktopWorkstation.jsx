@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
 import VitalsHUD from "../vitals/VitalsHUD";
+import VitalsStatusStrip from "../vitals/VitalsStatusStrip";
 import PatientRecordColumn from "./PatientRecordColumn";
 import ActionCommandCenter from "./ActionCommandCenter";
 import WorkstationTimelineBar from "./WorkstationTimelineBar";
@@ -66,14 +67,18 @@ export default function DesktopWorkstation(props) {
         showTheory={showTheory} setShowTheory={setShowTheory} relatedTopics={relatedTopics}
       />
 
-      {/* Основная двухколоночная сетка рабочей станции */}
-      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, padding: "8px 12px 6px 12px", minHeight: 0, zIndex: 1, overflow: "hidden" }}>
-        {/* Левая колонка: Демография, анамнез, статус, ИИ-опрос и результаты тестов */}
+      {/* Синдромальная строка ведущих нарушений (Status Strip) */}
+      <VitalsStatusStrip ps={ps} cd={cd} />
+
+      {/* Основная сетка рабочей станции: 380px контекст + flex: 1 активный рабочий стол */}
+      <div style={{ flex: 1, display: "flex", gap: 10, padding: "8px 10px 4px 10px", minHeight: 0, zIndex: 1, overflow: "hidden" }}>
+        {/* Левая колонка: Демография, анамнез, статус, ИИ-опрос (380px) */}
         <div
           ref={leftColRef}
           style={{
-            height: "100%", maxHeight: "100%", minHeight: 0, overflowY: "auto", overflowX: "hidden",
-            overscrollBehavior: "contain", borderRadius: 14, display: "flex", flexDirection: "column",
+            width: "clamp(300px, 35%, 360px)", flexShrink: 0, height: "100%", maxHeight: "100%", minHeight: 0,
+            overflowY: "auto", overflowX: "hidden", overscrollBehavior: "contain",
+            borderRadius: 8, display: "flex", flexDirection: "column",
             background: "transparent", scrollbarWidth: "thin", scrollbarColor: `${C.accent}80 rgba(0,0,0,0.25)`,
           }}
         >
@@ -84,10 +89,11 @@ export default function DesktopWorkstation(props) {
           />
         </div>
 
-        {/* Правая колонка: Вкладки командного центра */}
-        <div style={{ height: "100%", maxHeight: "100%", minHeight: 0, overflow: "hidden", borderRadius: 14, display: "flex", flexDirection: "column" }}>
+        {/* Правая колонка: Активный клинический командный центр */}
+        <div style={{ flex: 1, minWidth: 0, height: "100%", maxHeight: "100%", minHeight: 0, overflow: "hidden", borderRadius: 8, display: "flex", flexDirection: "column" }}>
           <ActionCommandCenter
             phase={phase} selDiag={selDiag} setSelDiag={setSelDiag} orderedDiag={orderedDiag}
+            revealedResults={revealedResults} newResultIds={newResultIds}
             diagCat={diagCat} setDiagCat={setDiagCat} handleOrderTests={handleOrderTests}
             processingTests={processingTests} cd={cd} selTreat={selTreat} toggleTreatment={toggleTreatment}
             appliedFx={appliedFx} pendingFx={pendingFx} treatCat={treatCat} setTreatCat={setTreatCat}

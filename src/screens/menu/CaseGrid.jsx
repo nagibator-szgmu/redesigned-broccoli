@@ -1,4 +1,5 @@
 import { FONT } from "../../ui/theme";
+import { IconHospital, IconAmbulance, IconStethoscope, IconBed } from "../../ui/icons";
 import CaseCard from "./CaseCard";
 
 /**
@@ -39,10 +40,10 @@ export default function CaseGrid({
 
   const deptTitle = {
     all: t("cases.title"),
-    admission: "🏥 Приёмное отделение",
-    emergency: "🚨 ОРИТ и реанимация",
-    outpatient: "🩺 Поликлиника",
-    stationary: "🛏️ Стационар",
+    admission: "Приёмное отделение",
+    emergency: "ОРИТ и реанимация",
+    outpatient: "Поликлиника",
+    stationary: "Стационар",
   }[department] || t("cases.title");
 
   const headerTitle = specFilter
@@ -55,8 +56,12 @@ export default function CaseGrid({
     <div>
       {/* Cases header */}
       <div id="tutorial-cases" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <div style={{ fontSize: 17, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3 }}>
-          {headerTitle}
+        <div style={{ fontSize: 17, fontWeight: 700, color: C.white, fontFamily: FONT, letterSpacing: -0.3, display: "flex", alignItems: "center", gap: 8 }}>
+          {!specFilter && !searchQuery && department === "admission" && <IconHospital size={18} color={C.purple} />}
+          {!specFilter && !searchQuery && department === "emergency" && <IconAmbulance size={18} color={C.red} />}
+          {!specFilter && !searchQuery && department === "outpatient" && <IconStethoscope size={18} color={C.accent} />}
+          {!specFilter && !searchQuery && department === "stationary" && <IconBed size={18} color={C.yellow} />}
+          <span>{headerTitle}</span>
         </div>
         <div style={{ display: "flex", gap: 6 }}>
           {specFilter && (

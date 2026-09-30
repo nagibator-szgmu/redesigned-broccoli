@@ -1,6 +1,7 @@
 import { useTheme } from "../../ui/ThemeContext";
 import { FONT } from "../../ui/theme";
 import { DIAGNOSTICS } from "../../data/diagnostics";
+import { IconSearch, IconX } from "../../ui/icons";
 
 export default function DiagFilterBar({
   diagCat = "all",
@@ -41,7 +42,7 @@ export default function DiagFilterBar({
           padding: "6px 12px",
           backdropFilter: "blur(8px)"
         }}>
-          <span style={{ fontSize: 14, color: C.textDim }}>🔍</span>
+          <IconSearch size={14} color={C.textDim} />
           <input
             className="seamless-input"
             type="text"
@@ -67,12 +68,13 @@ export default function DiagFilterBar({
                 color: C.textDim,
                 cursor: "pointer",
                 padding: "2px 4px",
-                fontSize: 13,
-                lineHeight: 1
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
               title="Clear search"
             >
-              ✕
+              <IconX size={13} color={C.textDim} />
             </button>
           )}
           <span style={{

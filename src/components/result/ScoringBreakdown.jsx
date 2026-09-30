@@ -1,16 +1,25 @@
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
+import {
+  IconStethoscope,
+  IconMicroscope,
+  IconClipboard,
+  IconPill,
+  IconHospital,
+  IconClock,
+  IconChartBar,
+} from "../../ui/icons";
 import { diagMatchRatio, WRONG_TREATMENT_PENALTY } from "../../engine/scoring";
 import { computeOutcome } from "../../engine/patient";
 
 const CATEGORIES = (t) => [
-  { key: "diagnosis", icon: "🩺", max: 35, label: t("scoring.diagnosis") },
-  { key: "tests", icon: "🔬", max: 20, label: t("scoring.tests") },
-  { key: "anamnesis", icon: "📋", max: 10, label: t("scoring.anamnesis") },
-  { key: "treatment", icon: "💊", max: 20, label: t("scoring.treatment") },
-  { key: "outcome", icon: "🏥", max: 20, label: t("scoring.outcome") },
-  { key: "time", icon: "⏱️", max: 15, label: t("scoring.time") },
+  { key: "diagnosis", icon: IconStethoscope, max: 35, label: t("scoring.diagnosis") },
+  { key: "tests", icon: IconMicroscope, max: 20, label: t("scoring.tests") },
+  { key: "anamnesis", icon: IconClipboard, max: 10, label: t("scoring.anamnesis") },
+  { key: "treatment", icon: IconPill, max: 20, label: t("scoring.treatment") },
+  { key: "outcome", icon: IconHospital, max: 20, label: t("scoring.outcome") },
+  { key: "time", icon: IconClock, max: 15, label: t("scoring.time") },
 ];
 
 function computeBreakdown(cd, selDiag, selTreat, diagText, finalPS, elapsedSec, revealedAnamnesis) {
@@ -87,7 +96,7 @@ export default function ScoringBreakdown({ cd, selDiag, selTreat, diagText, ps, 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 16, marginBottom: 10 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-        <span style={{ fontSize: 16 }}>📊</span>
+        <IconChartBar size={16} color={C.accent} />
         <span style={{ fontSize: 13, fontWeight: 700, color: C.white, fontFamily: FONT }}>{t("scoring.title")}</span>
         <span style={{ marginLeft: "auto", fontSize: 15, fontWeight: 700, color: C.accent, fontFamily: FONT }}>
           {clamped} / 100
@@ -97,16 +106,19 @@ export default function ScoringBreakdown({ cd, selDiag, selTreat, diagText, ps, 
         const pts = pointsOf(cat.key);
         const pct = cat.max > 0 ? pts / cat.max : 0;
         const barColor = pct >= 0.8 ? C.green : pct >= 0.4 ? C.yellow : C.red;
+        const CatIcon = cat.icon;
         return (
           <div key={cat.key} style={{ marginBottom: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
-              <span style={{ fontSize: 12, flexShrink: 0 }}>{cat.icon}</span>
+              <span style={{ display: "inline-flex", color: C.accent, flexShrink: 0 }}>
+                <CatIcon size={14} />
+              </span>
               <span style={{ fontSize: 12, color: C.text, fontFamily: FONT, flex: 1 }}>{cat.label}</span>
               <span style={{ fontSize: 12, color: pts < 0 ? C.red : C.textDim, fontFamily: FONT, fontWeight: 600 }}>
                 {pts < 0 ? pts : `+${pts}`} / {cat.max > 0 ? cat.max : "—"}
               </span>
             </div>
-            <div style={{ height: 4, background: C.dimBg, borderRadius: 2, overflow: "hidden", marginLeft: 20 }}>
+            <div style={{ height: 4, background: C.dimBg, borderRadius: 2, overflow: "hidden", marginLeft: 22 }}>
               <div style={{ height: "100%", width: `${Math.max(0, Math.min(100, pct * 100))}%`, background: barColor, borderRadius: 2, transition: "width 0.3s" }} />
             </div>
           </div>

@@ -2,6 +2,7 @@ import { FONT_HEADING, FONT_BODY } from "../../ui/theme";
 import { useTranslate } from "../../locale/useTranslate";
 import { TOPICS } from "../../data/topics";
 import { THEORY } from "../../data/theory";
+import { IconLightbulb } from "../../ui/icons";
 import TheoryCurriculumBox from "./TheoryCurriculumBox";
 
 const SECTIONS = ["definition", "etiology", "pathogenesis", "clinical", "diagnostics", "treatment", "prognosis"];
@@ -25,8 +26,9 @@ export default function TheoryContent({ data, C, topicId, onQuiz, progress, star
         const prevTopic = sorted[idx - 1];
         if (!prevTopic || !THEORY[prevTopic.id]) return null;
         return (
-          <div style={{ marginBottom: 12, padding: "8px 12px", background: `${C.yellow}08`, border: `1px solid ${C.yellow}22`, borderRadius: 8, fontSize: 12, color: C.yellow, fontFamily: FONT_BODY }}>
-            💡 {t("theory.recommend")} {prevTopic.name}
+          <div style={{ marginBottom: 12, padding: "8px 12px", background: `${C.yellow}08`, border: `1px solid ${C.yellow}22`, borderRadius: 8, fontSize: 12, color: C.yellow, fontFamily: FONT_BODY, display: "flex", alignItems: "center", gap: 6 }}>
+            <IconLightbulb size={14} color={C.yellow} />
+            <span>{t("theory.recommend")} {prevTopic.name}</span>
           </div>
         );
       })()}

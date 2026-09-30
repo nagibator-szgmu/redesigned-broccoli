@@ -1,3 +1,5 @@
+import { IconFileText } from "../../ui/icons";
+
 export default function TeacherMockControls({ C }) {
   return (
     <div
@@ -72,9 +74,13 @@ export default function TeacherMockControls({ C }) {
             fontSize: 12,
             fontWeight: 700,
             cursor: "not-allowed",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
           }}
         >
-          📥 Экспорт отчёта CSV
+          <IconFileText size={13} color="currentColor" />
+          <span>Экспорт отчёта CSV</span>
         </button>
       </div>
 

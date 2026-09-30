@@ -25,46 +25,46 @@ function TooltipDetails({ details, coords, C, onLeave, timerRef }) {
         textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8,
         paddingBottom: 4, borderBottom: "1px solid rgba(245,158,11,0.3)"
       }}>
-        📚 МЕДИЦИНСКИЙ СПРАВОЧНИК
+        МЕДИЦИНСКИЙ СПРАВОЧНИК
       </div>
       {details.category && (
         <div style={{ marginBottom: 6 }}>
-          <span style={{ color: C.textDim }}>💊 Категория:</span> <strong>{details.category}</strong>
+          <span style={{ color: C.textDim }}>Категория:</span> <strong>{details.category}</strong>
         </div>
       )}
       {details.mechanism && (
         <div style={{ marginBottom: 6, background: "rgba(255,255,255,0.03)", padding: 6, borderRadius: 6 }}>
-          <span style={{ color: C.accent, fontWeight: 700 }}>⚙️ Механизм:</span>
+          <span style={{ color: C.accent, fontWeight: 700 }}>Механизм:</span>
           <div style={{ color: "#cbd5e1", marginTop: 2 }}>{details.mechanism}</div>
         </div>
       )}
       {details.indications && (
         <div style={{ marginBottom: 6 }}>
-          <span style={{ color: C.green, fontWeight: 700 }}>📋 Показания:</span>
+          <span style={{ color: C.green, fontWeight: 700 }}>Показания:</span>
           <div style={{ color: "#e2e8f0" }}>{Array.isArray(details.indications) ? details.indications.join(", ") : details.indications}</div>
         </div>
       )}
       {details.contraindications && (
         <div style={{ marginBottom: 6, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", padding: 6, borderRadius: 6 }}>
-          <span style={{ color: C.red, fontWeight: 700 }}>🚨 Противопоказания:</span>
+          <span style={{ color: C.red, fontWeight: 700 }}>Противопоказания:</span>
           <div style={{ color: "#fca5a5" }}>{Array.isArray(details.contraindications) ? details.contraindications.join(", ") : details.contraindications}</div>
         </div>
       )}
       {details.dosage && (
         <div style={{ marginBottom: 6 }}>
-          <span style={{ color: C.yellow, fontWeight: 700 }}>💉 Дозировка:</span>
+          <span style={{ color: C.yellow, fontWeight: 700 }}>Дозировка:</span>
           <div style={{ color: "#fef08a", fontFamily: CODE }}>{details.dosage}</div>
         </div>
       )}
       {details.refRange && (
         <div style={{ marginBottom: 4 }}>
-          <span style={{ color: C.accent, fontWeight: 700 }}>📊 Норма:</span>
+          <span style={{ color: C.accent, fontWeight: 700 }}>Норма:</span>
           <span style={{ color: "#cbd5e1", fontFamily: CODE, marginLeft: 6 }}>{details.refRange} {details.unit || ""}</span>
         </div>
       )}
       {details.sample && (
         <div style={{ fontSize: 10.5, color: C.textDim, marginTop: 4 }}>
-          🩸 {details.sample} {details.tatSec ? `| ⏱️ ${details.tatSec} сек.` : ""}
+          {details.sample} {details.tatSec ? `| TAT: ${details.tatSec} с` : ""}
         </div>
       )}
     </div>,
@@ -160,7 +160,7 @@ export default function Tooltip({
                 onClick={(e) => { e.stopPropagation(); toggleDetails(); }}
                 style={{ background: `${C.accent}22`, border: `1px solid ${C.accent}`, borderRadius: 6, padding: "3px 9px", color: C.accent, fontSize: 10.5, fontWeight: 700, cursor: "pointer", fontFamily: FONT }}
               >
-                📖 Подробно ▾
+                Подробнее ▾
               </button>
             </div>
           )}

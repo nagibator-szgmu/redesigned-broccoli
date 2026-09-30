@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useTheme } from "../../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../../ui/theme";
 import { STitle } from "../../../../ui/components";
+import { IconStethoscope } from "../../../../ui/icons";
 import { searchICD10 } from "../../../../data/icd10";
 import ICDSuggestionsDropdown from "./ICDSuggestionsDropdown";
 
@@ -65,7 +66,7 @@ export default function DiagnosisSearchSection({ diagText, setDiagText, t }) {
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-        <STitle icon="🩺" label={t("diagnose.title")} color={C.purple} />
+        <STitle icon={<IconStethoscope size={15} color={C.purple} />} label={t("diagnose.title")} color={C.purple} />
         <span style={{ fontSize: 10, color: C.textDim, fontFamily: CODE }}>МКБ-10 поиск активен</span>
       </div>
       <p style={{ margin: "0 0 8px 0", fontSize: 11, color: C.textDim, fontFamily: FONT, lineHeight: 1.4 }}>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
 import { FONT } from "../../ui/theme";
 import { HeaderBackBtn } from "../../ui/components";
+import { IconClock, IconMicroscope, IconClipboard, IconPill, IconBook, IconBed } from "../../ui/icons";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import useIsMobile from "../../hooks/useIsMobile";
@@ -9,6 +9,7 @@ import useStationaryCycle from "../../hooks/useStationaryCycle";
 import { getTopicsForCase } from "../../data/topics";
 import { PatientCard, StepBar, MorningPanel, TestSelection, ResultsPanel, TreatPanel } from "./StationaryPanels";
 import StationaryHistoryPanel from "./StationaryHistoryPanel";
+import AnamnesisOverlay from "./stationary/AnamnesisOverlay";
 import { LearningTipToast, TheoryModal } from "../../components/game";
 import { getExplanationForCase } from "../../hooks/useReviewRegistry";
 
@@ -76,10 +77,10 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
   };
 
   const steps = [
-    { key: "morning", label: t("stationary.morning"), icon: "🌅" },
-    { key: "order_tests", label: t("phases.order_tests"), icon: "🔬" },
-    { key: "results", label: t("phases.awaiting_results"), icon: "📋" },
-    { key: "treat", label: t("stationary.treat"), icon: "💊" },
+    { key: "morning", label: t("stationary.morning"), icon: <IconClock size={14} color="currentColor" /> },
+    { key: "order_tests", label: t("phases.order_tests"), icon: <IconMicroscope size={14} color="currentColor" /> },
+    { key: "results", label: t("phases.awaiting_results"), icon: <IconClipboard size={14} color="currentColor" /> },
+    { key: "treat", label: t("stationary.treat"), icon: <IconPill size={14} color="currentColor" /> },
   ];
   const activeStep = steps.findIndex(s => s.key === localPhase);
 
@@ -94,26 +95,14 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
     </>
   );
 
-  const anamnesisOverlay = showAnamnesisOverlay && createPortal(
-    <div style={{ position: "fixed", inset: 0, zIndex: 99998, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }} onClick={() => setShownAnamnesisDay(cycle.currentDay)}>
-      <div style={{ background: C.overlayBg, backdropFilter: "blur(24px)", border: `1px solid ${C.border}`, borderRadius: 16, padding: "20px 24px", maxWidth: 500, width: "100%", maxHeight: "80vh", overflowY: "auto", fontFamily: FONT }} onClick={e => e.stopPropagation()}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>{t("history.title")}</span>
-          <span onClick={() => setShownAnamnesisDay(cycle.currentDay)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "3px 10px", borderRadius: 6, background: C.dimBg }}>✕</span>
-        </div>
-        {anamnesisItems.map((item, i) => (
-          <div key={i} style={{ marginBottom: i < anamnesisItems.length - 1 ? 12 : 0 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: C.accent, marginBottom: 4 }}>{item.title}</div>
-            <p style={{ fontSize: 13, color: C.text, lineHeight: 1.6, margin: 0, padding: "8px 10px", background: `${C.textDim}08`, borderRadius: 8, borderLeft: `3px solid ${C.green}` }}>{item.text}</p>
-          </div>
-        ))}
-        <button onClick={() => setShownAnamnesisDay(cycle.currentDay)}
-          style={{ width: "100%", marginTop: 14, padding: "10px", borderRadius: 10, background: `linear-gradient(135deg,${C.accent},${C.green})`, border: "none", fontSize: 14, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT }}>
-          {t("stationary.startDay")}
-        </button>
-      </div>
-    </div>,
-    document.body
+  const anamnesisOverlay = (
+    <AnamnesisOverlay
+      show={showAnamnesisOverlay}
+      onClose={() => setShownAnamnesisDay(cycle.currentDay)}
+      anamnesisItems={anamnesisItems}
+      C={C}
+      t={t}
+    />
   );
 
   if (isMobile) return (
@@ -123,10 +112,18 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
         <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={true} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
-          <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏨 {t("department.stationary")} · {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}</div>
+          <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 4 }}>
+            <IconBed size={11} color="currentColor" /> {t("department.stationary")} · {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}
+          </div>
         </div>
-        {learningMode && <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>📚 {t("game.learning")}</span>}
-        <div onClick={() => setShowTheory(v => !v)} style={{ fontSize: 16, cursor: "pointer", color: C.accent, padding: "2px 6px" }}>📚</div>
+        {learningMode && (
+          <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 3 }}>
+            <IconBook size={10} color="currentColor" /> {t("game.learning")}
+          </span>
+        )}
+        <div onClick={() => setShowTheory(v => !v)} style={{ cursor: "pointer", color: C.accent, padding: "2px 6px", display: "flex", alignItems: "center" }}>
+          <IconBook size={16} color="currentColor" />
+        </div>
       </header>
       {learningMode && learningTip && <LearningTipToast tip={learningTip} isMobile />}
       <TheoryModal relatedTopics={relatedTopics} showTheory={showTheory} setShowTheory={setShowTheory} activeTheoryTopic={activeTheoryTopic} setActiveTheoryTopic={setActiveTheoryTopic} isMobile />
@@ -147,13 +144,21 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
           <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={false} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name} · {cd.age} {t("cases.ageSuffix")} · {cd.gender}</div>
-            <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>🏨 {t("department.stationary")} · {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}</div>
+            <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 4 }}>
+              <IconBed size={11} color="currentColor" /> {t("department.stationary")} · {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}
+            </div>
           </div>
           <span style={{ background: `${DAY_COLORS[cycle.currentDay % 7]}20`, border: `1px solid ${DAY_COLORS[cycle.currentDay % 7]}44`, borderRadius: 5, padding: "2px 8px", fontSize: 10, color: DAY_COLORS[cycle.currentDay % 7], fontWeight: 700, fontFamily: FONT }}>
             {t("stationary.dayN", { n: cycle.currentDay + 1, max: cycle.maxDays })}
           </span>
-          {learningMode && <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>📚 {t("game.learning")}</span>}
-          <div onClick={() => setShowTheory(v => !v)} style={{ fontSize: 16, cursor: "pointer", color: C.accent, padding: "2px 6px" }}>📚</div>
+          {learningMode && (
+            <span style={{ fontSize: 9, color: C.yellow, background: `${C.yellow}15`, padding: "2px 6px", borderRadius: 4, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 3 }}>
+              <IconBook size={10} color="currentColor" /> {t("game.learning")}
+            </span>
+          )}
+          <div onClick={() => setShowTheory(v => !v)} style={{ cursor: "pointer", color: C.accent, padding: "2px 6px", display: "flex", alignItems: "center" }}>
+            <IconBook size={16} color="currentColor" />
+          </div>
         </header>
         {learningMode && learningTip && <LearningTipToast tip={learningTip} isMobile={false} />}
         <TheoryModal relatedTopics={relatedTopics} showTheory={showTheory} setShowTheory={setShowTheory} activeTheoryTopic={activeTheoryTopic} setActiveTheoryTopic={setActiveTheoryTopic} isMobile={false} />

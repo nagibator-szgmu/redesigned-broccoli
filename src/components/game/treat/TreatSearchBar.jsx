@@ -1,5 +1,6 @@
 import React from "react";
 import { FONT } from "../../../ui/theme";
+import { IconSearch, IconX } from "../../../ui/icons";
 
 export default function TreatSearchBar({
   searchQuery,
@@ -19,9 +20,10 @@ export default function TreatSearchBar({
         padding: "6px 12px",
         marginBottom: 8,
         backdropFilter: "blur(8px)",
+        flexShrink: 0,
       }}
     >
-      <span style={{ fontSize: 13, color: C.textDim }}>🔍</span>
+      <IconSearch size={14} color={C.textDim} />
       <input
         className="seamless-input"
         type="text"
@@ -47,10 +49,11 @@ export default function TreatSearchBar({
             color: C.textDim,
             cursor: "pointer",
             padding: "2px 4px",
-            fontSize: 13,
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          ✕
+          <IconX size={12} />
         </button>
       )}
     </div>

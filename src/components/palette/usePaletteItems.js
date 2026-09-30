@@ -47,7 +47,7 @@ export function usePaletteItems({
           result.push({
             id: `diag_${d.id}`,
             cat: "Диагностические исследования",
-            title: `${title}${isOrdered ? " (✓ Выполнен)" : ""}`,
+            title: `${title}${isOrdered ? " (Выполнен)" : ""}`,
             sub: `${d.category || "Тест"} · ${sub}`,
             action: () => {
               if (!isOrdered) handleOrderTests([d.id]);
@@ -68,7 +68,7 @@ export function usePaletteItems({
           result.push({
             id: `treat_${t.id}`,
             cat: "Фармакотерапия и вмешательства",
-            title: `${title}${isApplied ? " (✓ Назначен)" : ""}`,
+            title: `${title}${isApplied ? " (Назначен)" : ""}`,
             sub: `${t.category || "Препарат"} · Дозировка по протоколу`,
             action: () => {
               toggleTreatment(t.id);

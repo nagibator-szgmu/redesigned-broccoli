@@ -3,13 +3,12 @@ import { FONT } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
 import useIsMobile from "../hooks/useIsMobile";
-import { TOPICS } from "../data/topics";
 import { THEORY } from "../data/theory";
 import { DRUG_REFERENCE, DRUG_GROUPS } from "../data/drugReference";
 import { PROTOCOLS } from "../data/protocols";
 import QuizModal from "./QuizModal";
 import CalculatorContent from "./CalculatorContent";
-import { IconBrain, IconChartBar, IconMicroscope } from "../ui/icons";
+import { IconBrain, IconChartBar, IconMicroscope, IconBook } from "../ui/icons";
 import { HeaderBackBtn } from "../ui/components";
 import TheorySidebar from "./theory/TheorySidebar";
 import TheoryContent from "./theory/TheoryContent";
@@ -33,7 +32,7 @@ export default function TheoryScreen({
 
   const [activeItem, setActiveItem] = useState({ type: null, id: null });
   const [showQuiz, setShowQuiz] = useState(false);
-  const [expandedCats, setExpandedCats] = useState(() => new Set(TOPICS.map((c) => c.id)));
+  const [expandedCats, setExpandedCats] = useState(() => new Set());
 
   useEffect(() => {
     if (progress?.curriculum?.quizPending && !activeItem.id) {
@@ -74,7 +73,9 @@ export default function TheoryScreen({
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", opacity: 0.4 }}>
         <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>📚</div>
+          <div style={{ marginBottom: 12 }}>
+            <IconBook size={48} color={C.textDim} />
+          </div>
           <div style={{ fontSize: 14, color: C.textDim, fontFamily: FONT }}>{t("theory.selectTopic")}</div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { RADIUS } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { STitle } from "../../../ui/components";
+import { IconMicroscope, IconLightbulb, IconBook } from "../../../ui/icons";
 import { DocLayer, ProtocolReferences, RelatedTheory } from "../index";
 
 /**
@@ -36,7 +37,7 @@ export default function ResultTheoryTab({
             padding: isMobile ? 12 : 16,
           }}
         >
-          <STitle icon="🔬" label={t("result.pathophys")} color={C.accent} />
+          <STitle icon={<IconMicroscope size={15} color={C.accent} />} label={t("result.pathophys")} color={C.accent} />
           <p style={{ color: C.text, fontSize: 13, lineHeight: 1.8, margin: "8px 0 0" }}>
             {cd.debrief.explain}
           </p>
@@ -53,7 +54,7 @@ export default function ResultTheoryTab({
             padding: isMobile ? 12 : 16,
           }}
         >
-          <STitle icon="💡" label={t("result.debrief")} color={C.accent} />
+          <STitle icon={<IconLightbulb size={15} color={C.accent} />} label={t("result.debrief")} color={C.accent} />
           <p style={{ color: C.text, fontSize: 13, lineHeight: 1.8, margin: "8px 0 0" }}>
             {cd.tip}
           </p>
@@ -70,7 +71,7 @@ export default function ResultTheoryTab({
             padding: isMobile ? 12 : 16,
           }}
         >
-          <STitle icon="📖" label={t("sourceRef.title")} color={C.accent} />
+          <STitle icon={<IconBook size={15} color={C.accent} />} label={t("sourceRef.title")} color={C.accent} />
           <div style={{ fontSize: 12.5, color: C.text, marginTop: 6, lineHeight: 1.6 }}>
             {t("sourceRef.label")}: <span style={{ color: C.accent, fontWeight: 600 }}>{cd.sourceReference.name}</span>
             {cd.sourceReference.year ? <span style={{ color: C.textDim }}> ({cd.sourceReference.year})</span> : null}

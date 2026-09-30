@@ -1,6 +1,6 @@
 import { FONT, CODE } from "../../ui/theme";
 import { CASES } from "../../data/cases";
-import { IconTrophy } from "../../ui/icons";
+import { IconTrophy, IconHospital } from "../../ui/icons";
 
 /**
  * MenuRightSidebar component for desktop right statistics & history column.
@@ -102,13 +102,13 @@ export default function MenuRightSidebar({
           <div style={{ color: C.textDim, fontSize: 12, fontFamily: FONT, textAlign: "center", padding: "10px 0", lineHeight: 1.6 }}>{t("sessions.empty")}</div>
         ) : (
           sessionHistory.slice(0, 5).map((s) => {
-            const cm = catMeta[s.category] || { icon: "🏥", color: C.accent };
+            const cm = catMeta[s.category] || { icon: <IconHospital size={18} color={C.accent} />, color: C.accent };
             const gradeColor = { excellent: C.accent, good: C.accent, satisfactory: C.textDim, unsatisfactory: C.red }[s.gradeId] || C.accent;
             const dateStr = new Date(s.date).toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
             const shortName = s.caseName.split(" ").slice(0, 2).join(" ");
             return (
               <div key={s.id} className="session-row" style={{ display: "flex", alignItems: "center", gap: 11, padding: "9px 10px", borderRadius: 12, marginBottom: 4, transition: "background 0.15s", cursor: "pointer" }}>
-                <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: C.accentDim, border: `1px solid ${C.accent}30`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>{cm.icon}</div>
+                <div style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0, background: C.accentDim, border: `1px solid ${C.accent}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>{cm.icon}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 13, color: C.white, fontFamily: FONT, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: 1.3 }}>{shortName}</div>
                   <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>{dateStr} · <span style={{ color: gradeColor, fontWeight: 600 }}>{s.score} {t("scores.points")}</span></div>

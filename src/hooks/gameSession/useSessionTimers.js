@@ -103,14 +103,14 @@ export function useSessionTimers({
     clearInterval(timerRef.current);
     clearInterval(detRef.current);
     fxTimersRef.current.forEach((t) => clearTimeout(t));
-    addEvent("💀 ПАЦИЕНТ ПОГИБ — лечение не было начато вовремя", "critical");
+    addEvent("ПАЦИЕНТ ПОГИБ — лечение не было начато вовремя", "critical");
     setTimeout(() => submitRef.current?.(false, true), 2000);
   }, [stateRef.current.ps?.status, gameOver, addEvent, setGameOver, timerRef, detRef, fxTimersRef]);
 
   // Watch for critical
   useEffect(() => {
     if (stateRef.current.ps?.status === "critical") {
-      addEvent("⚠ Состояние критическое! Требуются немедленные действия", "warning");
+      addEvent("Состояние критическое! Требуются немедленные действия", "warning");
     }
   }, [stateRef.current.ps?.status, addEvent]);
 }

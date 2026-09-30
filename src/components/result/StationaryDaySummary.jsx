@@ -2,6 +2,7 @@ import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconHospital, IconPill } from "../../ui/icons";
 import { DAY_COLORS } from "../../screens/game/stationary/constants";
 
 export default function StationaryDaySummary({ cd, extraResult, isMobile }) {
@@ -21,7 +22,7 @@ export default function StationaryDaySummary({ cd, extraResult, isMobile }) {
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-      <STitle icon="🏨" label={t("stationary.diary")} color={C.accent} />
+      <STitle icon={<IconHospital size={15} color={C.accent} />} label={t("stationary.diary")} color={C.accent} />
       {!isMobile && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: 10 }}>
           {extraResult.dayHistory.map((h, i) => {
@@ -32,7 +33,12 @@ export default function StationaryDaySummary({ cd, extraResult, isMobile }) {
                 <div style={{ fontSize: 11, color: C.text, fontFamily: CODE, marginBottom: 4 }}>
                   АД:{Math.round(h.vitals.sbp)}/{Math.round(h.vitals.dbp)} {t("vitals.hr")}:{Math.round(h.vitals.hr)} SpO2:{Math.round(h.vitals.spo2)}%
                 </div>
-                {h.treatments.length > 0 && <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT }}>💊 {h.treatments.join(", ")}</div>}
+                {h.treatments.length > 0 && (
+                  <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 5 }}>
+                    <IconPill size={12} color={C.textDim} />
+                    <span>{h.treatments.join(", ")}</span>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -48,7 +54,12 @@ export default function StationaryDaySummary({ cd, extraResult, isMobile }) {
                 АД:{Math.round(h.vitals.sbp)}/{Math.round(h.vitals.dbp)} {t("vitals.hr")}:{Math.round(h.vitals.hr)} SpO2:{Math.round(h.vitals.spo2)}%
               </span>
             </div>
-            {h.treatments.length > 0 && <div style={{ fontSize: 11, color: C.text, fontFamily: FONT }}>💊 {h.treatments.join(", ")}</div>}
+            {h.treatments.length > 0 && (
+              <div style={{ fontSize: 11, color: C.text, fontFamily: FONT, display: "flex", alignItems: "center", gap: 5 }}>
+                <IconPill size={12} color={C.textDim} />
+                <span>{h.treatments.join(", ")}</span>
+              </div>
+            )}
           </div>
         );
       })}

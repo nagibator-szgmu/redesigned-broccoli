@@ -32,7 +32,7 @@ export function buildDiagnosticsStage({
     id: "diagnostics",
     stepNumber: 3,
     title: "3. Лабораторная и инструментальная диагностика",
-    icon: "🔬",
+    icon: "microscope",
     status: isDiagFullyDone ? "done" : isDiagPartial ? "partial" : "missed",
     statusLabel: isDiagFullyDone
       ? "Выполнено полностью (хорошо)"

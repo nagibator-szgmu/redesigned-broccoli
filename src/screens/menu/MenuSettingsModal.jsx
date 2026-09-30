@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
 import { FONT } from "../../ui/theme";
+import { IconRefresh, IconX } from "../../ui/icons";
 import {
   SettingsSimulationSection,
   SettingsGeneralSection,
@@ -31,7 +32,22 @@ export default function MenuSettingsModal({
       <div style={{ position: "fixed", ...positionStyle, zIndex: 99999, background: C.overlayBg, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", border: `1px solid ${C.borderBright}`, borderRadius: 16, padding: "16px", boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 16px ${C.accentDim}`, fontFamily: FONT }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{t("settings.title")}</span>
-          <span onClick={() => setShowSettings(false)} style={{ fontSize: 12, color: C.textDim, cursor: "pointer", padding: "2px 8px", borderRadius: 6, background: C.dimBg }}>✕</span>
+          <button
+            onClick={() => setShowSettings(false)}
+            style={{
+              background: C.dimBg,
+              border: "none",
+              color: C.textDim,
+              cursor: "pointer",
+              padding: "4px 8px",
+              borderRadius: 6,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconX size={12} color={C.textDim} />
+          </button>
         </div>
 
         <SettingsSimulationSection
@@ -101,7 +117,9 @@ export default function MenuSettingsModal({
                 textAlign: "center",
               }}
             >
-              🗑️ {t("progress.reset")} прогресс и статистику
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                <IconRefresh size={12} color="currentColor" /> {t("progress.reset")} прогресс и статистику
+              </span>
             </button>
           </div>
         )}

@@ -2,9 +2,26 @@ import { FONT_HEADING, FONT_BODY } from "../../ui/theme";
 import { useTranslate } from "../../locale/useTranslate";
 import { HeaderBackBtn } from "../../ui/components";
 import { TOPICS } from "../../data/topics";
-import { THEORY } from "../../data/theory";
 import { DRUG_GROUPS } from "../../data/drugReference";
 import { PROTOCOLS } from "../../data/protocols";
+import {
+  IconPill,
+  IconClipboard,
+  IconScale,
+  IconCardiac,
+  IconNeuro,
+  IconRespiratory,
+  IconInfectious,
+  IconFileText,
+} from "../../ui/icons";
+import TheorySidebarTopics from "./TheorySidebarTopics";
+
+const PROTOCOL_ICONS = {
+  cardiac: IconCardiac,
+  respiratory: IconRespiratory,
+  infectious: IconInfectious,
+  neuro: IconNeuro,
+};
 
 export default function TheorySidebar({
   activeItem, onSelect, setPhase, progressionMode, setProgressionMode,
@@ -39,62 +56,20 @@ export default function TheorySidebar({
       <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", marginBottom: 6, fontFamily: FONT_HEADING, fontWeight: 600 }}>
         {t("theory.sectionTitle")}
       </div>
-      {TOPICS.map((cat) => {
-        const isExpanded = expandedCats.has(cat.id);
-        const catProg = progress ? progress.getCategoryProgress(cat.id) : null;
-        return (
-          <div key={cat.id} style={{ marginBottom: 4 }}>
-            <div onClick={() => toggleCat(cat.id)} className="nav-item" style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 10, cursor: "pointer", transition: "all 0.15s" }}>
-              <span style={{ fontSize: 10, color: C.textDim, transition: "transform 0.15s", transform: isExpanded ? "rotate(90deg)" : "rotate(0)" }}>▶</span>
-              <span style={{ fontSize: 13 }}>{cat.icon}</span>
-              <span style={{ fontSize: 12, fontFamily: FONT_BODY, color: C.text, fontWeight: 500, flex: 1 }}>{cat.name}</span>
-            </div>
-            {isExpanded && cat.children.map((topic) => {
-              const hasContent = !!THEORY[topic.id];
-              const isActive = activeItem.type === "topic" && activeItem.id === topic.id;
-              const isLocked = progressionMode === "strict" && progress && !progress.isTopicUnlocked(topic.id, "strict");
-              const isComplete = progress && progress.isTopicComplete(topic.id);
-              const topicProg = progress ? progress.getTopicProgress(topic.id) : null;
-              const casesDone = topicProg ? topicProg.completedCases.length : 0;
-              return (
-                <div key={topic.id} onClick={() => hasContent && !isLocked && onSelect("topic", topic.id)}
-                  className="nav-item" style={{
-                    display: "flex", alignItems: "center", gap: 8, padding: "7px 12px 7px 34px",
-                    borderRadius: 8, cursor: hasContent && !isLocked ? "pointer" : "default",
-                    background: isActive ? C.accentDim : "transparent",
-                    border: `1px solid ${isActive ? `${C.accent}33` : "transparent"}`,
-                    opacity: isLocked ? 0.4 : hasContent ? 1 : 0.4,
-                  }}>
-                  {isLocked && <span style={{ fontSize: 10 }}>🔒</span>}
-                  {isComplete && <span style={{ fontSize: 10, color: C.green }}>✓</span>}
-                  <span style={{ fontSize: 11, fontFamily: FONT_BODY, color: isActive ? C.accent : isLocked ? C.textDim : C.text, fontWeight: isActive ? 600 : 400, flex: 1 }}>
-                    {topic.name}
-                  </span>
-                  {hasContent && !isLocked && topicProg && (
-                    <span style={{ fontSize: 8, color: casesDone >= topic.cases.length ? C.green : C.textDim, fontFamily: FONT_BODY }}>
-                      {casesDone}/{topic.cases.length}
-                    </span>
-                  )}
-                </div>
-              );
-            })}
-            {catProg && catProg.total > 0 && (
-              <div style={{ margin: "4px 10px 6px", padding: "4px 0" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2 }}>
-                  <span style={{ fontSize: 8, color: C.textDim, fontFamily: FONT_BODY }}>{catProg.completed}/{catProg.total} {t("theory.themes")}</span>
-                  <span style={{ fontSize: 8, color: catProg.completed === catProg.total ? C.green : C.textDim, fontFamily: FONT_BODY }}>{Math.round((catProg.completed / catProg.total) * 100)}%</span>
-                </div>
-                <div style={{ height: 3, background: `${C.textDim}20`, borderRadius: 2, overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${(catProg.completed / catProg.total) * 100}%`, background: catProg.completed === catProg.total ? C.green : C.accent }} />
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })}
+      <TheorySidebarTopics
+        topics={TOPICS}
+        expandedCats={expandedCats}
+        toggleCat={toggleCat}
+        progress={progress}
+        progressionMode={progressionMode}
+        activeItem={activeItem}
+        onSelect={onSelect}
+        C={C}
+      />
 
-      <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT_HEADING, fontWeight: 600 }}>
-        💊 {t("theory.drugs")}
+      <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT_HEADING, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+        <IconPill size={13} color={C.textDim} />
+        <span>{t("theory.drugs")}</span>
       </div>
       {DRUG_GROUPS.map((group) => {
         const isActive = activeItem.type === "drug" && activeItem.id === group.id;
@@ -113,11 +88,13 @@ export default function TheorySidebar({
         );
       })}
 
-      <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT_HEADING, fontWeight: 600 }}>
-        📋 {t("theory.protocols")}
+      <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT_HEADING, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+        <IconClipboard size={13} color={C.textDim} />
+        <span>{t("theory.protocols")}</span>
       </div>
       {Object.values(PROTOCOLS).map((proto) => {
         const isActive = activeItem.type === "protocol" && activeItem.id === proto.id;
+        const ProtoIcon = PROTOCOL_ICONS[proto.iconKey] || IconFileText;
         return (
           <div key={proto.id} onClick={() => onSelect("protocol", proto.id)} className="nav-item"
             style={{
@@ -125,7 +102,7 @@ export default function TheorySidebar({
               marginBottom: 2, cursor: "pointer", background: isActive ? C.accentDim : "transparent",
               border: `1px solid ${isActive ? `${C.accent}33` : "transparent"}`,
             }}>
-            <span style={{ fontSize: 13 }}>{proto.icon}</span>
+            <ProtoIcon size={14} color={isActive ? C.accent : (proto.color || C.textDim)} />
             <span style={{ fontSize: 12, fontFamily: FONT_BODY, color: isActive ? C.accent : C.text, fontWeight: isActive ? 600 : 400 }}>
               {proto.name.split("—")[0].trim()}
             </span>
@@ -133,8 +110,9 @@ export default function TheorySidebar({
         );
       })}
 
-      <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT_HEADING, fontWeight: 600 }}>
-        🧮 {t("theory.calculators") || "Калькуляторы"}
+      <div style={{ fontSize: 10, color: C.textDim, letterSpacing: 1.5, padding: "0 10px", margin: "18px 0 6px", fontFamily: FONT_HEADING, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+        <IconScale size={13} color={C.textDim} />
+        <span>{t("theory.calculators") || "Калькуляторы"}</span>
       </div>
       {calculators.map((calc) => {
         const isActive = activeItem.type === "calc" && activeItem.id === calc.id;

@@ -1,6 +1,15 @@
 import React from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
+import {
+  IconAlertTriangle,
+  IconActivity,
+  IconClock,
+  IconRefresh,
+  IconChevronDown,
+  IconChevronUp,
+} from "../../../ui/icons";
+import TimelineEventList, { getEventCategory } from "./TimelineEventList";
 
 /**
  * Нижняя полоса клинического таймлайна, критических оповещений и вызова переоценки динамики.
@@ -14,6 +23,8 @@ export default function WorkstationTimelineBar({
   onOpenReassessment,
 }) {
   const C = useTheme();
+  const latestEvent = eventLog[0];
+  const latestCat = latestEvent ? getEventCategory(latestEvent.type, C) : null;
 
   return (
     <div
@@ -26,7 +37,7 @@ export default function WorkstationTimelineBar({
           : C.headerBg2,
         borderTop: `1px solid ${isCritical ? C.red : isDeteriorating ? C.yellow : C.border}`,
         backdropFilter: "blur(12px)",
-        padding: "6px 12px",
+        padding: "5px 12px",
         display: "flex",
         flexDirection: "column",
         gap: 4,
@@ -43,29 +54,65 @@ export default function WorkstationTimelineBar({
               color: isCritical ? C.red : isDeteriorating ? C.yellow : C.accent,
               textTransform: "uppercase",
               letterSpacing: 0.5,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
             }}
           >
-            {isCritical ? "⚠️ КРИТИЧЕСКИЙ СТАТУС" : isDeteriorating ? "⚡ УХУДШЕНИЕ" : "⏱ ТАЙМЛАЙН"}
+            {isCritical ? (
+              <>
+                <IconAlertTriangle size={12} color={C.red} />
+                <span>КРИТИЧЕСКИЙ СТАТУС</span>
+              </>
+            ) : isDeteriorating ? (
+              <>
+                <IconActivity size={12} color={C.yellow} />
+                <span>УХУДШЕНИЕ</span>
+              </>
+            ) : (
+              <>
+                <IconClock size={12} color={C.accent} />
+                <span>ПРОТОКОЛ</span>
+              </>
+            )}
           </span>
-          {eventLog[0] && (
-            <span
-              style={{
-                color: C.textDim,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "60vw",
-              }}
-            >
-              [{eventLog[0].elapsed}] {eventLog[0].text}
-            </span>
+
+          {latestEvent && latestCat && (
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span
+                style={{
+                  fontFamily: CODE,
+                  fontSize: 8.5,
+                  fontWeight: 700,
+                  padding: "1px 4px",
+                  borderRadius: 3,
+                  background: latestCat.bg,
+                  color: latestCat.color,
+                  letterSpacing: 0.5,
+                }}
+              >
+                {latestCat.tag}
+              </span>
+              <span
+                style={{
+                  color: C.textDim,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "50vw",
+                }}
+              >
+                [{latestEvent.elapsed}] {latestEvent.text}
+              </span>
+            </div>
           )}
         </div>
+
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button
             onClick={onOpenReassessment}
             style={{
-              padding: "3px 10px",
+              padding: "3px 8px",
               borderRadius: 6,
               background: `${C.accent}20`,
               border: `1px solid ${C.accent}55`,
@@ -79,7 +126,8 @@ export default function WorkstationTimelineBar({
               gap: 4,
             }}
           >
-            🔄 Оценить динамику
+            <IconRefresh size={12} color={C.accent} />
+            <span>Оценить динамику</span>
           </button>
           <button
             onClick={() => setTimelineExpanded((prev) => !prev)}
@@ -96,41 +144,12 @@ export default function WorkstationTimelineBar({
             }}
           >
             <span>{eventLog.length} событий</span>
-            <span>{timelineExpanded ? "▼" : "▲"}</span>
+            {timelineExpanded ? <IconChevronDown size={12} /> : <IconChevronUp size={12} />}
           </button>
         </div>
       </div>
 
-      {timelineExpanded && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 3, overflowY: "auto", maxHeight: 130, paddingTop: 4 }}>
-          {eventLog.map((ev, i) => (
-            <div
-              key={ev.id || i}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontSize: 11,
-                fontFamily: FONT,
-                color:
-                  ev.type === "critical" || ev.type === "danger"
-                    ? C.red
-                    : ev.type === "warning" || ev.type === "warn"
-                    ? C.yellow
-                    : ev.type === "result"
-                    ? C.accent
-                    : C.textDim,
-              }}
-            >
-              <span style={{ fontFamily: CODE, fontSize: 10, opacity: 0.8, minWidth: 36 }}>
-                {ev.elapsed || "0:00"}
-              </span>
-              <span>•</span>
-              <span style={{ color: ev.type === "critical" ? C.red : C.text }}>{ev.text}</span>
-            </div>
-          ))}
-        </div>
-      )}
+      {timelineExpanded && <TimelineEventList eventLog={eventLog} C={C} />}
     </div>
   );
 }

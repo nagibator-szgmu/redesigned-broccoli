@@ -6,7 +6,7 @@ import { DIAGNOSTICS } from "../../../../data/diagnostics";
  *
  * @param {Object} cd - Данные клинического кейса
  * @param {Array<string>} [orderedDiag=[]] - Идентификаторы заказанных диагностических тестов
- * @returns {Array<{id: string, category: string, icon: string, label: string}>}
+ * @returns {Array<{id: string, category: string, iconKey: string, label: string}>}
  */
 export function deriveAvailableCriteria(cd, orderedDiag = []) {
   if (!cd) return [];
@@ -17,7 +17,7 @@ export function deriveAvailableCriteria(cd, orderedDiag = []) {
     items.push({
       id: "complaint",
       category: "Жалобы",
-      icon: "💬",
+      iconKey: "complaint",
       label: cd.complaint,
     });
   }
@@ -29,7 +29,7 @@ export function deriveAvailableCriteria(cd, orderedDiag = []) {
       items.push({
         id: "vital_hypotension",
         category: "Гемодинамика",
-        icon: "🚨",
+        iconKey: "emergency",
         label: `Гипотензия / шок (АД ${cd.vitals.bp} мм рт. ст.)`,
       });
     }
@@ -37,14 +37,14 @@ export function deriveAvailableCriteria(cd, orderedDiag = []) {
       items.push({
         id: "vital_tachycardia",
         category: "Гемодинамика",
-        icon: "⚡",
+        iconKey: "activity",
         label: `Тахикардия (ЧСС ${cd.vitals.hr} уд/мин)`,
       });
     } else if (cd.vitals.hr < 50) {
       items.push({
         id: "vital_bradycardia",
         category: "Гемодинамика",
-        icon: "⚡",
+        iconKey: "activity",
         label: `Брадикардия (ЧСС ${cd.vitals.hr} уд/мин)`,
       });
     }
@@ -52,7 +52,7 @@ export function deriveAvailableCriteria(cd, orderedDiag = []) {
       items.push({
         id: "vital_hypoxia",
         category: "Дыхание",
-        icon: "🫁",
+        iconKey: "respiratory",
         label: `Острая гипоксемия (SpO₂ ${cd.vitals.spo2}%)`,
       });
     }
@@ -60,7 +60,7 @@ export function deriveAvailableCriteria(cd, orderedDiag = []) {
       items.push({
         id: "vital_tachypnea",
         category: "Дыхание",
-        icon: "🫁",
+        iconKey: "respiratory",
         label: `Тахипноэ / одышка (ЧД ${cd.vitals.rr} в мин)`,
       });
     }
@@ -76,7 +76,7 @@ export function deriveAvailableCriteria(cd, orderedDiag = []) {
       items.push({
         id: `test_${testId}`,
         category: "Исследования",
-        icon: "🔬",
+        iconKey: "tests",
         label: `${testName}: ${resultText}`,
       });
     }

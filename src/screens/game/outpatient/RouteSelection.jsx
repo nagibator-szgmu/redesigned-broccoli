@@ -3,6 +3,7 @@ import { FONT } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { ROUTE_ICONS } from "./routeIcons";
+import { IconCheck } from "../../../ui/icons";
 
 /** Route selection panel */
 export function RouteSelection({ routeOptions, selectedRoute, setSelectedRoute }) {
@@ -32,11 +33,13 @@ export function RouteSelection({ routeOptions, selectedRoute, setSelectedRoute }
                 transition: "all 0.15s ease",
               }}
             >
-              <span style={{ fontSize: 18 }}>{ROUTE_ICONS[opt.id] || "📋"}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 20, height: 20, flexShrink: 0, color: sel ? C.accent : C.textDim }}>
+                {ROUTE_ICONS[opt.id]}
+              </span>
               <span style={{ fontSize: 13, color: sel ? C.accent : C.text, fontWeight: sel ? 700 : 400, fontFamily: FONT, flex: 1 }}>
                 {opt.label}
               </span>
-              {sel && <span style={{ fontSize: 14, color: C.accent, fontWeight: 900 }}>✓</span>}
+              {sel && <IconCheck size={14} color={C.accent} strokeWidth={2.5} />}
             </div>
           );
         })}

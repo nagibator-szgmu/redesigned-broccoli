@@ -3,6 +3,7 @@ import { FONT } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
 import useIsMobile from "../hooks/useIsMobile";
+import { IconArrowRight } from "../ui/icons";
 import { STEPS } from "./onboarding/onboardingSteps";
 
 export default function OnboardingScreen({ onComplete }) {
@@ -28,7 +29,7 @@ export default function OnboardingScreen({ onComplete }) {
       </div>
 
       <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"24px 24px 0"}}>
-        <div style={{fontSize:64,marginBottom:20,animation:"fadeIn 0.4s ease"}}>{s.icon}</div>
+        <div style={{width: 64, height: 64, borderRadius: 18, background: `${C.accent}15`, border: `1px solid ${C.accent}30`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, animation: "fadeIn 0.4s ease"}}>{s.icon}</div>
         <div style={{fontSize:22,fontWeight:700,color:C.white,fontFamily:FONT,textAlign:"center",marginBottom:12}}>
           {t(s.titleKey) || s.titleDefault}
         </div>
@@ -46,8 +47,8 @@ export default function OnboardingScreen({ onComplete }) {
         </div>
         {step < STEPS.length - 1 ? (
           <>
-            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,marginBottom:10}}>
-              {t("onboarding.next")}
+            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,marginBottom:10,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:6}}>
+              {t("onboarding.next")} <IconArrowRight size={16} />
             </button>
             <div onClick={skip} style={{textAlign:"center",fontSize:13,color:C.textDim,cursor:"pointer",padding:"8px"}}>
               {t("onboarding.skip")}
@@ -55,8 +56,8 @@ export default function OnboardingScreen({ onComplete }) {
           </>
         ) : (
           <>
-            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,marginBottom:10}}>
-              {t("onboarding.startLearning")}
+            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:C.bg,cursor:"pointer",fontFamily:FONT,marginBottom:10,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:6}}>
+              {t("onboarding.startLearning")} <IconArrowRight size={16} />
             </button>
             <div onClick={skip} style={{textAlign:"center",fontSize:13,color:C.textDim,cursor:"pointer",padding:"8px"}}>
               {t("onboarding.skipIntro")}
@@ -71,7 +72,7 @@ export default function OnboardingScreen({ onComplete }) {
     <div style={{position:"fixed",inset:0,background:C.bg,fontFamily:FONT,display:"flex",zIndex:1000}}>
       {/* Left panel — step info */}
       <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"40px"}}>
-        <div style={{fontSize:80,marginBottom:24,animation:"fadeIn 0.4s ease"}}>{s.icon}</div>
+        <div style={{width: 80, height: 80, borderRadius: 24, background: `${C.accent}15`, border: `1px solid ${C.accent}30`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 24, animation: "fadeIn 0.4s ease"}}>{s.icon}</div>
         <div style={{fontSize:28,fontWeight:700,color:C.white,fontFamily:FONT,textAlign:"center",marginBottom:16}}>
           {t(s.titleKey) || s.titleDefault}
         </div>
@@ -95,8 +96,8 @@ export default function OnboardingScreen({ onComplete }) {
 
         {step < STEPS.length - 1 ? (
           <>
-            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:"#FFFFFF",cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px ${C.accent}40`}}>
-              {t("onboarding.next")} →
+            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:"#FFFFFF",cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px ${C.accent}40`,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:6}}>
+              {t("onboarding.next")} <IconArrowRight size={16} />
             </button>
             <div onClick={skip} style={{textAlign:"center",fontSize:13,color:C.textDim,cursor:"pointer",padding:"10px",borderRadius:8,transition:"background 0.15s"}}>
               {t("onboarding.skipIntro")}
@@ -104,8 +105,8 @@ export default function OnboardingScreen({ onComplete }) {
           </>
         ) : (
           <>
-            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:"#FFFFFF",cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px ${C.accent}40`}}>
-              {t("onboarding.startLearning")} →
+            <button onClick={next} style={{width:"100%",background:`linear-gradient(135deg,${C.accent},${C.green})`,border:"none",borderRadius:12,padding:"15px",fontSize:15,fontWeight:700,color:"#FFFFFF",cursor:"pointer",fontFamily:FONT,marginBottom:12,transition:"all 0.2s",boxShadow:`0 4px 16px ${C.accent}40`,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:6}}>
+              {t("onboarding.startLearning")} <IconArrowRight size={16} />
             </button>
             <div onClick={skip} style={{textAlign:"center",fontSize:13,color:C.textDim,cursor:"pointer",padding:"10px",borderRadius:8,transition:"background 0.15s"}}>
               {t("onboarding.skipIntro")}

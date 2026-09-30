@@ -1,5 +1,6 @@
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
+import { IconBook } from "../../ui/icons";
 
 export default function LearningTipToast({ tip, isMobile }) {
   const C = useTheme();
@@ -15,7 +16,8 @@ export default function LearningTipToast({ tip, isMobile }) {
       fontSize: isMobile ? 11 : 12, color: C.yellow,
       display: "flex", alignItems: "center", gap: 8,
     }}>
-      <span>📖</span><span>{tip}</span>
+      <IconBook size={16} color={C.yellow} style={{ flexShrink: 0 }} />
+      <span>{tip}</span>
     </div>
   );
 }

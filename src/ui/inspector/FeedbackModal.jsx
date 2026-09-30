@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { buildMarkdownReport, copyTextToClipboard } from "./inspectorUtils";
 import { ElementInfoCard } from "./ElementInfoCard";
 import { FONT } from "../theme";
+import { IconTarget, IconX, IconCheck, IconClipboard } from "../icons";
 
 export default function FeedbackModal({ elementData, onClose }) {
   const [comment, setComment] = useState("");
@@ -62,7 +63,7 @@ export default function FeedbackModal({ elementData, onClose }) {
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 18 }}>🎯</span>
+            <IconTarget size={18} color="#38BDF8" />
             <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#38BDF8" }}>
               Инспектор элемента UI
             </h3>
@@ -73,12 +74,13 @@ export default function FeedbackModal({ elementData, onClose }) {
               background: "transparent",
               border: "none",
               color: "#94A3B8",
-              fontSize: 18,
               cursor: "pointer",
-              padding: "4px 8px",
+              padding: "4px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            ✕
+            <IconX size={16} />
           </button>
         </div>
 
@@ -124,9 +126,23 @@ export default function FeedbackModal({ elementData, onClose }) {
               fontWeight: 600,
               cursor: "pointer",
               transition: "background 0.2s",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
             }}
           >
-            {copied ? "✅ Скопировано в буфер! (Cmd+V в чат)" : "📋 Скопировать для Antigravity"}
+            {copied ? (
+              <>
+                <IconCheck size={16} color="#fff" />
+                <span>Скопировано в буфер! (Cmd+V в чат)</span>
+              </>
+            ) : (
+              <>
+                <IconClipboard size={16} color="#fff" />
+                <span>Скопировать для Antigravity</span>
+              </>
+            )}
           </button>
           <button
             onClick={onClose}

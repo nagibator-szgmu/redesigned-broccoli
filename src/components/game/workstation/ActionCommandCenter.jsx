@@ -1,20 +1,22 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
-import { FONT } from "../../../ui/theme";
 import { useTranslate } from "../../../locale/useTranslate";
-import { IconMicroscope, IconPill, IconClipboard } from "../../../ui/icons";
-import DiagTab from "./DiagTab";
+import ActionTabBar from "./ActionTabBar";
+import DiagnosticWorkspace from "./DiagnosticWorkspace";
 import TreatTab from "./TreatTab";
 import DiagnosisRoutingTab from "./DiagnosisRoutingTab";
 
-/** Tabbed Action Command Center container component */
+/**
+ * Главный клинический командный центр врача (Active Clinical Command Center).
+ * Содержит постоянные рабочие вкладки вместо закрытых аккордеонов.
+ */
 export default function ActionCommandCenter({
   phase,
-  selDiag,
+  selDiag = [],
   setSelDiag,
   orderedDiag = [],
-  diagCat,
-  setDiagCat,
+  revealedResults = {},
+  newResultIds = [],
   handleOrderTests,
   processingTests,
   cd,
@@ -34,100 +36,59 @@ export default function ActionCommandCenter({
   const C = useTheme();
   const { t } = useTranslate();
 
-  const initialTab = phase === "diagnose" ? "diagnose" : "diag";
-  const [tab, setTab] = useState(initialTab);
+  const [activeTab, setActiveTab] = useState(() =>
+    phase === "diagnose" ? "diagnose" : phase === "treat" ? "treat" : "diag"
+  );
 
-  const tabs = [
-    { key: "diag", label: t("phases.order_tests"), icon: <IconMicroscope size={14} color="currentColor" />, badge: selDiag.length },
-    { key: "treat", label: t("treatment.title") || "Экстренное лечение", icon: <IconPill size={14} color="currentColor" />, badge: selTreat.length },
-    { key: "diagnose", label: t("phases.diagnose") || "Диагноз+Лечение", icon: <IconClipboard size={14} color="currentColor" />, badge: diagText ? 1 : 0 }
-  ];
+  useEffect(() => {
+    if (phase === "diagnose") {
+      setActiveTab("diagnose");
+    } else if (phase === "treat" && activeTab === "diag" && orderedDiag.length > 0) {
+      setActiveTab("treat");
+    }
+  }, [phase]);
 
   return (
-    <div style={{
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      background: C.panelBg,
-      backdropFilter: "blur(16px)",
-      WebkitBackdropFilter: "blur(16px)",
-      border: `1px solid ${C.border}`,
-      borderRadius: 14,
-      overflow: "hidden"
-    }}>
-      {/* Header Tabs Navigation (Scrollable on narrow tablet) */}
-      <div className="no-scrollbar" style={{
-        flexShrink: 0,
+    <div
+      style={{
+        height: "100%",
         display: "flex",
-        background: C.headerBg2,
-        borderBottom: `1px solid ${C.border}`,
-        padding: "4px 8px 0 8px",
-        gap: 4,
-        overflowX: "auto",
-        WebkitOverflowScrolling: "touch"
-      }}>
-        {tabs.map(tItem => {
-          const isActive = tab === tItem.key;
-          return (
-            <button
-              key={tItem.key}
-              onClick={() => setTab(tItem.key)}
-              style={{
-                flex: "1 0 auto",
-                minWidth: 100,
-                minHeight: 38,
-                padding: "8px 14px",
-                border: "none",
-                background: isActive ? C.panelBg : "transparent",
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-                borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 6,
-                color: isActive ? C.accent : C.textDim,
-                fontSize: 12.5,
-                fontFamily: FONT,
-                fontWeight: isActive ? 700 : 500,
-                transition: "all 0.15s"
-              }}
-            >
-              <span>{tItem.icon}</span>
-              <span style={{ whiteSpace: "nowrap" }}>{tItem.label}</span>
-              {tItem.badge > 0 && (
-                <span style={{
-                  background: C.accent,
-                  color: C.bg,
-                  fontSize: 10,
-                  fontWeight: 700,
-                  borderRadius: 9999,
-                  padding: "1px 6px"
-                }}>
-                  {tItem.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+        flexDirection: "column",
+        background: C.panelBg,
+        border: `1px solid ${C.border}`,
+        borderRadius: 8,
+        overflow: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Навигационная панель переключения рабочих столов врача */}
+      <ActionTabBar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        orderedCount={orderedDiag.length}
+        treatCount={selTreat.length}
+        hasDiag={Boolean(diagText)}
+        t={t}
+        C={C}
+      />
 
-      {/* Action Content Panel */}
-      <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
-        {tab === "diag" && (
-          <DiagTab
+      {/* Рабочая область выбранного режима */}
+      <div style={{ flex: 1, minHeight: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+        {activeTab === "diag" && (
+          <DiagnosticWorkspace
             selDiag={selDiag}
             setSelDiag={setSelDiag}
             orderedDiag={orderedDiag}
-            diagCat={diagCat}
-            setDiagCat={setDiagCat}
+            revealedResults={revealedResults}
+            newResultIds={newResultIds}
             handleOrderTests={handleOrderTests}
             processingTests={processingTests}
+            cd={cd}
             t={t}
           />
         )}
-        {tab === "treat" && (
+
+        {activeTab === "treat" && (
           <TreatTab
             cd={cd}
             selTreat={selTreat}
@@ -138,20 +99,23 @@ export default function ActionCommandCenter({
             setTreatCat={setTreatCat}
           />
         )}
-        {tab === "diagnose" && (
-          <DiagnosisRoutingTab
-            diagText={diagText}
-            setDiagText={setDiagText}
-            selTreat={selTreat}
-            pendingFx={pendingFx}
-            handleSubmit={handleSubmit}
-            cd={cd}
-            selectedRoute={selectedRoute}
-            setSelectedRoute={setSelectedRoute}
-            setExtraResult={setExtraResult}
-            orderedDiag={orderedDiag}
-            t={t}
-          />
+
+        {activeTab === "diagnose" && (
+          <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "10px 12px" }}>
+            <DiagnosisRoutingTab
+              diagText={diagText}
+              setDiagText={setDiagText}
+              selTreat={selTreat}
+              pendingFx={pendingFx}
+              handleSubmit={handleSubmit}
+              cd={cd}
+              selectedRoute={selectedRoute}
+              setSelectedRoute={setSelectedRoute}
+              setExtraResult={setExtraResult}
+              orderedDiag={orderedDiag}
+              t={t}
+            />
+          </div>
         )}
       </div>
     </div>

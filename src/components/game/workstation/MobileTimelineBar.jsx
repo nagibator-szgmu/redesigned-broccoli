@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FONT, CODE } from "../../../ui/theme";
+import { IconRefresh, IconChevronDown, IconChevronUp } from "../../../ui/icons";
 
 export function MobileTimelineBar({ eventLog, isCritical, C, onOpenReassess }) {
   const [timelineOpen, setTimelineOpen] = useState(false);
@@ -28,16 +29,29 @@ export function MobileTimelineBar({ eventLog, isCritical, C, onOpenReassess }) {
         >
           <span
             style={{
-              color: isCritical ? C.red : C.accent,
               fontWeight: 700,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
+              color: isCritical ? C.red : C.accent,
+              textTransform: "uppercase",
+              letterSpacing: 0.5,
+              fontSize: 9.5,
             }}
           >
-            ⏱ {eventLog[0]?.elapsed} {eventLog[0]?.text}
+            Таймлайн:
           </span>
-          <span style={{ color: C.textDim, fontSize: 9 }}>{timelineOpen ? "▼" : `▲ (${eventLog.length})`}</span>
+          <span
+            style={{
+              color: C.text,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              fontSize: 10,
+            }}
+          >
+            {eventLog[eventLog.length - 1]?.text}
+          </span>
+          <span style={{ color: C.textDim, display: "inline-flex", alignItems: "center", gap: 2, fontSize: 9 }}>
+            {timelineOpen ? <IconChevronDown size={11} /> : <><IconChevronUp size={11} /> ({eventLog.length})</>}
+          </span>
         </div>
         <button
           onClick={onOpenReassess}
@@ -52,9 +66,13 @@ export function MobileTimelineBar({ eventLog, isCritical, C, onOpenReassess }) {
             cursor: "pointer",
             fontFamily: FONT,
             flexShrink: 0,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 3,
           }}
         >
-          🔄 Оценить
+          <IconRefresh size={10} color={C.accent} />
+          <span>Оценить</span>
         </button>
       </div>
       {timelineOpen && (

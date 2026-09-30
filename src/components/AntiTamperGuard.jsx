@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { IconLock } from '../ui/icons';
 
 /**
  * AntiTamperGuard
@@ -49,10 +50,11 @@ export function AntiTamperGuard({ children, emblemId = 'medsim-3d-emblem-contain
         padding: 24
       }}>
         <div style={{
-          fontSize: 48,
           marginBottom: 16,
           filter: 'drop-shadow(0 0 12px rgba(255, 77, 77, 0.5))'
-        }}>🔒</div>
+        }}>
+          <IconLock size={48} color="#ff4d4d" />
+        </div>
         <h2 style={{ fontSize: 22, fontWeight: 700, color: '#ffffff', marginBottom: 10 }}>
           Ошибка целостности лицензии MedSim®
         </h2>

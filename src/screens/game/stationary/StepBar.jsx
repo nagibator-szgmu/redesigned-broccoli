@@ -22,7 +22,9 @@ export default function StepBar({ steps, activeStep, currentDay }) {
             opacity: i > activeStep ? 0.4 : 1,
           }}
         >
-          <div style={{ fontSize: 12 }}>{s.icon}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 16 }}>
+            {s.icon}
+          </div>
           <div style={{ fontSize: 10, color: i === activeStep ? DAY_COLORS[currentDay % 7] : C.textDim, fontFamily: FONT, marginTop: 2 }}>
             {s.label}
           </div>

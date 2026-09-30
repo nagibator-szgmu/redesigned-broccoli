@@ -1,6 +1,6 @@
 import { FONT } from "../../ui/theme";
 import { Tooltip } from "../../ui/components";
-import { IconBell, IconGear } from "../../ui/icons";
+import { IconBell, IconGear, IconSearch, IconX } from "../../ui/icons";
 
 export default function MenuHeader({
   searchQuery,
@@ -50,7 +50,9 @@ export default function MenuHeader({
             boxSizing: "border-box"
           }}
         >
-          <span style={{ color: C.textDim, fontSize: 14 }}>🔍</span>
+          <span style={{ color: C.textDim, display: "flex", alignItems: "center" }}>
+            <IconSearch size={14} color="currentColor" />
+          </span>
           <input
             className="seamless-input"
             value={searchQuery}
@@ -70,9 +72,21 @@ export default function MenuHeader({
             }}
           />
           {searchQuery && (
-            <span onClick={() => setSearchQuery("")} style={{ color: C.textDim, fontSize: 13, cursor: "pointer" }}>
-              ✕
-            </span>
+            <button
+              onClick={() => setSearchQuery("")}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: C.textDim,
+                cursor: "pointer",
+                padding: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconX size={13} color={C.textDim} />
+            </button>
           )}
         </div>
       </Tooltip>

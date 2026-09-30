@@ -2,6 +2,7 @@ import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconRoute } from "../../ui/icons";
 
 export default function OutpatientRouteResult({ cd, extraResult, isMobile }) {
   const C = useTheme();
@@ -15,7 +16,7 @@ export default function OutpatientRouteResult({ cd, extraResult, isMobile }) {
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-      <STitle icon="🚶" label={t("outpatient.route")} color={correct ? C.green : C.red} />
+      <STitle icon={<IconRoute size={15} color={correct ? C.green : C.red} />} label={t("outpatient.route")} color={correct ? C.green : C.red} />
       <div style={{ display: "grid", gridTemplateColumns: !correct && !isMobile ? "1fr 1fr" : "1fr", gap: isMobile ? 8 : 16 }}>
         <div>
           <div style={{ fontSize: isMobile ? 11 : 12, color: C.textDim, marginBottom: isMobile ? 4 : 5, textTransform: "uppercase", fontFamily: FONT }}>{t("outpatient.yourChoice")}</div>

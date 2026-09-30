@@ -2,6 +2,7 @@ import { FONT, FONT_HEADING, CODE } from "./theme";
 import { useTheme } from "./ThemeContext";
 import { DIAGNOSTIC_REFS } from "../data/diagnostics";
 import { DRUG_REFERENCE } from "../data/drugReference";
+import { IconCheck, IconAlertTriangle } from "./icons";
 import Tooltip from "./Tooltip";
 
 export const STitle = ({ icon, label, color: colorProp }) => {
@@ -94,35 +95,43 @@ export const CheckRow = ({ item, selected, onToggle, color: colorProp, danger, d
         display: "flex",
         alignItems: "center",
         gap: 10,
-        background: selected ? `${color}14` : danger ? `${C.red}06` : "transparent",
-        border: `1px solid ${selected ? color + "66" : danger ? `${C.red}2b` : C.border}`,
-        borderRadius: 10,
-        padding: "9px 13px",
+        minHeight: 39,
+        background: selected ? `${color}18` : danger ? `${C.red}08` : "transparent",
+        border: `1px solid ${selected ? color + "70" : danger ? `${C.red}35` : C.border}`,
+        borderRadius: 8,
+        padding: "8px 12px",
         cursor: disabled ? "default" : "pointer",
-        marginBottom: 5,
+        marginBottom: 4,
         opacity: disabled ? 0.4 : 1,
-        boxShadow: selected ? `0 2px 8px -2px ${color}15` : "none",
-        transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+        boxShadow: selected ? `0 2px 8px -2px ${color}25` : "none",
+        transition: "all 0.15s ease",
         width: "100%",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
       }}>
         <div style={{
-          width: 16,
-          height: 16,
+          width: 18,
+          height: 18,
           borderRadius: 4,
-          border: `1px solid ${selected ? color : C.textDim}`,
+          border: `1.5px solid ${selected ? color : C.borderBright}`,
           background: selected ? color : "transparent",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
-          boxShadow: selected ? `0 0 6px ${color}55` : "none",
+          boxShadow: selected ? `0 0 6px ${color}66` : "none",
           transition: "all 0.15s ease",
         }}>
-          {selected && <span style={{ fontSize: 10, color: C.bg, fontWeight: 900 }}>✓</span>}
+          {selected && <IconCheck size={12} color="#FFFFFF" strokeWidth={3} />}
         </div>
-        <span style={{ color: selected ? C.white : danger ? C.red : C.text, fontSize: 12.5, fontFamily: FONT, flex: 1, fontWeight: selected ? 500 : 400 }}>{item.name}</span>
-        {danger && <span style={{ fontSize: 10.5, color: C.red, fontFamily: FONT, fontWeight: 500, background: `${C.red}18`, padding: "1px 6px", borderRadius: 4 }}>⚠ опасно</span>}
+        <span style={{ color: selected ? C.white : danger ? C.red : "#E2E8F0", fontSize: 14, fontFamily: FONT, flex: 1, fontWeight: selected ? 500 : 400, lineHeight: 1.35 }}>
+          {item.name}
+        </span>
+        {danger && (
+          <span style={{ fontSize: 10.5, color: C.red, fontFamily: FONT, fontWeight: 600, background: `${C.red}18`, padding: "1px 6px", borderRadius: 4, display: "inline-flex", alignItems: "center", gap: 3 }}>
+            <IconAlertTriangle size={10} color={C.red} />
+            <span>опасно</span>
+          </span>
+        )}
       </div>
     </Tooltip>
   );

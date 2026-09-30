@@ -2,6 +2,7 @@ import { FONT, CODE } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
+import { IconTrendingUp } from "../../ui/icons";
 import { r1 } from "../../engine/patient";
 
 export default function VitalsDelta({ cd, ps, vitalDeltas: propDeltas, isMobile }) {
@@ -13,7 +14,7 @@ export default function VitalsDelta({ cd, ps, vitalDeltas: propDeltas, isMobile 
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>
-      <STitle icon="📈" label={t("result.vitals")} color={C.yellow} />
+      <STitle icon={<IconTrendingUp size={15} color={C.yellow} />} label={t("result.vitals")} color={C.yellow} />
       <div style={{ display: "grid", gridTemplateColumns: `repeat(${isMobile ? 2 : 3}, 1fr)`, gap: isMobile ? 7 : 8 }}>
         {vitalDeltas.map(({ label, init, final, delta, warn }) => {
           const isGood = label === t("vitals.spo2") || label === t("vitals.gcs") ? delta >= 0 : label === t("vitals.pain") ? delta <= 0 : !warn;

@@ -18,7 +18,7 @@ export function buildDiagnosisStage({ cd, sourceRef, diagText = "" }) {
     id: "diagnosis",
     stepNumber: 4,
     title: "4. Постановка клинического диагноза по КР",
-    icon: "📝",
+    icon: "file_text",
     status: isDiagCorrect ? "done" : "missed",
     statusLabel: isDiagCorrect
       ? "Диагноз верен (хорошо)"

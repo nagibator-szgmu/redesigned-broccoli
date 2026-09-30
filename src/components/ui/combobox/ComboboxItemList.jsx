@@ -1,4 +1,5 @@
 import { useTheme } from "../../../ui/ThemeContext";
+import { IconCheck } from "../../../ui/icons";
 
 export default function ComboboxItemList({
   filteredItems,
@@ -71,7 +72,7 @@ export default function ComboboxItemList({
               }}
             >
               {isSelected && (
-                <span style={{ color: C.bg, fontSize: 10, fontWeight: 900 }}>✓</span>
+                <IconCheck size={11} color={C.bg} strokeWidth={3} />
               )}
             </div>
 

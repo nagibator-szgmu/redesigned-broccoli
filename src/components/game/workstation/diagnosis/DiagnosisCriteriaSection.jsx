@@ -2,6 +2,22 @@ import React from "react";
 import { useTheme } from "../../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../../ui/theme";
 import { STitle } from "../../../../ui/components";
+import {
+  IconClipboard,
+  IconCheck,
+  IconSiren,
+  IconActivity,
+  IconRespiratory,
+  IconMicroscope,
+} from "../../../../ui/icons";
+
+const CRITERIA_ICONS = {
+  complaint: IconClipboard,
+  emergency: IconSiren,
+  activity: IconActivity,
+  respiratory: IconRespiratory,
+  tests: IconMicroscope,
+};
 
 /**
  * Чеклист опорных клинических критериев для обоснования диагноза.
@@ -26,7 +42,7 @@ export default function DiagnosisCriteriaSection({
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 4 }}>
-        <STitle icon="📋" label="Опорные диагностические критерии" color={C.accent} />
+        <STitle icon={<IconClipboard size={15} color={C.accent} />} label="Опорные диагностические критерии" color={C.accent} />
         <span style={{ fontSize: 11, color: selectedCriteria.size > 0 ? C.green : C.textDim, fontFamily: FONT, fontWeight: 600 }}>
           Выбрано: {selectedCriteria.size} из {availableCriteria.length}
         </span>
@@ -53,6 +69,7 @@ export default function DiagnosisCriteriaSection({
         ) : (
           availableCriteria.map((crit) => {
             const isChecked = selectedCriteria.has(crit.id);
+            const CritIcon = CRITERIA_ICONS[crit.iconKey] || IconClipboard;
             return (
               <div
                 key={crit.id}
@@ -80,17 +97,15 @@ export default function DiagnosisCriteriaSection({
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: 12,
-                    fontWeight: 800,
                     marginTop: 2,
                     flexShrink: 0,
                   }}
                 >
-                  {isChecked ? "✓" : ""}
+                  {isChecked && <IconCheck size={12} color="#000" strokeWidth={3} />}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-                    <span style={{ fontSize: 12 }}>{crit.icon}</span>
+                    <CritIcon size={12} color={isChecked ? C.accent : C.textDim} />
                     <span
                       style={{
                         fontSize: 10,
@@ -104,7 +119,14 @@ export default function DiagnosisCriteriaSection({
                       {crit.category}
                     </span>
                   </div>
-                  <div style={{ fontSize: 12, color: isChecked ? C.white : C.text, fontFamily: FONT, lineHeight: 1.4, wordBreak: "break-word" }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: isChecked ? C.white : C.text,
+                      fontFamily: FONT,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     {crit.label}
                   </div>
                 </div>

@@ -3,7 +3,9 @@ import { CASES } from "../../data/cases";
 import {
   IconCardiac, IconNeuro, IconRespiratory, IconInfectious,
   IconEndocrine, IconToxicology, IconGastro, IconHospital,
-  IconAmbulance, IconXRay, IconStethoscope, IconBed
+  IconAmbulance, IconXRay, IconStethoscope, IconBed,
+  IconSparkles, IconChartBar, IconSkull, IconTrophy,
+  IconStar, IconTarget, IconGraduationCap, IconLightbulb
 } from "../../ui/icons";
 
 const BRAND_BLUE = "#2563EB";
@@ -65,21 +67,20 @@ export function buildNotifications(sessionHistory, casesPlayed, totalScore, t, c
   const avgScore = casesPlayed ? Math.round(totalScore / casesPlayed) : 0;
 
   if (casesPlayed === 0) {
-    notifs.push({ id: "welcome", icon: "👋", text: t("notifications.welcome"), sub: t("notifications.welcomeSub") });
-    notifs.push({ id: "info_cases", icon: "🏥", text: t("notifications.casesAvailable", { n: CASES.length }), sub: t("notifications.casesSub") });
+    notifs.push({ id: "welcome", icon: React.createElement(IconSparkles, { size: 18, color: BRAND_BLUE }), text: t("notifications.welcome"), sub: t("notifications.welcomeSub") });
+    notifs.push({ id: "info_cases", icon: React.createElement(IconHospital, { size: 18, color: BRAND_BLUE }), text: t("notifications.casesAvailable", { n: CASES.length }), sub: t("notifications.casesSub") });
     return notifs;
   }
 
   // Last session result
   const last = sessionHistory[0];
   if (last) {
-    const gradeEmoji = t(`gradeEmoji.${last.gradeId}`) || "📊";
     const d = new Date(last.date);
     const dateStr = d.toLocaleDateString("ru-RU", { day: "numeric", month: "short" }) + " " + d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
     const shortName = last.caseName.split(" ").slice(0, 2).join(" ");
     notifs.push({
       id: `ses_${last.id}`,
-      icon: gradeEmoji,
+      icon: React.createElement(IconChartBar, { size: 18, color: BRAND_BLUE }),
       text: t("notifications.sessionResult", { name: shortName, score: last.score }),
       sub: `${t(`grades.${last.gradeId}`)} · ${dateStr}`,
     });
@@ -91,7 +92,7 @@ export function buildNotifications(sessionHistory, casesPlayed, totalScore, t, c
     const shortName = diedRecent.caseName.split(" ").slice(0, 2).join(" ");
     notifs.push({
       id: `died_${diedRecent.id}`,
-      icon: "💀",
+      icon: React.createElement(IconSkull, { size: 18, color: "#ef4444" }),
       text: t("notifications.died"),
       sub: `${shortName} — ${t("notifications.repeatCase")}`,
     });
@@ -99,10 +100,10 @@ export function buildNotifications(sessionHistory, casesPlayed, totalScore, t, c
 
   // Milestones
   const milestones = [
-    { n: 20, icon: "🌟", text: t("notifications.milestone20") },
-    { n: 10, icon: "⭐", text: t("notifications.milestone10") },
-    { n: 5, icon: "🎯", text: t("notifications.milestone5") },
-    { n: 1, icon: "🎓", text: t("notifications.milestone1") },
+    { n: 20, icon: React.createElement(IconTrophy, { size: 18, color: "#f59e0b" }), text: t("notifications.milestone20") },
+    { n: 10, icon: React.createElement(IconStar, { size: 18, color: "#f59e0b" }), text: t("notifications.milestone10") },
+    { n: 5, icon: React.createElement(IconTarget, { size: 18, color: BRAND_BLUE }), text: t("notifications.milestone5") },
+    { n: 1, icon: React.createElement(IconGraduationCap, { size: 18, color: "#10b981" }), text: t("notifications.milestone1") },
   ];
   const hit = milestones.find((m) => casesPlayed >= m.n);
   if (hit) {
@@ -120,7 +121,7 @@ export function buildNotifications(sessionHistory, casesPlayed, totalScore, t, c
     const shortName = best.caseName.split(" ").slice(0, 2).join(" ");
     notifs.push({
       id: `perf_${best.id}`,
-      icon: "💎",
+      icon: React.createElement(IconStar, { size: 18, color: "#8b5cf6" }),
       text: t("notifications.perfect", { score: best.score }),
       sub: shortName,
     });
@@ -143,7 +144,7 @@ export function buildNotifications(sessionHistory, casesPlayed, totalScore, t, c
   if (casesPlayed >= 3 && avgScore < 55) {
     notifs.push({
       id: "tip_debrief",
-      icon: "💡",
+      icon: React.createElement(IconLightbulb, { size: 18, color: "#f59e0b" }),
       text: t("notifications.readDebrief"),
       sub: t("notifications.debriefSub"),
     });

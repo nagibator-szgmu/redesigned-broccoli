@@ -38,21 +38,21 @@ export default function EmergencyGameScreen({
     const nextNotified = { ...notifiedVitals };
 
     if (ps.spo2 < 90 && !notifiedVitals.spo2) {
-      newTip = `👨‍⚕️ Наставник: Сатурация упала ниже 90% (${ps.spo2}%). Дайте кислород маской (oxygen_mask) или выполните интубацию трахеи.`;
+      newTip = `Наставник: Сатурация упала ниже 90% (${ps.spo2}%). Дайте кислород маской (oxygen_mask) или выполните интубацию трахеи.`;
       nextNotified.spo2 = true;
     } else if (ps.spo2 >= 92 && notifiedVitals.spo2) {
       nextNotified.spo2 = false;
     }
 
     if (ps.sbp < 90 && !notifiedVitals.sbp) {
-      newTip = `👨‍⚕️ Наставник: Давление критически низкое (${ps.sbp} мм рт.ст.). Начните болюсное введение кристаллоидов (fluids) или подключите норадреналин (norepinephrine).`;
+      newTip = `Наставник: Давление критически низкое (${ps.sbp} мм рт.ст.). Начните болюсное введение кристаллоидов (fluids) или подключите норадреналин (norepinephrine).`;
       nextNotified.sbp = true;
     } else if (ps.sbp >= 100 && notifiedVitals.sbp) {
       nextNotified.sbp = false;
     }
 
     if (ps.hr > 120 && !notifiedVitals.hr) {
-      newTip = `👨‍⚕️ Наставник: Выраженная тахикардия (${ps.hr} уд/мин). Обязательно назначьте ЭКГ (ecg) для оценки ритма.`;
+      newTip = `Наставник: Выраженная тахикардия (${ps.hr} уд/мин). Обязательно назначьте ЭКГ (ecg) для оценки ритма.`;
       nextNotified.hr = true;
     } else if (ps.hr <= 100 && notifiedVitals.hr) {
       nextNotified.hr = false;

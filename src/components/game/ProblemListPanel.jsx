@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "../../ui/ThemeContext";
 import { FONT } from "../../ui/theme";
 import { STitle, Tooltip } from "../../ui/components";
+import { IconCheck, IconUser } from "../../ui/icons";
 import { deriveProblemList } from "../../engine/problemListEngine";
 import {
   useProblemListTimer,
@@ -32,7 +33,7 @@ export default function ProblemListPanel({ cd, ps, revealedResults = {} }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Tooltip text="Клинические синдромы пациента, выделенные наставником" position="top">
-          <STitle icon="👨‍⚕️" label="Помощь наставника: Синдромы" color={C.accent} />
+          <STitle icon={<IconUser size={15} color={C.accent} />} label="Помощь наставника: Синдромы" color={C.accent} />
         </Tooltip>
         <span style={{ fontSize: 10, color: C.textDim, fontFamily: FONT }}>
           Активно: <strong>{problems.length}</strong>
@@ -49,9 +50,13 @@ export default function ProblemListPanel({ cd, ps, revealedResults = {} }) {
             fontSize: 11,
             color: C.green,
             fontFamily: FONT,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
           }}
         >
-          ✓ Острых синдромных нарушений не выявлено
+          <IconCheck size={13} color={C.green} />
+          <span>Острых синдромных нарушений не выявлено</span>
         </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>

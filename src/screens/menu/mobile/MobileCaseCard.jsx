@@ -16,23 +16,24 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         border: `1px solid ${C.border}`,
+        borderLeft: `3.5px solid ${sc}`,
         borderRadius: RADIUS.md,
-        padding: "16px",
+        padding: "11px 13px",
         cursor: "pointer",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 10 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 6 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3, flexWrap: "wrap" }}>
             <span
               style={{
-                fontSize: 11,
+                fontSize: 10.5,
                 color: cm.color,
                 fontFamily: FONT,
-                fontWeight: 600,
+                fontWeight: 700,
                 textTransform: "uppercase",
-                letterSpacing: 0.6,
+                letterSpacing: 0.5,
               }}
             >
               {cm.label}
@@ -42,8 +43,8 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
                 <div
                   key={d}
                   style={{
-                    width: 6,
-                    height: 6,
+                    width: 5,
+                    height: 5,
                     borderRadius: RADIUS.full,
                     background: d <= dots ? sc : `${sc}30`,
                   }}
@@ -53,12 +54,12 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
           </div>
           <div
             style={{
-              fontSize: 15,
-              fontWeight: 600,
+              fontSize: 14.5,
+              fontWeight: 700,
               color: C.white,
               fontFamily: FONT,
-              marginBottom: 4,
-              lineHeight: 1.3,
+              marginBottom: 3,
+              lineHeight: 1.25,
               wordBreak: "break-word",
             }}
           >
@@ -69,7 +70,7 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
               fontSize: 12,
               color: C.textDim,
               fontFamily: FONT,
-              lineHeight: 1.5,
+              lineHeight: 1.35,
               overflow: "hidden",
               textOverflow: "ellipsis",
               display: "-webkit-box",
@@ -86,11 +87,11 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingTop: 10,
+          paddingTop: 8,
           borderTop: `1px solid ${C.border}`,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <span
             style={{
               fontSize: 11,
@@ -98,20 +99,20 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
               fontFamily: FONT,
               display: "flex",
               alignItems: "center",
-              gap: 4,
+              gap: 3,
             }}
           >
-            <IconClock size={12} color={C.textDim} /> {c.timeLimit} {t("cases.minutes")}
+            <IconClock size={11} color={C.textDim} /> {c.timeLimit} {t("cases.minutes")}
           </span>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 10.5,
               color: sc,
               fontFamily: FONT,
               background: `${sc}15`,
               borderRadius: RADIUS.xs,
-              padding: "2px 7px",
-              fontWeight: 500,
+              padding: "1px 6px",
+              fontWeight: 600,
             }}
           >
             {
@@ -125,19 +126,19 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
           {caseScores[c.id] != null && (
             <span
               style={{
-                fontSize: 11,
+                fontSize: 10.5,
                 color: C.green,
                 fontFamily: FONT,
                 fontWeight: 600,
                 background: `${C.green}15`,
                 borderRadius: RADIUS.xs,
-                padding: "2px 7px",
+                padding: "1px 6px",
                 display: "flex",
                 alignItems: "center",
-                gap: 3,
+                gap: 2,
               }}
             >
-              <IconCheck size={11} color={C.green} /> {caseScores[c.id]}
+              <IconCheck size={10} color={C.green} /> {caseScores[c.id]}
             </span>
           )}
         </div>
@@ -151,9 +152,9 @@ export default function MobileCaseCard({ c, catMeta, caseScores, startGame, t, C
             background: C.accent,
             border: "none",
             borderRadius: RADIUS.sm,
-            minHeight: 36,
-            padding: "0 18px",
-            fontSize: 13,
+            minHeight: 32,
+            padding: "0 14px",
+            fontSize: 12.5,
             fontWeight: 700,
             color: C.bg,
             cursor: "pointer",

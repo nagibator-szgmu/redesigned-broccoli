@@ -10,18 +10,18 @@ export default function MobileSearchBar({
   C,
 }) {
   return (
-    <div style={{ padding: "14px 16px 6px" }}>
+    <div style={{ padding: "8px 14px 2px" }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 10,
+          gap: 8,
           background: C.panel,
           border: `1px solid ${searchFocused ? C.accent : C.border}`,
           boxShadow: searchFocused ? `0 0 16px -2px ${C.accent}20` : "none",
           borderRadius: RADIUS.md,
-          minHeight: 46,
-          padding: "0 14px",
+          minHeight: 40,
+          padding: "0 12px",
           transition: "all 0.2s ease",
         }}
       >

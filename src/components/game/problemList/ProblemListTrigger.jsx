@@ -1,5 +1,6 @@
 import React from "react";
 import { FONT } from "../../../ui/theme";
+import { IconStethoscope } from "../../../ui/icons";
 
 export default function ProblemListTrigger({ onStart, C }) {
   return (
@@ -33,7 +34,7 @@ export default function ProblemListTrigger({ onStart, C }) {
           e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.25)";
         }}
       >
-        <span style={{ fontSize: 18 }}>👨‍⚕️</span>
+        <IconStethoscope size={20} color={C.accent} />
         <div style={{ textAlign: "left" }}>
           <div style={{ fontSize: 12.5, fontWeight: 700, color: C.accent, letterSpacing: 0.2 }}>
             Помощь наставника

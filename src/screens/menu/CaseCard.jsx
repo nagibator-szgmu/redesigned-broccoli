@@ -1,6 +1,13 @@
 import { FONT } from "../../ui/theme";
 import { Tooltip } from "../../ui/components";
-import { IconClock, IconCheck, IconHospital } from "../../ui/icons";
+import {
+  IconClock,
+  IconCheck,
+  IconHospital,
+  IconStethoscope,
+  IconBed,
+  IconAmbulance,
+} from "../../ui/icons";
 
 /**
  * CaseCard component for displaying an individual clinical case.
@@ -61,11 +68,18 @@ export default function CaseCard({ caseData: c, catMeta, caseScores, startGame, 
                 background: `${c.department === "admission" ? C.purple : c.department === "outpatient" ? C.accent : c.department === "stationary" ? C.yellow : C.red}18`,
                 border: `1px solid ${c.department === "admission" ? C.purple : c.department === "outpatient" ? C.accent : c.department === "stationary" ? C.yellow : C.red}35`,
                 borderRadius: 5,
-                padding: "1px 6px",
+                padding: "2px 6px",
                 fontFamily: FONT,
                 fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
               }}>
-                {c.department === "admission" ? "🏥 Приёмное" : c.department === "outpatient" ? "🩺 Поликлиника" : c.department === "stationary" ? "🛏️ Стационар" : "🚨 ОРИТ"}
+                {c.department === "admission" && <IconHospital size={11} color="currentColor" />}
+                {c.department === "outpatient" && <IconStethoscope size={11} color="currentColor" />}
+                {c.department === "stationary" && <IconBed size={11} color="currentColor" />}
+                {c.department === "icu" && <IconAmbulance size={11} color="currentColor" />}
+                {c.department === "admission" ? "Приёмное" : c.department === "outpatient" ? "Поликлиника" : c.department === "stationary" ? "Стационар" : "ОРИТ"}
               </span>
             )}
             <Tooltip title={severityTitle} text={severityText} position="top">

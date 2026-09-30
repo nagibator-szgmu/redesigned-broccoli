@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { FONT, CODE } from "../../ui/theme";
 import { SOFA_OPTIONS } from "./calculatorData";
+import {
+  IconRespiratory,
+  IconVial,
+  IconLiver,
+  IconCardiac,
+  IconBrain,
+  IconKidneys,
+} from "../../ui/icons";
 
-const SYSTEM_NAMES = {
-  resp: "🫁 Дыхание",
-  coag: "🩸 Коагуляция",
-  liver: "💊 Печень",
-  cardio: "❤️ Кровообращение",
-  cns: "🧠 ЦНС",
-  renal: "🛏️ Почки",
+const SYSTEM_CONFIG = {
+  resp: { label: "Дыхание", Icon: IconRespiratory },
+  coag: { label: "Коагуляция", Icon: IconVial },
+  liver: { label: "Печень", Icon: IconLiver },
+  cardio: { label: "Кровообращение", Icon: IconCardiac },
+  cns: { label: "ЦНС", Icon: IconBrain },
+  renal: { label: "Почки", Icon: IconKidneys },
 };
 
 export default function SOFACalculator({ C }) {
@@ -41,11 +49,15 @@ export default function SOFACalculator({ C }) {
         Оценка степени полиорганной недостаточности у пациентов в критическом состоянии (сепсис, ОРИТ).
       </p>
 
-      {Object.entries(SOFA_OPTIONS).map(([key, options]) => (
-        <div key={key} style={{ marginBottom: 18 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: C.white, marginBottom: 8 }}>
-            {SYSTEM_NAMES[key]}
-          </div>
+      {Object.entries(SOFA_OPTIONS).map(([key, options]) => {
+        const sys = SYSTEM_CONFIG[key] || { label: key, Icon: null };
+        const SysIcon = sys.Icon;
+        return (
+          <div key={key} style={{ marginBottom: 18 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.white, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+              {SysIcon && <SysIcon size={16} color={C.accent} />}
+              <span>{sys.label}</span>
+            </div>
           <select
             value={sofa[key]}
             onChange={(e) => setSofa((prev) => ({ ...prev, [key]: parseInt(e.target.value, 10) }))}
@@ -69,7 +81,8 @@ export default function SOFACalculator({ C }) {
             ))}
           </select>
         </div>
-      ))}
+      );
+    })}
 
       {/* Total Result */}
       <div

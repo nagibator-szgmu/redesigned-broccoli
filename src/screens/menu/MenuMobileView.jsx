@@ -9,40 +9,18 @@ import MobileHeader from "./mobile/MobileHeader";
 import MobileDrawer from "./mobile/MobileDrawer";
 import MobileSearchBar from "./mobile/MobileSearchBar";
 import MobileFilterChips from "./mobile/MobileFilterChips";
-import MobileHero from "./mobile/MobileHero";
 import MobileCaseList from "./mobile/MobileCaseList";
 import MobileBottomBar from "./mobile/MobileBottomBar";
 
 export default function MenuMobileView(props) {
   const {
-    startGame,
-    setPhase,
-    totalScore,
-    casesPlayed,
-    searchQuery,
-    setSearchQuery,
-    searchFocused,
-    setSearchFocused,
-    department,
-    setDepartment,
-    specFilter,
-    setSpecFilter,
-    showAllCases,
-    setShowAllCases,
-    showNotif,
-    openNotif,
-    setShowSettings,
-    setProgressionMode,
-    checkDeptTutorial,
-    unreadCount,
-    isDevMode,
-    logout,
-    catMeta,
-    navSpec,
-    deptFilters,
-    caseScores,
-    t,
-    C,
+    startGame, setPhase, totalScore, casesPlayed,
+    searchQuery, setSearchQuery, searchFocused, setSearchFocused,
+    department, setDepartment, specFilter, setSpecFilter,
+    showAllCases, setShowAllCases, showNotif, openNotif,
+    setShowSettings, setProgressionMode, checkDeptTutorial,
+    unreadCount, isDevMode, logout, catMeta, navSpec,
+    deptFilters, caseScores, t, C,
   } = props;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -85,6 +63,8 @@ export default function MenuMobileView(props) {
         unreadCount={unreadCount}
         drawerOpen={drawerOpen}
         setDrawerOpen={setDrawerOpen}
+        casesPlayed={casesPlayed}
+        totalScore={totalScore}
       />
 
       <MobileDrawer
@@ -122,7 +102,36 @@ export default function MenuMobileView(props) {
         C={C}
       />
 
-      <MobileHero startGame={startGame} t={t} C={C} />
+      {/* Middle-tier Info Status Strip */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "2px 14px 6px",
+          fontSize: 11.5,
+          fontFamily: FONT,
+          color: C.textDim,
+        }}
+      >
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: C.green,
+              boxShadow: `0 0 6px ${C.green}80`,
+            }}
+          />
+          <span>
+            Доступно: <strong style={{ color: C.white, fontWeight: 600 }}>{visible.length} кейсов</strong>
+          </span>
+        </div>
+        <span style={{ color: C.accent, fontWeight: 600, fontSize: 11 }}>
+          ОРИТ · СМП · Поликлиника
+        </span>
+      </div>
 
       <MobileCaseList
         displayCases={displayCases}
@@ -139,9 +148,8 @@ export default function MenuMobileView(props) {
       />
 
       <MobileBottomBar
-        casesPlayed={casesPlayed}
-        totalScore={totalScore}
-        startGame={startGame}
+        setPhase={setPhase}
+        setDrawerOpen={setDrawerOpen}
         t={t}
         C={C}
       />

@@ -2,7 +2,7 @@ export const TOPICS = [
   {
     id: "cardiology",
     name: "Кардиология",
-    icon: "❤️",
+    icon: "cardiac",
     children: [
       {
         id: "mi",
@@ -66,7 +66,7 @@ export const TOPICS = [
   {
     id: "neurology",
     name: "Неврология",
-    icon: "🧠",
+    icon: "neuro",
     children: [
       {
         id: "stroke_hem",
@@ -121,7 +121,7 @@ export const TOPICS = [
   {
     id: "pulmonology",
     name: "Пульмонология",
-    icon: "🫁",
+    icon: "respiratory",
     children: [
       {
         id: "pe",
@@ -177,7 +177,7 @@ export const TOPICS = [
   {
     id: "infectious",
     name: "Инфекционные болезни",
-    icon: "🦠",
+    icon: "infectious",
     children: [
       {
         id: "sepsis",
@@ -249,7 +249,7 @@ export const TOPICS = [
   {
     id: "endocrine",
     name: "Эндокринология",
-    icon: "⚗️",
+    icon: "endocrine",
     children: [
       {
         id: "dka",
@@ -312,7 +312,7 @@ export const TOPICS = [
   {
     id: "toxicology",
     name: "Токсикология",
-    icon: "☠️",
+    icon: "toxicology",
     children: [
       {
         id: "co_poisoning",
@@ -359,7 +359,7 @@ export const TOPICS = [
   {
     id: "trauma",
     name: "Травматология / Хирургия",
-    icon: "🔪",
+    icon: "abdominal",
     children: [
       {
         id: "trauma_multiple",

@@ -4,6 +4,7 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { TREATMENTS } from "../../../data/treatments";
 import { CAT_COLOR } from "../../../data/diagnostics";
+import { IconCheck, IconSiren, IconAlertTriangle } from "../../../ui/icons";
 import TooltipBtn from "../../../components/game/TooltipBtn";
 import SearchableCombobox from "../../../components/ui/SearchableCombobox";
 import { DAY_COLORS } from "./constants";
@@ -95,15 +96,15 @@ export default function TreatPanel({
                   flexShrink: 0,
                 }}
               >
-                {selected && <span style={{ fontSize: 10, color: "#000", fontWeight: 900 }}>✓</span>}
+                {selected && <IconCheck size={11} color="#000" strokeWidth={3} />}
               </div>
               <span style={{ fontSize: 13, color: selected ? C.white : isDanger ? `${C.red}cc` : C.text, fontFamily: FONT, flex: 1, lineHeight: 1.4 }}>
                 {item.name}
               </span>
               {isPending && <div style={{ width: 8, height: 8, border: `2px solid ${C.yellow}`, borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite", flexShrink: 0 }} />}
-              {isApplied && !isDanger && <span style={{ fontSize: 12, color: C.green, flexShrink: 0 }}>✓</span>}
-              {isApplied && isDanger && <span style={{ fontSize: 12, color: C.red, flexShrink: 0 }}>🚨</span>}
-              {!selected && isDanger && <span style={{ fontSize: 12, color: `${C.red}88`, flexShrink: 0 }}>⚠</span>}
+              {isApplied && !isDanger && <IconCheck size={14} color={C.green} />}
+              {isApplied && isDanger && <IconSiren size={14} color={C.red} />}
+              {!selected && isDanger && <IconAlertTriangle size={14} color={`${C.red}88`} />}
             </div>
           );
         })}

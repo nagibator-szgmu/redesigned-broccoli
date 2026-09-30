@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSim Icons Showcase</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-[#020617] text-[#f8fafc] antialiased p-2 sm:p-3 select-none">
+  <div class="bg-[#0b1120] text-[#f8fafc] border border-[#1e293b] rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[540px]">
+    
+    <!-- Header -->
+    <div class="p-3 border-b border-[#1e293b] bg-[#0f172a] flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-base">
+          🩺
+        </div>
+        <div>
+          <h1 class="text-sm font-bold tracking-tight text-white flex items-center gap-1.5">
+            Каталог векторных иконок MedSim
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">
+              72 иконки
+            </span>
+          </h1>
+          <p class="text-[11px] text-slate-400">
+            Medical-grade Stroke 2.0px • Canvas 24×24 • 50 обновлённых + 22 новых
+          </p>
+        </div>
+      </div>
+
+      <!-- Controls: Size & Color -->
+      <div class="flex items-center gap-2 text-xs">
+        <!-- Size Selector -->
+        <div class="flex items-center bg-[#020617] p-0.5 rounded-lg border border-[#334155]">
+          <button onclick="changeSize(18)" id="btn-s-18" class="px-1.5 py-0.5 rounded text-slate-400 font-mono text-[10.5px] hover:text-white">18</button>
+          <button onclick="changeSize(24)" id="btn-s-24" class="px-1.5 py-0.5 rounded bg-sky-600 text-white font-mono text-[10.5px] font-bold">24</button>
+          <button onclick="changeSize(30)" id="btn-s-30" class="px-1.5 py-0.5 rounded text-slate-400 font-mono text-[10.5px] hover:text-white">30</button>
+        </div>
+
+        <!-- Color Palette -->
+        <div class="flex items-center gap-1.5 bg-[#020617] p-1 rounded-lg border border-[#334155]">
+          <button onclick="changeColor('#38bdf8')" title="Cyan" class="w-3.5 h-3.5 rounded-full bg-sky-400 border border-sky-300 ring-2 ring-sky-400/50"></button>
+          <button onclick="changeColor('#34d399')" title="Emerald" class="w-3.5 h-3.5 rounded-full bg-emerald-400 hover:scale-110 transition"></button>
+          <button onclick="changeColor('#fb7185')" title="Rose" class="w-3.5 h-3.5 rounded-full bg-rose-400 hover:scale-110 transition"></button>
+          <button onclick="changeColor('#fbbf24')" title="Amber" class="w-3.5 h-3.5 rounded-full bg-amber-400 hover:scale-110 transition"></button>
+          <button onclick="changeColor('#f8fafc')" title="White" class="w-3.5 h-3.5 rounded-full bg-white hover:scale-110 transition"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="px-3 py-2 bg-[#020617]/90 border-b border-[#1e293b] flex flex-wrap items-center justify-between gap-2">
+      <!-- Category Tabs -->
+      <div class="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 text-[11px] font-medium">
+        <button onclick="filterCat('all')" id="tab-all" class="px-2 py-0.5 rounded-md bg-sky-600 text-white shadow-sm">
+          Все (72)
+        </button>
+        <button onclick="filterCat('clinical')" id="tab-clinical" class="px-2 py-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          Анатомия & Клиника (31)
+        </button>
+        <button onclick="filterCat('academic')" id="tab-academic" class="px-2 py-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          Обучение & Маршруты (17)
+        </button>
+        <button onclick="filterCat('navigation')" id="tab-navigation" class="px-2 py-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          Стрелки (6)
+        </button>
+        <button onclick="filterCat('status')" id="tab-status" class="px-2 py-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          Статусы (5)
+        </button>
+        <button onclick="filterCat('ui')" id="tab-ui" class="px-2 py-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          Интерфейс (13)
+        </button>
+        <button onclick="toggleNewOnly()" id="tab-new" class="px-2 py-0.5 rounded-md text-emerald-400 border border-emerald-500/30 hover:bg-emerald-950/40 transition flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Новые (22)
+        </button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="relative flex-1 sm:max-w-xs min-w-[150px]">
+        <input 
+          id="search-input" 
+          type="text" 
+          oninput="filterSearch(this.value)" 
+          placeholder="Поиск иконки..." 
+          class="w-full bg-[#0f172a] border border-[#334155] rounded-lg pl-7 pr-2.5 py-1 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-500"
+        />
+        <svg class="w-3 h-3 text-slate-400 absolute left-2 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Icons Grid Container (Pre-rendered static HTML) -->
+    <div id="icons-container" class="flex-1 overflow-y-auto p-3 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5">
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconcardiac"
+        data-label="кардиология"
+        data-desc="сердце с экг комплексом"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconCardiac size={24} />')"
+        title="Кардиология: Сердце с ЭКГ комплексом&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 20.2c-4-2.6-7.5-5.9-7.5-9.9A4.3 4.3 0 0 1 12 7.1a4.3 4.3 0 0 1 7.5 3.2c0 4-3.5 7.3-7.5 9.9z" />
+      <path d="M6.2 12h2.3l1.3-2.6 2 5.2 1.3-2.6h4.7" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Кардиология
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconCardiac
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconneuro"
+        data-label="неврология"
+        data-desc="нейрон с синапсами и аксоном"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconNeuro size={24} />')"
+        title="Неврология: Нейрон с синапсами и аксоном&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="8.5" cy="9" r="2.6" />
+      <path d="M6.4 7.2 4.2 5.3M6 8.7 3 8.3M6.6 10.8 4 12.5" />
+      <path d="M11 9.8 17 15" />
+      <path d="M17 15 20.2 13.3M17 15 20.4 15.6M17 15 19 18.4" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Неврология
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconNeuro
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconbrain"
+        data-label="мозг"
+        data-desc="латеральный профиль коры и мозжечка"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconBrain size={24} />')"
+        title="Мозг: Латеральный профиль коры и мозжечка&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M9.3 4.4c-1.9 0-3.4 1.5-3.4 3.3 0 .6.1 1.1.4 1.6-1 .6-1.6 1.7-1.6 2.9 0 1.4.9 2.6 2.1 3.1-.1.3-.1.6-.1 1 0 1.9 1.5 3.4 3.4 3.4.9 0 1.7-.3 2.3-.9.5.4 1.2.7 1.9.7 1.7 0 3-1.3 3-3 0-.3 0-.6-.1-.9 1.2-.5 2-1.7 2-3.1 0-1.1-.5-2.1-1.4-2.7.1-.3.2-.7.2-1.1 0-1.9-1.5-3.4-3.4-3.4-.5 0-.9.1-1.3.3-.7-.8-1.7-1.2-2.8-1.2-.6 0-1.2.1-1.7.4-.4-.2-.9-.4-1.5-.4Z" />
+      <path d="M8.6 8.2c.9.5 1.9.5 2.8 0" />
+      <path d="M9.3 12c1.3.7 2.7.7 4 0" />
+      <path d="M13 6.4c.6.5.9 1.1 1 1.9" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Мозг
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconBrain
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconrespiratory"
+        data-label="пульмонология"
+        data-desc="лёгкие с трахеей и бронхиальным деревом"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconRespiratory size={24} />')"
+        title="Пульмонология: Лёгкие с трахеей и бронхиальным деревом&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.2v6.3" />
+      <path d="M10.5 4.6h3M10.5 6h3" />
+      <path d="M12 9.5 9.2 12.3M12 9.5l2.8 2.8" />
+      <path d="M9.2 12.3c-2.3 0-3.9 1.9-3.9 4.7 0 2.7 1 4.6 2.8 4.6 1.1 0 1.8-.6 1.8-1.9v-7.4Z" />
+      <path d="M14.8 12.3c2.3 0 3.9 1.9 3.9 4.7 0 2.7-1 4.6-2.8 4.6-1.1 0-1.8-.6-1.8-1.9v-7.4Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Пульмонология
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconRespiratory
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconinfectious"
+        data-label="инфекции"
+        data-desc="вирион с рецепторными шипами"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconInfectious size={24} />')"
+        title="Инфекции: Вирион с рецепторными шипами&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="12" r="5" />
+      <path d="M17 12h2.5M4.5 12H7M12 17v2.5M12 4.5V7" />
+      <path d="M15.5 15.5 17.3 17.3M6.7 6.7 8.5 8.5M15.5 8.5 17.3 6.7M6.7 17.3 8.5 15.5" />
+      <circle cx="20" cy="12" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="20" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="4" cy="12" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="4" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="17.7" cy="17.7" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="6.3" cy="6.3" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="17.7" cy="6.3" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="6.3" cy="17.7" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Инфекции
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconInfectious
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconendocrine"
+        data-label="эндокринология"
+        data-desc="щитовидная железа (доли и перешеек)"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconEndocrine size={24} />')"
+        title="Эндокринология: Щитовидная железа (доли и перешеек)&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 4v16" />
+      <path d="M11.6 11.3c-1-1.9-3.3-2.6-4.8-1.3-1.5 1.3-1.5 3.9.1 5.5 1.2 1.2 2.9 1.5 4.2.8" />
+      <path d="M12.4 11.3c1-1.9 3.3-2.6 4.8-1.3 1.5 1.3 1.5 3.9-.1 5.5-1.2 1.2-2.9 1.5-4.2.8" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Эндокринология
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconEndocrine
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icontoxicology"
+        data-label="токсикология"
+        data-desc="череп с перекрещенными костями"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconToxicology size={24} />')"
+        title="Токсикология: Череп с перекрещенными костями&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M8 8.6a4 4 0 1 1 8 0c0 1.7-.7 2.6-1.3 3.4-.4.5-.7 1-.7 1.7v.8h-4v-.8c0-.7-.3-1.2-.7-1.7-.6-.8-1.3-1.7-1.3-3.4Z" />
+      <circle cx="10.2" cy="8.4" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="13.8" cy="8.4" r="0.8" fill="currentColor" stroke="none" />
+      <path d="M10.6 14.5v1.6M12 14.5v1.6M13.4 14.5v1.6" />
+      <path d="M5 17.5l6 2.3M11 17.5l-6 2.3" />
+      <path d="M13 17.5l6 2.3M19 17.5l-6 2.3" />
+      <circle cx="5" cy="17.5" r="0.7" fill="currentColor" stroke="none" />
+      <circle cx="11" cy="19.8" r="0.7" fill="currentColor" stroke="none" />
+      <circle cx="19" cy="17.5" r="0.7" fill="currentColor" stroke="none" />
+      <circle cx="13" cy="19.8" r="0.7" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Токсикология
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconToxicology
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icongastro"
+        data-label="гастроэнтерология"
+        data-desc="желудок с пищеводом и привратником"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconGastro size={24} />')"
+        title="Гастроэнтерология: Желудок с пищеводом и привратником&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M9.5 4c-1 1.2-1.3 2.4-.4 3.4-2 .9-3.6 3-3.6 5.8 0 3.8 2.9 6.8 6.8 6.8 3.1 0 5.2-1.9 5.2-4.3 0-1.5-.8-2.5-1.9-3.1 1-1 1.6-2.3 1.6-3.7 0-2.6-2-4.7-4.7-4.9-1.1-.1-2.2 0-3 .1Z" />
+      <path d="M15.7 17.8c1.4.3 2.3 1.3 2.3 2.7" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Гастроэнтерология
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconGastro
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconabdominal"
+        data-label="хирургия/живот"
+        data-desc="контур брюшной полости с квадрантами"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconAbdominal size={24} />')"
+        title="Хирургия/Живот: Контур брюшной полости с квадрантами&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M8.3 4.3C6.9 5.3 6.2 7 6.2 9v6c0 3.3 2.6 6 5.8 6s5.8-2.7 5.8-6V9c0-2-.7-3.7-2.1-4.7" />
+      <path d="M12 5v16" />
+      <path d="M6.5 13h11" />
+      <circle cx="12" cy="13" r="0.7" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Хирургия/Живот
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconAbdominal
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconliver"
+        data-label="гепатология/печень"
+        data-desc="печень с желчным пузырем и протоком"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconLiver size={24} />')"
+        title="Гепатология/Печень: Печень с желчным пузырем и протоком&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4.5 11c0-3.1 2.6-5.3 6-5.3 1.9 0 3.4 1 4.3 2.4 1.4-.7 3.1-.5 4.3.7 1.9 1.9 1.8 5.1-.3 6.9-1.6 1.4-3.9 2.1-6.5 2.1-4 0-7.8-1.6-7.8-5V11Z" />
+      <path d="M9.8 6.4c.5 1.4.5 2.9 0 4.3" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Гепатология/Печень
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconLiver
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconkidneys"
+        data-label="нефрология/почки"
+        data-desc="парные бобовидные почки с мочеточниками"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconKidneys size={24} />')"
+        title="Нефрология/Почки: Парные бобовидные почки с мочеточниками&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M10.6 4.6c-2.7-.8-5.1 1.1-5.1 4 0 1.5.8 2.4 1.9 2.9-1.1.5-1.9 1.4-1.9 2.9 0 2.7 2.3 4.6 5 3.9" />
+      <path d="M13.4 4.6c2.7-.8 5.1 1.1 5.1 4 0 1.5-.8 2.4-1.9 2.9 1.1.5 1.9 1.4 1.9 2.9 0 2.7-2.3 4.6-5 3.9" />
+      <path d="M10.8 17.5c0 1.7.5 2.8 1.2 3.9" />
+      <path d="M13.2 17.5c0 1.7-.5 2.8-1.2 3.9" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Нефрология/Почки
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconKidneys
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconhospital"
+        data-label="стационар/больница"
+        data-desc="фасад клиники с медицинским крестом"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconHospital size={24} />')"
+        title="Стационар/Больница: Фасад клиники с медицинским крестом&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4.5 21V8.5a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1V21" />
+      <path d="M4.5 21h15" />
+      <path d="M12 9.5v4.5M9.75 11.75h4.5" />
+      <path d="M10 21v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4" />
+      <path d="M7.5 15.5h1.5M15 15.5h1.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Стационар/Больница
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconHospital
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconambulance"
+        data-label="скорая помощь"
+        data-desc="автомобиль смп с мигалкой и крестом"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconAmbulance size={24} />')"
+        title="Скорая помощь: Автомобиль СМП с мигалкой и крестом&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3 17V11a1 1 0 0 1 1-1h9l4 4h1.5a1.5 1.5 0 0 1 1.5 1.5V17" />
+      <path d="M3 17h1.6M9.5 17h5M19.5 17H21" />
+      <path d="M9.5 10v6" />
+      <circle cx="7" cy="17.3" r="1.8" />
+      <circle cx="17" cy="17.3" r="1.8" />
+      <path d="M9.8 5.5v3M8.3 7h3" />
+      <path d="M6.2 12.7h2M7.2 11.7v2" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Скорая помощь
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconAmbulance
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconbed"
+        data-label="орит / койка"
+        data-desc="реанимационная койка с изголовьем"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconBed size={24} />')"
+        title="ОРИТ / Койка: Реанимационная койка с изголовьем&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M2.5 20v-6.5a2 2 0 0 1 2-2h3.5l3.3-2.7a1.5 1.5 0 0 1 1-.3h4.7a1.5 1.5 0 0 1 1.5 1.5v3" />
+      <path d="M2.5 15.5h16a2 2 0 0 1 2 2V20" />
+      <path d="M3.5 20v-1.5M20.5 20v-1.5" />
+      <path d="M18 4v6.5" />
+      <path d="M16.6 4.3h2.8v2h-2.8z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            ОРИТ / Койка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconBed
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconstethoscope"
+        data-label="физикальный осмотр"
+        data-desc="стетофонендоскоп с оливами и мембраной"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconStethoscope size={24} />')"
+        title="Физикальный осмотр: Стетофонендоскоп с оливами и мембраной&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="7.2" cy="4" r="1.2" />
+      <circle cx="10.6" cy="4" r="1.2" />
+      <path d="M7.2 5.2v2.6a2.7 2.7 0 0 0 2.7 2.7 2.7 2.7 0 0 0 2.7-2.7V5.2" />
+      <path d="M10.6 10.5v2.7a4.3 4.3 0 0 0 4.3 4.3h.6" />
+      <circle cx="17.5" cy="17.5" r="2.3" />
+      <circle cx="17.5" cy="17.5" r="0.7" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Физикальный осмотр
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconStethoscope
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconmicroscope"
+        data-label="лабораторная диагностика"
+        data-desc="оптический лабораторный микроскоп"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconMicroscope size={24} />')"
+        title="Лабораторная диагностика: Оптический лабораторный микроскоп&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M6 20.5h11" />
+      <path d="M8.5 20.5v-2.3a3 3 0 0 1 3-3h1" />
+      <path d="M12.5 15.2h2.2a1.6 1.6 0 0 0 1.6-1.6v-1" />
+      <path d="M14.2 12.6 18 8.8" />
+      <path d="M17 7.8 19 9.8" />
+      <path d="M9 15.2H6.8a1 1 0 0 1-1-1v-.4" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Лабораторная диагностика
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconMicroscope
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconxray"
+        data-label="лучевая диагностика"
+        data-desc="рентгеновский снимок грудной клетки"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconXRay size={24} />')"
+        title="Лучевая диагностика: Рентгеновский снимок грудной клетки&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <rect x="4" y="4" width="16" height="16" rx="1.5" />
+      <path d="M12 6.5v11" />
+      <path d="M12 8.2c-1.9 0-3.5.8-4 2.5M12 8.2c1.9 0 3.5.8 4 2.5" />
+      <path d="M12 11.2c-2.1 0-3.9.9-4.4 2.7M12 11.2c2.1 0 3.9.9 4.4 2.7" />
+      <path d="M12 14.2c-1.7 0-3.1.7-3.6 2.1M12 14.2c1.7 0 3.1.7 3.6 2.1" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Лучевая диагностика
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconXRay
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconvial"
+        data-label="пробирка / биохимия"
+        data-desc="лабораторная вакуумная пробирка с мениском"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconVial size={24} />')"
+        title="Пробирка / Биохимия: Лабораторная вакуумная пробирка с мениском&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M7.5 3.5 20.5 16.5a2.9 2.9 0 0 1-4.1 4.1L3.4 7.6" />
+      <path d="M5.6 5.6 9.4 9.4" />
+      <path d="M10 13.3 13.8 17.1" />
+      <path d="M12.6 10.5 15 12.9" />
+      <path d="M14.8 8.3 16.5 10" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Пробирка / Биохимия
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconVial
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconsyringe"
+        data-label="инъекции / в/в доступ"
+        data-desc="медицинский шприц со шкалой и иглой"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconSyringe size={24} />')"
+        title="Инъекции / В/в доступ: Медицинский шприц со шкалой и иглой&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M20.5 3.5 17 7" />
+      <path d="M18.7 5.2 16 7.9" />
+      <path d="M15.5 6.4l2.1 2.1-6.9 6.9-2.5-.4-.4-2.5 6.9-6.9z" />
+      <path d="M12.3 9.6l2.1 2.1" />
+      <path d="M10.1 11.8l2.1 2.1" />
+      <path d="M7.8 15.5 4 19.3" />
+      <path d="M6 17.3 4.8 18.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Инъекции / В/в доступ
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconSyringe
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconpill"
+        data-label="фармакотерапия"
+        data-desc="таблетка-капсула с насечкой"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconPill size={24} />')"
+        title="Фармакотерапия: Таблетка-капсула с насечкой&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <rect x="3.8" y="10.2" width="16.4" height="7.2" rx="3.6" transform="rotate(-40 12 13.8)" />
+      <path d="M9.6 8.7 15.3 18.9" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Фармакотерапия
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconPill
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconclipboard"
+        data-label="лист назначений"
+        data-desc="планшет с картой пациента и галочкой"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconClipboard size={24} />')"
+        title="Лист назначений: Планшет с картой пациента и галочкой&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <rect x="5" y="4.5" width="14" height="17" rx="2" />
+      <path d="M9.5 4.5a2.5 2.5 0 0 1 5 0" />
+      <rect x="9.3" y="3.2" width="5.4" height="2.6" rx="1" />
+      <path d="M8.5 12h7M8.5 15h7M8.5 18h4.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Лист назначений
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconClipboard
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconthermometer"
+        data-label="термометрия"
+        data-desc="ртутный термометр со шкалой и резервуаром"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconThermometer size={24} />')"
+        title="Термометрия: Ртутный термометр со шкалой и резервуаром&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 4a1.8 1.8 0 0 0-1.8 1.8v8.4a3.2 3.2 0 1 0 3.6 0V5.8A1.8 1.8 0 0 0 12 4Z" />
+      <path d="M14.2 7.5h1.6M14.2 10h1.6M14.2 12.5h1.6" />
+      <circle cx="12" cy="17.2" r="1.4" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Термометрия
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconThermometer
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconactivity"
+        data-label="витальные показатели"
+        data-desc="экг пульсовая кривая реанимационного монитора"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconActivity size={24} />')"
+        title="Витальные показатели: ЭКГ пульсовая кривая реанимационного монитора&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3 12h3.2l1.3-2 1.6 1.3.9-4.8 2 8.6 1.5-4.3 1.2 1.2H21" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Витальные показатели
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconActivity
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icondroplet"
+        data-label="инфузии / кровопотеря"
+        data-desc="капля крови / раствора инфузии"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconDroplet size={24} />')"
+        title="Инфузии / Кровопотеря: Капля крови / раствора инфузии&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.5c2.6 3.4 5.8 7.6 5.8 11a5.8 5.8 0 1 1-11.6 0c0-3.4 3.2-7.6 5.8-11Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Инфузии / Кровопотеря
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconDroplet
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconwind"
+        data-label="ивл / оксигенация"
+        data-desc="поток воздуха / респираторная поддержка"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconWind size={24} />')"
+        title="ИВЛ / Оксигенация: Поток воздуха / респираторная поддержка&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3.5 8h11a2.3 2.3 0 1 0-2.3-2.3" />
+      <path d="M3.5 12.5h14.7a2.3 2.3 0 1 1-2.3 2.3" />
+      <path d="M3.5 17h8.8a2.3 2.3 0 1 1-2.3 2.3" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            ИВЛ / Оксигенация
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconWind
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconflame"
+        data-label="лихорадка / воспаление"
+        data-desc="язык пламени / септический криз"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconFlame size={24} />')"
+        title="Лихорадка / Воспаление: Язык пламени / септический криз&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.5c1.2 2.3-.3 3.6-1.3 4.8-1.3 1.6-2.2 3.1-2.2 5.1a3.5 3.5 0 0 0 3 3.4c-.6-1-.7-2 0-3 .4 1.4 1.3 2 2.2 2.6a3.7 3.7 0 0 0 2.3-3.4c0-1.6-.8-2.6-1.6-3.6.2 1.3-.2 2-1 2.4.3-2.7-.4-5.2-1.4-8.3Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Лихорадка / Воспаление
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconFlame
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconskull"
+        data-label="летальный исход"
+        data-desc="череп / терминальное состояние пациента"
+        data-cat="clinical"
+        data-new="false"
+        onclick="copyCode('<IconSkull size={24} />')"
+        title="Летальный исход: Череп / терминальное состояние пациента&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M6.2 11.5a5.8 5.8 0 1 1 11.6 0c0 1.9-.8 3-1.6 4-.5.6-.8 1.1-.8 1.9v.6a1.3 1.3 0 0 1-1.3 1.3H9.9a1.3 1.3 0 0 1-1.3-1.3v-.6c0-.8-.3-1.3-.8-1.9-.8-1-1.6-2.1-1.6-4Z" />
+      <path d="M9.3 11.5c0 1.2-.6 2.1-1.4 2.1s-1.4-.9-1.4-2.1.6-2.1 1.4-2.1 1.4.9 1.4 2.1Z" />
+      <path d="M16.5 11.5c0 1.2-.6 2.1-1.4 2.1s-1.4-.9-1.4-2.1.6-2.1 1.4-2.1 1.4.9 1.4 2.1Z" />
+      <path d="M10.8 17.3v1.6M12 17.3v1.6M13.2 17.3v1.6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Летальный исход
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconSkull
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icontrendingup"
+        data-label="динамика: рост"
+        data-desc="стрелка тренда с подъемом показателя"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconTrendingUp size={24} />')"
+        title="Динамика: рост: Стрелка тренда с подъемом показателя&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3.5 16 9 10.5l3.5 3.5L20.5 6" />
+      <path d="M14.5 6h6v6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Динамика: рост
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconTrendingUp
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icontrendingdown"
+        data-label="динамика: спад"
+        data-desc="стрелка тренда со спадом показателя"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconTrendingDown size={24} />')"
+        title="Динамика: спад: Стрелка тренда со спадом показателя&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3.5 8 9 13.5l3.5-3.5L20.5 18" />
+      <path d="M14.5 18h6v-6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Динамика: спад
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconTrendingDown
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconeye"
+        data-label="зрачки / шкг"
+        data-desc="глаз / реакция зрачков на свет по глазго"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconEye size={24} />')"
+        title="Зрачки / ШКГ: Глаз / реакция зрачков на свет по Глазго&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3 12s3.5-6.5 9-6.5S21 12 21 12s-3.5 6.5-9 6.5S3 12 3 12Z" />
+      <circle cx="12" cy="12" r="2.6" />
+      <circle cx="12" cy="12" r="0.9" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Зрачки / ШКГ
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconEye
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconsiren"
+        data-label="экстренный вызов"
+        data-desc="проблесковый маяк / экстренный код"
+        data-cat="clinical"
+        data-new="true"
+        onclick="copyCode('<IconSiren size={24} />')"
+        title="Экстренный вызов: Проблесковый маяк / экстренный код&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M8.5 14v-2a3.5 3.5 0 1 1 7 0v2" />
+      <path d="M6.5 14h11a1 1 0 0 1 1 1v1.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V15a1 1 0 0 1 1-1Z" />
+      <path d="M6.5 19.5h11" />
+      <path d="M12 5.3V3.5" />
+      <path d="M17.2 6.3l1.3-1.3M6.8 6.3 5.5 5" />
+      <path d="M19.5 10.5h1.8M2.7 10.5h1.8" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Экстренный вызов
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconSiren
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icontheory"
+        data-label="теория / база знаний"
+        data-desc="академическая книга со страницами"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconTheory size={24} />')"
+        title="Теория / База знаний: Академическая книга со страницами&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M3.5 6.2c2.5-1.4 5.4-1.4 8 0v13c-2.6-1.4-5.5-1.4-8 0Z" />
+      <path d="M20.5 6.2c-2.5-1.4-5.4-1.4-8 0v13c2.6-1.4 5.5-1.4 8 0Z" />
+      <path d="M15.3 5.2v5.5l1.5-1 1.5 1V5.2" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Теория / База знаний
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconTheory
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconbook"
+        data-label="справочник кр"
+        data-desc="медицинский справочник рекомендаций"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconBook size={24} />')"
+        title="Справочник КР: Медицинский справочник рекомендаций&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4 5.5c2.4-1.2 5.3-1.2 8 .3 2.7-1.5 5.6-1.5 8-.3v13c-2.4-1.2-5.3-1.2-8 .3-2.7-1.5-5.6-1.5-8-.3Z" />
+      <path d="M12 5.8v13" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Справочник КР
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconBook
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icontarget"
+        data-label="клиническая цель"
+        data-desc="концентрическая мишень с перекрестием"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconTarget size={24} />')"
+        title="Клиническая цель: Концентрическая мишень с перекрестием&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="2" />
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Клиническая цель
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconTarget
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconmap"
+        data-label="карта обучения"
+        data-desc="сложенная топографическая карта с пинами"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconMap size={24} />')"
+        title="Карта обучения: Сложенная топографическая карта с пинами&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4 6.5 9 4l6 2.3 5-2.3v14l-5 2.3L9 18l-5 2.3Z" />
+      <path d="M9 4v14M15 6.3v14" />
+      <circle cx="9" cy="9.5" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="13.5" r="1" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="16.5" r="1" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Карта обучения
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconMap
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconroute"
+        data-label="маршрут пациента"
+        data-desc="точки маршрутизации в поликлинике / смп"
+        data-cat="academic"
+        data-new="true"
+        onclick="copyCode('<IconRoute size={24} />')"
+        title="Маршрут пациента: Точки маршрутизации в поликлинике / СМП&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="6" cy="6" r="2" />
+      <circle cx="18" cy="18" r="2" />
+      <circle cx="18" cy="6" r="2" />
+      <path d="M8 6h5a3 3 0 0 1 3 3v2.5" />
+      <path d="M16 15.5V18h-3.5a3 3 0 0 1-3-3V9" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Маршрут пациента
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconRoute
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icontrophy"
+        data-label="достижения / кубок"
+        data-desc="наградной кубок врача"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconTrophy size={24} />')"
+        title="Достижения / Кубок: Наградной кубок врача&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M7.5 4h9v5.5a4.5 4.5 0 0 1-9 0Z" />
+      <path d="M7.5 5.5H5a2 2 0 0 0-2 2v.5a3.5 3.5 0 0 0 3.5 3.5h1" />
+      <path d="M16.5 5.5H19a2 2 0 0 1 2 2v.5a3.5 3.5 0 0 1-3.5 3.5h-1" />
+      <path d="M12 14v3" />
+      <path d="M8.5 21h7" />
+      <path d="M9.5 21c0-1.8.9-2.7 2.5-3 1.6.3 2.5 1.2 2.5 3" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Достижения / Кубок
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconTrophy
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icongraduationcap"
+        data-label="аккредитация"
+        data-desc="академическая шапочка выпускника"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconGraduationCap size={24} />')"
+        title="Аккредитация: Академическая шапочка выпускника&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M2.5 9.5 12 5l9.5 4.5-9.5 4.5-9.5-4.5Z" />
+      <path d="M6.5 11.5v4c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5v-4" />
+      <path d="M21.5 9.5v5" />
+      <path d="M21.5 14.5c-.6.4-1 1-1 1.7 0 .5.3 1 .8 1.3" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Аккредитация
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconGraduationCap
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconchartbar"
+        data-label="аналитика и статистика"
+        data-desc="гистограмма результатов и баллов"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconChartBar size={24} />')"
+        title="Аналитика и статистика: Гистограмма результатов и баллов&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4 20.5V4" />
+      <path d="M4 20.5h16" />
+      <path d="M7.5 18v-4.5" />
+      <path d="M12 18V9" />
+      <path d="M16.5 18v-7.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Аналитика и статистика
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconChartBar
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconshield"
+        data-label="клин. рекомендации"
+        data-desc="защитный геральдический щит доказательной медицины"
+        data-cat="academic"
+        data-new="true"
+        onclick="copyCode('<IconShield size={24} />')"
+        title="Клин. рекомендации: Защитный геральдический щит доказательной медицины&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.5 19 6v5.5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6Z" />
+      <path d="M12 8.5v6M9 11.5h6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Клин. рекомендации
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconShield
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconsparkles"
+        data-label="идеальный исход"
+        data-desc="сияющие искры отличного клинического решения"
+        data-cat="academic"
+        data-new="true"
+        onclick="copyCode('<IconSparkles size={24} />')"
+        title="Идеальный исход: Сияющие искры отличного клинического решения&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M11.5 3.5c.4 2.4 1.1 3.9 2 4.8.9.9 2.4 1.6 4.8 2-2.4.4-3.9 1.1-4.8 2-.9.9-1.6 2.4-2 4.8-.4-2.4-1.1-3.9-2-4.8-.9-.9-2.4-1.6-4.8-2 2.4-.4 3.9-1.1 4.8-2 .9-.9 1.6-2.4 2-4.8Z" />
+      <path d="M18.5 16.5c.2 1 .5 1.7.9 2.1.4.4 1.1.7 2.1.9-1 .2-1.7.5-2.1.9-.4.4-.7 1.1-.9 2.1-.2-1-.5-1.7-.9-2.1-.4-.4-1.1-.7-2.1-.9 1-.2 1.7-.5 2.1-.9.4-.4.7-1.1.9-2.1Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Идеальный исход
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconSparkles
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconstar"
+        data-label="рейтинг / звезда"
+        data-desc="пятиконечная звезда оценки протокола"
+        data-cat="academic"
+        data-new="true"
+        onclick="copyCode('<IconStar size={24} />')"
+        title="Рейтинг / Звезда: Пятиконечная звезда оценки протокола&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.5 14.6 9l6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.8Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Рейтинг / Звезда
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconStar
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconfiletext"
+        data-label="протокол / выписка"
+        data-desc="текстовый документ выписного эпикриза"
+        data-cat="academic"
+        data-new="true"
+        onclick="copyCode('<IconFileText size={24} />')"
+        title="Протокол / Выписка: Текстовый документ выписного эпикриза&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M6.5 3.5h8l4 4V20a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z" />
+      <path d="M14.5 3.5V7a1 1 0 0 0 1 1h3.5" />
+      <path d="M8.5 12.5h7M8.5 15.5h7M8.5 18.5h4.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Протокол / Выписка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconFileText
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconscale"
+        data-label="шкала тяжести (sofa)"
+        data-desc="аптекарские весы баланса рисков"
+        data-cat="academic"
+        data-new="true"
+        onclick="copyCode('<IconScale size={24} />')"
+        title="Шкала тяжести (SOFA): Аптекарские весы баланса рисков&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.5v17" />
+      <path d="M7 6.5h10" />
+      <path d="M9 20.5h6" />
+      <path d="M7 6.5 3.5 12.8a3.6 3.6 0 0 0 7 0Z" />
+      <path d="M17 6.5 13.5 12.8a3.6 3.6 0 0 0 7 0Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Шкала тяжести (SOFA)
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconScale
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icongrid"
+        data-label="таблица / сетка"
+        data-desc="модульная матрица показателей"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconGrid size={24} />')"
+        title="Таблица / Сетка: Модульная матрица показателей&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <rect x="3.5" y="3.5" width="7.2" height="7.2" rx="1.5" />
+      <rect x="13.3" y="3.5" width="7.2" height="7.2" rx="1.5" />
+      <rect x="3.5" y="13.3" width="7.2" height="7.2" rx="1.5" />
+      <rect x="13.3" y="13.3" width="7.2" height="7.2" rx="1.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Таблица / Сетка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconGrid
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconlightbulb"
+        data-label="клиническая подсказка"
+        data-desc="лампочка озарения / дифференциального диагноза"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconLightbulb size={24} />')"
+        title="Клиническая подсказка: Лампочка озарения / дифференциального диагноза&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M8 10.5a4 4 0 1 1 8 0c0 1.8-1 2.7-1.8 3.6-.5.6-.7 1.1-.7 1.9h-3c0-.8-.2-1.3-.7-1.9-.8-.9-1.8-1.8-1.8-3.6Z" />
+      <path d="M9.8 18.5h4.4" />
+      <path d="M10.3 21h3.4" />
+      <path d="M12 3v1.6M6.8 4.3l1 1.3M17.2 4.3l-1 1.3" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Клиническая подсказка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconLightbulb
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconbot"
+        data-label="ии-пациент / диалог"
+        data-desc="робот виртуального пациента диалога"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconBot size={24} />')"
+        title="ИИ-пациент / Диалог: Робот виртуального пациента диалога&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <rect x="5" y="7" width="14" height="12" rx="2.5" />
+      <path d="M12 7V4.3" />
+      <circle cx="12" cy="3.5" r="0.9" fill="currentColor" stroke="none" />
+      <path d="M8.5 12.5h7v3h-7z" />
+      <path d="M5 11.5H3M5 15.5H3M21 11.5h-2M21 15.5h-2" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            ИИ-пациент / Диалог
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconBot
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconparty"
+        data-label="поздравление"
+        data-desc="хлопушка успешного завершения дежурства"
+        data-cat="academic"
+        data-new="false"
+        onclick="copyCode('<IconParty size={24} />')"
+        title="Поздравление: Хлопушка успешного завершения дежурства&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M5 19 15.5 8.5a3 3 0 0 1 4.2 4.2L9.7 23.2" />
+      <path d="M5 19 3.3 20.7" />
+      <path d="M13.5 6.5l1-1M17 10l1-1M16.3 5.3l.7-1.4M19.7 8.7l1.4-.7" />
+      <path d="M8 14.5c1 .3 1.6 1 1.9 2M11 11.5c1 .3 1.6 1 1.9 2" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Поздравление
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconParty
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconarrowleft"
+        data-label="назад"
+        data-desc="стрелка перехода на предыдущий экран"
+        data-cat="navigation"
+        data-new="true"
+        onclick="copyCode('<IconArrowLeft size={24} />')"
+        title="Назад: Стрелка перехода на предыдущий экран&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Назад
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconArrowLeft
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconarrowright"
+        data-label="вперед"
+        data-desc="стрелка перехода на следующий шаг"
+        data-cat="navigation"
+        data-new="true"
+        onclick="copyCode('<IconArrowRight size={24} />')"
+        title="Вперед: Стрелка перехода на следующий шаг&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Вперед
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconArrowRight
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconchevrondown"
+        data-label="раскрыть группу"
+        data-desc="шеврон раскрытия аккордеона вниз"
+        data-cat="navigation"
+        data-new="false"
+        onclick="copyCode('<IconChevronDown size={24} />')"
+        title="Раскрыть группу: Шеврон раскрытия аккордеона вниз&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Раскрыть группу
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconChevronDown
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconchevronup"
+        data-label="свернуть группу"
+        data-desc="шеврон скрытия аккордеона вверх"
+        data-cat="navigation"
+        data-new="true"
+        onclick="copyCode('<IconChevronUp size={24} />')"
+        title="Свернуть группу: Шеврон скрытия аккордеона вверх&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M18 15l-6-6-6 6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Свернуть группу
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconChevronUp
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconchevronleft"
+        data-label="предыдущая вкладка"
+        data-desc="шеврон навигации влево"
+        data-cat="navigation"
+        data-new="true"
+        onclick="copyCode('<IconChevronLeft size={24} />')"
+        title="Предыдущая вкладка: Шеврон навигации влево&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Предыдущая вкладка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconChevronLeft
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconchevronright"
+        data-label="следующая вкладка"
+        data-desc="шеврон навигации вправо"
+        data-cat="navigation"
+        data-new="true"
+        onclick="copyCode('<IconChevronRight size={24} />')"
+        title="Следующая вкладка: Шеврон навигации вправо&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Следующая вкладка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconChevronRight
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconcheck"
+        data-label="выполнено"
+        data-desc="минималистичная галочка успеха"
+        data-cat="status"
+        data-new="false"
+        onclick="copyCode('<IconCheck size={24} />')"
+        title="Выполнено: Минималистичная галочка успеха&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4.5 12.5 9.5 17.5 19.5 6.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Выполнено
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconCheck
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconcheckcircle"
+        data-label="верно подтверждено"
+        data-desc="галочка в круглом контуре верификации"
+        data-cat="status"
+        data-new="true"
+        onclick="copyCode('<IconCheckCircle size={24} />')"
+        title="Верно подтверждено: Галочка в круглом контуре верификации&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="12" r="8.5" />
+      <path d="M8.5 12.3 10.8 14.6 15.5 9.7" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Верно подтверждено
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconCheckCircle
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconx"
+        data-label="отмена / закрыть"
+        data-desc="крестик закрытия окна"
+        data-cat="status"
+        data-new="false"
+        onclick="copyCode('<IconX size={24} />')"
+        title="Отмена / Закрыть: Крестик закрытия окна&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Отмена / Закрыть
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconX
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconxcircle"
+        data-label="опасная ошибка"
+        data-desc="крестик в круге противопоказанного действия"
+        data-cat="status"
+        data-new="true"
+        onclick="copyCode('<IconXCircle size={24} />')"
+        title="Опасная ошибка: Крестик в круге противопоказанного действия&#10;Клик для копирования JSX"
+      >
+        <span class="absolute top-1 right-1 text-[8.5px] font-bold px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">NEW</span>
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="12" r="8.5" />
+      <path d="M9.3 9.3l5.4 5.4M14.7 9.3l-5.4 5.4" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Опасная ошибка
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconXCircle
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconalerttriangle"
+        data-label="предупреждение"
+        data-desc="треугольный знак клинической опасности"
+        data-cat="status"
+        data-new="false"
+        onclick="copyCode('<IconAlertTriangle size={24} />')"
+        title="Предупреждение: Треугольный знак клинической опасности&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M12 3.8 21 19.5H3Z" />
+      <path d="M12 9.5v4.3" />
+      <circle cx="12" cy="16.8" r="0.9" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Предупреждение
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconAlertTriangle
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconsearch"
+        data-label="поиск назначений"
+        data-desc="лупа с ручкой для фильтрации"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconSearch size={24} />')"
+        title="Поиск назначений: Лупа с ручкой для фильтрации&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M15.3 15.3 20 20" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Поиск назначений
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconSearch
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconmenu"
+        data-label="меню разделов"
+        data-desc="гамбургер-меню навигации"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconMenu size={24} />')"
+        title="Меню разделов: Гамбургер-меню навигации&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Меню разделов
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconMenu
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconclock"
+        data-label="таймер дежурства"
+        data-desc="круглые аналоговые часы со стрелками"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconClock size={24} />')"
+        title="Таймер дежурства: Круглые аналоговые часы со стрелками&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7v5l3.5 1.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Таймер дежурства
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconClock
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconrefresh"
+        data-label="сброс / повтор"
+        data-desc="круговые стрелки перезапуска сценария"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconRefresh size={24} />')"
+        title="Сброс / Повтор: Круговые стрелки перезапуска сценария&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4.5 12a7.5 7.5 0 0 1 12.6-5.5l1.9 1.8" />
+      <path d="M19.5 4.5v4.3h-4.3" />
+      <path d="M19.5 12a7.5 7.5 0 0 1-12.6 5.5l-1.9-1.8" />
+      <path d="M4.5 19.5v-4.3h4.3" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Сброс / Повтор
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconRefresh
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconuser"
+        data-label="профиль врача"
+        data-desc="силуэт пользователя в системе"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconUser size={24} />')"
+        title="Профиль врача: Силуэт пользователя в системе&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20c.6-3.6 3.3-5.8 7-5.8s6.4 2.2 7 5.8" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Профиль врача
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconUser
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="icongear"
+        data-label="настройки симуляции"
+        data-desc="шестеренка параметров и режимов"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconGear size={24} />')"
+        title="Настройки симуляции: Шестеренка параметров и режимов&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <circle cx="12" cy="12" r="3.2" />
+      <path d="M12 3.5v2.3M12 18.2v2.3M20.5 12h-2.3M5.8 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8 6.2 6.2" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Настройки симуляции
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconGear
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconbell"
+        data-label="уведомления"
+        data-desc="колокольчик срочных алертов монитора"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconBell size={24} />')"
+        title="Уведомления: Колокольчик срочных алертов монитора&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M6 17v-5.5a6 6 0 1 1 12 0V17l1.5 2H4.5Z" />
+      <path d="M10.3 20.5a1.8 1.8 0 0 0 3.4 0" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Уведомления
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconBell
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconlock"
+        data-label="закрытый кейс"
+        data-desc="замок блокировки недоступного уровня"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconLock size={24} />')"
+        title="Закрытый кейс: Замок блокировки недоступного уровня&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <rect x="5" y="10.5" width="14" height="9.5" rx="2" />
+      <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+      <circle cx="12" cy="15" r="1.1" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Закрытый кейс
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconLock
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconlogout"
+        data-label="выход из смены"
+        data-desc="дверь со стрелкой выхода"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconLogOut size={24} />')"
+        title="Выход из смены: Дверь со стрелкой выхода&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M11 19.5H6a1.5 1.5 0 0 1-1.5-1.5V6A1.5 1.5 0 0 1 6 4.5h5" />
+      <path d="M15.5 8.5 19.5 12l-4 3.5" />
+      <path d="M19.5 12H9.5" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Выход из смены
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconLogOut
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconplay"
+        data-label="старт симуляции"
+        data-desc="стрелка запуска сценария"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconPlay size={24} />')"
+        title="Старт симуляции: Стрелка запуска сценария&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M7 5.3v13.4a1 1 0 0 0 1.5.9l11-6.7a1 1 0 0 0 0-1.8l-11-6.7A1 1 0 0 0 7 5.3Z" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Старт симуляции
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconPlay
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconpause"
+        data-label="пауза дежурства"
+        data-desc="две вертикальные полосы паузы"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconPause size={24} />')"
+        title="Пауза дежурства: Две вертикальные полосы паузы&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M8.5 5.5v13" />
+      <path d="M15.5 5.5v13" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Пауза дежурства
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconPause
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconvolume2"
+        data-label="звук монитора вкл"
+        data-desc="динамик со звуковыми волнами"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconVolume2 size={24} />')"
+        title="Звук монитора ВКЛ: Динамик со звуковыми волнами&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4 10v4h3.5l4.3 4V6l-4.3 4Z" />
+      <path d="M16.3 9.5a3.5 3.5 0 0 1 0 5" />
+      <path d="M18.7 7.2a7 7 0 0 1 0 9.6" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Звук монитора ВКЛ
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconVolume2
+          </div>
+        </div>
+      </div>
+    
+
+      <div 
+        class="icon-card relative group bg-[#0f172a]/80 hover:bg-[#1e293b] border border-[#334155] hover:border-sky-500/60 rounded-xl p-2.5 flex flex-col items-center justify-between text-center cursor-pointer select-none transition-all duration-150 hover:-translate-y-0.5 shadow-sm"
+        data-name="iconvolumex"
+        data-label="звук монитора выкл"
+        data-desc="динамик с перечеркивающим крестиком"
+        data-cat="ui"
+        data-new="false"
+        onclick="copyCode('<IconVolumeX size={24} />')"
+        title="Звук монитора ВЫКЛ: Динамик с перечеркивающим крестиком&#10;Клик для копирования JSX"
+      >
+        
+        <div class="h-10 w-10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-150 icon-svg-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+            <path d="M4 10v4h3.5l4.3 4V6l-4.3 4Z" />
+      <path d="M16 10.5l4.5 4.5M20.5 10.5 16 15" />
+          </svg>
+        </div>
+        <div class="w-full mt-1.5 pointer-events-none">
+          <div class="text-[10.5px] font-semibold text-slate-200 truncate group-hover:text-sky-300 transition-colors">
+            Звук монитора ВЫКЛ
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 truncate mt-0.5">
+            IconVolumeX
+          </div>
+        </div>
+      </div>
+    
+    </div>
+
+    <!-- Footer Stats & Toast Notification -->
+    <div class="px-3 py-1.5 border-t border-[#1e293b] bg-[#0f172a] flex items-center justify-between text-[11px] text-slate-400">
+      <div id="counter-text">Показано 72 из 72 иконок</div>
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] text-slate-400">Кликните на карточку, чтобы скопировать JSX</span>
+        <div id="toast" class="hidden px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-semibold">
+          Скопировано!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeCat = 'all';
+    let onlyNew = false;
+    let query = '';
+
+    function applyFilter() {
+      const cards = document.querySelectorAll('.icon-card');
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-cat');
+        const isNew = card.getAttribute('data-new') === 'true';
+        const name = card.getAttribute('data-name');
+        const label = card.getAttribute('data-label');
+        const desc = card.getAttribute('data-desc');
+
+        let matchCat = (activeCat === 'all') || (cat === activeCat);
+        if (onlyNew && !isNew) matchCat = false;
+
+        let matchQuery = true;
+        if (query) {
+          matchQuery = name.includes(query) || label.includes(query) || desc.includes(query);
+        }
+
+        if (matchCat && matchQuery) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('counter-text').textContent = 'Показано ' + visibleCount + ' из ' + cards.length + ' иконок';
+    }
+
+    function filterCat(cat) {
+      activeCat = cat;
+      onlyNew = false;
+      updateTabs();
+      applyFilter();
+    }
+
+    function toggleNewOnly() {
+      onlyNew = !onlyNew;
+      updateTabs();
+      applyFilter();
+    }
+
+    function filterSearch(val) {
+      query = val.trim().toLowerCase();
+      applyFilter();
+    }
+
+    function updateTabs() {
+      ['all', 'clinical', 'academic', 'navigation', 'status', 'ui'].forEach(cat => {
+        const btn = document.getElementById('tab-' + cat);
+        if (cat === activeCat && !onlyNew) {
+          btn.className = 'px-2 py-0.5 rounded-md bg-sky-600 text-white shadow-sm';
+        } else {
+          btn.className = 'px-2 py-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition';
+        }
+      });
+      const newBtn = document.getElementById('tab-new');
+      if (onlyNew) {
+        newBtn.className = 'px-2 py-0.5 rounded-md bg-emerald-600 text-white shadow-sm flex items-center gap-1';
+      } else {
+        newBtn.className = 'px-2 py-0.5 rounded-md text-emerald-400 border border-emerald-500/30 hover:bg-emerald-950/40 transition flex items-center gap-1';
+      }
+    }
+
+    function changeSize(size) {
+      [18, 24, 30].forEach(s => {
+        const btn = document.getElementById('btn-s-' + s);
+        if (s === size) {
+          btn.className = 'px-1.5 py-0.5 rounded bg-sky-600 text-white font-mono text-[10.5px] font-bold';
+        } else {
+          btn.className = 'px-1.5 py-0.5 rounded text-slate-400 font-mono text-[10.5px] hover:text-white';
+        }
+      });
+      document.querySelectorAll('.icon-svg-wrapper svg').forEach(svg => {
+        svg.setAttribute('width', size);
+        svg.setAttribute('height', size);
+      });
+    }
+
+    function changeColor(color) {
+      document.querySelectorAll('.icon-svg-wrapper').forEach(wrapper => {
+        wrapper.style.color = color;
+      });
+    }
+
+    function copyCode(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const toast = document.getElementById('toast');
+          toast.textContent = 'Скопировано: ' + text;
+          toast.classList.remove('hidden');
+          setTimeout(() => toast.classList.add('hidden'), 2000);
+        });
+      }
+    }
+  </script>
+</body>
+</html>

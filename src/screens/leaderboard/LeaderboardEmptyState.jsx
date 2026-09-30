@@ -1,6 +1,7 @@
 import React from "react";
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
+import { IconTrophy } from "../../ui/icons";
 
 /** Пустое состояние при отсутствии решенных клинических кейсов */
 export default function LeaderboardEmptyState({ setPhase, isMobile = false }) {
@@ -21,7 +22,9 @@ export default function LeaderboardEmptyState({ setPhase, isMobile = false }) {
         marginBottom: 10,
       }}
     >
-      <div style={{ fontSize: 44 }}>🏆</div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 64, height: 64, borderRadius: 20, background: `${C.yellow}18`, border: `1px solid ${C.yellow}35` }}>
+        <IconTrophy size={36} color={C.yellow} />
+      </div>
       <div style={{ fontSize: 18, fontWeight: 800, color: C.white, fontFamily: FONT }}>
         История прохождений пуста
       </div>

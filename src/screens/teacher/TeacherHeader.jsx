@@ -1,5 +1,6 @@
 import { CODE } from "../../ui/theme";
 import { HeaderBackBtn } from "../../ui/components";
+import { IconAlertTriangle } from "../../ui/icons";
 
 export default function TeacherHeader({ onBack, isMobile, C }) {
   return (
@@ -48,7 +49,7 @@ export default function TeacherHeader({ onBack, isMobile, C }) {
           color: C.yellow,
         }}
       >
-        <span style={{ fontSize: 12 }}>🚧</span>
+        <IconAlertTriangle size={12} color={C.yellow} />
         <span>В разработке</span>
       </div>
     </header>

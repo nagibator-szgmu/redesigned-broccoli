@@ -1,6 +1,6 @@
 import { FONT } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
-import { IconSearch } from "../../../ui/icons";
+import { IconSearch, IconX } from "../../../ui/icons";
 
 export default function ComboboxSearchInput({
   inputRef,
@@ -54,11 +54,12 @@ export default function ComboboxSearchInput({
             border: "none",
             color: C.textDim,
             cursor: "pointer",
-            fontSize: 12,
-            padding: "2px 6px",
+            display: "flex",
+            alignItems: "center",
+            padding: "2px 4px",
           }}
         >
-          ✕
+          <IconX size={12} />
         </button>
       )}
     </div>

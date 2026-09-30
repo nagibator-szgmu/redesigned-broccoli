@@ -28,8 +28,12 @@ test.describe("Gastroenterology Simulation E2E Flow", () => {
     const diagTabBtn = page.locator("button:has-text('Тесты'), button:has-text('Исследования')").first();
     if (await diagTabBtn.isVisible()) {
       await diagTabBtn.click({ force: true });
-      await page.waitForTimeout(400);
-      const fgdsOption = page.locator("text=/ФГДС|Эзофагогастродуоденоскопия/i").first();
+      let fgdsOption = page.locator("text=/ФГДС|Эзофагогастродуоденоскопия/i").first();
+      if (!(await fgdsOption.isVisible())) {
+        const catHeader = page.locator("button:has-text('эндоскопия'), button:has-text('Лучевая')").first();
+        if (await catHeader.isVisible()) await catHeader.click();
+        await page.waitForTimeout(300);
+      }
       await expect(fgdsOption).toBeVisible({ timeout: 5000 });
     }
 
@@ -38,7 +42,12 @@ test.describe("Gastroenterology Simulation E2E Flow", () => {
     if (await treatTabBtn.isVisible()) {
       await treatTabBtn.click();
       await page.waitForTimeout(400);
-      const omeprazoleOption = page.locator("text=/Омепразол/i").first();
+      let omeprazoleOption = page.locator("text=/Омепразол/i").first();
+      if (!(await omeprazoleOption.isVisible())) {
+        const catHeader = page.locator("button:has-text('Прочие')").first();
+        if (await catHeader.isVisible()) await catHeader.click();
+        await page.waitForTimeout(300);
+      }
       await expect(omeprazoleOption).toBeVisible({ timeout: 5000 });
     }
 

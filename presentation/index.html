@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МедСим — Презентация проекта (Платформа НТИ)</title>
+  <style>
+    :root {
+      --purple: #7f14e0;
+      --purple-light: #fbf9ff;
+      --purple-border: #ded7ee;
+      --purple-table: #f3ecff;
+      --purple-dark: #5809a3;
+      --orange: #f27220;
+      --orange-bright: #ff9b3c;
+      --orange-light: #fff5ee;
+      --dark: #19191e;
+      --muted: #555a64;
+      --card-bg: #fcfaff;
+      --border: #e6e4ea;
+      --shadow: 0 8px 24px rgba(127, 20, 224, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #09090d;
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .top-controls {
+      position: fixed;
+      top: 16px;
+      z-index: 1000;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 8px 18px;
+      border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .top-controls button {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .top-controls button:hover {
+      background: var(--purple-dark);
+      transform: translateY(-1px);
+    }
+
+    .top-controls .btn-secondary {
+      background: #f0f0f3;
+      color: var(--dark);
+    }
+    .top-controls .btn-secondary:hover {
+      background: #e2e2e8;
+    }
+
+    .slide-counter {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .slides-container {
+      width: 1280px;
+      height: 720px;
+      position: relative;
+      background: #fff;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      padding: 48px 56px 40px 56px;
+      display: none;
+      flex-direction: column;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    /* Dark Slide 1 & 13 */
+    .slide-dark {
+      background: radial-gradient(circle at 85% 30%, #520d88 0%, #1e053a 50%, #0d011a 100%);
+      color: #ffffff;
+    }
+
+    .slide-light {
+      background: linear-gradient(135deg, #ffffff 0%, #fcfbfe 60%, #f6f1fd 100%);
+    }
+
+    /* Header styling */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .header-bar {
+      width: 6px;
+      height: 44px;
+      background: var(--dark);
+      border-radius: 3px;
+      margin-right: 16px;
+    }
+
+    .slide-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .slide-dark .slide-title {
+      color: #ffffff;
+    }
+
+    .partner-badge {
+      margin-left: auto;
+      background: var(--orange);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    .slide-subtitle {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-top: -12px;
+      margin-bottom: 18px;
+      max-width: 900px;
+    }
+
+    /* Two-column layout */
+    .content-split {
+      display: flex;
+      flex: 1;
+      gap: 36px;
+      position: relative;
+    }
+
+    .content-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      z-index: 2;
+    }
+
+    .content-right-illustration {
+      width: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .content-right-illustration img {
+      max-width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+    }
+
+    .slide-num {
+      position: absolute;
+      bottom: 20px;
+      right: 44px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      z-index: 10;
+    }
+
+    /* Cards System */
+    .card-modern {
+      background: var(--card-bg);
+      border: 1px solid var(--purple-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 11.5px;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+
+    .pill-banner {
+      background: var(--purple);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: auto;
+      letter-spacing: 0.3px;
+    }
+
+    .pill-banner.orange {
+      background: var(--orange-light);
+      color: var(--orange);
+      border: 1px solid var(--orange);
+    }
+
+    /* Slide 2: 3 Cards */
+    .grid-3-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      flex: 1;
+    }
+
+    .card-problem {
+      background: var(--card-bg);
+      border: 1px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kpi {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--purple);
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+    .card-kpi.orange { color: var(--orange); }
+
+    .card-kpi-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .card-problem-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .card-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .card-points li strong {
+      color: var(--dark);
+    }
+
+    /* Comparison Table */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      margin-top: 6px;
+    }
+
+    .comp-table th {
+      background: var(--dark);
+      color: #fff;
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid #333;
+    }
+
+    .comp-table th.medsim-col {
+      background: var(--purple);
+    }
+
+    .comp-table td {
+      padding: 9px 12px;
+      border: 1px solid #e2e1e8;
+      vertical-align: top;
+      line-height: 1.35;
+    }
+
+    .comp-table tr:nth-child(even) td {
+      background: #fbfbfe;
+    }
+
+    .comp-table td.medsim-cell {
+      background: var(--purple-table) !important;
+      font-weight: 700;
+      color: var(--purple-dark);
+    }
+
+    /* Grid 2x2 */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    /* Print settings */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .top-controls {
+        display: none;
+      }
+      .slides-container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        height: auto;
+      }
+      .slide {
+        display: flex !important;
+        page-break-after: always;
+        width: 100vw;
+        height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-controls">
+    <button onclick="prevSlide()">&#8592; Назад</button>
+    <span class="slide-counter" id="slideIndicator">1 / 13</span>
+    <button onclick="nextSlide()">Вперёд &#8594;</button>
+    <button class="btn-secondary" onclick="toggleFullScreen()">Полноэкранный (F)</button>
+    <button class="btn-secondary" onclick="window.print()">Печать / PDF (Cmd+P)</button>
+  </div>
+
+  <div class="slides-container" id="slidesContainer">
+
+    <!-- СЛАЙД 1: ТИТУЛЬНЫЙ -->
+    <div class="slide slide-dark active" id="slide-1">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 40px;">
+        <div style="display:flex; gap: 20px; align-items:center;">
+          <img src="assets/image3.png" style="height:38px; filter: brightness(0) invert(1);" alt="Минобрнауки" onerror="this.style.display='none'">
+          <img src="assets/image4.png" style="height:38px; filter: brightness(0) invert(1);" alt="Минэк" onerror="this.style.display='none'">
+          <img src="assets/image5.png" style="height:38px; filter: brightness(0) invert(1);" alt="Технологии" onerror="this.style.display='none'">
+          <img src="assets/image6.png" style="height:32px; filter: brightness(0) invert(1);" alt="Платформа НТИ" onerror="this.style.display='none'">
+        </div>
+        <img src="assets/image7.png" style="height:38px; filter: brightness(0) invert(1);" alt="ПУТП" onerror="this.style.display='none'">
+      </div>
+
+      <div style="max-width: 760px; margin-top: 10px;">
+        <div style="color: var(--orange-bright); font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px;">
+          МЕДТЕХ  •  СИМУЛЯЦИОННОЕ ОБУЧЕНИЕ  •  ИМПОРТОЗАМЕЩЕНИЕ
+        </div>
+        <h1 style="font-size: 54px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -1px;">
+          МЕДСИМ <span style="font-weight: 400; opacity: 0.9;">(MedSim)</span>
+        </h1>
+        <h2 style="font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px;">
+          Интерактивный тренажёр клинического мышления для студентов и ординаторов
+        </h2>
+        <p style="font-size: 14.5px; color: var(--purple-border); line-height: 1.5; margin-bottom: 34px;">
+          Отечественная кроссплатформенная веб-система симуляции клинических решений в реальном времени по актуальным Клиническим рекомендациям Минздрава РФ
+        </p>
+
+        <div style="background: rgba(38, 12, 70, 0.8); border: 1px solid rgba(160, 100, 240, 0.4); border-radius: 12px; padding: 18px 24px; backdrop-filter: blur(10px); max-width: 680px;">
+          <div style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px;">ФГБОУ ВО СЗГМУ им. И.И. Мечникова Минздрава России</div>
+          <div style="font-size: 12px; margin-bottom: 3px;"><strong style="color: var(--orange-bright);">Автор и разработчик:</strong> Козлов Арсений Анатольевич (студент 3 курса лечебного факультета)</div>
+          <div style="font-size: 12px; margin-bottom: 3px;"><strong style="color: var(--orange-bright);">Научный руководитель:</strong> Расмагина Ирина Алексеевна, к.м.н., асс. кафедры пропедевтики</div>
+          <div style="font-size: 12px;"><strong style="color: var(--orange-bright);">Наставник проекта:</strong> Бакулин Игорь Геннадьевич, д.м.н., проф., зав. кафедрой, гл. гастроэнтеролог СЗФО</div>
+        </div>
+      </div>
+      <div class="slide-num">1</div>
+    </div>
+
+    <!-- СЛАЙД 2: ПРОБЛЕМА -->
+    <div class="slide slide-light" id="slide-2">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">ПРОБЛЕМА</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="slide-subtitle">
+        Ключевой вызов высшего медицинского образования: острый разрыв между теоретическими знаниями и способностью принимать экстренные клинические решения в динамике.
+      </div>
+      <div class="grid-3-cards">
+        <div class="card-problem">
+          <div class="card-kpi">45 000+</div>
+          <div class="card-kpi-sub">студентов и 20 000+ ординаторов в РФ</div>
+          <div class="card-problem-title">Дефицит самостоятельной курации</div>
+          <ul class="card-points">
+            <li><strong>>70% начинающих врачей</strong> приходят в ординатуру без опыта самостоятельного ведения экстренных и тяжёлых больных.</li>
+            <li><strong>Ограничения клиники:</strong> Студентов не допускают к реальным реанимационным решениям из-за высоких рисков для жизни пациентов.</li>
+            <li><strong>Следствие:</strong> Острый врачебный стресс на первых дежурствах, страх фатальной ошибки и неуверенность.</li>
+          </ul>
+        </div>
+        <div class="card-problem">
+          <div class="card-kpi orange">25%</div>
+          <div class="card-kpi-sub">дефектов в первичном звене</div>
+          <div class="card-problem-title">Статичность классического обучения</div>
+          <ul class="card-points">
+            <li><strong>Тесты на бумаге статичны:</strong> Студент не чувствует дефицита времени и угасания виталов (АД, ЧСС, SpO2) за 30 секунд.</li>
+            <li><strong>CustDev (87,2%):</strong> Обучающиеся подтвердили острую нехватку интерактивной практики принятия решений.</li>
+            <li><strong>Цена промедления:</strong> Ошибки сортировки и задержка неотложной терапии наносят колоссальный ущерб здоровью.</li>
+          </ul>
+        </div>
+        <div class="card-problem">
+          <div class="card-kpi">$50 000</div>
+          <div class="card-kpi-sub">в год за зарубежные аналоги</div>
+          <div class="card-problem-title">Недоступность существующих решений</div>
+          <ul class="card-points">
+            <li><strong>Body Interact и Full Code:</strong> Заблокированы из-за санкций, оторваны от стандартов РФ и стоят от $50 000/год.</li>
+            <li><strong>Манекены (3–15 млн ₽):</strong> Тренируют только мануальные навыки (СЛР, интубация), но не клиническое мышление врача.</li>
+            <li><strong>Решение «МедСим»:</strong> BYOD-доступ по Клиническим рекомендациям Минздрава РФ с любого смартфона/ПК в 5–10 раз дешевле.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-num">2</div>
+    </div>
+
+    <!-- СЛАЙД 3: РЕШЕНИЕ -->
+    <div class="slide slide-light" id="slide-3">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">РЕШЕНИЕ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div style="font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: 0.5px; margin-bottom: 4px;">ИНТЕРАКТИВНЫЙ ВЕБ-СИМУЛЯТОР КЛИНИЧЕСКИХ РЕШЕНИЙ</div>
+          <div style="font-size: 14.5px; font-weight: 700; color: var(--dark); line-height: 1.4; margin-bottom: 16px;">
+            «МедСим» переносит обучающегося в реальные клинические условия с непрерывной динамикой состояния больного по стандартам Минздрава РФ
+          </div>
+
+          <div class="grid-2x2">
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-tag" style="color: #dc2626;">ОРИТ (ICU)</div>
+              <div class="card-title">Экстренная реанимация</div>
+              <div class="card-desc">Таймер 12–15 мин, протокол ABCDE, динамика 7 виталов каждые 30 сек. Исходы: стабилизация или остановка сердца.</div>
+            </div>
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-tag" style="color: var(--orange);">Приёмное отделение</div>
+              <div class="card-title">Сортировка и маршрутизация</div>
+              <div class="card-desc">Дифференциальная диагностика под дефицитом времени, первичная стабилизация и выбор маршрута госпитализации.</div>
+            </div>
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-tag" style="color: #1095c1;">Поликлиника</div>
+              <div class="card-title">Амбулаторный приём</div>
+              <div class="card-desc">Приём без таймера, сбор анамнеза заболевания и жизни, назначение целевых анализов и формулировка диагноза.</div>
+            </div>
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-tag" style="color: var(--purple);">Стационар</div>
+              <div class="card-title">Суточный цикл курации</div>
+              <div class="card-desc">Утренний обход, лабораторный контроль, коррекция фармакотерапии, контроль полипрагмазии и критерии выписки.</div>
+            </div>
+          </div>
+
+          <div class="pill-banner">
+            79 верифицированных сценариев &nbsp;|&nbsp; 100% КР Минздрава РФ &nbsp;|&nbsp; &lt;1.5 с запуск (PWA) &nbsp;|&nbsp; Модель BYOD
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image9.png" alt="Кот-космонавт">
+        </div>
+      </div>
+      <div class="slide-num">3</div>
+    </div>
+
+    <!-- СЛАЙД 4: ТЕХНОЛОГИЧЕСКОЕ ЯДРО -->
+    <div class="slide slide-light" id="slide-4">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">ТЕХНОЛОГИЧЕСКОЕ ЯДРО ПРОЕКТА</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div class="card-modern">
+            <div class="card-tag">SIMULATION ENGINE</div>
+            <div class="card-title">Движок динамической детериорации</div>
+            <div class="card-desc">Непрерывный пересчёт 7 виталов (АД, ЧСС, ЧДД, SpO2, ШКГ, боль, t°) с шагом 30 сек и валидация индекса тяжести SOFA-like (0–20 баллов).</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">PHARMACODYNAMICS MATRIX</div>
+            <div class="card-title">Фармакодинамическая матрица</div>
+            <div class="card-desc">Моделирование эффектов 52 лекарственных препаратов с учётом латентного периода, терапевтического окна и парадоксальных реакций.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">DETERMINISTIC DEBRIEFING</div>
+            <div class="card-title">Алгоритмический дебрифинг</div>
+            <div class="card-desc">Автоматический аудит действий врача по Клиническим рекомендациям Минздрава РФ с детекцией фатальных ошибок и полипрагмазии.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">NEURAL PATIENT MODULE</div>
+            <div class="card-title">LLM «Виртуальный пациент»</div>
+            <div class="card-desc">Отечественные языковые модели (GigaChat / YandexGPT) для тренировки сбора анамнеза по Калгари-Кембриджской модели.</div>
+          </div>
+          <div class="pill-banner orange">
+            Критическая технология РФ: ИИ, цифровое био-моделирование и суверенное ПО
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image10.png" alt="Кибер-девушка и кот">
+        </div>
+      </div>
+      <div class="slide-num">4</div>
+    </div>
+
+    <!-- СЛАЙД 5: КОНКУРЕНТЫ И АНАЛОГИ -->
+    <div class="slide slide-light" id="slide-5">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">КОНКУРЕНТЫ И АНАЛОГИ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="slide-subtitle">
+        Сравнительный анализ подтверждает ключевое преимущество «МедСим» в 100% соответствии Клиническим рекомендациям Минздрава РФ и ценовой доступности для вузов.
+      </div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Критерий сравнения</th>
+            <th class="medsim-col">«МедСим» (СЗГМУ, Россия)</th>
+            <th>Body Interact (Португалия)</th>
+            <th>Full Code Medical (США)</th>
+            <th>Роботы-манекены (РФ/импорт)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Соответствие КР Минздрава РФ</strong></td>
+            <td class="medsim-cell">100% (рубрикатор МЗ РФ, cr.minzdrav.gov.ru)</td>
+            <td>0% (протоколы AHA, ERC, NICE)</td>
+            <td>0% (клинические стандарты США)</td>
+            <td>Косвенное (зависит от преподавателя)</td>
+          </tr>
+          <tr>
+            <td><strong>Язык и терминология</strong></td>
+            <td class="medsim-cell">Русский язык, МКБ-10, терминология РФ</td>
+            <td>Английский (неполный машинный перевод)</td>
+            <td>Исключительно английский язык</td>
+            <td>Русский (голос оператора)</td>
+          </tr>
+          <tr>
+            <td><strong>Доступность и платформа</strong></td>
+            <td class="medsim-cell">Web/PWA: запуск &lt;1.5 сек на любом ПК/смартфоне</td>
+            <td>Специализированные столы и терминалы</td>
+            <td>Мобильное приложение (риск блокировок)</td>
+            <td>Только в симуляционном центре</td>
+          </tr>
+          <tr>
+            <td><strong>Стоимость лицензии для вуза</strong></td>
+            <td class="medsim-cell">Доступная подписка (250–600 тыс. руб./год)</td>
+            <td>От $50 000 в год (недоступно к оплате)</td>
+            <td>От $30 000 в год (валютные ограничения)</td>
+            <td>От 3 000 000 до 15 000 000 руб.</td>
+          </tr>
+          <tr>
+            <td><strong>Охват отделений</strong></td>
+            <td class="medsim-cell">4 отделения: ОРИТ, приёмное, поликлиника, стационар</td>
+            <td>Преимущественно скорая помощь и ОРИТ</td>
+            <td>Исключительно неотложная помощь (ER)</td>
+            <td>Изолированные мануальные навыки (СЛР)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="slide-num">5</div>
+    </div>
+
+    <!-- СЛАЙД 6: МОДЕЛЬ МОНЕТИЗАЦИИ -->
+    <div class="slide slide-light" id="slide-6">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">МОДЕЛЬ МОНЕТИЗАЦИИ, РЫНОК И ПОТРЕБИТЕЛИ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div style="display:flex; gap:12px; margin-bottom: 12px;">
+            <div class="card-modern" style="flex:1; margin-bottom:0; text-align:center;">
+              <div style="font-size:20px; font-weight:800; color:var(--purple);">12,5 млрд ₽</div>
+              <div style="font-size:10px; font-weight:700; color:var(--muted);">TAM</div>
+              <div style="font-size:9.5px; color:var(--muted);">Рынок симуляционного мед-обучения РФ и СНГ</div>
+            </div>
+            <div class="card-modern" style="flex:1; margin-bottom:0; text-align:center;">
+              <div style="font-size:20px; font-weight:800; color:var(--orange);">1,8 млрд ₽</div>
+              <div style="font-size:10px; font-weight:700; color:var(--muted);">SAM</div>
+              <div style="font-size:9.5px; color:var(--muted);">ПО для 100+ медвузов и 400+ колледжей</div>
+            </div>
+            <div class="card-modern" style="flex:1; margin-bottom:0; text-align:center;">
+              <div style="font-size:20px; font-weight:800; color:var(--purple);">90 млн ₽</div>
+              <div style="font-size:10px; font-weight:700; color:var(--muted);">SOM</div>
+              <div style="font-size:9.5px; color:var(--muted);">25 ведущих медвузов РФ (горизонт 3 лет)</div>
+            </div>
+          </div>
+
+          <div class="card-modern">
+            <div class="card-tag">B2G / B2B ЛИЦЕНЗИЯ ДЛЯ ВУЗОВ (ОСНОВНОЙ СЕГМЕНТ)</div>
+            <div class="card-title">250 000 – 600 000 руб./год на кафедру</div>
+            <div class="card-desc">Пакетная подписка на факультет: кабинет преподавателя, аналитика успеваемости групп, банк контрольных и олимпиадных клинических кейсов.</div>
+          </div>
+
+          <div class="card-modern">
+            <div class="card-tag">B2C ИНДИВИДУАЛЬНАЯ ПОДПИСКА (ДОПОЛНИТЕЛЬНЫЙ СЕГМЕНТ)</div>
+            <div class="card-title">290 – 490 руб./месяц для студентов и ординаторов</div>
+            <div class="card-desc">Индивидуальный доступ к расширенным сценариям, режим подготовки к первичной аккредитации врачей и персональный сертификат.</div>
+          </div>
+
+          <div class="pill-banner">
+            2025–26: Пилот в СЗГМУ (80+ чел.)  ➔  2026–27: 10–15 вузов РФ  ➔  2027+: Олимпиады РНМОТ
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image11.png" alt="Девушка с ноутбуком">
+        </div>
+      </div>
+      <div class="slide-num">6</div>
+    </div>
+
+    <!-- СЛАЙД 7: КОМАНДА И ПРОГРЕСС -->
+    <div class="slide slide-light" id="slide-7">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">КОМАНДА И ПРОГРЕСС</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div class="grid-2x2">
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-title" style="margin-bottom:2px;">Расмагина Ирина Алексеевна</div>
+              <div class="card-tag" style="margin-bottom:6px;">Руководитель проекта</div>
+              <div class="card-desc">К.м.н., врач-гастроэнтеролог, асс. кафедры пропедевтики СЗГМУ. Автор 28 публикаций, 9 РИД, 4 грантов (в т.ч. РНФ 2024–2025). Руководство клинической методологией.</div>
+            </div>
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-title" style="margin-bottom:2px;">Бакулин Игорь Геннадьевич</div>
+              <div class="card-tag" style="margin-bottom:6px;">Наставник проекта</div>
+              <div class="card-desc">Д.м.н., профессор, зав. кафедрой внутренних болезней СЗГМУ им. Мечникова, главный внештатный гастроэнтеролог СЗФО РФ, вице-президент РНМОТ.</div>
+            </div>
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-title" style="margin-bottom:2px;">Козлов Арсений Анатольевич</div>
+              <div class="card-tag" style="margin-bottom:6px;">Соавтор, Архитектор UI/UX</div>
+              <div class="card-desc">Студент 3 курса лечебного факультета СЗГМУ (21 год). Проектирование веб-системы (React 18, Vite), 4 симуляционных отделения, база теории, дизайн-система.</div>
+            </div>
+            <div class="card-modern" style="margin-bottom:0;">
+              <div class="card-title" style="margin-bottom:2px;">Голощапов Михаил Михайлович</div>
+              <div class="card-tag" style="margin-bottom:6px;">Соавтор, Разработчик движка</div>
+              <div class="card-desc">Студент 3 курса лечебного факультета СЗГМУ (19 лет). Математическое ядро детериорации (7 виталов, шаг 30 сек, SOFA-like), фармакоотклик, модуль LLM-пациента.</div>
+            </div>
+          </div>
+          <div class="pill-banner orange">
+            Компетенции: клиническая экспертиза кафедры + IT-хард-скиллы = защищённый РИД
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image12.png" alt="Роботизированная рука">
+        </div>
+      </div>
+      <div class="slide-num">7</div>
+    </div>
+
+    <!-- СЛАЙД 8: ПАРТНЕРЫ -->
+    <div class="slide slide-light" id="slide-8">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">ПАРТНЕРЫ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div class="card-modern">
+            <div class="card-tag">ОПОРНАЯ ОРГАНИЗАЦИЯ</div>
+            <div class="card-title">ФГБОУ ВО СЗГМУ им. И.И. Мечникова Минздрава РФ</div>
+            <div class="card-desc">Кафедра пропедевтики внутренних болезней. Предоставление клинической базы, апробация тренажёра на выборке 80+ обучающихся, интеграция в учебные планы.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">ВНЕШНЯЯ ВРАЧЕБНАЯ ЭКСПЕРТИЗА</div>
+            <div class="card-title">Российское научное медицинское общество терапевтов (РНМОТ)</div>
+            <div class="card-desc">Методическое сопровождение соответствия стандартам терапии, верификация клинических кейсов, проведение межвузовских олимпиад под эгидой общества.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">ФОКУС-ГРУППЫ И НАУЧНАЯ АПРОБАЦИЯ</div>
+            <div class="card-title">Совет СНО СЗГМУ им. И.И. Мечникова (5 500+ участников)</div>
+            <div class="card-desc">Формирование репрезентативных фокус-групп, проведение CustDev, подготовка совместных научных публикаций ВАК/Scopus и докладов на конференциях.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">ИНФОРМАЦИОННАЯ ДИСТРИБУЦИЯ</div>
+            <div class="card-title">Партнёрские EdTech-сообщества (Школа Сеченова, MedVuza)</div>
+            <div class="card-desc">Информационный охват более 50 000 студентов и ординаторов медвузов РФ, совместные образовательные спецкурсы и пилотные запуски.</div>
+          </div>
+          <div class="pill-banner">
+            Ближайшие шаги: пилот на 80+ чел., Олимпиада по терапии, акт внедрения в учебный процесс
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image12.png" alt="Роботизированная рука">
+        </div>
+      </div>
+      <div class="slide-num">8</div>
+    </div>
+
+    <!-- СЛАЙД 9: УРОВЕНЬ ГОТОВНОСТИ ТЕХНОЛОГИИ -->
+    <div class="slide slide-light" id="slide-9">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">УРОВЕНЬ ГОТОВНОСТИ ТЕХНОЛОГИИ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div style="display:flex; gap: 14px; margin-bottom: 14px;">
+        <div class="card-modern" style="flex:1; margin-bottom:0;">
+          <div class="card-tag" style="color:var(--purple); font-size:11px;">ТЕКУЩИЙ СТАТУС — УГТ 5–6 (TRL 5–6)</div>
+          <div class="card-desc">Полнофункциональный веб-прототип (PWA), 79 оцифрованных сценариев, верифицирован математический движок детериорации (шаг 30 с) и фармакоматрица на 52 препарата. Пройдены испытания на кафедре.</div>
+        </div>
+        <div class="card-modern" style="flex:1; margin-bottom:0; border-color:var(--orange);">
+          <div class="card-tag" style="color:var(--orange); font-size:11px;">ЦЕЛЕВОЙ СТАТУС — УГТ 7 (TRL 7)</div>
+          <div class="card-desc">Опытная эксплуатация прототипа в реальном образовательном процессе кафедры пропедевтики СЗГМУ им. Мечникова (80+ студентов и ординаторов), проведение олимпиад по кардиологии и терапии.</div>
+        </div>
+      </div>
+      <table class="comp-table">
+        <thead>
+          <tr style="background:var(--orange);">
+            <th style="background:var(--orange); width:15%;">Уровень готовности</th>
+            <th style="background:var(--orange); width:45%;">Краткое описание</th>
+            <th style="background:var(--orange); width:40%;">Артефакт</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1-3</strong></td>
+            <td>Формирование концепции, лабораторные исследования, создание макета</td>
+            <td>Научные статьи, отчеты о моделировании, письма заинтересованности от партнеров</td>
+          </tr>
+          <tr style="background: var(--purple-table);">
+            <td style="color:var(--purple); font-weight:700;">4-6 [ТЕКУЩИЙ]</td>
+            <td style="color:var(--purple); font-weight:700;">Создание прототипа, подтверждение характеристик в лабораторных условиях (PWA, 79 кейсов)</td>
+            <td style="color:var(--purple); font-weight:700;">Фото/видео работающего макета, протоколы успешных экспериментов на кафедре</td>
+          </tr>
+          <tr style="background: var(--orange-light);">
+            <td style="color:var(--orange); font-weight:700;">7 [ЦЕЛЕВОЙ]</td>
+            <td style="color:var(--orange); font-weight:700;">Пилотирование проекта (опытные испытания на выборке 80+ обучающихся в СЗГМУ)</td>
+            <td style="color:var(--orange); font-weight:700;">Видеодемонстрация работы прототипа в реальных условиях, отчет тестирования</td>
+          </tr>
+          <tr>
+            <td><strong>8</strong></td>
+            <td>Предсерийное производство</td>
+            <td>Акт о завершении пилотного проекта, отзыв пилотного заказчика</td>
+          </tr>
+          <tr>
+            <td><strong>9</strong></td>
+            <td>Серийное производство, коммерческое использование</td>
+            <td>Контракты на продажу, отзывы клиентов</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="slide-num">9</div>
+    </div>
+
+    <!-- СЛАЙД 10: ПРОГРЕСС ЗА ВРЕМЯ АКСЕЛЕРАЦИИ -->
+    <div class="slide slide-light" id="slide-10">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">ПРОГРЕСС ЗА ВРЕМЯ АКСЕЛЕРАЦИИ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="slide-subtitle">
+        За время акселерационной программы проект совершил качественный переход от исследовательской идеи к масштабируемому программному продукту.
+      </div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th style="background:#464b55; width:45%;">До участия в акселерационной программе</th>
+            <th class="medsim-col" style="width:55%;">После участия в акселерационной программе</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>УГТ 3–4: Теоретическая концепция, формулы модели детериорации на бумаге и черновые скрипты.</td>
+            <td class="medsim-cell">УГТ 5–6: Работающий веб-тренажер (PWA), 79 оцифрованных сценариев, 4 отделения, детериорация виталов в реальном времени.</td>
+          </tr>
+          <tr>
+            <td>Производственная готовность: Разрозненные прототипы интерфейса, ручная проверка кейсов.</td>
+            <td class="medsim-cell">Производственная готовность: Отказоустойчивая система (React 18, Vite, Three.js), запуск &lt;1.5 сек, автоматический дебрифинг ошибок по КР Минздрава РФ, CI/CD.</td>
+          </tr>
+          <tr>
+            <td>Рыночная готовность: Несформированное ценностное предложение, отсутствие данных о спросе.</td>
+            <td class="medsim-cell">Рыночная готовность: Проведен CustDev (70+ студентов и ординаторов), подтверждена острая потребность (87.2%), разработана модель B2B/B2G подписок для медвузов.</td>
+          </tr>
+          <tr>
+            <td>Партнерства: Инициативная разработка двух студентов лечебного факультета без институционального статуса.</td>
+            <td class="medsim-cell">Партнерства: Наставничество зав. кафедрой проф. И.Г. Бакулина, поддержка к.м.н. И.А. Расмагиной, пилотирование на кафедре и олимпиадах СЗГМУ.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="slide-num">10</div>
+    </div>
+
+    <!-- СЛАЙД 11: ПЛАНЫ РАЗВИТИЯ -->
+    <div class="slide slide-light" id="slide-11">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">ПЛАНЫ РАЗВИТИЯ</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div class="card-modern">
+            <div class="card-tag">R&D И КЛИНИЧЕСКИЙ КОНТЕНТ</div>
+            <div class="card-title">Расширение до 100+ кейсов и LLM-пациент</div>
+            <div class="card-desc">Добавление профиля «Гастроэнтерология», интеграция генеративного диалогового модуля «Виртуальный пациент» на отечественных LLM по Калгари-Кембриджской модели.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">ЗАЩИТА ИНТЕЛЛЕКТУАЛЬНОЙ СОБСТВЕННОСТИ</div>
+            <div class="card-title">Регистрация РИД в Роспатенте</div>
+            <div class="card-desc">Получение свидетельств о гос. регистрации программы для ЭВМ «МедСим» и базы данных клинических сценариев; патентование алгоритма детериорации виталов.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">НАУЧНАЯ АПРОБАЦИЯ И ПУБЛИКАЦИИ</div>
+            <div class="card-title">Пилотирование на 80+ обучающихся и статьи ВАК</div>
+            <div class="card-desc">Внедрение в олимпиады СЗГМУ по кардиологии и терапии; подготовка не менее 2 научных статей в журналах ВАК/Scopus и 3 докладов на всероссийских конференциях.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">ИНВЕСТИЦИИ И МАСШТАБИРОВАНИЕ</div>
+            <div class="card-title">Грант «Студенческий стартап» и выход в 5+ вузов</div>
+            <div class="card-desc">Подача заявки на грант ФСИ (1 млн руб.); масштабирование на медицинские университеты СЗФО в 2026–2027 гг.; интеграция в систему НМО.</div>
+          </div>
+          <div class="pill-banner">
+            Горизонт реализации: 100+ сценариев &nbsp;•&nbsp; 2 патента &nbsp;•&nbsp; Пилоты в 5+ медвузах РФ
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image13.png" alt="Кибер-девушка">
+        </div>
+      </div>
+      <div class="slide-num">11</div>
+    </div>
+
+    <!-- СЛАЙД 12: ЗАПРОС -->
+    <div class="slide slide-light" id="slide-12">
+      <div class="slide-header">
+        <div class="header-bar"></div>
+        <div class="slide-title">ЗАПРОС</div>
+        <div class="partner-badge">ПЛАТФОРМА НТИ</div>
+      </div>
+      <div class="content-split">
+        <div class="content-left">
+          <div class="card-modern">
+            <div class="card-tag">ФИНАНСИРОВАНИЕ ИНФРАСТРУКТУРЫ</div>
+            <div class="card-title">Серверные мощности в РФ и API отечественных LLM</div>
+            <div class="card-desc">Аренда защищённых отечественных серверов для бесперебойной работы при массовых олимпиадах (до 200 одновременных сессий); токены API отечественных нейросетей.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">НЕТВОРКИНГ И ИНСТИТУЦИОНАЛЬНОЕ СОДЕЙСТВИЕ</div>
+            <div class="card-title">Выход на проректоров медвузов РФ и РОСОМЕД</div>
+            <div class="card-desc">Содействие Платформы НТИ в контактах с проректорами по учебной работе медицинских вузов; взаимодействие с Федеральным центром симуляционного обучения.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">МЕНТОРСТВО И B2G-ЭКСПЕРТИЗА</div>
+            <div class="card-title">Упаковка B2G-контрактов и защита РИД</div>
+            <div class="card-desc">Экспертная помощь в структурировании продаж университетских лицензий, юридическое сопровождение защиты интеллектуальных прав и лицензирования.</div>
+          </div>
+          <div class="card-modern">
+            <div class="card-tag">МЕДИА И ФЕДЕРАЛЬНЫЙ PR</div>
+            <div class="card-title">Освещение в ресурсах НТИ и Минздрава РФ</div>
+            <div class="card-desc">Информационная поддержка проекта в федеральных каналах экосистемы НТИ, Минздрава и Минобрнауки; привлечение вузов-партнёров к межвузовским олимпиадам.</div>
+          </div>
+          <div class="pill-banner orange">
+            Цель запроса: быстрый пилотный охват 15+ медвузов РФ и интеграция в стандарты
+          </div>
+        </div>
+        <div class="content-right-illustration">
+          <img src="assets/image14.png" alt="Пробирки с растениями">
+        </div>
+      </div>
+      <div class="slide-num">12</div>
+    </div>
+
+    <!-- СЛАЙД 13: ЭКСПЕРТНОЕ ЗАКЛЮЧЕНИЕ -->
+    <div class="slide slide-dark" id="slide-13">
+      <div class="slide-header">
+        <div class="header-bar" style="background:#fff;"></div>
+        <div class="slide-title">ЭКСПЕРТНОЕ ЗАКЛЮЧЕНИЕ</div>
+      </div>
+      <div style="max-width: 780px;">
+        <div style="background: rgba(38, 12, 70, 0.85); border: 1px solid rgba(160, 100, 240, 0.4); border-radius: 12px; padding: 14px 18px; margin-bottom: 12px; backdrop-filter: blur(8px);">
+          <div style="color: var(--orange-bright); font-size: 13.5px; font-weight: 700; margin-bottom: 2px;">Бакулин Игорь Геннадьевич</div>
+          <div style="color: var(--purple-border); font-size: 11px; margin-bottom: 6px;">Д.м.н., профессор, зав. кафедрой внутренних болезней СЗГМУ, главный гастроэнтеролог СЗФО, вице-президент РНМОТ</div>
+          <div style="font-size: 12px; font-style: italic; line-height: 1.4; color: #fff;">
+            «Проект «МедСим» обладает безусловной научной и клинической ценностью. Строгое соответствие актуальным Клиническим рекомендациям Минздрава РФ и динамический пересчёт витальных функций позволяют обучающимся преодолеть разрыв между теорией и практикой. Рекомендую к внедрению в учебный процесс и олимпиады.»
+          </div>
+        </div>
+
+        <div style="background: rgba(38, 12, 70, 0.85); border: 1px solid rgba(160, 100, 240, 0.4); border-radius: 12px; padding: 14px 18px; margin-bottom: 12px; backdrop-filter: blur(8px);">
+          <div style="color: var(--orange-bright); font-size: 13.5px; font-weight: 700; margin-bottom: 2px;">Расмагина Ирина Алексеевна</div>
+          <div style="color: var(--purple-border); font-size: 11px; margin-bottom: 6px;">К.м.н., врач-гастроэнтеролог, асс. кафедры пропедевтики СЗГМУ им. Мечникова, руководитель грантов РНФ</div>
+          <div style="font-size: 12px; font-style: italic; line-height: 1.4; color: #fff;">
+            «Теоретическая реализуемость математического ядра детериорации доказана. Использование защищённых отечественных LLM для диалога виртуального пациента обеспечивает формирование деонтологических навыков и суверенитет ПО.»
+          </div>
+        </div>
+
+        <div style="background: rgba(38, 12, 70, 0.85); border: 1px solid rgba(160, 100, 240, 0.4); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; backdrop-filter: blur(8px);">
+          <div style="color: var(--orange-bright); font-size: 13.5px; font-weight: 700; margin-bottom: 2px;">Экспертиза РОСОМЕД &amp; HealthNet НТИ</div>
+          <div style="color: var(--purple-border); font-size: 11px; margin-bottom: 6px;">Специалисты по медицинскому симуляционному обучению и коммерциализации</div>
+          <div style="font-size: 12px; font-style: italic; line-height: 1.4; color: #fff;">
+            ««МедСим» эффективно закрывает пустующую нишу между бумажными тестами и дорогостоящими манекенами: платформа тренирует скорость и логику принятия решений в динамике перед манипуляциями с высокой рентабельностью (>60%).»
+          </div>
+        </div>
+
+        <div style="font-size: 12.5px; color: var(--purple-border); font-style: italic;">
+          Все экспертные заключения верифицированы и внесены в ИС «Эксперты НТИ»
+        </div>
+      </div>
+      <div class="slide-num">13</div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 13;
+
+    function showSlide(num) {
+      if (num < 1) num = 1;
+      if (num > totalSlides) num = totalSlides;
+      currentSlide = num;
+
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) {
+          slide.classList.remove('active');
+        }
+      }
+
+      const activeSlide = document.getElementById(`slide-${currentSlide}`);
+      if (activeSlide) {
+        activeSlide.classList.add('active');
+      }
+
+      document.getElementById('slideIndicator').innerText = `${currentSlide} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Ошибка включения полноэкранного режима: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      }
+    });
+  </script>
+</body>
+</html>

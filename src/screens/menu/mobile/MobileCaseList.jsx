@@ -24,8 +24,8 @@ export default function MobileCaseList({
   return (
     <div
       style={{
-        padding: "0 16px",
-        paddingBottom: "calc(160px + env(safe-area-inset-bottom, 16px))",
+        padding: "0 14px",
+        paddingBottom: "calc(72px + env(safe-area-inset-bottom, 12px))",
       }}
     >
       <div
@@ -33,23 +33,24 @@ export default function MobileCaseList({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          marginBottom: 12,
+          marginBottom: 8,
         }}
       >
-        <div style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: FONT }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>
           {listTitle}
         </div>
         <button
           onClick={() => setShowAllCases((v) => !v)}
           style={{
-            fontSize: 12,
+            fontSize: 11.5,
             color: C.accent,
             fontFamily: FONT,
             cursor: "pointer",
-            padding: "6px 12px",
+            padding: "3px 10px",
             borderRadius: RADIUS.sm,
             border: `1px solid ${C.accent}40`,
             background: `${C.accent}12`,
+            fontWeight: 600,
           }}
         >
           {showAllCases ? t("cases.collapse") : t("cases.showAll", { n: CASES.length })}
@@ -60,7 +61,7 @@ export default function MobileCaseList({
         <div
           style={{
             color: C.textDim,
-            fontSize: 14,
+            fontSize: 13,
             fontFamily: FONT,
             padding: "20px 0",
             textAlign: "center",
@@ -69,7 +70,7 @@ export default function MobileCaseList({
           {t("cases.empty")}
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {displayCases.map((c) => (
             <MobileCaseCard
               key={c.id}
