@@ -1,7 +1,9 @@
 /**
  * llmAdapters.js
- * API callers for OpenRouter, Gemini, and OpenAI.
+ * API callers for OpenRouter, Gemini, OpenAI, and GigaChat.
  */
+export { callGigaChat } from "./gigachatAdapter.js";
+
 
 export async function callOpenRouter(apiKey, systemPrompt, formattedHistory, model) {
   const url = "https://openrouter.ai/api/v1/chat/completions";

@@ -64,12 +64,41 @@ export const CASES_BY_DEPARTMENT = {
 
 /** Cases grouped by specialty */
 export const CASES_BY_SPECIALTY = {
-  cardiac: [...CARDIAC_CASES, ...HYPERTENSION_CASES, ...HEART_FAILURE_CASES],
-  neuro: NEURO_CASES,
-  respiratory: [...RESPIRATORY_CASES, ...ASTHMA_CASES],
-  infectious: [...INFECTIOUS_CASES, ...PYELONEPHRITIS_CASES],
-  endocrine: [...ENDOCRINE_CASES, ...MYXEDEMA_CASES],
-  toxicology: TOXICOLOGY_CASES,
+  cardiac: [
+    ...CARDIAC_CASES,
+    ...HYPERTENSION_CASES,
+    ...HEART_FAILURE_CASES,
+    ...OUTPATIENT_CASES.filter(c => c.category === "cardiac"),
+    ...STATIONARY_CASES.filter(c => c.category === "cardiac"),
+  ],
+  neuro: [
+    ...NEURO_CASES,
+    ...OUTPATIENT_CASES.filter(c => c.category === "neuro"),
+    ...STATIONARY_CASES.filter(c => c.category === "neuro"),
+  ],
+  respiratory: [
+    ...RESPIRATORY_CASES,
+    ...ASTHMA_CASES,
+    ...OUTPATIENT_CASES.filter(c => c.category === "respiratory"),
+    ...STATIONARY_CASES.filter(c => c.category === "respiratory"),
+  ],
+  infectious: [
+    ...INFECTIOUS_CASES,
+    ...PYELONEPHRITIS_CASES,
+    ...OUTPATIENT_CASES.filter(c => c.category === "infectious"),
+    ...STATIONARY_CASES.filter(c => c.category === "infectious"),
+  ],
+  endocrine: [
+    ...ENDOCRINE_CASES,
+    ...MYXEDEMA_CASES,
+    ...OUTPATIENT_CASES.filter(c => c.category === "endocrine"),
+    ...STATIONARY_CASES.filter(c => c.category === "endocrine"),
+  ],
+  toxicology: [
+    ...TOXICOLOGY_CASES,
+    ...OUTPATIENT_CASES.filter(c => c.category === "toxicology"),
+    ...STATIONARY_CASES.filter(c => c.category === "toxicology"),
+  ],
   gastro: GASTRO_CASES,
 };
 

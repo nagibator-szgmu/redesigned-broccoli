@@ -11,7 +11,6 @@ import {
   IconInfectious,
   IconEndocrine,
   IconToxicology,
-  IconAlertTriangle,
   IconGastro,
   IconFileText,
 } from "../../ui/icons";
@@ -23,7 +22,6 @@ const CATEGORY_ICONS = {
   infectious: IconInfectious,
   endocrine: IconEndocrine,
   toxicology: IconToxicology,
-  trauma: IconAlertTriangle,
   gastroenterology: IconGastro,
 };
 

@@ -15,12 +15,41 @@ export function isPatientUnconscious(patientState) {
 }
 
 /**
+ * Очищает текст от случайных утечек самоидентификации нейросети (GigaChat, ChatGPT, LLM).
+ * Гарантирует сохранение погружения в роль реального больного человека.
+ * @param {string} rawText - Ответ нейросети или локального движка
+ * @param {Object} caseData - Данные кейса для подстановки имени
+ * @returns {string}
+ */
+export function sanitizePatientResponse(rawText = "", caseData = {}) {
+  let text = String(rawText || "").trim();
+  if (!text) return "";
+
+  const AI_LEAK_REGEX = /(gigachat|гигачат|chatgpt|openai|искусственн\w*\s+интеллект\w*|языков\w*\s+модел\w*|нейросет\w*|чат[\s-]?бот\w*|\bя\s+[—–-]?\s*(ии|бот|робот|модель|программа|ассистент)\b|как\s+(ии|модель|нейросеть)|сбер\w*\s+создал|разработан\w*\s+сбер)/i;
+
+  if (AI_LEAK_REGEX.test(text)) {
+    const sentences = text.split(/(?<=[.!?])\s+/);
+    const cleanSentences = sentences.filter((s) => !AI_LEAK_REGEX.test(s));
+
+    if (cleanSentences.length > 0) {
+      text = cleanSentences.join(" ");
+    } else {
+      const patientName = caseData?.name || "ваш пациент";
+      text = `Доктор, вы о чём вообще?.. Я ${patientName}, мне очень плохо, помогите мне!`;
+    }
+  }
+
+  return text;
+}
+
+/**
  * Преобразует базовый текст ответа в живую речь больного с учетом его тяжести.
  * @param {string} rawText - Базовый текст из карточки или LLM
  * @param {Object} patientState - Витальные показатели (gcs, pain, spo2, rr)
+ * @param {Object} [caseData] - Данные клинического кейса
  * @returns {string} Модифицированный текст речи
  */
-export function applyVitalsSpeechFilter(rawText = "", patientState = {}) {
+export function applyVitalsSpeechFilter(rawText = "", patientState = {}, caseData = {}) {
   const gcs = Number.isFinite(patientState?.gcs) ? patientState.gcs : 15;
   const pain = Number.isFinite(patientState?.pain) ? patientState.pain : 5;
   const spo2 = Number.isFinite(patientState?.spo2) ? patientState.spo2 : 98;
@@ -31,7 +60,7 @@ export function applyVitalsSpeechFilter(rawText = "", patientState = {}) {
     return "(Пациент без сознания, контакт невозможен. Слышно лишь тяжелое хриплое дыхание.)";
   }
 
-  let text = String(rawText || "").trim();
+  let text = sanitizePatientResponse(rawText, caseData);
 
   // 2. Спутанность сознания / оглушение (ШКГ 9–12)
   if (gcs <= 12) {

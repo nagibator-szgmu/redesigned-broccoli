@@ -5,6 +5,7 @@
  */
 
 const INTENT_PATTERNS = {
+  identity: /(кто ты|ты кто|как тебя зовут|ваше имя|ты человек|ты робот|ты бот|ты ии|ты программа|ты гигачат|ты нейросеть|ты настоящий)/i,
   complaint: /(бол(ит|ь|и)|беспокоит|жалоб|плохо|тошн|рвот|жжет|давит|режет|локализ|иррад|отдает|симмптом|где болит)/i,
   historyOfIllness: /(когда|начал|давно|как долго|время|часов|минут|вчера|сегодня|развива|провоцир|купир|приступ)/i,
   lifeHistory: /(аллерг|хронич|болезн|давлен|диабет|язв|инфаркт.*раньше|операци|наследствен|родител|курен|курит|алкогол)/i,
@@ -26,6 +27,13 @@ export function matchQuestionToCaseFact(rawQuestion = "", caseData = {}) {
       revealedKey: null,
       category: "empty",
     };
+  }
+
+  // 0. Вопросы об идентичности (проверка реальности / имя пациента)
+  if (INTENT_PATTERNS.identity.test(q)) {
+    const nameStr = caseData.name ? `Я ${caseData.name}.` : "Я ваш пациент.";
+    const text = `${nameStr} Доктор, неужели вы меня не узнаете? Мне очень плохо, помогите мне!`;
+    return { text, revealedKey: null, category: "identity" };
   }
 
   // 1. Анамнез жизни, аллергии, постоянные препараты
@@ -70,7 +78,7 @@ export function getCategorizedChips(cd = {}) {
   return [
     {
       id: "complaints",
-      title: "🩺 Жалобы",
+      title: "Жалобы",
       questions: [
         { label: "Где именно болит?", key: "complaint", answer: cd.complaint || "Болит здесь, не переставая..." },
         { label: "Какой характер боли?", key: "complaint", answer: cd.complaint ? `Боль ${cd.complaint.toLowerCase()}` : "Давит и жжёт..." },
@@ -79,7 +87,7 @@ export function getCategorizedChips(cd = {}) {
     },
     {
       id: "history",
-      title: "⏱️ Анамнез болезни",
+      title: "Анамнез болезни",
       questions: [
         { label: "Когда именно началось?", key: "historyOfIllness", answer: cd.shortHistory || cd.anamnesis || "Около двух часов назад..." },
         { label: "С чем связываете приступ?", key: "historyOfIllness", answer: cd.anamnesis || "Всё началось в покое, без нагрузки..." },
@@ -88,7 +96,7 @@ export function getCategorizedChips(cd = {}) {
     },
     {
       id: "allergies",
-      title: "🧬 Аллергии и хроника",
+      title: "Аллергии и хроника",
       questions: [
         { label: "Аллергии на лекарства?", key: "lifeHistory", answer: cd.lifeHistory || "Аллергических реакций на препараты не припомню." },
         { label: "Хронические заболевания?", key: "lifeHistory", answer: cd.lifeHistory || cd.anamnesis || "Особо ничем серьезным не болел..." },
@@ -96,7 +104,7 @@ export function getCategorizedChips(cd = {}) {
     },
     {
       id: "meds",
-      title: "💊 Препараты и привычки",
+      title: "Препараты и привычки",
       questions: [
         { label: "Что принимаете регулярно?", key: "lifeHistory", answer: cd.lifeHistory || "Постоянно таблеток не принимаю..." },
         { label: "Курите ли вы?", key: "lifeHistory", answer: cd.lifeHistory || cd.anamnesis || "Курю иногда..." },

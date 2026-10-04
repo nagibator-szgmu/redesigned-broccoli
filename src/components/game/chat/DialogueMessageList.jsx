@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { FONT } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 
 /** Список сообщений диалога врача и пациента */
 export default function DialogueMessageList({ messages = [], loading = false }) {
   const C = useTheme();
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+
+    const scrollToBottom = () => {
+      try {
+        el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+      } catch {
+        el.scrollTop = el.scrollHeight;
+      }
+    };
+
+    scrollToBottom();
+    const frameId = requestAnimationFrame(scrollToBottom);
+    return () => cancelAnimationFrame(frameId);
+  }, [messages, loading]);
 
   return (
     <div
+      ref={listRef}
       style={{
         flex: 1,
         overflowY: "auto",

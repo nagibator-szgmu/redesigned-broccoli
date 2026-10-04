@@ -43,10 +43,10 @@ export default function DialogueHeader({ mode = "hybrid", isUnconscious = false 
         }}
       >
         {isUnconscious
-          ? "🔴 Без сознания"
+          ? "Без сознания"
           : mode === "hybrid"
-          ? "⚡ Гибридный (LLM)"
-          : "📋 Стандартный"}
+          ? "Гибридный (LLM)"
+          : "Стандартный"}
       </span>
     </div>
   );
