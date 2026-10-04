@@ -67,7 +67,7 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
 
   const renderPhase = () => {
     if (localPhase === "order_tests") return <TestSelection cd={cd} selDiag={selDiag} setSelDiag={setSelDiag} handleOrderTests={handleOrderTests} />;
-    if (localPhase === "results") return <ResultsPanel orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} />;
+    if (localPhase === "results") return <ResultsPanel cd={cd} orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} />;
     return (<>
       <DiagnosisForm diagMain={diagMain} setDiagMain={setDiagMain} diagComplication={diagComplication} setDiagComplication={setDiagComplication} diagComorbidity={diagComorbidity} setDiagComorbidity={setDiagComorbidity} />
       <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={setSelectedRoute} />

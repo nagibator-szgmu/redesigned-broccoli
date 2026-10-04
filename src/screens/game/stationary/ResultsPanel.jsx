@@ -6,7 +6,7 @@ import { DAY_COLORS } from "./constants";
 import { IconAlertTriangle } from "../../../ui/icons";
 
 /** Test results panel in stationary game */
-export default function ResultsPanel({ orderedDiag, revealedResults, processingTests, setLocalPhase, cycle }) {
+export default function ResultsPanel({ cd, orderedDiag, revealedResults, processingTests, setLocalPhase, cycle }) {
   const C = useTheme();
   const { t } = useTranslate();
   const dayColor = DAY_COLORS[cycle.currentDay % 7];
@@ -29,6 +29,7 @@ export default function ResultsPanel({ orderedDiag, revealedResults, processingT
           }
           const isCrit = text.startsWith("🔴");
           const displayText = text.replace(/^🔴\s*/, "");
+          const testImg = cd?.testImages?.[id];
           return (
             <div key={id} style={{ padding: "8px 10px", borderRadius: 8, background: isCrit ? `${C.red}0a` : `${C.textDim}08`, borderLeft: `3px solid ${isCrit ? C.red : dayColor}` }}>
               <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, textTransform: "uppercase", marginBottom: 2 }}>{id}</div>
@@ -36,6 +37,11 @@ export default function ResultsPanel({ orderedDiag, revealedResults, processingT
                 {isCrit && <IconAlertTriangle size={13} color={C.red} style={{ flexShrink: 0, transform: "translateY(2px)" }} />}
                 <span>{displayText}</span>
               </div>
+              {testImg && (
+                <div style={{ marginTop: 8, borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
+                  <img src={testImg} alt={id} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
+                </div>
+              )}
             </div>
           );
         })}

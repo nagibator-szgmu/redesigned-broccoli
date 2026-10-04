@@ -5,7 +5,7 @@ import { useTranslate } from "../../../locale/useTranslate";
 import { IconAlertTriangle } from "../../../ui/icons";
 
 /** Test results panel */
-export function ResultsPanel({ orderedDiag, revealedResults, processingTests, handleNextFromResults }) {
+export function ResultsPanel({ cd, orderedDiag, revealedResults, processingTests, handleNextFromResults }) {
   const C = useTheme();
   const { t } = useTranslate();
   return (
@@ -24,6 +24,7 @@ export function ResultsPanel({ orderedDiag, revealedResults, processingTests, ha
           );
           const isCrit = text.startsWith("🔴");
           const displayText = text.replace(/^🔴\s*/, "");
+          const testImg = cd?.testImages?.[id];
           return (
             <div key={id} style={{ padding: "8px 10px", borderRadius: 8, background: isCrit ? `${C.red}0a` : `${C.textDim}08`, borderLeft: `3px solid ${isCrit ? C.red : C.accent}` }}>
               <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, textTransform: "uppercase", marginBottom: 2 }}>{id}</div>
@@ -31,6 +32,11 @@ export function ResultsPanel({ orderedDiag, revealedResults, processingTests, ha
                 {isCrit && <IconAlertTriangle size={13} color={C.red} style={{ flexShrink: 0, transform: "translateY(2px)" }} />}
                 <span>{displayText}</span>
               </div>
+              {testImg && (
+                <div style={{ marginTop: 8, borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
+                  <img src={testImg} alt={id} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
+                </div>
+              )}
             </div>
           );
         })}
