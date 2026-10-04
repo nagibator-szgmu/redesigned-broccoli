@@ -15,6 +15,7 @@ export default function UnifiedMobileActionBar({
   treatCount = 0,
   hasDiag = false,
   activeMode = null, // "diag" | "treat" | "diagnose"
+  diagnoseLabel = "Диагноз",
 }) {
   const C = useTheme();
 
@@ -48,7 +49,7 @@ export default function UnifiedMobileActionBar({
           borderRadius: 8,
           background: activeMode === "diag" ? `${C.accent}30` : `${C.accent}14`,
           border: `1px solid ${activeMode === "diag" ? C.accent : `${C.accent}45`}`,
-          color: C.accent,
+          color: C.white,
           fontFamily: FONT,
           fontSize: 12,
           fontWeight: 600,
@@ -79,7 +80,7 @@ export default function UnifiedMobileActionBar({
           borderRadius: 8,
           background: activeMode === "treat" ? `${C.green}30` : `${C.green}14`,
           border: `1px solid ${activeMode === "treat" ? C.green : `${C.green}45`}`,
-          color: C.green,
+          color: C.white,
           fontFamily: FONT,
           fontSize: 12,
           fontWeight: 600,
@@ -125,7 +126,7 @@ export default function UnifiedMobileActionBar({
         }}
       >
         <IconClipboard size={14} color={hasDiag ? C.green : C.purple} />
-        <span>Диагноз</span>
+        <span>{diagnoseLabel}</span>
       </button>
     </div>
   );

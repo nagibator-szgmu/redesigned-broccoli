@@ -5,3 +5,5 @@ export { default as MorningPanel } from "./MorningPanel";
 export { default as TestSelection } from "./TestSelection";
 export { default as ResultsPanel } from "./ResultsPanel";
 export { default as TreatPanel } from "./TreatPanel";
+export { default as StationaryActionTabs } from "./StationaryActionTabs";
+export { default as StationaryHeader } from "./StationaryHeader";

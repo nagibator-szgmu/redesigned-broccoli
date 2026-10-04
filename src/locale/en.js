@@ -3,6 +3,7 @@ export default {
   hero:{desc1:"Next-generation clinical simulations.",desc2:"Learn to make critical decisions under pressure.",start:"Start",tags:["Tests","Diagnosis","Treatment"]},
   nav:{menu:"MENU",mainMenu:"Main Menu",specializations:"SPECIALIZATIONS",clearFilter:"Clear filter",theory:"Theory",course:"Course",leaderboard:"Achievements",certificates:"Certificates",tutorial:"Tutorial",logout:"Logout",map:"Course Map",teacherDashboard:"Teacher Dashboard",departmentHeader:"DEPARTMENT"},
   search:{placeholder:"Search cases...",placeholderDiag:"Search diagnostics...",placeholderTreat:"Search medications...",matches:"Matches: {n} of {total}"},
+  common:{collapse:"Collapse",expand:"Expand"},
   filter:{all:"All"},
   department:{all:"All Departments",all_emergency:"All Emergency",icu:"ICU",admission:"Admission",outpatient:"Outpatient",stationary:"Inpatient"},
   departmentShort:{icu:"ICU",admission:"Admission",outpatient:"Outpatient",stationary:"Inpatient"},
