@@ -55,6 +55,14 @@ export const TREAT_FX = {
   spasmolytics: {eff:{pain:-3,sbp:-5},      delay:30,  desc:"Купирование спазма"},
   salbutamol_inh:{eff:{spo2:12,rr:-8,hr:8}, delay:30,  continuous:true, desc:"Бронходилатация, SpO₂↑↑"},
   urapidil_iv:  {eff:{sbp:-35,dbp:-18,pain:-3},delay:60, desc:"Управляемое снижение АД"},
+  albumin:      {eff:{sbp:10,hr:-4},        delay:60,  desc:"Восполнение ОЦК / онкотического давления"},
+  spironolactone:{eff:{},                   delay:180, desc:"Калийсберегающий диуретик"},
+  rifaximin:    {eff:{gcs:1},               delay:180, desc:"Снижение продукции аммиака в кишке"},
+  rabeprazole_po:{eff:{pain:-2},            delay:60,  desc:"Антисекреторное (ИПП per os)"},
+  h_pylori_quadro:{eff:{pain:-2},           delay:60,  desc:"Квадротерапия эрадикации H. pylori на 14 дн."},
+  iron_iv:      {eff:{spo2:2},              delay:120, desc:"Восполнение депо железа (парентерально)"},
+  gluten_free_diet:{eff:{pain:-1},          delay:60,  desc:"Аглютеновая диета (элиминация глютена)"},
+  biliary_decompression:{eff:{sbp:10,temp:-0.5,hr:-6},delay:180, desc:"Эндодекомпрессия желчных путей (ЭПСТ)"},
 };
 
 export const ADVERSE_FX = {
@@ -97,6 +105,14 @@ export const ADVERSE_FX = {
   mesalazine:      {},
   salbutamol_inh:  {hr:20},
   urapidil_iv:     {sbp:-20},
+  albumin:         {},
+  spironolactone:  {sbp:-8},
+  rifaximin:       {},
+  rabeprazole_po:  {},
+  h_pylori_quadro: {},
+  iron_iv:         {},
+  gluten_free_diet:{},
+  biliary_decompression:{},
 };
 
 export const TREATMENTS = [
@@ -152,4 +168,12 @@ export const TREATMENTS = [
   {id:"spasmolytics",name:"Дротаверин / спазмолитики в/в",cat:"analgesic"},
   {id:"salbutamol_inh",name:"Сальбутамол ингаляционно (небулайзер)",cat:"supportive"},
   {id:"urapidil_iv",name:"Урапидил в/в",cat:"cardiac"},
+  {id:"albumin",name:"Альбумин 20% в/в",cat:"supportive"},
+  {id:"spironolactone",name:"Спиронолактон per os",cat:"diuretic"},
+  {id:"rifaximin",name:"Рифаксимин per os",cat:"antibiotic"},
+  {id:"rabeprazole_po",name:"Рабепразол 20 мг per os",cat:"gastro"},
+  {id:"h_pylori_quadro",name:"Квадротерапия H. pylori на 14 дней",cat:"gastro"},
+  {id:"iron_iv",name:"Карбоксимальтозат железа в/в",cat:"supportive"},
+  {id:"gluten_free_diet",name:"Аглютеновая диета",cat:"supportive"},
+  {id:"biliary_decompression",name:"Эндоскопическая декомпрессия (ЭРХПГ + ЭПСТ)",cat:"intervention"},
 ];

@@ -22,7 +22,7 @@ export default function TreatmentAnalysis({ cd, selTreat, isMobile }) {
             const given = selTreat.includes(id);
             const name = TREATMENTS.find(t => t.id === id)?.name || id;
             const fx = TREAT_FX[id];
-            const note = TREAT_NOTES[id];
+            const note = cd?.treatNotes?.[id] || TREAT_NOTES[id];
             return (
               <div key={id} style={{ marginBottom: isMobile ? 7 : 8, padding: "6px 8px", borderRadius: 7, background: given ? `${C.green}10` : `${C.red}10`, border: `1px solid ${given ? C.green : C.red}22` }}>
                 <div style={{ fontSize: 13, color: given ? C.green : C.red, lineHeight: 1.4, fontFamily: FONT, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
@@ -42,7 +42,7 @@ export default function TreatmentAnalysis({ cd, selTreat, isMobile }) {
               <div style={{ fontSize: isMobile ? 11 : 12, color: C.red, marginBottom: isMobile ? 5 : 6, textTransform: "uppercase", fontFamily: FONT }}>{t("result.dangerousLabel")}</div>
               {wrongGiven.map(id => {
                 const name = TREATMENTS.find(t => t.id === id)?.name || id;
-                const reason = ADVERSE_REASONS[id];
+                const reason = cd?.adverseReasons?.[id] || ADVERSE_REASONS[id];
                 return (
                   <div key={id} style={{ background: C.redDim, border: `1px solid ${C.red}55`, borderRadius: 6, padding: "8px 10px", marginBottom: 8 }}>
                     <div style={{ fontSize: 13, color: C.red, fontWeight: 700, marginBottom: 4, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
