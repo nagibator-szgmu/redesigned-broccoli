@@ -1,6 +1,6 @@
 import PillEmblem from "../../../ui/PillEmblem";
 import { RADIUS, FONT } from "../../../ui/theme";
-import { IconBell, IconMenu, IconX } from "../../../ui/icons";
+import { IconBell } from "../../../ui/icons";
 
 export default function MobileHeader({
   t,
@@ -8,8 +8,6 @@ export default function MobileHeader({
   showNotif,
   openNotif,
   unreadCount,
-  drawerOpen,
-  setDrawerOpen,
   casesPlayed = 0,
   totalScore = 0,
 }) {
@@ -76,66 +74,42 @@ export default function MobileHeader({
         </span>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <button
-          onClick={openNotif}
-          aria-label="Уведомления"
-          className="icon-btn"
-          style={{
-            position: "relative",
-            minWidth: 44,
-            minHeight: 44,
-            width: 44,
-            height: 44,
-            background: showNotif ? `${C.accent}1a` : C.btnBg,
-            border: `1px solid ${showNotif ? `${C.accent}55` : C.border}`,
-            borderRadius: RADIUS.sm,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            padding: 0,
-          }}
-        >
-          <IconBell size={18} color={showNotif ? C.accent : C.textDim} />
-          {unreadCount > 0 && (
-            <div
-              style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                width: 7,
-                height: 7,
-                background: C.red,
-                borderRadius: RADIUS.full,
-                border: `1px solid ${C.bg}`,
-              }}
-            />
-          )}
-        </button>
-
-        <button
-          onClick={() => setDrawerOpen((v) => !v)}
-          aria-label="Меню"
-          className="icon-btn"
-          style={{
-            minWidth: 44,
-            minHeight: 44,
-            width: 44,
-            height: 44,
-            background: drawerOpen ? `${C.accent}1a` : C.btnBg,
-            border: `1px solid ${drawerOpen ? `${C.accent}55` : C.border}`,
-            borderRadius: RADIUS.sm,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            padding: 0,
-          }}
-        >
-          {drawerOpen ? <IconX size={20} color={C.accent} /> : <IconMenu size={20} color={C.white} />}
-        </button>
-      </div>
+      <button
+        onClick={openNotif}
+        aria-label="Уведомления"
+        className="icon-btn"
+        style={{
+          position: "relative",
+          minWidth: 44,
+          minHeight: 44,
+          width: 44,
+          height: 44,
+          background: showNotif ? `${C.accent}1a` : C.btnBg,
+          border: `1px solid ${showNotif ? `${C.accent}55` : C.border}`,
+          borderRadius: RADIUS.sm,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          padding: 0,
+        }}
+      >
+        <IconBell size={18} color={showNotif ? C.accent : C.textDim} />
+        {unreadCount > 0 && (
+          <div
+            style={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              width: 7,
+              height: 7,
+              background: C.red,
+              borderRadius: RADIUS.full,
+              border: `1px solid ${C.bg}`,
+            }}
+          />
+        )}
+      </button>
     </header>
   );
 }

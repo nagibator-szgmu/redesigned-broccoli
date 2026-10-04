@@ -24,6 +24,8 @@ export default function DialogueMessageList({ messages = [], loading = false }) 
     return () => cancelAnimationFrame(frameId);
   }, [messages, loading]);
 
+  const patientBg = C.panel2 || "rgba(255,255,255,0.06)";
+
   return (
     <div
       ref={listRef}
@@ -36,6 +38,7 @@ export default function DialogueMessageList({ messages = [], loading = false }) 
         paddingRight: 4,
         marginBottom: 8,
         minHeight: 120,
+        scrollBehavior: "smooth",
       }}
     >
       {messages.map((m, idx) => {
@@ -46,7 +49,7 @@ export default function DialogueMessageList({ messages = [], loading = false }) 
             style={{
               alignSelf: isDoc ? "flex-end" : "flex-start",
               maxWidth: "85%",
-              background: isDoc ? `${C.accent}20` : C.card,
+              background: isDoc ? `${C.accent}20` : patientBg,
               border: `1px solid ${isDoc ? C.accent : C.border}`,
               borderRadius: 8,
               padding: "6px 10px",

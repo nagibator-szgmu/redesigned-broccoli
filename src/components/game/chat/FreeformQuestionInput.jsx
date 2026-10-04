@@ -29,7 +29,7 @@ export default function FreeformQuestionInput({
         disabled={disabled || loading}
         style={{
           flex: 1,
-          background: C.card,
+          background: C.panel2 || C.inputBg,
           border: `1px solid ${C.border}`,
           borderRadius: RADIUS.sm,
           padding: "6px 10px",
@@ -45,17 +45,16 @@ export default function FreeformQuestionInput({
         data-testid="dialogue-send-btn"
         disabled={!inputQuestion.trim() || loading || disabled}
         style={{
-          background: C.accent,
-          color: C.bg,
-          border: "none",
+          background: !inputQuestion.trim() || loading || disabled ? C.dimBg : C.accent,
+          color: !inputQuestion.trim() || loading || disabled ? C.textDim : "#FFFFFF",
+          border: `1px solid ${!inputQuestion.trim() || loading || disabled ? C.border : C.accent}`,
           borderRadius: RADIUS.sm,
-          padding: "6px 12px",
+          padding: "6px 14px",
           fontSize: 12,
-          fontWeight: 700,
+          fontWeight: 600,
           cursor: !inputQuestion.trim() || loading || disabled ? "not-allowed" : "pointer",
           fontFamily: FONT,
-          opacity: !inputQuestion.trim() || loading || disabled ? 0.5 : 1,
-          transition: "opacity 0.15s",
+          transition: "background 0.15s, color 0.15s, border-color 0.15s",
         }}
       >
         {loading ? "..." : "Спросить"}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FONT } from "../ui/theme";
 import { useTheme } from "../ui/ThemeContext";
 import { useTranslate } from "../locale/useTranslate";
@@ -10,7 +10,6 @@ import {
   computeVitalDeltas,
   ResultActions,
   ResultTutorialBanner,
-  ResultTabBar,
   isChecklistDone,
 } from "../components/result";
 import {
@@ -19,14 +18,36 @@ import {
   ResultTheoryTab,
   ResultTimelineTab,
 } from "../components/result/tabs";
-import { IconChartBar, IconAlertTriangle, IconBook, IconClock } from "../ui/icons";
+import { IconAlertTriangle, IconBook, IconClock } from "../ui/icons";
 
-const RESULT_TABS = [
-  { id: "summary", label: "Итог и оценка", icon: <IconChartBar size={15} /> },
-  { id: "errors", label: "Разбор ошибок", icon: <IconAlertTriangle size={15} /> },
-  { id: "theory", label: "Обоснование и КР", icon: <IconBook size={15} /> },
-  { id: "timeline", label: "Хронология", icon: <IconClock size={15} /> },
-];
+function ResultSectionHeader({ icon, title, C, isMobile }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        paddingBottom: 6,
+        borderBottom: `1px solid ${C.border}`,
+        marginTop: 12,
+        marginBottom: 4,
+      }}
+    >
+      {icon}
+      <span
+        style={{
+          fontSize: isMobile ? 13 : 14,
+          fontWeight: 700,
+          color: C.white,
+          fontFamily: FONT,
+          letterSpacing: "0.2px",
+        }}
+      >
+        {title}
+      </span>
+    </div>
+  );
+}
 
 export default function ResultScreen({
   result, cd, ps, trajectory = [], orderedDiag, selTreat, diagText,
@@ -37,7 +58,6 @@ export default function ResultScreen({
   const C = useTheme();
   const isMobile = useIsMobile();
   const { t } = useTranslate();
-  const [activeTab, setActiveTab] = useState("summary");
 
   const relatedTopics = getTopicsForCase(cd?.id);
   const relatedProtocols = getRelatedProtocols(cd?.id);
@@ -53,62 +73,69 @@ export default function ResultScreen({
       <div style={isMobile ? { padding: "14px 14px 80px" } : { maxWidth: 900, margin: "0 auto", padding: "24px 20px 80px" }}>
         {tutorialMode && <ResultTutorialBanner isMobile={isMobile} />}
 
-        <ResultTabBar
-          tabs={RESULT_TABS}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          isMobile={isMobile}
-        />
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 24 }}>
+          {/* 1. Клинический итог и оценка */}
+          <ResultSummaryTab
+            result={result}
+            cd={cd}
+            ps={ps}
+            diagText={diagText}
+            vitalDeltas={vitalDeltas}
+            isMobile={isMobile}
+            extraResult={extraResult}
+          />
 
-        <div style={{ marginBottom: 20 }}>
-          {activeTab === "summary" && (
-            <ResultSummaryTab
-              result={result}
-              cd={cd}
-              ps={ps}
-              diagText={diagText}
-              vitalDeltas={vitalDeltas}
-              isMobile={isMobile}
-              extraResult={extraResult}
-            />
-          )}
+          {/* 2. Разбор ошибок и клинических дефектов */}
+          <ResultSectionHeader
+            icon={<IconAlertTriangle size={16} color={C.red} />}
+            title="Разбор ошибок и клинических дефектов"
+            C={C}
+            isMobile={isMobile}
+          />
+          <ResultErrorsTab
+            result={result}
+            cd={cd}
+            orderedDiag={orderedDiag}
+            selTreat={selTreat}
+            isMobile={isMobile}
+            assessmentMode={assessmentMode}
+            checklistItems={checklistItems}
+            checklistDone={checklistDone}
+            isChecklistDone={checkItemDone}
+            revealedAnamnesis={revealedAnamnesis}
+          />
 
-          {activeTab === "errors" && (
-            <ResultErrorsTab
-              result={result}
-              cd={cd}
-              orderedDiag={orderedDiag}
-              selTreat={selTreat}
-              isMobile={isMobile}
-              assessmentMode={assessmentMode}
-              checklistItems={checklistItems}
-              checklistDone={checklistDone}
-              isChecklistDone={checkItemDone}
-              revealedAnamnesis={revealedAnamnesis}
-            />
-          )}
+          {/* 3. Клиническое обоснование, протоколы и КР Минздрава */}
+          <ResultSectionHeader
+            icon={<IconBook size={16} color={C.accent} />}
+            title="Клиническое обоснование и протоколы"
+            C={C}
+            isMobile={isMobile}
+          />
+          <ResultTheoryTab
+            cd={cd}
+            extraResult={extraResult}
+            vitalDeltas={vitalDeltas}
+            selTreat={selTreat}
+            relatedProtocols={relatedProtocols}
+            relatedTopics={relatedTopics}
+            setPhase={setPhase}
+            isMobile={isMobile}
+          />
 
-          {activeTab === "theory" && (
-            <ResultTheoryTab
-              cd={cd}
-              extraResult={extraResult}
-              vitalDeltas={vitalDeltas}
-              selTreat={selTreat}
-              relatedProtocols={relatedProtocols}
-              relatedTopics={relatedTopics}
-              setPhase={setPhase}
-              isMobile={isMobile}
-            />
-          )}
-
-          {activeTab === "timeline" && (
-            <ResultTimelineTab
-              eventLog={eventLog}
-              trajectory={trajectory}
-              elapsedSec={elapsedSec}
-              isMobile={isMobile}
-            />
-          )}
+          {/* 4. Хронология ведения пациента */}
+          <ResultSectionHeader
+            icon={<IconClock size={16} color={C.textDim} />}
+            title="Хронология ведения пациента"
+            C={C}
+            isMobile={isMobile}
+          />
+          <ResultTimelineTab
+            eventLog={eventLog}
+            trajectory={trajectory}
+            elapsedSec={elapsedSec}
+            isMobile={isMobile}
+          />
         </div>
 
         <ResultActions

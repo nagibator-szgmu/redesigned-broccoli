@@ -46,7 +46,7 @@ export default function QuickInterviewChips({ caseData = {}, onSelectQuestion, d
       </div>
 
       {/* Быстрые вопросы выбранной категории */}
-      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
         {currentCategory?.questions?.map((q, idx) => (
           <button
             key={`${currentCategory.id}-${idx}`}
@@ -55,16 +55,18 @@ export default function QuickInterviewChips({ caseData = {}, onSelectQuestion, d
             disabled={disabled}
             onClick={() => onSelectQuestion(q)}
             style={{
-              background: C.card,
-              border: `1px solid ${C.border}`,
+              background: disabled ? C.dimBg : `${C.accent}14`,
+              border: `1px solid ${disabled ? C.border : `${C.accent}45`}`,
               borderRadius: RADIUS.sm,
-              padding: "4px 8px",
-              fontSize: 11,
-              color: disabled ? C.textDim : C.accent,
+              padding: "5px 10px",
+              fontSize: 11.5,
+              fontWeight: 500,
+              color: disabled ? C.textDim : (C.heroLabel || "#60A5FA"),
               cursor: disabled ? "not-allowed" : "pointer",
               fontFamily: FONT,
-              opacity: disabled ? 0.5 : 1,
-              transition: "border-color 0.15s, background 0.15s",
+              lineHeight: 1.3,
+              opacity: disabled ? 0.6 : 1,
+              transition: "border-color 0.15s, background 0.15s, transform 0.1s",
             }}
           >
             {q.label}

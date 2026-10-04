@@ -61,8 +61,6 @@ export default function MenuMobileView(props) {
         showNotif={showNotif}
         openNotif={openNotif}
         unreadCount={unreadCount}
-        drawerOpen={drawerOpen}
-        setDrawerOpen={setDrawerOpen}
         casesPlayed={casesPlayed}
         totalScore={totalScore}
       />

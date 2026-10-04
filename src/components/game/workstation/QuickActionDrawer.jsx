@@ -1,9 +1,10 @@
 import React from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
-import { IconX, IconMicroscope, IconPill } from "../../../ui/icons";
+import { IconMicroscope, IconPill } from "../../../ui/icons";
 import DiagTab from "./DiagTab";
 import TreatPanel from "../TreatPanel";
+import { useSwipeDownDismiss } from "./useSwipeDownDismiss";
 
 /**
  * Выдвижная шторка для быстрого назначения анализов и препаратов.
@@ -28,6 +29,7 @@ export default function QuickActionDrawer({
   setTreatCat,
 }) {
   const C = useTheme();
+  const { dragY, isDragging, gestureProps } = useSwipeDownDismiss(onClose);
 
   if (!isOpen) return null;
 
@@ -74,27 +76,52 @@ export default function QuickActionDrawer({
           flexDirection: "column",
           overflow: "hidden",
           boxShadow: "0 -8px 30px rgba(0,0,0,0.5)",
+          transform: `translateY(${dragY}px)`,
+          transition: isDragging ? "none" : "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Drag handle & Header */}
-        <div style={{ flexShrink: 0, padding: "8px 14px 6px", borderBottom: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 6 }}>
-          <div style={{ alignSelf: "center", width: 36, height: 4, borderRadius: 2, background: C.borderBright, opacity: 0.6 }} />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 13.5, fontWeight: 700, color: C.white, fontFamily: FONT, display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <div
+          {...gestureProps}
+          style={{
+            flexShrink: 0,
+            padding: "8px 14px 10px",
+            borderBottom: `1px solid ${C.border}`,
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+            touchAction: "none",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            cursor: "grab",
+          }}
+        >
+          <div
+            style={{
+              alignSelf: "center",
+              width: 40,
+              height: 4.5,
+              borderRadius: 3,
+              background: C.borderBright,
+              opacity: 0.7,
+            }}
+          />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+            <span
+              style={{
+                fontSize: 13.5,
+                fontWeight: 700,
+                color: C.white,
+                fontFamily: FONT,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
               <Icon size={15} color={accentColor} />
               {title}
             </span>
-            <button
-              onClick={onClose}
-              aria-label="Закрыть"
-              style={{
-                width: 28, height: 28, borderRadius: 14, background: C.btnBg, border: `1px solid ${C.border}`,
-                display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: C.textDim, padding: 0
-              }}
-            >
-              <IconX size={14} />
-            </button>
           </div>
         </div>
 

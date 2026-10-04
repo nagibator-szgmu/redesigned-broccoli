@@ -60,7 +60,7 @@ test.describe("Gastroenterology Simulation E2E Flow", () => {
       }
     });
 
-    const resultTab = page.locator("button:has-text('Разбор ошибок'), button:has-text('Итог')").first();
-    await expect(resultTab).toBeVisible({ timeout: 10000 });
+    const resultIndicator = page.locator("text=/из 100 баллов|Разбор ошибок|Клинические дефекты/i").first();
+    await expect(resultIndicator).toBeVisible({ timeout: 10000 });
   });
 });
