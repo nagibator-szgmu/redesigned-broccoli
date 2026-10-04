@@ -70,7 +70,7 @@ export function getCategorizedChips(cd = {}) {
   return [
     {
       id: "complaints",
-      title: "🩺 Жалобы",
+      title: "Жалобы",
       questions: [
         { label: "Где именно болит?", key: "complaint", answer: cd.complaint || "Болит здесь, не переставая..." },
         { label: "Какой характер боли?", key: "complaint", answer: cd.complaint ? `Боль ${cd.complaint.toLowerCase()}` : "Давит и жжёт..." },
@@ -79,7 +79,7 @@ export function getCategorizedChips(cd = {}) {
     },
     {
       id: "history",
-      title: "⏱️ Анамнез болезни",
+      title: "Анамнез болезни",
       questions: [
         { label: "Когда именно началось?", key: "historyOfIllness", answer: cd.shortHistory || cd.anamnesis || "Около двух часов назад..." },
         { label: "С чем связываете приступ?", key: "historyOfIllness", answer: cd.anamnesis || "Всё началось в покое, без нагрузки..." },
@@ -88,7 +88,7 @@ export function getCategorizedChips(cd = {}) {
     },
     {
       id: "allergies",
-      title: "🧬 Аллергии и хроника",
+      title: "Аллергии и хроника",
       questions: [
         { label: "Аллергии на лекарства?", key: "lifeHistory", answer: cd.lifeHistory || "Аллергических реакций на препараты не припомню." },
         { label: "Хронические заболевания?", key: "lifeHistory", answer: cd.lifeHistory || cd.anamnesis || "Особо ничем серьезным не болел..." },
@@ -96,7 +96,7 @@ export function getCategorizedChips(cd = {}) {
     },
     {
       id: "meds",
-      title: "💊 Препараты и привычки",
+      title: "Препараты и привычки",
       questions: [
         { label: "Что принимаете регулярно?", key: "lifeHistory", answer: cd.lifeHistory || "Постоянно таблеток не принимаю..." },
         { label: "Курите ли вы?", key: "lifeHistory", answer: cd.lifeHistory || cd.anamnesis || "Курю иногда..." },

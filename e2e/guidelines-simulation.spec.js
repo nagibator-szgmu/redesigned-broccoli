@@ -45,8 +45,8 @@ test.describe("Russian Clinical Guidelines Emergency Cases Simulation Flow", () 
         window.__SET_PHASE__("result");
       }
     });
-    const resultTab = page.locator("button:has-text('Разбор ошибок'), button:has-text('Итог')").first();
-    await expect(resultTab).toBeVisible({ timeout: 10000 });
+    const resultIndicator = page.locator("text=/из 100 баллов|Разбор ошибок|Клинические дефекты/i").first();
+    await expect(resultIndicator).toBeVisible({ timeout: 10000 });
   });
 
   test("Runs Case 61 (Hypertensive Encephalopathy) and verifies Urapidil IV", async ({ page }) => {

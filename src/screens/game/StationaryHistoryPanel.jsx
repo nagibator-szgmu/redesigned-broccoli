@@ -1,58 +1,141 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FONT } from "../../ui/theme";
 import { useTheme } from "../../ui/ThemeContext";
 import { useTranslate } from "../../locale/useTranslate";
+import { IconClipboard, IconSearch, IconChevronDown } from "../../ui/icons";
 
 /**
- * Patient history panel for stationary — anamnesis buttons + examination.
- * FR-Р.2.1/Р.2.2: Clicking reveals pre-written text (not manual input).
- * FR-Р.3.1: Skipping anamnesis reduces score (tracked via onReveal callback).
+ * Clean Clinical Objective Examination & History Accordion Panel for Stationary.
+ * Matches ICU / Workstation design: rounded cards, icons, chevron toggle with smooth rotation.
  */
 export default function StationaryHistoryPanel({ cd, onReveal }) {
   const C = useTheme();
   const { t } = useTranslate();
   const [showIllness, setShowIllness] = useState(false);
   const [showLife, setShowLife] = useState(false);
+  const [showExam, setShowExam] = useState(false);
 
-  const handleReveal = (type) => {
-    if (type === "illness" && !showIllness) {
-      setShowIllness(true);
-      onReveal && onReveal("historyOfIllness");
-    }
-    if (type === "life" && !showLife) {
-      setShowLife(true);
-      onReveal && onReveal("lifeHistory");
+  if (!cd) return null;
+
+  const handleToggle = (type) => {
+    if (type === "illness") {
+      setShowIllness(prev => {
+        const next = !prev;
+        if (next && onReveal) onReveal("historyOfIllness");
+        return next;
+      });
+    } else if (type === "life") {
+      setShowLife(prev => {
+        const next = !prev;
+        if (next && onReveal) onReveal("lifeHistory");
+        return next;
+      });
+    } else if (type === "exam") {
+      setShowExam(prev => {
+        const next = !prev;
+        if (next && onReveal) onReveal("exam");
+        return next;
+      });
     }
   };
 
+  const renderSection = ({ key, isOpen, onToggle, icon, title, text, color }) => (
+    <div
+      key={key}
+      style={{
+        background: C.panelBg,
+        border: `1px solid ${isOpen ? color + "60" : C.border}`,
+        borderRadius: 12,
+        overflow: "hidden",
+        transition: "border-color 0.2s ease, background 0.2s ease",
+      }}
+    >
+      <div
+        onClick={onToggle}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "10px 14px",
+          background: isOpen ? `${color}0d` : C.panelBg,
+          borderBottom: isOpen ? `1px solid ${C.border}` : "none",
+          cursor: "pointer",
+          userSelect: "none",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {icon}
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: C.white,
+              fontFamily: FONT,
+              letterSpacing: 0.3,
+            }}
+          >
+            {title}
+          </span>
+        </div>
+        <div
+          style={{
+            color: isOpen ? color : C.textDim,
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <IconChevronDown size={14} color="currentColor" />
+        </div>
+      </div>
+      {isOpen && (
+        <div
+          style={{
+            padding: "12px 14px",
+            fontSize: 12.5,
+            lineHeight: 1.65,
+            color: C.text,
+            fontFamily: FONT,
+            background: C.panelBg,
+          }}
+        >
+          <p style={{ margin: 0 }}>{text}</p>
+        </div>
+      )}
+    </div>
+  );
+
   return (
-    <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginBottom: 12 }}>
-      {cd.historyOfIllness && (
-        <div style={{ marginBottom: 10 }}>
-          <button onClick={() => handleReveal("illness")}
-            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", borderRadius: 8, border: `1px solid ${showIllness ? C.green : C.border}`, background: showIllness ? `${C.green}10` : "transparent", cursor: "pointer", fontFamily: FONT }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: showIllness ? C.green : C.accent, fontFamily: FONT }}>{t("history.illness")}</span>
-            <span style={{ fontSize: 10, color: showIllness ? C.green : C.textDim }}>{showIllness ? "▼" : "▶"}</span>
-          </button>
-          {showIllness && (
-            <p style={{ fontSize: 12, color: C.text, fontFamily: FONT, lineHeight: 1.6, margin: 0, padding: "8px 10px", background: `${C.textDim}08`, borderRadius: 8, borderLeft: `3px solid ${C.green}`, marginTop: 6 }}>{cd.historyOfIllness}</p>
-          )}
-        </div>
-      )}
-      {cd.lifeHistory && (
-        <div style={{ marginBottom: 10 }}>
-          <button onClick={() => handleReveal("life")}
-            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", borderRadius: 8, border: `1px solid ${showLife ? C.green : C.border}`, background: showLife ? `${C.green}10` : "transparent", cursor: "pointer", fontFamily: FONT }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: showLife ? C.green : C.accent, fontFamily: FONT }}>{t("history.life")}</span>
-            <span style={{ fontSize: 10, color: showLife ? C.green : C.textDim }}>{showLife ? "▼" : "▶"}</span>
-          </button>
-          {showLife && (
-            <p style={{ fontSize: 12, color: C.text, fontFamily: FONT, lineHeight: 1.6, margin: 0, padding: "8px 10px", background: `${C.textDim}08`, borderRadius: 8, borderLeft: `3px solid ${C.green}`, marginTop: 6 }}>{cd.lifeHistory}</p>
-          )}
-        </div>
-      )}
-      <div style={{ fontSize: 11, fontWeight: 600, color: C.accent, fontFamily: FONT, marginBottom: 6 }}>{t("history.exam")}</div>
-      <p style={{ fontSize: 12, color: C.text, fontFamily: FONT, lineHeight: 1.6, margin: 0 }}>{cd.exam}</p>
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+      {cd.historyOfIllness && renderSection({
+        key: "illness",
+        isOpen: showIllness,
+        onToggle: () => handleToggle("illness"),
+        icon: <IconClipboard size={14} color={C.accent} />,
+        title: t("history.illness"),
+        text: cd.historyOfIllness,
+        color: C.accent,
+      })}
+      {cd.lifeHistory && renderSection({
+        key: "life",
+        isOpen: showLife,
+        onToggle: () => handleToggle("life"),
+        icon: <IconClipboard size={14} color={C.green} />,
+        title: t("history.life"),
+        text: cd.lifeHistory,
+        color: C.green,
+      })}
+      {cd.exam && renderSection({
+        key: "exam",
+        isOpen: showExam,
+        onToggle: () => handleToggle("exam"),
+        icon: <IconSearch size={14} color={C.green} />,
+        title: t("history.exam") || "Данные объективного осмотра",
+        text: cd.exam,
+        color: C.green,
+      })}
     </div>
   );
 }
