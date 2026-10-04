@@ -10,7 +10,7 @@ import { evaluateClinicalSafety } from "../src/engine/safetyEngine.js";
 console.log("=== RUNNING GASTROENTEROLOGY CLINICAL TESTS ===");
 
 console.log("\n--- Testing Gastroenterology Cases Presence & Metadata ---");
-assert.equal(GASTRO_CASES.length, 7, "Must contain exactly 7 gastroenterology cases");
+assert.equal(GASTRO_CASES.length, 10, "Must contain exactly 10 gastroenterology cases");
 
 const caseIds = GASTRO_CASES.map(c => c.id);
 assert.ok(caseIds.includes(56), "Must include case 56 (pancreatitis)");
@@ -20,18 +20,24 @@ assert.ok(caseIds.includes(59), "Must include case 59 (cholangitis)");
 assert.ok(caseIds.includes("stat_gastro_1"), "Must include stat_gastro_1 (IBD colitis)");
 assert.ok(caseIds.includes("stat_gastro_2"), "Must include stat_gastro_2 (cirrhosis)");
 assert.ok(caseIds.includes("outp_gastro_1"), "Must include outp_gastro_1 (peptic ulcer)");
-console.log("✓ All 7 gastroenterology cases loaded with valid IDs");
+assert.ok(caseIds.includes("outp_gastro_anemia"), "Must include outp_gastro_anemia (atrophic gastritis)");
+assert.ok(caseIds.includes("outp_gastro_celiac"), "Must include outp_gastro_celiac (celiac disease)");
+assert.ok(caseIds.includes("outp_gastro_gerd"), "Must include outp_gastro_gerd (GERD reflux cough)");
+console.log("✓ All 10 gastroenterology cases loaded with valid IDs");
 
 console.log("\n--- Testing Diagnostic Registries for Gastroenterology ---");
 const diagIds = new Set(DIAGNOSTICS.map(d => d.id));
-["egds", "colonoscopy", "ct_abdo", "xray_abdo"].forEach(id => {
+["egds", "colonoscopy", "ct_abdo", "xray_abdo", "ferritin", "serology_celiac", "ph_impedance", "paracentesis"].forEach(id => {
   assert.ok(diagIds.has(id), `DIAGNOSTICS must contain ${id}`);
 });
-console.log("✓ DIAGNOSTICS contains egds, colonoscopy, ct_abdo, xray_abdo");
+console.log("✓ DIAGNOSTICS contains egds, colonoscopy, ct_abdo, xray_abdo, ferritin, serology_celiac, ph_impedance, paracentesis");
 
 console.log("\n--- Testing Treatment Registries & Effects for Gastroenterology ---");
 const treatIds = new Set(TREATMENTS.map(t => t.id));
-["omeprazole_iv", "octreotide", "endoscopic_hemostasis", "lactulose", "mesalazine", "spasmolytics"].forEach(id => {
+[
+  "omeprazole_iv", "octreotide", "endoscopic_hemostasis", "lactulose", "mesalazine", "spasmolytics",
+  "albumin", "spironolactone", "rifaximin", "rabeprazole_po", "h_pylori_quadro", "iron_iv", "gluten_free_diet", "biliary_decompression"
+].forEach(id => {
   assert.ok(treatIds.has(id), `TREATMENTS must contain ${id}`);
   assert.ok(TREAT_FX[id], `TREAT_FX must define effect for ${id}`);
 });
@@ -54,9 +60,11 @@ assert.ok(safetyResult.criticalErrors.length > 0, "Must detect critical error fo
 console.log("✓ SafetyEngine successfully catches contraindication in perforation");
 
 console.log("\n--- Testing Outpatient Case Route Configuration ---");
-const outpCase = GASTRO_CASES.find(c => c.id === "outp_gastro_1");
-assert.equal(outpCase.correctRoute, "treat_outpatient");
-assert.ok(outpCase.routeOptions.length >= 2, "Route options must have multiple choices");
-console.log("✓ Outpatient peptic ulcer case has valid routing definition");
+["outp_gastro_1", "outp_gastro_anemia", "outp_gastro_celiac", "outp_gastro_gerd"].forEach(id => {
+  const c = GASTRO_CASES.find(item => item.id === id);
+  assert.equal(c.correctRoute, "treat_outpatient");
+  assert.ok(c.routeOptions.length >= 2, `${id} route options must have multiple choices`);
+});
+console.log("✓ All Outpatient gastro cases have valid routing definition");
 
 console.log("\nALL GASTROENTEROLOGY CLINICAL TESTS PASSED! 🎯\n");
