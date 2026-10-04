@@ -1,6 +1,7 @@
 import React from "react";
 import { FONT, RADIUS } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
+import { IconAlertTriangle } from "../../../ui/icons";
 
 /**
  * UnconsciousPatientBanner — Предупреждающая плашка при коме / сопоре (ШКГ <= 8).
@@ -23,7 +24,7 @@ export default function UnconsciousPatientBanner({ gcs = 15 }) {
         fontFamily: FONT,
       }}
     >
-      <span style={{ fontSize: 16 }}>⚠️</span>
+      <IconAlertTriangle size={18} color="#ff4d4f" />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <span style={{ fontSize: 11, fontWeight: 700, color: "#ff4d4f" }}>
           Пациент без сознания (ШКГ: {gcs} б.)

@@ -10,7 +10,6 @@ import {
   IconInfectious,
   IconEndocrine,
   IconToxicology,
-  IconAlertTriangle,
   IconGastro,
 } from "../../ui/icons";
 import { THEORY } from "../../data/theory";
@@ -22,7 +21,6 @@ const CATEGORY_ICONS = {
   infectious: IconInfectious,
   endocrine: IconEndocrine,
   toxicology: IconToxicology,
-  trauma: IconAlertTriangle,
   gastroenterology: IconGastro,
 };
 

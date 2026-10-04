@@ -37,7 +37,7 @@ async function getFiles(dir) {
   try {
     const list = await fs.readdir(fullPath, { withFileTypes: true });
     for (const item of list) {
-      const itemRel = path.relative(ROOT, path.join(fullPath, item.name));
+      const itemRel = path.relative(ROOT, path.join(fullPath, item.name)).replace(/\\/g, "/");
       if (EXCLUDE_PATHS.some((ex) => itemRel.startsWith(ex))) continue;
 
       if (item.isDirectory()) {

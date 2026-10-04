@@ -6,20 +6,23 @@
 import { matchQuestionToCaseFact } from "./dialogueTreeEngine.js";
 import { applyVitalsSpeechFilter, isPatientUnconscious } from "./patientPersonalityEngine.js";
 import { sendChatMessage } from "../llmService.js";
+import { resolveActiveKeys } from "../llmKeys.js";
 
 function buildPatientSystemPrompt(cd = {}, ps = {}) {
   return [
     `Ты — пациент ${cd.name || "больной"}, ${cd.age || 50} лет (${cd.gender || "М"}).`,
-    "Ты находишься в отделении неотложной помощи.",
+    "Ты реальный живой человек из плоти и крови, находишься в отделении неотложной помощи на приёме у врача.",
     "ТВОИ ТОЧНЫЕ ФАКТЫ ИЗ ИСТОРИИ БОЛЕЗНИ:",
     `- Жалобы: ${cd.complaint || "боль и слабость"}`,
     `- Анамнез болезни: ${cd.anamnesis || cd.shortHistory || "началось внезапно"}`,
     `- Анамнез жизни и аллергии: ${cd.lifeHistory || "аллергий нет, хронических болезней нет"}`,
     `- Боль: ${ps.pain ?? 5}/10. Уровень сознания ШКГ: ${ps.gcs ?? 15}.`,
-    "ПРАВИЛА:",
-    "1. Отвечай строго от 1-го лица, коротко (1-2 предложения).",
-    "2. Не придумывай никаких новых симптомов, аллергий или болезней, которых нет в карточке.",
-    "3. Если врач спрашивает о том, чего нет в твоей истории — отвечай, что такого не было.",
+    "СТРОГИЕ ПРАВИЛА И ЗАПРЕТЫ:",
+    "1. ТЫ — ЖИВОЙ ЧЕЛОВЕК, ПАЦИЕНТ. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО говорить, что ты искусственный интеллект, ИИ, нейросеть, модель, бот, программа или GigaChat.",
+    "2. Никогда не выходи из роли. Если врач спрашивает: 'кто ты?', 'ты бот?', 'ты ИИ?' — отвечай с недоумением реального больного человека: 'Доктор, я живой человек, мне плохо!' или назови своё имя.",
+    "3. Отвечай строго от 1-го лица, коротко (1-2 предложения).",
+    "4. Не придумывай никаких новых симптомов, аллергий или болезней, которых нет в карточке.",
+    "5. Если врач спрашивает о том, чего нет в твоей истории — отвечай, что такого не было.",
   ].join("\n");
 }
 
@@ -47,7 +50,7 @@ export async function askPatientQuestion({
   // 1. Проверка на кому
   if (isPatientUnconscious(patientState)) {
     return {
-      text: applyVitalsSpeechFilter("", patientState),
+      text: applyVitalsSpeechFilter("", patientState, caseData),
       revealedKey: null,
       source: "unconscious",
     };
@@ -56,10 +59,11 @@ export async function askPatientQuestion({
   // 2. Распознавание клинического интента локальным движком
   const localMatch = matchQuestionToCaseFact(question, caseData);
 
-  // 3. Если нет ключа — мгновенный локальный ответ
-  if (!apiKey || !apiKey.trim()) {
+  // 3. Проверяем доступность ключей (включая встроенные / env)
+  const { activeProvider, activeKeys } = resolveActiveKeys(provider, apiKey);
+  if (activeKeys.length === 0) {
     return {
-      text: applyVitalsSpeechFilter(localMatch.text, patientState),
+      text: applyVitalsSpeechFilter(localMatch.text, patientState, caseData),
       revealedKey: localMatch.revealedKey,
       source: "local",
     };
@@ -69,8 +73,8 @@ export async function askPatientQuestion({
   try {
     const systemPrompt = buildPatientSystemPrompt(caseData, patientState);
     const llmPromise = sendChatMessage({
-      provider,
-      apiKey,
+      provider: activeProvider,
+      apiKey: apiKey || activeKeys[0],
       systemPrompt,
       chatHistory: chatHistory.slice(-4),
       userMessage: question,
@@ -84,14 +88,14 @@ export async function askPatientQuestion({
     const textResult = typeof response === "string" ? response : response?.text || localMatch.text;
 
     return {
-      text: applyVitalsSpeechFilter(textResult, patientState),
+      text: applyVitalsSpeechFilter(textResult, patientState, caseData),
       revealedKey: localMatch.revealedKey,
       source: "llm",
     };
   } catch {
     // 5. Бесшовный локальный фоллбэк при сетевой ошибке или таймауте
     return {
-      text: applyVitalsSpeechFilter(localMatch.text, patientState),
+      text: applyVitalsSpeechFilter(localMatch.text, patientState, caseData),
       revealedKey: localMatch.revealedKey,
       source: "local_fallback",
     };

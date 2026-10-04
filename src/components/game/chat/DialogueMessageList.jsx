@@ -8,9 +8,20 @@ export default function DialogueMessageList({ messages = [], loading = false }) 
   const listRef = useRef(null);
 
   useEffect(() => {
-    if (listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight;
-    }
+    const el = listRef.current;
+    if (!el) return;
+
+    const scrollToBottom = () => {
+      try {
+        el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+      } catch {
+        el.scrollTop = el.scrollHeight;
+      }
+    };
+
+    scrollToBottom();
+    const frameId = requestAnimationFrame(scrollToBottom);
+    return () => cancelAnimationFrame(frameId);
   }, [messages, loading]);
 
   const patientBg = C.panel2 || "rgba(255,255,255,0.06)";

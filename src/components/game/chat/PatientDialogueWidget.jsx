@@ -50,7 +50,7 @@ export default function PatientDialogueWidget({
   const handleAskChip = (q) => {
     const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     const doctorMsg = { sender: "doctor", text: q.label, timestamp: time };
-    const patientText = applyVitalsSpeechFilter(q.answer, patientState);
+    const patientText = applyVitalsSpeechFilter(q.answer, patientState, caseData);
     const patientMsg = { sender: "patient", text: patientText, timestamp: time };
 
     setMessages((prev) => [...prev, doctorMsg, patientMsg]);
@@ -69,8 +69,12 @@ export default function PatientDialogueWidget({
     setMessages((prev) => [...prev, { sender: "doctor", text: question, timestamp: time }]);
     setLoading(true);
 
-    const provider = typeof window !== "undefined" ? localStorage.getItem("ms_llmProvider") || "openrouter" : "openrouter";
-    const apiKey = typeof window !== "undefined" ? localStorage.getItem("ms_llmKey") || "" : "";
+    const provider = typeof window !== "undefined"
+      ? localStorage.getItem("ms_llmProvider") || localStorage.getItem("ms_llm_provider") || "gigachat"
+      : "gigachat";
+    const apiKey = typeof window !== "undefined"
+      ? localStorage.getItem("ms_llmKey") || localStorage.getItem("ms_llm_key") || ""
+      : "";
 
     try {
       const res = await askPatientQuestion({

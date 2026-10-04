@@ -23,7 +23,7 @@ export const TOPICS = [
       {
         id: "hf_chronic",
         name: "Хроническая сердечная недостаточность",
-        cases: [62],
+        cases: [62, "outp_4"],
         combined: false,
         difficulty: 3,
         order: 2.5,
@@ -47,7 +47,7 @@ export const TOPICS = [
       {
         id: "vf",
         name: "Фибрилляция желудочков",
-        cases: [43, 44],
+        cases: [43, 44, 34],
         combined: true,
         combinedNote: "Может сочетаться с ОИМ, ЧМТ, электротравмой",
         difficulty: 5,
@@ -56,7 +56,7 @@ export const TOPICS = [
       {
         id: "hypertension_crisis",
         name: "Гипертонический криз",
-        cases: [61],
+        cases: [61, "outp_1"],
         combined: false,
         difficulty: 3,
         order: 5.5,
@@ -79,7 +79,7 @@ export const TOPICS = [
       {
         id: "stroke_isch",
         name: "Ишемический инсульт",
-        cases: [9, 47, 48],
+        cases: [9, 47, 48, "stat_4"],
         combined: false,
         difficulty: 4,
         order: 7,
@@ -111,7 +111,7 @@ export const TOPICS = [
       {
         id: "encephalitis_autoimmune",
         name: "Аутоиммунный анти-NMDA-рецепторный энцефалит",
-        cases: [],
+        cases: [35],
         combined: false,
         difficulty: 5,
         order: 10.5,
@@ -151,7 +151,7 @@ export const TOPICS = [
       {
         id: "copd_exac",
         name: "Обострение ХОБЛ",
-        cases: [12],
+        cases: [12, "outp_2"],
         combined: false,
         difficulty: 3,
         order: 14,
@@ -159,7 +159,7 @@ export const TOPICS = [
       {
         id: "asthma_exac",
         name: "Астматический статус",
-        cases: [60],
+        cases: [60, "stat_3"],
         combined: false,
         difficulty: 4,
         order: 14.5,
@@ -167,7 +167,7 @@ export const TOPICS = [
       {
         id: "pneumonia_severe",
         name: "Тяжёлая пневмония / Септический шок",
-        cases: [11],
+        cases: [11, "stat_1"],
         combined: false,
         difficulty: 4,
         order: 15,
@@ -182,7 +182,7 @@ export const TOPICS = [
       {
         id: "sepsis",
         name: "Сепсис / Септический шок",
-        cases: [16],
+        cases: [16, "stat_5"],
         combined: false,
         difficulty: 4,
         order: 16,
@@ -190,7 +190,7 @@ export const TOPICS = [
       {
         id: "pyelonephritis",
         name: "Острый пиелонефрит",
-        cases: [63],
+        cases: [63, "outp_6"],
         combined: false,
         difficulty: 3,
         order: 16.5,
@@ -206,7 +206,7 @@ export const TOPICS = [
       {
         id: "dic",
         name: "ДВС-синдром",
-        cases: [],
+        cases: ["stat_2"],
         combined: false,
         difficulty: 5,
         order: 17.5,
@@ -239,7 +239,7 @@ export const TOPICS = [
       {
         id: "opportunistic_infections",
         name: "Оппортунистические инфекции (ВИЧ)",
-        cases: [20],
+        cases: [20, 33],
         combined: false,
         difficulty: 4,
         order: 18.7,
@@ -270,7 +270,7 @@ export const TOPICS = [
       {
         id: "hypoglycemia",
         name: "Гипогликемическая кома",
-        cases: [25],
+        cases: [25, "tutorial"],
         combined: false,
         difficulty: 2,
         order: 21,
@@ -278,7 +278,7 @@ export const TOPICS = [
       {
         id: "thyroid_storm",
         name: "Тиреотоксический криз",
-        cases: [22],
+        cases: [22, "outp_5"],
         combined: false,
         difficulty: 4,
         order: 22,
@@ -286,7 +286,7 @@ export const TOPICS = [
       {
         id: "adrenal_crisis",
         name: "Аддисонический криз",
-        cases: [24],
+        cases: [24, 31],
         combined: false,
         difficulty: 4,
         order: 23,
@@ -294,7 +294,7 @@ export const TOPICS = [
       {
         id: "hypothyroidism",
         name: "Гипотиреоз",
-        cases: [64],
+        cases: [64, "outp_3"],
         combined: false,
         difficulty: 2,
         order: 23.5,
@@ -325,7 +325,7 @@ export const TOPICS = [
       {
         id: "opioid_overdose",
         name: "Алкогольная кома / Опийное отравление",
-        cases: [28],
+        cases: [28, 32, 55],
         combined: false,
         difficulty: 3,
         order: 26,
@@ -357,73 +357,9 @@ export const TOPICS = [
     ],
   },
   {
-    id: "trauma",
-    name: "Травматология / Хирургия",
-    icon: "abdominal",
-    children: [
-      {
-        id: "trauma_multiple",
-        name: "Множественная травма / Геморрагический шок",
-        cases: [37],
-        combined: true,
-        combinedNote: "Может сочетаться с пневмотораксом, ЧМТ, внутр. кровотечением",
-        difficulty: 5,
-        order: 30,
-      },
-      {
-        id: "aortic_dissection",
-        name: "Расслоение аорты",
-        cases: [34],
-        combined: false,
-        difficulty: 5,
-        order: 31,
-      },
-      {
-        id: "gi_bleed",
-        name: "ЖКК из пептической язвы",
-        cases: [32],
-        combined: false,
-        difficulty: 3,
-        order: 32,
-      },
-      {
-        id: "cholangitis",
-        name: "Острый гнойный холангит",
-        cases: [33],
-        combined: false,
-        difficulty: 4,
-        order: 33,
-      },
-      {
-        id: "cholecystitis",
-        name: "Хронический калькулёзный холецистит",
-        cases: [],
-        combined: false,
-        difficulty: 3,
-        order: 33.5,
-      },
-      {
-        id: "appendicitis",
-        name: "Острый аппендицит / Перитонит",
-        cases: [31],
-        combined: false,
-        difficulty: 3,
-        order: 34,
-      },
-      {
-        id: "mesenteric",
-        name: "Острая мезентериальная ишемия",
-        cases: [35],
-        combined: false,
-        difficulty: 5,
-        order: 35,
-      },
-    ],
-  },
-  {
     id: "gastroenterology",
     name: "Гастроэнтерология",
-    icon: "",
+    icon: "gastro",
     children: [
       {
         id: "pancreatitis",

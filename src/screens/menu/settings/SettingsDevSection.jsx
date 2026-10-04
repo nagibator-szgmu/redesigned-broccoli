@@ -14,6 +14,12 @@ export function SettingsDevSection({
 }) {
   const providerOptions = [
     {
+      l: "GigaChat",
+      v: "gigachat",
+      title: "СБЕР GIGACHAT (РФ)",
+      text: "Отечественная медицинская нейросеть Сбера без необходимости VPN.",
+    },
+    {
       l: "Gemini",
       v: "gemini",
       title: "GOOGLE GEMINI PRO / FLASH",
@@ -32,6 +38,18 @@ export function SettingsDevSection({
       text: "Шлюз доступа к любым нейросетям (DeepSeek R1, Llama 3, Claude 3.5).",
     },
   ];
+
+  const handleProviderChange = (v) => {
+    setLlmProvider(v);
+    localStorage.setItem("ms_llmProvider", v);
+    localStorage.setItem("ms_llm_provider", v);
+  };
+
+  const handleKeyChange = (val) => {
+    setLlmKey(val);
+    localStorage.setItem("ms_llmKey", val);
+    localStorage.setItem("ms_llm_key", val);
+  };
 
   return (
     <div style={{ marginBottom: 14, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
@@ -57,10 +75,7 @@ export function SettingsDevSection({
             {providerOptions.map(({ l, v, title, text }) => (
               <Tooltip key={v} title={title} text={text} style={{ flex: 1 }}>
                 <button
-                  onClick={() => {
-                    setLlmProvider(v);
-                    localStorage.setItem("ms_llm_provider", v);
-                  }}
+                  onClick={() => handleProviderChange(v)}
                   style={{
                     width: "100%",
                     background: llmProvider === v ? `${C.accent}18` : "transparent",
@@ -87,17 +102,14 @@ export function SettingsDevSection({
               padding: "5px 10px",
               display: "flex",
               alignItems: "center",
-              marginBottom: llmProvider === "openrouter" ? 6 : 0,
+              marginBottom: 4,
             }}
           >
             <input
               type="password"
               value={llmKey}
-              onChange={(e) => {
-                setLlmKey(e.target.value);
-                localStorage.setItem("ms_llm_key", e.target.value);
-              }}
-              placeholder={t("settings.apiKeyPlaceholder")}
+              onChange={(e) => handleKeyChange(e.target.value)}
+              placeholder={llmProvider === "gigachat" ? "Authorization Key (Base64)..." : t("settings.apiKeyPlaceholder")}
               style={{
                 background: "transparent",
                 border: "none",
@@ -110,16 +122,19 @@ export function SettingsDevSection({
             />
             {llmKey && (
               <span
-                onClick={() => {
-                  setLlmKey("");
-                  localStorage.setItem("ms_llm_key", "");
-                }}
+                onClick={() => handleKeyChange("")}
                 style={{ color: C.textDim, cursor: "pointer", marginLeft: 5, display: "flex", alignItems: "center" }}
               >
                 <IconX size={11} color={C.textDim} />
               </span>
             )}
           </div>
+
+          {llmProvider === "gigachat" && (
+            <div style={{ fontSize: 9, color: C.textDim, lineHeight: 1.3, marginTop: 4 }}>
+              Используется встроенный ключ доступа или введите свой Authorization Key (Base64) от Developers Sber.
+            </div>
+          )}
 
           {llmProvider === "openrouter" && (
             <div style={{ fontSize: 9, color: C.textDim, lineHeight: 1.3, marginTop: 4 }}>

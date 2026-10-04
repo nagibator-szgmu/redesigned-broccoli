@@ -44,7 +44,6 @@ export default function MenuScreen(props) {
   const [showTutorialMenu, setShowTutorialMenu] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const tutorialMenuRef = useRef(null);
-
   const catMeta = useMemo(() => makeCatMeta(t), [t]);
   const navSpec = useMemo(() => makeNavSpec(t), [t]);
   const deptFilters = useMemo(() => DEPT_FILTERS(t), [t]);
@@ -54,8 +53,8 @@ export default function MenuScreen(props) {
     pinnedNotifIds, togglePinNotif, deleteNotif, markAllRead,
   } = useNotifications(sessionHistory, casesPlayed, totalScore, t, catMeta);
 
-  const [llmProvider, setLlmProvider] = useState(() => localStorage.getItem("ms_llmProvider") || "openrouter");
-  const [llmKey, setLlmKey] = useState(() => localStorage.getItem("ms_llmKey") || "");
+  const [llmProvider, setLlmProvider] = useState(() => localStorage.getItem("ms_llmProvider") || localStorage.getItem("ms_llm_provider") || "gigachat");
+  const [llmKey, setLlmKey] = useState(() => localStorage.getItem("ms_llmKey") || localStorage.getItem("ms_llm_key") || "");
   const [showDevSettings, setShowDevSettings] = useState(false);
 
   useEffect(() => {

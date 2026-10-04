@@ -1,7 +1,7 @@
 /**
  * LLM Integration Service for MedSim with Fallback Key Pool
  */
-import { callOpenRouter, callGemini, callOpenAI } from './llmAdapters.js';
+import { callOpenRouter, callGemini, callOpenAI, callGigaChat } from './llmAdapters.js';
 import { generateSystemPrompt, generateActionReactionPrompt } from './llmPrompts.js';
 import { getLocalPatientResponse } from './localPatientResponse.js';
 import { resolveActiveKeys } from './llmKeys.js';
@@ -27,6 +27,8 @@ export async function sendChatMessage({ provider, apiKey, systemPrompt, chatHist
         return await callOpenAI(currentKey, systemPrompt, formattedHistory);
       } else if (activeProvider === "openrouter") {
         return await callOpenRouter(currentKey, systemPrompt, formattedHistory, model);
+      } else if (activeProvider === "gigachat") {
+        return await callGigaChat(currentKey, systemPrompt, formattedHistory, model);
       }
     } catch (error) {
       console.warn(`[LLM Service] Запрос с ключом #${i + 1} (${activeProvider}) завершился ошибкой:`, error);
@@ -68,6 +70,8 @@ export async function generateActionReaction({ provider, apiKey, cd, ps, actionN
         return await callGemini(currentKey, systemPrompt, []);
       } else if (activeProvider === "openai") {
         return await callOpenAI(currentKey, systemPrompt, []);
+      } else if (activeProvider === "gigachat") {
+        return await callGigaChat(currentKey, systemPrompt, []);
       }
     } catch (e) {
       console.warn("[LLM Action Reaction] Ошибка генерации реакции, пробуем следующий ключ:", e);
