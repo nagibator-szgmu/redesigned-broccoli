@@ -20,7 +20,7 @@ export default function MenuMobileView(props) {
     showAllCases, setShowAllCases, showNotif, openNotif,
     setShowSettings, setProgressionMode, checkDeptTutorial,
     unreadCount, isDevMode, logout, catMeta, navSpec,
-    deptFilters, caseScores, t, C,
+    deptFilters, caseScores, t, C, setShowAccount,
   } = props;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -63,6 +63,7 @@ export default function MenuMobileView(props) {
         unreadCount={unreadCount}
         casesPlayed={casesPlayed}
         totalScore={totalScore}
+        setShowAccount={setShowAccount}
       />
 
       <MobileDrawer
@@ -71,6 +72,7 @@ export default function MenuMobileView(props) {
         setPhase={setPhase}
         setProgressionMode={setProgressionMode}
         setShowSettings={setShowSettings}
+        setShowAccount={setShowAccount}
         logout={logout}
         t={t}
         C={C}
