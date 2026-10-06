@@ -2067,6 +2067,62 @@
         },
         "dayPlanMatchesKR": null
       }
+    },
+    "outp_gastro_cholelithiasis": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-10-06",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Желчнокаменная болезнь» (2024), купированная колика"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "УЗИ ОБП, ОАК, биохимия, ОАМ для исключения острого холецистита и механической желтухи"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Миотропные спазмолитики per os для купирования спазма"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин (спазм сфинктера Одди), аспирин (повреждение ЖКТ перед операцией)"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Направление к хирургу для планового оперативного лечения (лапароскопическая холецистэктомия)"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_gastro_ibs_diarrhea": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-10-06",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Синдром раздраженного кишечника» (2024), СРК с диареей"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Колоноскопия, серология целиакии, СРБ, ОАК, биохимия для исключения органической патологии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Селективные спазмолитики per os, диета Low-FODMAP"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Антибиотики широкого спектра (дисбиоз), фуросемид (дегидратация), аспирин"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторное лечение у терапевта/гастроэнтеролога, диета Low-FODMAP и спазмолитики"
+        },
+        "dayPlanMatchesKR": null
+      }
     }
   }
 }

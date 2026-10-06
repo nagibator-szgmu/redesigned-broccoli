@@ -10,7 +10,11 @@ import { PatientCard, HistoryPanel, StepBar, TestSelection, ResultsPanel, Diagno
 import { LearningTipToast, TheoryModal } from "../../components/game";
 import { getExplanationForCase } from "../../hooks/useReviewRegistry";
 
-export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests, handleOrderTests: handleOrderTestsRaw, setPhase, handleSubmit, setDiagText, setExtraResult, setRevealedAnamnesis, learningMode }) {
+export default function OutpatientGameScreen({
+  cd, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests,
+  handleOrderTests: handleOrderTestsRaw, setPhase, handleSubmit, setDiagText,
+  setExtraResult, setRevealedAnamnesis, setSelectedRoute: setSelectedRouteProp, learningMode
+}) {
   const C = useTheme();
   const { t } = useTranslate();
   const isMobile = useIsMobile();
@@ -26,8 +30,23 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
   const relatedTopics = getTopicsForCase(cd.id);
 
   const handleRevealAnamnesis = (type) => {
-    setRevealedAnamnesis(prev => new Set([...prev, type]));
+    if (setRevealedAnamnesis) setRevealedAnamnesis(prev => new Set([...(prev || []), type]));
   };
+
+  const handleSelectRoute = (routeId) => {
+    setSelectedRoute(routeId);
+    if (setSelectedRouteProp) setSelectedRouteProp(routeId);
+  };
+
+  useEffect(() => {
+    if (setDiagText) {
+      setDiagText(JSON.stringify({
+        main: diagMain.trim(),
+        complication: diagComplication.trim(),
+        comorbidity: diagComorbidity.trim(),
+      }));
+    }
+  }, [diagMain, diagComplication, diagComorbidity, setDiagText]);
 
   const handleOrderTests = useCallback(() => {
     handleOrderTestsRaw();
@@ -53,9 +72,19 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
   const canSubmit = diagMain.trim().length > 0 && selectedRoute !== null;
 
   const doSubmit = () => {
-    setDiagText(JSON.stringify({ main: diagMain.trim(), complication: diagComplication.trim(), comorbidity: diagComorbidity.trim() }));
-    setExtraResult && setExtraResult({ selectedRoute, routeOptions: cd.routeOptions, correctRoute: cd.correctRoute });
-    handleSubmit();
+    const formatted = JSON.stringify({
+      main: diagMain.trim(),
+      complication: diagComplication.trim(),
+      comorbidity: diagComorbidity.trim(),
+    });
+    if (setDiagText) setDiagText(formatted);
+    const extra = { selectedRoute, routeOptions: cd.routeOptions, correctRoute: cd.correctRoute };
+    if (setExtraResult) setExtraResult(extra);
+    handleSubmit(false, false, {
+      diagText: formatted,
+      selectedRoute,
+      extraResult: extra,
+    });
   };
 
   const steps = [
@@ -70,7 +99,7 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
     if (localPhase === "results") return <ResultsPanel cd={cd} orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} />;
     return (<>
       <DiagnosisForm diagMain={diagMain} setDiagMain={setDiagMain} diagComplication={diagComplication} setDiagComplication={setDiagComplication} diagComorbidity={diagComorbidity} setDiagComorbidity={setDiagComorbidity} />
-      <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={setSelectedRoute} />
+      <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={handleSelectRoute} />
       <button onClick={doSubmit} disabled={!canSubmit}
         style={{ width: "100%", padding: "14px", borderRadius: 12, background: canSubmit ? `linear-gradient(135deg,${C.accent},${C.green})` : `${C.textDim}30`, border: "none", fontSize: 15, fontWeight: 700, color: canSubmit ? C.bg : C.textDim, cursor: canSubmit ? "pointer" : "not-allowed", fontFamily: FONT, marginBottom: 12 }}>
         {t("outpatient.submit")}
@@ -102,6 +131,7 @@ export default function OutpatientGameScreen({ cd, selDiag, setSelDiag, orderedD
       <TheoryModal relatedTopics={relatedTopics} showTheory={showTheory} setShowTheory={setShowTheory} activeTheoryTopic={activeTheoryTopic} setActiveTheoryTopic={setActiveTheoryTopic} isMobile={isMobile} />
       <div style={{ flex: 1, overflowY: "auto", padding: 14 }}>
         <PatientCard cd={cd} examinedVitals={examinedVitals} setExaminedVitals={setExaminedVitals} />
+        <HistoryPanel cd={cd} onReveal={handleRevealAnamnesis} />
         <StepBar steps={steps} activeStep={activeStep} />
         {renderPhase()}
       </div>

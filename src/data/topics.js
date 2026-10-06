@@ -417,6 +417,22 @@ export const TOPICS = [
         difficulty: 2,
         order: 42,
       },
+      {
+        id: "cholelithiasis",
+        name: "Желчнокаменная болезнь и калькулезный холецистит",
+        cases: ["outp_gastro_cholelithiasis"],
+        combined: false,
+        difficulty: 2,
+        order: 43,
+      },
+      {
+        id: "ibs",
+        name: "Синдром раздраженного кишечника (СРК)",
+        cases: ["outp_gastro_ibs_diarrhea"],
+        combined: false,
+        difficulty: 2,
+        order: 44,
+      },
     ],
   },
 ];

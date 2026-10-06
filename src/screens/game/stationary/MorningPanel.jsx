@@ -36,7 +36,7 @@ export default function MorningPanel({ morningInfo, cycle, currentPs }) {
       {morningInfo ? (
         <>
           <p style={{ fontSize: 12, color: C.text, fontFamily: FONT, lineHeight: 1.5, marginBottom: 10, padding: "8px 10px", background: `${C.textDim}08`, borderRadius: 8, borderLeft: `3px solid ${dayColor}`, margin: 0 }}>
-            {morningInfo.morningStatus || morningInfo.morning}
+            {morningInfo.morning || morningInfo.morningStatus}
           </p>
           {(morningInfo.tasks?.length > 0 || morningInfo.plan) && (
             <div style={{ marginBottom: 10 }}>

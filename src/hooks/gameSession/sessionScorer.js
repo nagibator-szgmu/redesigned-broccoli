@@ -52,7 +52,8 @@ export function finalizeSession({
   finalPS.status = outcome === "dead" ? "dead" : outcome === "stable" || outcome === "stabilized" ? "stable" : finalPS.status;
 
   const elapsedSec = s.totalTime - s.timeLeft;
-  const res = computeScore(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec, s.revealedAnamnesis);
+  const routeResult = s.extraResult || (selectedRoute ? { selectedRoute } : null);
+  const res = computeScore(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec, s.revealedAnamnesis, routeResult);
   const cogAnalysis = analyzeCognitiveErrors(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec);
   const safety = evaluateClinicalSafety(s.cd, s.selTreat, s.orderedDiag, s.revealedAnamnesis, s.trajectory);
   const mistakes = mapSafetyToMistakes(safety, s.cd);
@@ -101,7 +102,8 @@ export function finalizeSession({
     if (aiRes.success) {
       setResult((prev) => {
         if (!prev) return prev;
-        const localRatio = diagMatchRatio(s.cd.diagnosis, s.diagText);
+        const allVariants = [s.cd.diagnosis, ...(s.cd.diagnosisVariants || [])];
+        const localRatio = Math.max(...allVariants.map(v => diagMatchRatio(v, s.diagText)));
         const localDiagScore = localRatio >= 0.6 ? 35 : localRatio >= 0.3 ? 20 : localRatio > 0 ? 10 : 0;
 
         const newScore = Math.min(100, Math.max(0, prev.score - localDiagScore + aiRes.diagScore));
