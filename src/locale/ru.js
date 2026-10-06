@@ -3,6 +3,7 @@ export default {
   hero:{desc1:"Клинические симуляции нового поколения.",desc2:"Учитесь принимать решения в критических ситуациях.",start:"Начать",tags:["Анализы","Диагноз","Лечение"]},
   nav:{menu:"МЕНЮ",mainMenu:"Главное меню",specializations:"СПЕЦИАЛИЗАЦИИ",clearFilter:"Сбросить фильтр",theory:"Теория",course:"Курс",leaderboard:"Достижения",certificates:"Сертификаты",tutorial:"Обучение",logout:"Выйти",map:"Карта курса",teacherDashboard:"Кабинет преподавателя",departmentHeader:"ОТДЕЛЕНИЕ"},
   search:{placeholder:"Поиск кейсов...",placeholderDiag:"Поиск исследований...",placeholderTreat:"Поиск препаратов...",matches:"Найдено: {n} из {total}"},
+  common:{collapse:"Свернуть",expand:"Развернуть"},
   filter:{all:"Все"},
   department:{all:"Все отделения",all_emergency:"Все экстренные",icu:"ОРИТ",admission:"Приёмное",outpatient:"Поликлиника",stationary:"Стационар"},
   departmentShort:{icu:"ОРИТ",admission:"Приёмное",outpatient:"Поликлиника",stationary:"Стационар"},

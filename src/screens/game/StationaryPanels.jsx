@@ -10,4 +10,5 @@ export {
   TestSelection,
   ResultsPanel,
   TreatPanel,
+  StationaryActionTabs,
 } from "./stationary";

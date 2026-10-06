@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FONT, CODE } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
+import { IconChevronDown, IconChevronUp, IconCheckCircle, IconCheck } from "../../../ui/icons";
 import { DAY_COLORS } from "./constants";
 
-/** Morning phase panel in stationary game */
-export default function MorningPanel({ morningInfo, cycle, setLocalPhase, currentPs }) {
+/** Morning phase panel in stationary game with expandable discharge checklist */
+export default function MorningPanel({ morningInfo, cycle, currentPs }) {
   const C = useTheme();
   const { t } = useTranslate();
+  const [showCriteria, setShowCriteria] = useState(false);
   const dayColor = DAY_COLORS[cycle.currentDay % 7];
 
   return (
@@ -52,16 +54,31 @@ export default function MorningPanel({ morningInfo, cycle, setLocalPhase, curren
         <p style={{ fontSize: 12, color: C.textDim, fontFamily: FONT, fontStyle: "italic", margin: 0 }}>—</p>
       )}
       {cycle.dischargeCriteria.length > 0 && (
-        <div style={{ padding: "8px", borderRadius: 8, background: `${C.green}08`, border: `1px solid ${C.green}22`, fontSize: 10, color: C.green, fontFamily: FONT, textAlign: "center", marginTop: 8 }}>
-          {t("stationary.dischargeReady", { n: cycle.dischargeCriteria.length })}
+        <div style={{ marginTop: 8, borderRadius: 8, background: `${C.green}08`, border: `1px solid ${C.green}25`, overflow: "hidden" }}>
+          <div
+            onClick={() => setShowCriteria((v) => !v)}
+            style={{ padding: "8px 12px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", userSelect: "none" }}
+          >
+            <span style={{ fontSize: 11, fontWeight: 700, color: C.green, fontFamily: FONT, display: "flex", alignItems: "center", gap: 5 }}>
+              <IconCheckCircle size={13} color={C.green} />
+              Критерии выписки ({cycle.dischargeCriteria.length})
+            </span>
+            <div style={{ color: C.green, display: "flex", alignItems: "center" }}>
+              {showCriteria ? <IconChevronUp size={14} color="currentColor" /> : <IconChevronDown size={14} color="currentColor" />}
+            </div>
+          </div>
+          {showCriteria && (
+            <div style={{ padding: "4px 12px 10px", borderTop: `1px solid ${C.green}18`, display: "flex", flexDirection: "column", gap: 5 }}>
+              {cycle.dischargeCriteria.map((crit, idx) => (
+                <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 11, color: C.text, fontFamily: FONT, lineHeight: 1.4 }}>
+                  <IconCheck size={12} color={C.green} style={{ marginTop: 2, flexShrink: 0 }} />
+                  <span>{crit}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
-      <button
-        onClick={() => setLocalPhase("order_tests")}
-        style={{ width: "100%", marginTop: 10, padding: "10px", borderRadius: 10, background: `linear-gradient(135deg,${dayColor},${C.accent})`, border: "none", fontSize: 13, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT }}
-      >
-        {t("stationary.startDay")}
-      </button>
     </div>
   );
 }

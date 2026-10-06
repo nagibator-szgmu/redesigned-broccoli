@@ -6,7 +6,7 @@ import { DAY_COLORS } from "./constants";
 import { IconAlertTriangle } from "../../../ui/icons";
 
 /** Test results panel in stationary game */
-export default function ResultsPanel({ cd, orderedDiag, revealedResults, processingTests, setLocalPhase, cycle }) {
+export default function ResultsPanel({ cd, orderedDiag, revealedResults, processingTests, cycle }) {
   const C = useTheme();
   const { t } = useTranslate();
   const dayColor = DAY_COLORS[cycle.currentDay % 7];
@@ -47,14 +47,6 @@ export default function ResultsPanel({ cd, orderedDiag, revealedResults, process
         })}
       </div>
       {processingTests && <div style={{ textAlign: "center", padding: 8, fontSize: 12, color: C.textDim, fontFamily: FONT }}>{t("outpatient.loading")}</div>}
-      {orderedDiag.length > 0 && orderedDiag.every((id) => revealedResults[id]) && (
-        <button
-          onClick={() => setLocalPhase("treat")}
-          style={{ width: "100%", marginTop: 10, padding: "10px", borderRadius: 10, background: `linear-gradient(135deg,${dayColor},${C.accent})`, border: "none", fontSize: 13, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT }}
-        >
-          → {t("stationary.treat")}
-        </button>
-      )}
     </div>
   );
 }

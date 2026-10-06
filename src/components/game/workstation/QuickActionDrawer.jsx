@@ -1,47 +1,44 @@
 import React from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT } from "../../../ui/theme";
-import { IconMicroscope, IconPill } from "../../../ui/icons";
+import { IconMicroscope, IconPill, IconClipboard } from "../../../ui/icons";
 import DiagTab from "./DiagTab";
 import TreatPanel from "../TreatPanel";
 import { useSwipeDownDismiss } from "./useSwipeDownDismiss";
+
+const DRAWER_STYLES = `
+  @keyframes quickDrawerSlideIn {
+    from { transform: translate3d(0, 100%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes quickDrawerFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+`;
 
 /**
  * Выдвижная шторка для быстрого назначения анализов и препаратов.
  * Размещается над нижней панелью действий (bottom: 50px) без перекрытия кнопок.
  */
 export default function QuickActionDrawer({
-  isOpen,
-  onClose,
-  mode = "diag", // "diag" | "treat"
-  selDiag,
-  setSelDiag,
-  orderedDiag,
-  handleOrderTests,
-  processingTests,
-  t,
-  cd,
-  selTreat,
-  toggleTreatment,
-  appliedFx,
-  pendingFx,
-  treatCat,
-  setTreatCat,
+  isOpen, onClose, mode = "diag", selDiag, setSelDiag, orderedDiag,
+  handleOrderTests, processingTests, t, cd, selTreat, toggleTreatment,
+  appliedFx, pendingFx, treatCat, setTreatCat, renderDiagnose,
 }) {
   const C = useTheme();
-  const { dragY, isDragging, gestureProps } = useSwipeDownDismiss(onClose);
+  const { shouldRender, isClosing, sheetAnimationProps, gestureProps } = useSwipeDownDismiss(isOpen, onClose);
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   const isDiag = mode === "diag";
-  const title = isDiag ? "Назначение обследования" : "Экстренная помощь и терапия";
-  const Icon = isDiag ? IconMicroscope : IconPill;
-  const accentColor = isDiag ? C.accent : C.green;
+  const isDiagnose = mode === "diagnose";
+  const title = isDiag ? "Назначение обследования" : isDiagnose ? (t?.("phases.diagnose") || "Диагноз и назначения") : "Экстренная помощь и терапия";
+  const Icon = isDiag ? IconMicroscope : isDiagnose ? IconClipboard : IconPill;
+  const accentColor = isDiag ? C.accent : isDiagnose ? C.purple : C.green;
 
   const handleConfirmDiag = () => {
-    if (selDiag.length > 0) {
-      handleOrderTests();
-    }
+    if (selDiag.length > 0) handleOrderTests();
     onClose();
   };
 
@@ -57,12 +54,18 @@ export default function QuickActionDrawer({
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
-        background: "rgba(0, 0, 0, 0.5)",
+        background: "rgba(0, 0, 0, 0.55)",
         backdropFilter: "blur(6px)",
         WebkitBackdropFilter: "blur(6px)",
+        willChange: "opacity",
+        opacity: isClosing ? 0 : 1,
+        pointerEvents: isClosing ? "none" : "auto",
+        transition: isClosing ? "opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1)" : "none",
+        animation: isClosing ? "none" : "quickDrawerFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       }}
       onClick={onClose}
     >
+      <style>{DRAWER_STYLES}</style>
       <div
         style={{
           width: "100%",
@@ -70,14 +73,14 @@ export default function QuickActionDrawer({
           height: "76vh",
           background: C.panelBg,
           borderTop: `1px solid ${C.borderBright}`,
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
+          borderTopLeftRadius: 18,
+          borderTopRightRadius: 18,
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
-          boxShadow: "0 -8px 30px rgba(0,0,0,0.5)",
-          transform: `translateY(${dragY}px)`,
-          transition: isDragging ? "none" : "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+          boxShadow: "0 -8px 32px rgba(0,0,0,0.55)",
+          willChange: "transform",
+          ...sheetAnimationProps,
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -97,28 +100,9 @@ export default function QuickActionDrawer({
             cursor: "grab",
           }}
         >
-          <div
-            style={{
-              alignSelf: "center",
-              width: 40,
-              height: 4.5,
-              borderRadius: 3,
-              background: C.borderBright,
-              opacity: 0.7,
-            }}
-          />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-            <span
-              style={{
-                fontSize: 13.5,
-                fontWeight: 700,
-                color: C.white,
-                fontFamily: FONT,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-              }}
-            >
+          <div style={{ alignSelf: "center", width: 40, height: 4.5, borderRadius: 3, background: C.borderBright, opacity: 0.7 }} />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontSize: 13.5, fontWeight: 700, color: C.white, fontFamily: FONT, display: "inline-flex", alignItems: "center", gap: 6 }}>
               <Icon size={15} color={accentColor} />
               {title}
             </span>
@@ -136,6 +120,10 @@ export default function QuickActionDrawer({
               processingTests={processingTests}
               t={t}
             />
+          ) : isDiagnose ? (
+            <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "10px 12px" }}>
+              {renderDiagnose?.()}
+            </div>
           ) : (
             <TreatPanel
               cd={cd}
