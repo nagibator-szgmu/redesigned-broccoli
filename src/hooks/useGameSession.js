@@ -70,16 +70,22 @@ export default function useGameSession({
   };
 
   const handleSubmit = useCallback(
-    (timeout = false, died = false) => {
+    (timeout = false, died = false, options = {}) => {
       clearInterval(timerRef.current);
       clearInterval(detRef.current);
       fxTimersRef.current.forEach((t) => clearTimeout(t));
 
+      const mergedState = {
+        ...stateRef.current,
+        ...(options.diagText !== undefined && { diagText: options.diagText }),
+        ...(options.selectedRoute !== undefined && { selectedRoute: options.selectedRoute }),
+        ...(options.extraResult !== undefined && { extraResult: options.extraResult }),
+      };
       finalizeSession({
-        state: stateRef.current,
+        state: mergedState,
         timeout,
         died,
-        selectedRoute,
+        selectedRoute: options.selectedRoute ?? selectedRoute,
         setResult,
         setPs,
         setTotalScore,
@@ -92,19 +98,8 @@ export default function useGameSession({
   );
 
   useSessionTimers({
-    stateRef,
-    phase,
-    paused,
-    gameOver,
-    setPs,
-    setPrevPs,
-    setGameOver,
-    setTimeLeft,
-    addEvent,
-    onSubmit: handleSubmit,
-    timerRef,
-    detRef,
-    fxTimersRef,
+    stateRef, phase, paused, gameOver, setPs, setPrevPs, setGameOver,
+    setTimeLeft, addEvent, onSubmit: handleSubmit, timerRef, detRef, fxTimersRef,
   });
 
   const startGame = useCallback(

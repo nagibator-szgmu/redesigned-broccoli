@@ -26,11 +26,12 @@ export function computeTimeBonus(elapsed, timeLimit) {
   return 0;
 }
 
-export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSec, revealedAnamnesis) {
+export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSec, revealedAnamnesis, extraResult) {
   let score = 0;
   const dangerous = [];
 
-  const ratio = diagMatchRatio(cd.diagnosis, diagText);
+  const allVariants = [cd.diagnosis, ...(cd.diagnosisVariants || [])];
+  const ratio = Math.max(...allVariants.map(v => diagMatchRatio(v, diagText)));
   if (ratio >= 0.6) score += 35;
   else if (ratio >= 0.3) score += 20;
   else if (ratio > 0) score += 10;
@@ -39,7 +40,7 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const dh = needDiag.filter(id => (selDiag || []).includes(id)).length;
   score += Math.round((dh / Math.max(needDiag.length, 1)) * 20);
 
-  const rev = revealedAnamnesis || new Set();
+  const rev = revealedAnamnesis instanceof Set ? revealedAnamnesis : new Set(revealedAnamnesis || []);
   const anamnesisRequired = [];
   if (cd.department === "outpatient" || cd.department === "stationary") {
     if (cd.historyOfIllness) anamnesisRequired.push("historyOfIllness");
@@ -50,9 +51,15 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const anamnesisRevealed = anamnesisRequired.filter(k => rev.has(k)).length;
   score += Math.round((anamnesisRevealed / Math.max(anamnesisRequired.length, 1)) * 10);
 
-  const needTreat = cd.needTreat || [];
-  const th = needTreat.filter(id => (selTreat || []).includes(id)).length;
-  score += Math.round((th / Math.max(needTreat.length, 1)) * 20);
+  const selRoute = typeof extraResult === "string" ? extraResult : extraResult?.selectedRoute;
+  if (cd.department === "outpatient") {
+    const isRouteCorrect = selRoute === cd.correctRoute;
+    score += isRouteCorrect ? 20 : 0;
+  } else {
+    const needTreat = cd.needTreat || [];
+    const th = needTreat.filter(id => (selTreat || []).includes(id)).length;
+    score += Math.round((th / Math.max(needTreat.length, 1)) * 20);
+  }
 
   const wrongTreat = cd.wrongTreat || [];
   wrongTreat.forEach(id => {
@@ -91,5 +98,6 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   score = Math.min(100, Math.max(0, score));
   const gradeId = score >= 85 ? "excellent" : score >= 70 ? "good" : score >= 50 ? "satisfactory" : "unsatisfactory";
 
-  return { score, gradeId, dangerous, diagCorrect: ratio >= 0.6, diagPartial: ratio >= 0.3, outcome };
+  const isRouteCorrect = cd.department === "outpatient" ? selRoute === cd.correctRoute : undefined;
+  return { score, gradeId, dangerous, diagCorrect: ratio >= 0.6, diagPartial: ratio >= 0.3, outcome, isRouteCorrect };
 }

@@ -14,6 +14,7 @@
 3. `node scripts/validate-cases.mjs` — 0 ошибок
 4. `node scripts/check-no-emojis.mjs` — 0 ошибок (СТРОГИЙ ЗАПРЕТ на смайлики/эмодзи в UI: только векторные SVG из `src/ui/icons/`)
 5. Запрет на вход в Зону Михаила (`src/components/game/chat/*`, `src/engine/dialogue/*`, `src/engine/llmService.js`, `src/hooks/usePatientDialogue.js`) без явного разрешения пользователя!
+6. Обязательная проверка достоверности `README.md` (README Integrity Protocol: сверка количества кейсов, тем, тестов, препаратов, диагностик и архитектуры) — актуализировать при любых расхождениях!
 ---
 
 ## 🛑 СТРОГОЕ ПРАВИЛО: ГРАНИЦЫ ЗОН ПАРАЛЛЕЛЬНОЙ РАЗРАБОТКИ (МИХАИЛ vs АРСЕНИЙ)

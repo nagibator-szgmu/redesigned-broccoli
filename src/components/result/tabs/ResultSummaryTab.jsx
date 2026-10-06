@@ -30,8 +30,16 @@ export default function ResultSummaryTab({
       )}
 
       {/* Специфичные результаты отделений */}
-      {cd.department === "outpatient" && extraResult && (
-        <OutpatientRouteResult cd={cd} extraResult={extraResult} isMobile={isMobile} />
+      {cd.department === "outpatient" && (extraResult || result?.selectedRoute) && (
+        <OutpatientRouteResult
+          cd={cd}
+          extraResult={extraResult || {
+            selectedRoute: result.selectedRoute,
+            routeOptions: result.routeOptions,
+            correctRoute: result.correctRoute,
+          }}
+          isMobile={isMobile}
+        />
       )}
       {cd.department === "stationary" && extraResult && (
         <StationaryDaySummary cd={cd} extraResult={extraResult} isMobile={isMobile} />

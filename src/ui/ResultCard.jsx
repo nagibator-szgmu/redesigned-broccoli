@@ -79,6 +79,12 @@ export default function ResultCard({ id, text, isNew, cd }) {
           {text.replace("🔴 ", "")}
         </div>
 
+        {cd?.testImages?.[id] && (
+          <div style={{ marginTop: 8, borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
+            <img src={cd.testImages[id]} alt={id} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
+          </div>
+        )}
+
         {meta.refRange && (
           <div style={{ marginTop: 6, paddingTop: 6, borderTop: `1px solid ${C.border}`, display: "flex", flexWrap: "wrap", gap: 10, fontSize: 10, color: C.textDim, fontFamily: FONT }}>
             <span><strong>Референс:</strong> {meta.refRange}</span>

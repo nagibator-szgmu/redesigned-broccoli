@@ -1,4 +1,6 @@
 
+import { OUTPATIENT_GASTRO_NEW_CASES } from "./gastroenterology/outpatientGastroCases.js";
+
 export const OUTPATIENT_CASES = [
   {
     "id": "outp_1",
@@ -594,5 +596,6 @@ export const OUTPATIENT_CASES = [
         "label": "Вызвать СМП немедленно"
       }
     ]
-  }
+  },
+  ...OUTPATIENT_GASTRO_NEW_CASES,
 ];
