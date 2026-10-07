@@ -1,5 +1,6 @@
 
 import { OUTPATIENT_GASTRO_NEW_CASES } from "./gastroenterology/outpatientGastroCases.js";
+import { OUTPATIENT_GASTRO_PART2_CASES } from "./gastroenterology/outpatientGastroPart2Cases.js";
 
 export const OUTPATIENT_CASES = [
   {
@@ -449,8 +450,7 @@ export const OUTPATIENT_CASES = [
       "bmp"
     ],
     "needTreat": [
-      "metoprolol",
-      "iv_fluids"
+      "metoprolol"
     ],
     "wrongTreat": [
       "amiodarone"
@@ -549,8 +549,7 @@ export const OUTPATIENT_CASES = [
       "culture"
     ],
     "needTreat": [
-      "antibiotics_broad",
-      "iv_fluids"
+      "antibiotics_broad"
     ],
     "wrongTreat": [
       "morphine",
@@ -598,4 +597,5 @@ export const OUTPATIENT_CASES = [
     ]
   },
   ...OUTPATIENT_GASTRO_NEW_CASES,
+  ...OUTPATIENT_GASTRO_PART2_CASES,
 ];

@@ -36,8 +36,10 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   else if (ratio >= 0.3) score += 20;
   else if (ratio > 0) score += 10;
 
+  const safeSelTreat = selTreat || [];
+  const safeSelDiag = selDiag || [];
   const needDiag = cd.needDiag || [];
-  const dh = needDiag.filter(id => (selDiag || []).includes(id)).length;
+  const dh = needDiag.filter(id => safeSelDiag.includes(id)).length;
   score += Math.round((dh / Math.max(needDiag.length, 1)) * 20);
 
   const rev = revealedAnamnesis instanceof Set ? revealedAnamnesis : new Set(revealedAnamnesis || []);
@@ -54,16 +56,29 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const selRoute = typeof extraResult === "string" ? extraResult : extraResult?.selectedRoute;
   if (cd.department === "outpatient") {
     const isRouteCorrect = selRoute === cd.correctRoute;
-    score += isRouteCorrect ? 20 : 0;
+    if (cd.correctRoute === "treat_outpatient") {
+      if (isRouteCorrect) {
+        score += 15;
+        const needTreat = cd.needTreat || [];
+        if (needTreat.length === 0) {
+          score += 15;
+        } else {
+          const th = needTreat.filter(id => safeSelTreat.includes(id)).length;
+          score += Math.round((th / needTreat.length) * 15);
+        }
+      }
+    } else {
+      if (isRouteCorrect) score += 30;
+    }
   } else {
     const needTreat = cd.needTreat || [];
-    const th = needTreat.filter(id => (selTreat || []).includes(id)).length;
+    const th = needTreat.filter(id => safeSelTreat.includes(id)).length;
     score += Math.round((th / Math.max(needTreat.length, 1)) * 20);
   }
 
   const wrongTreat = cd.wrongTreat || [];
   wrongTreat.forEach(id => {
-    if ((selTreat || []).includes(id)) {
+    if (safeSelTreat.includes(id)) {
       score = Math.max(0, score - WRONG_TREATMENT_PENALTY);
       dangerous.push(TREATMENTS.find(t => t.id === id)?.name || id);
     }
@@ -73,7 +88,7 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
     const lifeRevealed = rev.has("lifeHistory");
     if (!lifeRevealed) {
       cd.lifeHistoryContraindications.forEach(id => {
-        if (selTreat.includes(id) && !cd.wrongTreat.includes(id)) {
+        if (safeSelTreat.includes(id) && !(cd.wrongTreat || []).includes(id)) {
           score = Math.max(0, score - WRONG_TREATMENT_PENALTY);
           dangerous.push(`${TREATMENTS.find(t => t.id === id)?.name || id} — можно было предотвратить, если бы был собран анамнез жизни`);
         }
@@ -91,7 +106,7 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   else if (outcome === "timeout_no_route") score = Math.max(0, score - 10);
   else if (outcome === "dead") score = Math.max(0, score - 20);
 
-  if (elapsedSec !== undefined) {
+  if (elapsedSec !== undefined && cd.department !== "outpatient") {
     score += computeTimeBonus(elapsedSec, cd.timeLimit);
   }
 

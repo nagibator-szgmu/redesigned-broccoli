@@ -364,7 +364,7 @@ export const TOPICS = [
       {
         id: "pancreatitis",
         name: "Острый деструктивный панкреатит",
-        cases: [56],
+        cases: [56, "outp_gastro_chronic_pancreatitis"],
         combined: false,
         difficulty: 4,
         order: 36,
@@ -396,7 +396,7 @@ export const TOPICS = [
       {
         id: "ibd_colitis",
         name: "Язвенный колит",
-        cases: ["stat_gastro_1"],
+        cases: ["stat_gastro_1", "outp_gastro_uc_mild"],
         combined: false,
         difficulty: 3,
         order: 40,
@@ -404,7 +404,7 @@ export const TOPICS = [
       {
         id: "cirrhosis",
         name: "Цирроз печени и печеночная энцефалопатия",
-        cases: ["stat_gastro_2"],
+        cases: ["stat_gastro_2", "outp_gastro_nash"],
         combined: false,
         difficulty: 4,
         order: 41,
@@ -412,7 +412,7 @@ export const TOPICS = [
       {
         id: "peptic_ulcer",
         name: "Язвенная болезнь 12-перстной кишки",
-        cases: ["outp_gastro_1"],
+        cases: ["outp_gastro_1", "outp_gastro_functional_dyspepsia"],
         combined: false,
         difficulty: 2,
         order: 42,

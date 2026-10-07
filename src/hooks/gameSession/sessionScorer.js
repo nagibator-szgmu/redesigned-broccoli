@@ -51,7 +51,7 @@ export function finalizeSession({
 
   finalPS.status = outcome === "dead" ? "dead" : outcome === "stable" || outcome === "stabilized" ? "stable" : finalPS.status;
 
-  const elapsedSec = s.totalTime - s.timeLeft;
+  const elapsedSec = s.cd?.department === "outpatient" ? 0 : s.totalTime - s.timeLeft;
   const routeResult = s.extraResult || (selectedRoute ? { selectedRoute } : null);
   const res = computeScore(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec, s.revealedAnamnesis, routeResult);
   const cogAnalysis = analyzeCognitiveErrors(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec);

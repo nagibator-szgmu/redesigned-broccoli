@@ -6,3 +6,4 @@ export { DiagnosisForm } from "./DiagnosisForm";
 export { TestSelection } from "./TestSelection";
 export { ResultsPanel } from "./ResultsPanel";
 export { RouteSelection } from "./RouteSelection";
+export { default as OutpatientTreatPanel } from "./OutpatientTreatPanel";

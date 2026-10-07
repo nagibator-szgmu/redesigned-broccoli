@@ -2123,6 +2123,118 @@
         },
         "dayPlanMatchesKR": null
       }
+    },
+    "outp_gastro_nash": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-10-07",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР 715/2 «Цирроз и фиброз печени» / НАЖБП (РГА 2024), неалкогольный стеатогепатит"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "УЗИ ОБП, биохимия крови, глюкоза, ОАК, коагулограмма с расчетом FIB-4"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Модификация образа жизни, гипокалорийная диета (снижение веса на 7-10%), аэробные нагрузки"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "НПВП (аспирин - гепатотоксичность), фуросемид, антибиотики широкого спектра"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторное наблюдение и лечение у терапевта/гастроэнтеролога при низком риске фиброза"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_gastro_chronic_pancreatitis": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-10-07",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР «Хронический панкреатит» (РГА 2024), ремиссия с внешнесекреторной недостаточностью"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "УЗИ ОБП, амилаза крови и диастаза мочи, биохимия, ОАК, глюкоза"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Заместительная ферментная терапия микросферами панкреатина, ИПП per os (рабепразол), спазмолитики"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Морфин (спазм сфинктера Одди), системные антибиотики, фуросемид"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторное лечение и подбор заместительной ферментной терапии"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_gastro_functional_dyspepsia": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-10-07",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР 708/2 «Гастрит и дуоденит» (РГА 2024), Римские критерии IV, постпрандиальный дистресс-синдром"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "ЭГДС с быстрым уреазным тестом, УЗИ ОБП, ОАК, биохимия для исключения органической патологии"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Пероральный курс ИПП (рабепразол), спазмолитики per os, дробное питание"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "НПВП (аспирин - эрозии слизистой), антибиотики широкого спектра при отрицательном H. pylori, фуросемид"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторная терапия и нормализация питания у терапевта"
+        },
+        "dayPlanMatchesKR": null
+      }
+    },
+    "outp_gastro_uc_mild": {
+      "status": "reviewed",
+      "reviewedBy": "Medical Auditor (MedSim)",
+      "reviewDate": "2026-10-07",
+      "checklistResults": {
+        "diagnosisMatchesKR": {
+          "passed": true,
+          "explanation": "КР 193/2 «Язвенный колит» (РГА/АКР 2023), дистальная форма, лёгкая степень (Truelove-Witts)"
+        },
+        "needDiagMatchesKR": {
+          "passed": true,
+          "explanation": "Сигмоскопия/колоноскопия, ПЦР кала на ОКИ и токсины C. difficile, СРБ, ОАК, биохимия"
+        },
+        "needTreatMatchesKR": {
+          "passed": true,
+          "explanation": "Препараты 5-АСК (месалазин per os и ректально) как базисная терапия первой линии"
+        },
+        "wrongTreatMatchesKR": {
+          "passed": true,
+          "explanation": "НПВП (аспирин - изъязвления и кровотечение), фуросемид (дегидратация), системные антибиотики"
+        },
+        "routeMatchesKR": {
+          "passed": true,
+          "explanation": "Амбулаторная терапия месалазином под контролем гастроэнтеролога; отказ от госпитализации"
+        },
+        "dayPlanMatchesKR": null
+      }
     }
   }
 }
