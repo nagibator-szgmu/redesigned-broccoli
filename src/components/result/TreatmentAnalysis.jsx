@@ -4,6 +4,7 @@ import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
 import { IconPill, IconCheck, IconX, IconSiren } from "../../ui/icons";
 import { TREATMENTS, TREAT_FX, ADVERSE_REASONS, TREAT_NOTES } from "../../data/treatments";
+import { OUTPATIENT_TREATMENTS_MAP } from "../../data/outpatientTreatments";
 
 export default function TreatmentAnalysis({ cd, selTreat = [], isMobile }) {
   const C = useTheme();
@@ -51,7 +52,7 @@ export default function TreatmentAnalysis({ cd, selTreat = [], isMobile }) {
 
           {isTreatOutpatient && needTreatList.map((id) => {
             const given = safeSelTreat.includes(id);
-            const name = TREATMENTS.find((t) => t.id === id)?.name || id;
+            const name = (isOutpatient ? OUTPATIENT_TREATMENTS_MAP[id]?.name : null) || TREATMENTS.find((t) => t.id === id)?.name || id;
             const fx = TREAT_FX[id];
             const note = cd?.treatNotes?.[id] || TREAT_NOTES[id];
             const itemBg = given ? `${C.green}10` : `${C.red}10`;
@@ -79,7 +80,7 @@ export default function TreatmentAnalysis({ cd, selTreat = [], isMobile }) {
             <>
               <div style={{ fontSize: isMobile ? 11 : 12, color: C.red, marginBottom: isMobile ? 5 : 6, textTransform: "uppercase", fontFamily: FONT }}>{t("result.dangerousLabel")}</div>
               {wrongGiven.map((id) => {
-                const name = TREATMENTS.find((t) => t.id === id)?.name || id;
+                const name = (isOutpatient ? OUTPATIENT_TREATMENTS_MAP[id]?.name : null) || TREATMENTS.find((t) => t.id === id)?.name || id;
                 const reason = cd?.adverseReasons?.[id] || ADVERSE_REASONS[id];
                 return (
                   <div key={id} style={{ background: C.redDim, border: `1px solid ${C.red}55`, borderRadius: 6, padding: "8px 10px", marginBottom: 8 }}>

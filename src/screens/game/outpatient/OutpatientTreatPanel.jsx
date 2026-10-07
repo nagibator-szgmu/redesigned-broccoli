@@ -2,15 +2,8 @@ import React, { useState, useMemo } from "react";
 import { FONT, CODE } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
-import { TREATMENTS } from "../../../data/treatments";
+import { OUTPATIENT_TREATMENTS } from "../../../data/outpatientTreatments";
 import { IconSearch, IconX, IconCheck, IconPill } from "../../../ui/icons";
-
-const EXCLUDED_INVASIVE = new Set([
-  "intubation", "defibrillation", "chest_compressions", "pericardiocentesis", "pci",
-  "surgery_consult", "dialysis", "endoscopic_hemostasis", "biliary_decompression",
-  "succinylcholine", "warm_iv", "blood_transfusion", "vasopressin", "norepinephrine",
-  "epinephrine", "dopamine", "urapidil_iv", "mannitol", "ketamine",
-]);
 
 const OUTPATIENT_CATEGORIES = [
   { id: "all", label: "Все" },
@@ -19,21 +12,6 @@ const OUTPATIENT_CATEGORIES = [
   { id: "antimicrobial", label: "Антимикробные" },
   { id: "other", label: "Прочие" },
 ];
-
-function matchOutpatientCategory(item, catId) {
-  if (catId === "all") return true;
-  if (catId === "gastro") {
-    return item.cat === "gastro" || ["gluten_free_diet", "iron_iv", "spasmolytics"].includes(item.id);
-  }
-  if (catId === "therapy") {
-    return ["cardiac", "antiplatelet", "anticoagulant", "betablocker", "diuretic"].includes(item.cat) ||
-      ["metoprolol", "ACE_inhibitor", "aspirin", "furosemide"].includes(item.id);
-  }
-  if (catId === "antimicrobial") {
-    return item.cat === "antibiotic" || item.cat === "antiviral";
-  }
-  return true;
-}
 
 export default function OutpatientTreatPanel({
   selTreat = [], setSelTreat, toggleTreatment, onSubmit, onBack,
@@ -53,10 +31,11 @@ export default function OutpatientTreatPanel({
 
   const outpatientList = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return TREATMENTS.filter((item) => {
-      if (EXCLUDED_INVASIVE.has(item.id)) return false;
-      if (!matchOutpatientCategory(item, activeCat)) return false;
-      if (q && !item.name.toLowerCase().includes(q) && !item.id.toLowerCase().includes(q)) return false;
+    return OUTPATIENT_TREATMENTS.filter((item) => {
+      if (activeCat !== "all" && item.cat !== activeCat) return false;
+      if (q && !item.name.toLowerCase().includes(q) && !item.id.toLowerCase().includes(q) && !(item.desc || "").toLowerCase().includes(q)) {
+        return false;
+      }
       return true;
     });
   }, [search, activeCat]);
@@ -115,6 +94,11 @@ export default function OutpatientTreatPanel({
                 <div style={{ fontSize: 12.5, fontWeight: isSelected ? 700 : 500, color: isSelected ? C.green : C.text, fontFamily: FONT }}>
                   {item.name}
                 </div>
+                {item.desc && (
+                  <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
+                    {item.desc}
+                  </div>
+                )}
               </div>
               <div style={{ width: 20, height: 20, borderRadius: 6, border: `1px solid ${isSelected ? C.green : C.border}`, background: isSelected ? C.green : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 {isSelected && <IconCheck size={12} color={C.bg} />}

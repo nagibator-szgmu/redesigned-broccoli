@@ -22,7 +22,7 @@ export const DIAGNOSTICS = [
   { id: "ct_abdo", name: "КТ органов брюшной полости", cat: "imaging" },
   { id: "xray_abdo", name: "Обзорная рентгенография брюшной полости", cat: "imaging" },
   { id: "ferritin", name: "Ферритин / железо сыворотки", cat: "lab" },
-  { id: "serology_celiac", name: "АТ к тканевой трансглутаминазе IgA", cat: "lab" },
+  { id: "serology_celiac", name: "Серология целиакии (АТ к тканевой трансглутаминазе IgA)", cat: "lab" },
   { id: "ph_impedance", name: "Суточная рН-импедансометрия пищевода", cat: "imaging" },
   { id: "paracentesis", name: "Лапароцентез (пункция асцита)", cat: "lab" },
   { id: "pcr_stool", name: "ПЦР кала на ОКИ / токсины C. diff", cat: "lab" },

@@ -113,4 +113,25 @@ assert.equal(scoreArr.score, 60);
 const scoreJson = computeScore(choleCase, choleCase.needDiag, [], JSON.stringify({ main: "ЖКБ" }), vitals, 900, anamnesis, "refer_specialist");
 assert.equal(scoreJson.score, 100);
 
+import { OUTPATIENT_TREATMENTS, OUTPATIENT_TREATMENTS_MAP } from "../src/data/outpatientTreatments.js";
+import { DIAGNOSTICS } from "../src/data/diagnostics.js";
+
+// Check that no outpatient treatments contain IV designations
+for (const t of OUTPATIENT_TREATMENTS) {
+  assert.equal(t.name.includes("в/в"), false, `Outpatient treatment ${t.id} must not contain 'в/в' in name`);
+  assert.equal((t.desc || "").includes("в/в"), false, `Outpatient treatment ${t.id} must not contain 'в/в' in desc`);
+}
+
+// Check celiac serology test naming
+const celiacTest = DIAGNOSTICS.find((d) => d.id === "serology_celiac");
+assert.ok(celiacTest, "serology_celiac must exist in DIAGNOSTICS");
+assert.ok(celiacTest.name.includes("Серология целиакии"), "serology_celiac name must include 'Серология целиакии'");
+
+// Check all outpatient cases needTreat are covered by OUTPATIENT_TREATMENTS
+for (const c of OUTPATIENT_CASES) {
+  for (const tid of c.needTreat || []) {
+    assert.ok(OUTPATIENT_TREATMENTS_MAP[tid], `Outpatient case ${c.id} needTreat '${tid}' must be in OUTPATIENT_TREATMENTS`);
+  }
+}
+
 console.log("✓ ALL 10 OUTPATIENT GASTROENTEROLOGY & ADAPTIVE SCORING TESTS PASSED");
