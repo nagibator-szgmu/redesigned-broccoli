@@ -1,4 +1,4 @@
-import { clamp, r1, CLAMP_RANGES } from "../../engine/patient";
+import { clamp, r1, CLAMP_RANGES } from "../../engine/patient.js";
 
 /**
  * Calculates patient vitals progression for the next hospital day.
@@ -30,6 +30,7 @@ export function calculateNextDayVitals(currentPs, cd, nextDayIndex, dailyTreatme
     if (dayPlanItem.hr != null) nextPs.hr = dayPlanItem.hr;
     if (dayPlanItem.spo2 != null) nextPs.spo2 = dayPlanItem.spo2;
     if (dayPlanItem.temp != null) nextPs.temp = dayPlanItem.temp;
+    else if (nextPs.temp > 36.8) nextPs.temp = r1(Math.max(36.6, nextPs.temp - 0.5));
     if (dayPlanItem.gcs != null) nextPs.gcs = dayPlanItem.gcs;
   } else if (isAdequate) {
     if (nextPs.temp > 36.8) nextPs.temp = r1(Math.max(36.6, nextPs.temp - 0.6));

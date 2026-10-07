@@ -218,17 +218,17 @@ src/
 
 | Метрика | Значение |
 |---------|----------|
-| Случаи | 67 (55 emergency + 6 outpatient + 5 stationary + 1 tutorial) |
-| Лечения | 40 |
-| Диагностические тесты | 30 |
-| Темы теории | 35 |
-| Препараты | 40 |
-| Тесты (вопросы) | 35 (130) |
+| Случаи | 84 (38 icu + 27 admission + 12 outpatient + 7 stationary) |
+| Лечения | 60 |
+| Диагностические тесты | 38 |
+| Темы теории | 46 |
+| Препараты | 60 |
+| Тесты (вопросы) | 46 (163) |
 | Протоколы | 5 |
-| Сертификаты | 17 |
+| Сертификаты | 15 |
 | Режимы игры | 4 (обычный, стресс, случайный, курс) + Learning mode + Assessment mode |
 | Языки | 2 (RU, EN) |
-| Специальности | 7 (cardiac, neuro, respiratory, infectious, endocrine, toxicology, abdominal) |
+| Специальности | 7 (cardiac, neuro, respiratory, infectious, endocrine, toxicology, abdominal/gastro) |
 | Отделения | 4 (icu, admission, outpatient, stationary) |
 
 ---

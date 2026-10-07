@@ -18,7 +18,7 @@ export default function ResultsPanel({ cd, orderedDiag, revealedResults, process
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {orderedDiag.map((id) => {
-          const text = revealedResults[id];
+          const text = cycle?.testsByDay?.[cycle?.currentDay]?.[id] || revealedResults[id];
           if (!text) {
             return (
               <div key={id} style={{ padding: "8px 10px", borderRadius: 8, background: `${C.textDim}08`, display: "flex", alignItems: "center", gap: 8 }}>

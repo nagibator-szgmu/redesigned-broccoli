@@ -163,12 +163,11 @@ export default function useGameSession({
     revealedResults: diagnostics.revealedResults,
     newResultIds: diagnostics.newResultIds,
     selTreat: treatment.selTreat,
+    setSelTreat: treatment.setSelTreat,
     toggleTreatment: treatment.toggleTreatment,
     processingTests: diagnostics.processingTests,
     allResultsReady: diagnostics.allResultsReady,
-    addEvent,
-    startGame,
-    handleSubmit,
+    addEvent, startGame, handleSubmit,
     handleOrderTests: diagnostics.handleOrderTests,
   };
 }

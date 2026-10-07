@@ -4,23 +4,15 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { TREATMENTS } from "../../../data/treatments";
 import { CAT_COLOR } from "../../../data/diagnostics";
-import { IconCheck, IconSiren, IconAlertTriangle, IconSearch, IconX } from "../../../ui/icons";
+import { IconCheck, IconSiren, IconAlertTriangle, IconSearch, IconX, IconRefresh } from "../../../ui/icons";
 import { TREAT_GROUPS, matchTreatGroup } from "../../../components/game/treat/treatGroups";
 import TooltipBtn from "../../../components/game/TooltipBtn";
 import { DAY_COLORS } from "./constants";
 
 /** Treatment selection panel in stationary game with ICU-like category tabs and search */
 export default function TreatPanel({
-  cd,
-  selTreat = [],
-  toggleTreatment,
-  handleEndDay,
-  canProceedFromTreat,
-  cycle,
-  appliedFx,
-  pendingFx,
-  treatCat = "all",
-  setTreatCat,
+  cd, selTreat = [], setSelTreat, toggleTreatment, handleEndDay, canProceedFromTreat,
+  cycle, appliedFx, pendingFx, treatCat = "all", setTreatCat,
 }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -29,11 +21,16 @@ export default function TreatPanel({
   const [activeGroup, setActiveGroup] = useState(treatCat || "all");
 
   const q = searchQuery.trim().toLowerCase();
+  const lastTreatments = cycle?.dayHistory?.[cycle.dayHistory.length - 1]?.treatments;
+  const canRepeat = cycle?.currentDay > 0 && Array.isArray(lastTreatments) && lastTreatments.length > 0;
 
-  const handleGroupChange = (gid) => {
-    setActiveGroup(gid);
-    setTreatCat?.(gid);
+  const handleRepeatYesterday = () => {
+    if (!canRepeat) return;
+    if (setSelTreat) setSelTreat([...lastTreatments]);
+    else if (toggleTreatment) lastTreatments.forEach((tId) => { if (!selTreat.includes(tId)) toggleTreatment(tId); });
   };
+
+  const handleGroupChange = (gid) => { setActiveGroup(gid); setTreatCat?.(gid); };
 
   const filteredTreatments = useMemo(() => {
     return TREATMENTS.filter((item) => {
@@ -56,6 +53,23 @@ export default function TreatPanel({
         </div>
       </div>
 
+      {/* Кнопка повтора вчерашнего курса */}
+      {canRepeat && (
+        <button
+          type="button"
+          onClick={handleRepeatYesterday}
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+            width: "100%", padding: "5px 10px", marginBottom: 6, borderRadius: 6,
+            border: `1px solid ${C.accent}44`, background: `${C.accent}14`,
+            color: C.accent, fontSize: 11.5, fontWeight: 600, fontFamily: FONT, cursor: "pointer",
+          }}
+        >
+          <IconRefresh size={12} color={C.accent} />
+          <span>Повторить вчерашний курс ({lastTreatments.length})</span>
+        </button>
+      )}
+
       {/* Горизонтальные вкладки категорий как в ОРИТ */}
       <div className="no-scrollbar" style={{ display: "flex", gap: 4, overflowX: "auto", paddingBottom: 4, marginBottom: 6, flexShrink: 0, WebkitOverflowScrolling: "touch" }}>
         {TREAT_GROUPS.map((g) => {
@@ -66,9 +80,7 @@ export default function TreatPanel({
           }).length;
           return (
             <button
-              key={g.id}
-              type="button"
-              onClick={() => handleGroupChange(g.id)}
+              key={g.id} type="button" onClick={() => handleGroupChange(g.id)}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6,
                 border: `1px solid ${isActive ? C.green : C.btnBorder || C.border}`,
@@ -92,9 +104,7 @@ export default function TreatPanel({
       <div style={{ display: "flex", alignItems: "center", gap: 6, background: C.headerBg2, border: `1px solid ${C.border}`, borderRadius: 8, padding: "5px 8px", marginBottom: 6 }}>
         <IconSearch size={12} color={C.textDim} />
         <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={t("search.placeholderTreat") || "Поиск препаратов..."}
           style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: C.text, fontFamily: FONT, fontSize: 11.5 }}
         />
@@ -123,8 +133,7 @@ export default function TreatPanel({
             const color = isDanger && selected ? C.red : (CAT_COLOR[item.cat] || dayColor);
             return (
               <div
-                key={item.id}
-                onClick={() => toggleTreatment(item.id)}
+                key={item.id} onClick={() => toggleTreatment(item.id)}
                 style={{
                   display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 6,
                   cursor: "pointer", background: selected ? (isDanger ? `${C.red}18` : `${color}18`) : "transparent",
@@ -147,17 +156,14 @@ export default function TreatPanel({
         )}
       </div>
 
-      {/* Кнопка завершения дня всегда видна внизу */}
+      {/* Кнопка завершения дня */}
       <button
-        onClick={handleEndDay}
-        disabled={!canProceedFromTreat}
+        onClick={handleEndDay} disabled={!canProceedFromTreat}
         style={{
           width: "100%", marginTop: 8, padding: "9px", borderRadius: 8,
           background: canProceedFromTreat ? `linear-gradient(135deg,${dayColor},${C.accent})` : `${C.textDim}30`,
-          border: "none", fontSize: 12.5, fontWeight: 700,
-          color: canProceedFromTreat ? C.bg : C.textDim,
-          cursor: canProceedFromTreat ? "pointer" : "not-allowed",
-          fontFamily: FONT,
+          border: "none", fontSize: 12.5, fontWeight: 700, color: canProceedFromTreat ? C.bg : C.textDim,
+          cursor: canProceedFromTreat ? "pointer" : "not-allowed", fontFamily: FONT,
         }}
       >
         {t("stationary.endDay")} ({selTreat.length})

@@ -15,7 +15,7 @@ import { LearningTipToast, TheoryModal } from "../../components/game";
 import { getExplanationForCase } from "../../hooks/useReviewRegistry";
 
 /** Stationary department game screen: daily management, monitoring and treatment. */
-export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests, handleOrderTests: handleOrderTestsRaw, selTreat, toggleTreatment, setPhase, setExtraResult, setRevealedAnamnesis, learningMode, appliedFx, pendingFx, treatCat, setTreatCat }) {
+export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests, handleOrderTests: handleOrderTestsRaw, selTreat, setSelTreat, toggleTreatment, setPhase, setExtraResult, setRevealedAnamnesis, learningMode, appliedFx, pendingFx, treatCat, setTreatCat }) {
   const C = useTheme();
   const { t } = useTranslate();
   const isMobile = useIsMobile();
@@ -44,9 +44,10 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
 
   const handleOrderTests = useCallback(() => {
     handleOrderTestsRaw();
+    cycle.orderDailyTests?.(selDiag, selTreat);
     setLocalPhase("results");
     setOpenTab("results");
-  }, [handleOrderTestsRaw]);
+  }, [handleOrderTestsRaw, cycle, selDiag, selTreat]);
 
   useEffect(() => {
     if (localPhase === "morning") setPhase("morning");
@@ -72,22 +73,25 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
 
   const handleEndDay = () => {
     if (selTreat.length === 0) return;
-    const res = cycle.endDay(currentPs);
+    const res = cycle.endDay(currentPs, selTreat);
     if (res.gameOver) {
-      setExtraResult && setExtraResult({ dayHistory: cycle.dayHistory, cycleOutcome: res.outcome, dischargeCriteria: cd.dischargeCriteria, maxDays: cd.maxDays });
+      const history = res.dayHistory || cycle.dayHistory;
+      setExtraResult && setExtraResult({ dayHistory: history, cycleOutcome: res.outcome, dischargeCriteria: cd.dischargeCriteria, maxDays: cd.maxDays });
       setPhase("result");
     } else {
+      setSelTreat?.([]);
+      setSelDiag?.([]);
       setLocalPhase("morning");
       setOpenTab(null);
       setDrawerOpen(false);
     }
   };
 
-  const panelProps = { cd, cycle, selDiag, setSelDiag, selTreat, toggleTreatment, handleOrderTests, handleEndDay, orderedDiag, revealedResults, processingTests, setLocalPhase, canProceedFromTreat: selTreat.length > 0, appliedFx, pendingFx, treatCat, setTreatCat };
+  const panelProps = { cd, cycle, selDiag, setSelDiag, selTreat, setSelTreat, toggleTreatment, handleOrderTests, handleEndDay, orderedDiag, revealedResults, processingTests, setLocalPhase, canProceedFromTreat: selTreat.length > 0, appliedFx, pendingFx, treatCat, setTreatCat };
 
   const actionTabs = (
     <StationaryActionTabs openTab={openTab} onToggleTab={(id) => { setOpenTab(p => p === id ? null : id); setLocalPhase(id); }} currentDay={cycle.currentDay} selDiagCount={selDiag.length} resultsCount={orderedDiag.length} selTreatCount={selTreat.length}>
-      {openTab === "morning" && <MorningPanel morningInfo={cycle.morningInfo} cycle={cycle} setLocalPhase={(p) => { setLocalPhase(p); setOpenTab(p); }} currentPs={currentPs} />}
+      {openTab === "morning" && <MorningPanel cd={cd} morningInfo={cycle.morningInfo} cycle={cycle} setLocalPhase={(p) => { setLocalPhase(p); setOpenTab(p); }} currentPs={currentPs} />}
       {openTab === "order_tests" && <TestSelection {...panelProps} />}
       {openTab === "results" && <ResultsPanel {...panelProps} />}
       {openTab === "treat" && <TreatPanel {...panelProps} />}
@@ -106,7 +110,7 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
           <>
             <div style={{ flex: 1, overflowY: "auto", padding: 12 }}>
               <PatientCard cd={cd} currentPs={currentPs} cycle={cycle} />
-              <MorningPanel morningInfo={cycle.morningInfo} cycle={cycle} setLocalPhase={(p) => { if (p === "order_tests") toggleDrawer("diag"); else if (p === "treat") toggleDrawer("treat"); else setLocalPhase(p); }} currentPs={currentPs} />
+              <MorningPanel cd={cd} morningInfo={cycle.morningInfo} cycle={cycle} setLocalPhase={(p) => { if (p === "order_tests") toggleDrawer("diag"); else if (p === "treat") toggleDrawer("treat"); else setLocalPhase(p); }} currentPs={currentPs} />
               {orderedDiag.length > 0 && <ResultsPanel {...panelProps} />}
               <StationaryHistoryPanel cd={cd} onReveal={handleRevealAnamnesis} />
             </div>

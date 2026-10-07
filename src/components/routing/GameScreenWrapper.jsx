@@ -21,6 +21,7 @@ export default function GameScreenWrapper({
         selDiag={game.selDiag}
         setSelDiag={game.setSelDiag}
         selTreat={game.selTreat}
+        setSelTreat={game.setSelTreat}
         toggleTreatment={game.toggleTreatment}
         orderedDiag={game.orderedDiag}
         revealedResults={game.revealedResults}

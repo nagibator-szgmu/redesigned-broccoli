@@ -4,9 +4,10 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { IconChevronDown, IconChevronUp, IconCheckCircle, IconCheck } from "../../../ui/icons";
 import { DAY_COLORS } from "./constants";
+import MaddrayMeldCard from "./MaddrayMeldCard";
 
 /** Morning phase panel in stationary game with expandable discharge checklist */
-export default function MorningPanel({ morningInfo, cycle, currentPs }) {
+export default function MorningPanel({ cd, morningInfo, cycle, currentPs }) {
   const C = useTheme();
   const { t } = useTranslate();
   const [showCriteria, setShowCriteria] = useState(false);
@@ -79,6 +80,7 @@ export default function MorningPanel({ morningInfo, cycle, currentPs }) {
           )}
         </div>
       )}
+      {(cd?.id === "stat_gastro_2" || cycle?.cd?.id === "stat_gastro_2") && <MaddrayMeldCard />}
     </div>
   );
 }
