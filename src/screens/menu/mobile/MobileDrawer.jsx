@@ -10,6 +10,7 @@ import {
   IconLogOut,
   IconX,
 } from "../../../ui/icons";
+import { getUserAvatar } from "../AccountModal";
 
 export default function MobileDrawer({
   drawerOpen,
@@ -17,11 +18,14 @@ export default function MobileDrawer({
   setPhase,
   setProgressionMode,
   setShowSettings,
+  setShowAccount,
   logout,
   t,
   C,
 }) {
   if (!drawerOpen) return null;
+  const userAvatar = getUserAvatar();
+  const UserAvatarIcon = userAvatar.icon;
 
   const navigate = (phase, mode) => {
     if (mode) setProgressionMode(mode);
@@ -116,6 +120,25 @@ export default function MobileDrawer({
             gap: 6,
           }}
         >
+          {/* Profile Card Button */}
+          <div
+            data-testid="mobile-profile-btn"
+            onClick={() => { if (setShowAccount) setShowAccount(true); setDrawerOpen(false); }}
+            style={{
+              display: "flex", alignItems: "center", gap: 10, padding: "8px 10px",
+              borderRadius: 12, background: C.btnBg, border: `1px solid ${C.btnBorder}`,
+              cursor: "pointer", marginBottom: 8, boxSizing: "border-box"
+            }}
+          >
+            <div style={{ width: 32, height: 32, borderRadius: "50%", background: C.accentDim, border: `1px solid ${C.accent}50`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <UserAvatarIcon size={16} color={C.accent} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: C.white }}>Студент-Медик</div>
+              <div style={{ fontSize: 10, color: C.accent, opacity: 0.9 }}>{userAvatar.label}</div>
+            </div>
+          </div>
+
           {navItems.map((item) => (
             <button
               key={item.label}

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSim — Полный визуальный аудит интерфейсов</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --accent: #06b6d4;
+      --border: #1f2937;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 24px;
+    }
+    header {
+      max-width: 1400px;
+      margin: 0 auto 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    h1 { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .subtitle { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .device-switcher {
+      display: flex;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      gap: 4px;
+    }
+    .device-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .device-btn.active {
+      background: var(--accent);
+      color: #000;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .category-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 36px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(6, 182, 212, 0.5);
+      transform: translateY(-2px);
+    }
+    .img-box {
+      width: 100%;
+      height: 240px;
+      background: #000;
+      overflow: hidden;
+      position: relative;
+      cursor: zoom-in;
+    }
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.3s;
+    }
+    .img-box:hover img {
+      transform: scale(1.03);
+    }
+    .info {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .item-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .item-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px; }
+    .open-btn {
+      margin-top: auto;
+      display: inline-block;
+      text-align: center;
+      padding: 7px 12px;
+      background: rgba(255,255,255,0.06);
+      color: #38bdf8;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      transition: background 0.2s;
+    }
+    .open-btn:hover { background: rgba(56, 189, 248, 0.15); }
+    /* Modal Zoom */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      cursor: zoom-out;
+    }
+    #lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>MedSim — Фотоотчет интерфейсов и режимов</h1>
+      <div class="subtitle">Полноэкранный визуальный аудит всех экранов, вкладок и модальных окон (96 снимков)</div>
+    </div>
+    <div class="device-switcher">
+      <button class="device-btn active" onclick="switchDevice('desktop', this)">💻 Desktop (1440 × 900)</button>
+<button class="device-btn " onclick="switchDevice('tablet', this)">📱 Tablet (820 × 1180)</button>
+<button class="device-btn " onclick="switchDevice('mobile', this)">📱 Mobile (390 × 844)</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="category-title">1. Главное меню и навигация</div>
+    <div class="grid">
+      <div class="card" data-id="01_menu_main_all">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/01_menu_main_all.png" alt="Главное меню (Все кейсы)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Главное меню (Все кейсы)</div>
+          <div class="item-desc">Стартовый экран, каталог клинических кейсов, строка поиска, сайдбар, фильтры</div>
+          <a class="open-btn" href="screenshots/desktop/01_menu_main_all.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="02_menu_dept_icu">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/02_menu_dept_icu.png" alt="Меню: Фильтр ОРИТ" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Меню: Фильтр ОРИТ</div>
+          <div class="item-desc">Отображение только экстренных реанимационных кейсов</div>
+          <a class="open-btn" href="screenshots/desktop/02_menu_dept_icu.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="03_menu_dept_admission">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/03_menu_dept_admission.png" alt="Меню: Фильтр Приёмное" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Меню: Фильтр Приёмное</div>
+          <div class="item-desc">Кейсы приемного покоя с диагностикой и маршрутизацией</div>
+          <a class="open-btn" href="screenshots/desktop/03_menu_dept_admission.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="04_menu_dept_stationary">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/04_menu_dept_stationary.png" alt="Меню: Фильтр Стационар" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Меню: Фильтр Стационар</div>
+          <div class="item-desc">Кейсы отделений стационара с суточным ведением</div>
+          <a class="open-btn" href="screenshots/desktop/04_menu_dept_stationary.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="05_menu_dept_outpatient">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/05_menu_dept_outpatient.png" alt="Меню: Фильтр Поликлиника" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Меню: Фильтр Поликлиника</div>
+          <div class="item-desc">Амбулаторный прием пациентов</div>
+          <a class="open-btn" href="screenshots/desktop/05_menu_dept_outpatient.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="06_menu_settings_modal">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/06_menu_settings_modal.png" alt="Модальное окно: Настройки" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Модальное окно: Настройки</div>
+          <div class="item-desc">Уровни сложности, режимы игры, обучение, ассистент, тема, звук</div>
+          <a class="open-btn" href="screenshots/desktop/06_menu_settings_modal.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="07_menu_notifications_modal">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/07_menu_notifications_modal.png" alt="Модальное окно: Уведомления" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Модальное окно: Уведомления</div>
+          <div class="item-desc">Клинические напоминания, анонсы и обновления базы</div>
+          <a class="open-btn" href="screenshots/desktop/07_menu_notifications_modal.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="08_menu_account_modal">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/08_menu_account_modal.png" alt="Модальное окно: Профиль врача" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Модальное окно: Профиль врача</div>
+          <div class="item-desc">Роль, аватар, специальность, опыт XP</div>
+          <a class="open-btn" href="screenshots/desktop/08_menu_account_modal.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="09_menu_mobile_drawer">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/09_menu_mobile_drawer.png" alt="Мобильное меню (Drawer)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Мобильное меню (Drawer)</div>
+          <div class="item-desc">Выдвижная боковая панель на планшете/смартфоне</div>
+          <a class="open-btn" href="screenshots/desktop/09_menu_mobile_drawer.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="category-title">2. Обучение, Онбординг и Карта курсов</div>
+    <div class="grid">
+      <div class="card" data-id="10_onboarding_step">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/10_onboarding_step.png" alt="Онбординг (Вводный тур)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Онбординг (Вводный тур)</div>
+          <div class="item-desc">Интерактивное обучение новым механикам симулятора</div>
+          <a class="open-btn" href="screenshots/desktop/10_onboarding_step.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="16_course_map">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/16_course_map.png" alt="Интерактивная карта курсов" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Интерактивная карта курсов</div>
+          <div class="item-desc">Древо специализаций, прогресс прохождения клинических блоков</div>
+          <a class="open-btn" href="screenshots/desktop/16_course_map.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="category-title">3. Теория, Справочники и Протоколы</div>
+    <div class="grid">
+      <div class="card" data-id="11_theory_hub">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/11_theory_hub.png" alt="Теоретический хаб" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Теоретический хаб</div>
+          <div class="item-desc">Каталог конспектов, классификаций и рекомендаций</div>
+          <a class="open-btn" href="screenshots/desktop/11_theory_hub.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="12_theory_topic_content">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/12_theory_topic_content.png" alt="Конспект клинической темы" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Конспект клинической темы</div>
+          <div class="item-desc">Детальный конспект по нозологии с привязкой к КР Минздрава</div>
+          <a class="open-btn" href="screenshots/desktop/12_theory_topic_content.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="13_theory_drug_reference">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/13_theory_drug_reference.png" alt="Справочник препаратов" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Справочник препаратов</div>
+          <div class="item-desc">40 лекарственных средств, показания, дозировки, антидоты</div>
+          <a class="open-btn" href="screenshots/desktop/13_theory_drug_reference.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="14_theory_protocols">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/14_theory_protocols.png" alt="Клинические протоколы" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Клинические протоколы</div>
+          <div class="item-desc">Протоколы ACLS, BLS, ATLS, Sepsis, Stroke</div>
+          <a class="open-btn" href="screenshots/desktop/14_theory_protocols.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="15_theory_calculator_gcs">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/15_theory_calculator_gcs.png" alt="Медицинский калькулятор GCS" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Медицинский калькулятор GCS</div>
+          <div class="item-desc">Интерактивная шкала ком Глазго</div>
+          <a class="open-btn" href="screenshots/desktop/15_theory_calculator_gcs.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="category-title">4. Статистика, Сертификаты и Преподаватель</div>
+    <div class="grid">
+      <div class="card" data-id="17_leaderboard">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/17_leaderboard.png" alt="Таблица лидеров и статистика" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Таблица лидеров и статистика</div>
+          <div class="item-desc">Очки ОСКЭ, статистика сессий, рейтинг врачей</div>
+          <a class="open-btn" href="screenshots/desktop/17_leaderboard.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="18_certificates">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/18_certificates.png" alt="Витрина сертификатов" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Витрина сертификатов</div>
+          <div class="item-desc">17 профессиональных дипломов и сертификатов симулятора</div>
+          <a class="open-btn" href="screenshots/desktop/18_certificates.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="19_teacher_dashboard">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/19_teacher_dashboard.png" alt="Кабинет преподавателя" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Кабинет преподавателя</div>
+          <div class="item-desc">Групповая аналитика, тепловая карта когнитивных ошибок</div>
+          <a class="open-btn" href="screenshots/desktop/19_teacher_dashboard.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="category-title">5. Игровой режим: ОРИТ (ICU Workstation)</div>
+    <div class="grid">
+      <div class="card" data-id="20_game_icu_workspace_abcde">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/20_game_icu_workspace_abcde.png" alt="ОРИТ: Рабочая станция & ABCDE" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Рабочая станция & ABCDE</div>
+          <div class="item-desc">Витальный монитор, ЭКГ в реальном времени, статус больного, ABCDE</div>
+          <a class="open-btn" href="screenshots/desktop/20_game_icu_workspace_abcde.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="21_game_icu_diagnostics_tab">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/21_game_icu_diagnostics_tab.png" alt="ОРИТ: Вкладка Диагностика (Desktop)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Вкладка Диагностика (Desktop)</div>
+          <div class="item-desc">Назначение тестов: ЭКГ, тропонин, газы крови, КТ</div>
+          <a class="open-btn" href="screenshots/desktop/21_game_icu_diagnostics_tab.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="21_game_icu_mobile_diag_drawer">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/21_game_icu_mobile_diag_drawer.png" alt="ОРИТ: Диагностика (Mobile Drawer)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Диагностика (Mobile Drawer)</div>
+          <div class="item-desc">Мобильная шторка экспресс-заказа лабораторных тестов</div>
+          <a class="open-btn" href="screenshots/desktop/21_game_icu_mobile_diag_drawer.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="22_game_icu_treatment_tab">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/22_game_icu_treatment_tab.png" alt="ОРИТ: Вкладка Лечение (Desktop)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Вкладка Лечение (Desktop)</div>
+          <div class="item-desc">Выбор экстренной медикаментозной терапии</div>
+          <a class="open-btn" href="screenshots/desktop/22_game_icu_treatment_tab.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="22_game_icu_mobile_treat_drawer">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/22_game_icu_mobile_treat_drawer.png" alt="ОРИТ: Терапия (Mobile Drawer)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Терапия (Mobile Drawer)</div>
+          <div class="item-desc">Мобильная шторка введения медикаментов</div>
+          <a class="open-btn" href="screenshots/desktop/22_game_icu_mobile_treat_drawer.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="23_game_icu_diagnosis_tab">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/23_game_icu_diagnosis_tab.png" alt="ОРИТ: Вкладка Постановка диагноза" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Вкладка Постановка диагноза</div>
+          <div class="item-desc">Диагностическое заключение и верификация гипотезы</div>
+          <a class="open-btn" href="screenshots/desktop/23_game_icu_diagnosis_tab.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="23_game_icu_mobile_diagnose_view">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/23_game_icu_mobile_diagnose_view.png" alt="ОРИТ: Диагноз (Mobile)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">ОРИТ: Диагноз (Mobile)</div>
+          <div class="item-desc">Мобильный интерфейс постановки окончательного диагноза</div>
+          <a class="open-btn" href="screenshots/desktop/23_game_icu_mobile_diagnose_view.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="category-title">6. Игровые режимы: Приёмное, Стационар, Поликлиника</div>
+    <div class="grid">
+      <div class="card" data-id="24_game_admission_workspace">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/24_game_admission_workspace.png" alt="Приёмное отделение (Admission)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Приёмное отделение (Admission)</div>
+          <div class="item-desc">Краткий анамнез, triage, ABCDE и выбор маршрута госпитализации</div>
+          <a class="open-btn" href="screenshots/desktop/24_game_admission_workspace.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="25_game_stationary_workspace">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/25_game_stationary_workspace.png" alt="Стационар: Обход и суточный цикл" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Стационар: Обход и суточный цикл</div>
+          <div class="item-desc">Дневники курации, виталы по дням, план лечения</div>
+          <a class="open-btn" href="screenshots/desktop/25_game_stationary_workspace.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="26_game_stationary_anamnesis_illness">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/26_game_stationary_anamnesis_illness.png" alt="Стационар: Анамнез заболевания" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Стационар: Анамнез заболевания</div>
+          <div class="item-desc">История развития настоящего заболевания</div>
+          <a class="open-btn" href="screenshots/desktop/26_game_stationary_anamnesis_illness.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="27_game_stationary_anamnesis_life">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/27_game_stationary_anamnesis_life.png" alt="Стационар: Анамнез жизни" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Стационар: Анамнез жизни</div>
+          <div class="item-desc">Хронические заболевания, аллергии, противопоказания</div>
+          <a class="open-btn" href="screenshots/desktop/27_game_stationary_anamnesis_life.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="28_game_outpatient_workspace">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/28_game_outpatient_workspace.png" alt="Поликлиника (Outpatient Desk)" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Поликлиника (Outpatient Desk)</div>
+          <div class="item-desc">Амбулаторный прием, план обследования и маршрутизация</div>
+          <a class="open-btn" href="screenshots/desktop/28_game_outpatient_workspace.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="category-title">7. Дебрифинг и Экран результатов (ResultScreen)</div>
+    <div class="grid">
+      <div class="card" data-id="29_result_summary_overview">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/29_result_summary_overview.png" alt="Результаты: Обзор и оценка ОСКЭ" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Результаты: Обзор и оценка ОСКЭ</div>
+          <div class="item-desc">Итоговый балл (0-100), исход пациента, дельты виталов, звезды</div>
+          <a class="open-btn" href="screenshots/desktop/29_result_summary_overview.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="30_result_errors_tab">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/30_result_errors_tab.png" alt="Результаты: Анализ ошибок & Дебрифинг" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Результаты: Анализ ошибок & Дебрифинг</div>
+          <div class="item-desc">Опасные назначения, пропущенные тесты, когнитивные ловушки</div>
+          <a class="open-btn" href="screenshots/desktop/30_result_errors_tab.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="31_result_theory_tab">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/31_result_theory_tab.png" alt="Результаты: Рекомендации Минздрава" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Результаты: Рекомендации Минздрава</div>
+          <div class="item-desc">Связанные протоколы и клинреки по завершенному диагнозу</div>
+          <a class="open-btn" href="screenshots/desktop/31_result_theory_tab.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+      <div class="card" data-id="32_result_timeline_tab">
+        <div class="img-box" onclick="zoomImage(this)">
+          <img src="screenshots/desktop/32_result_timeline_tab.png" alt="Результаты: Поминутный таймлайн" loading="lazy" />
+        </div>
+        <div class="info">
+          <div class="item-title">Результаты: Поминутный таймлайн</div>
+          <div class="item-desc">Хронология каждого решения, заказа теста и введения препарата</div>
+          <a class="open-btn" href="screenshots/desktop/32_result_timeline_tab.png" target="_blank">Открыть в полном разрешении ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="Zoomed view" />
+  </div>
+
+  <script>
+    let currentDevice = 'desktop';
+
+    function switchDevice(device, btn) {
+      currentDevice = device;
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        const img = card.querySelector('img');
+        const link = card.querySelector('.open-btn');
+        const newSrc = 'screenshots/' + device + '/' + id + '.png';
+        img.src = newSrc;
+        link.href = newSrc;
+      });
+    }
+
+    function zoomImage(box) {
+      const src = box.querySelector('img').src;
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = src;
+      lb.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

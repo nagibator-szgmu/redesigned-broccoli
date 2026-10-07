@@ -125,8 +125,15 @@ export default function AppContentRouter({
     );
   }
 
-  if (game.phase === "map") {
-    return <CourseMapScreen setPhase={game.setPhase} progress={progress} />;
+  if (game.phase === "map" || game.phase === "course") {
+    return (
+      <CourseMapScreen
+        setPhase={game.setPhase}
+        progress={progress}
+        startGame={startGameWrapped}
+        progressionMode={settings.progressionMode}
+      />
+    );
   }
 
   if (game.phase === "result" && game.result && game.cd) {

@@ -21,7 +21,7 @@ export default function MobileBottomBar({ setPhase, setDrawerOpen, t, C }) {
       id: "course",
       label: t("nav.course") || "Курс",
       Icon: IconMap,
-      action: () => setPhase("course"),
+      action: () => setPhase("map"),
     },
     {
       id: "leaderboard",
