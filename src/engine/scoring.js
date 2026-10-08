@@ -56,19 +56,15 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const selRoute = typeof extraResult === "string" ? extraResult : extraResult?.selectedRoute;
   if (cd.department === "outpatient") {
     const isRouteCorrect = selRoute === cd.correctRoute;
-    if (cd.correctRoute === "treat_outpatient") {
-      if (isRouteCorrect) {
+    if (isRouteCorrect) {
+      score += 20;
+      const needTreat = cd.needTreat || [];
+      if (needTreat.length === 0) {
         score += 15;
-        const needTreat = cd.needTreat || [];
-        if (needTreat.length === 0) {
-          score += 15;
-        } else {
-          const th = needTreat.filter(id => safeSelTreat.includes(id)).length;
-          score += Math.round((th / needTreat.length) * 15);
-        }
+      } else {
+        const th = needTreat.filter(id => safeSelTreat.includes(id)).length;
+        score += Math.round((th / needTreat.length) * 15);
       }
-    } else {
-      if (isRouteCorrect) score += 30;
     }
   } else {
     const needTreat = cd.needTreat || [];
@@ -97,14 +93,16 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   }
 
   const outcome = computeOutcome(finalPS, cd, cd.department);
-  if (outcome === "stable") score += 20;
-  else if (outcome === "stabilized") score += 20;
-  else if (outcome === "unstable") score += 10;
-  else if (outcome === "critical") score += 3;
-  else if (outcome === "transferToICU") score += 5;
-  else if (outcome === "routed") score += 15;
-  else if (outcome === "timeout_no_route") score = Math.max(0, score - 10);
-  else if (outcome === "dead") score = Math.max(0, score - 20);
+  if (cd.department !== "outpatient") {
+    if (outcome === "stable") score += 20;
+    else if (outcome === "stabilized") score += 20;
+    else if (outcome === "unstable") score += 10;
+    else if (outcome === "critical") score += 3;
+    else if (outcome === "transferToICU") score += 5;
+    else if (outcome === "routed") score += 15;
+    else if (outcome === "timeout_no_route") score = Math.max(0, score - 10);
+    else if (outcome === "dead") score = Math.max(0, score - 20);
+  }
 
   if (elapsedSec !== undefined && cd.department !== "outpatient") {
     score += computeTimeBonus(elapsedSec, cd.timeLimit);

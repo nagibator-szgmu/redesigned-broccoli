@@ -56,11 +56,11 @@ const choleCase = ALL_GASTRO_OUTP.find((c) => c.id === "outp_gastro_cholelithias
 const vitals = { status: "stable", hr: 76, bp: "125/80", spo2: 99, gcs: 15 };
 const anamnesis = new Set(["historyOfIllness", "lifeHistory"]);
 
-const scoreRouteOk = computeScore(choleCase, choleCase.needDiag, [], "", vitals, 900, anamnesis, { selectedRoute: "refer_specialist" });
-const scoreRouteWrong = computeScore(choleCase, choleCase.needDiag, [], "", vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
-assert.equal(scoreRouteOk.score, 80, "Score with correct referral route must be 80");
-assert.equal(scoreRouteWrong.score, 50, "Score with wrong route must be 50");
-assert.equal(scoreRouteOk.score - scoreRouteWrong.score, 30, "Route diff must be 30 pts for referral");
+const scoreRouteOk = computeScore(choleCase, choleCase.needDiag, ["spasmolytics"], "", vitals, 900, anamnesis, { selectedRoute: "refer_specialist" });
+const scoreRouteWrong = computeScore(choleCase, choleCase.needDiag, ["spasmolytics"], "", vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
+assert.equal(scoreRouteOk.score, 65, "Score with correct referral route must be 65 without diag");
+assert.equal(scoreRouteWrong.score, 30, "Score with wrong route must be 30");
+assert.equal(scoreRouteOk.score - scoreRouteWrong.score, 35, "Route + Rx diff must be 35 pts for referral");
 assert.equal(scoreRouteOk.isRouteCorrect, true);
 assert.equal(scoreRouteWrong.isRouteCorrect, false);
 
@@ -69,18 +69,26 @@ const scoreIbsFull = computeScore(ibsCase, ibsCase.needDiag, ["spasmolytics"], "
 const scoreIbsNoMeds = computeScore(ibsCase, ibsCase.needDiag, [], "", vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
 const scoreIbsWrongRoute = computeScore(ibsCase, ibsCase.needDiag, ["spasmolytics"], "", vitals, 900, anamnesis, { selectedRoute: "refer_specialist" });
 
-assert.equal(scoreIbsFull.score, 80, "treat_outpatient with correct Rx must be 80");
-assert.equal(scoreIbsNoMeds.score, 65, "treat_outpatient without Rx must be 65");
-assert.equal(scoreIbsWrongRoute.score, 50, "treat_outpatient with wrong route must be 50");
+assert.equal(scoreIbsFull.score, 65, "treat_outpatient with correct Rx must be 65 without diag");
+assert.equal(scoreIbsNoMeds.score, 50, "treat_outpatient without Rx must be 50");
+assert.equal(scoreIbsWrongRoute.score, 30, "treat_outpatient with wrong route must be 30");
 assert.equal(scoreIbsFull.score - scoreIbsNoMeds.score, 15, "Medication portion must be 15 pts");
-assert.equal(scoreIbsFull.score - scoreIbsWrongRoute.score, 30, "Total route + Rx bonus must be 30 pts");
+assert.equal(scoreIbsFull.score - scoreIbsWrongRoute.score, 35, "Total route + Rx bonus must be 35 pts");
 
 const nashCase = ALL_GASTRO_OUTP.find((c) => c.id === "outp_gastro_nash");
 assert.equal(nashCase.needTreat.length, 0, "NASH must have empty needTreat");
 const scoreNashOk = computeScore(nashCase, nashCase.needDiag, [], "", vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
-assert.equal(scoreNashOk.score, 80, "NASH treat_outpatient with 0 meds must score full 80 (15 route + 15 non-drug Rx)");
+assert.equal(scoreNashOk.score, 65, "NASH treat_outpatient with 0 meds must score 65 without diag (20 route + 15 non-drug Rx + 30 tests/anamnesis)");
 const scoreNashWrongDrug = computeScore(nashCase, nashCase.needDiag, ["aspirin"], "", vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
-assert.equal(scoreNashWrongDrug.score, 65, "NASH with contraindicated aspirin must lose 15 points (80 - 15 = 65)");
+assert.equal(scoreNashWrongDrug.score, 50, "NASH with contraindicated aspirin must lose 15 points (65 - 15 = 50)");
+
+// Test: Missing 1 test out of 5 in outp_gastro_ibs_diarrhea must score 96, NOT 100!
+const ibsMissedTest = computeScore(ibsCase, ["colonoscopy", "crp", "cbc", "bmp"], ["spasmolytics"], JSON.stringify({ main: "СРК с диареей" }), vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
+assert.equal(ibsMissedTest.score, 96, "Missing 1 test out of 5 must score 96/100, not 100/100");
+
+// Test: Perfect completion must score 100/100
+const ibsPerfect = computeScore(ibsCase, ibsCase.needDiag, ["spasmolytics"], JSON.stringify({ main: "СРК с диареей" }), vitals, 900, anamnesis, { selectedRoute: "treat_outpatient" });
+assert.equal(ibsPerfect.score, 100, "Perfect outpatient appointment must score exactly 100/100");
 
 // Test defensive handling of undefined selTreat and lifeHistoryContraindications
 const caseWithContra = OUTPATIENT_GASTRO_CASES[0];
@@ -88,11 +96,12 @@ assert.ok(caseWithContra.lifeHistoryContraindications?.length > 0, "case must ha
 const scoreSafeUndefined = computeScore(caseWithContra, [], undefined, "", vitals);
 assert.equal(typeof scoreSafeUndefined.score, "number", "computeScore must safely handle undefined selTreat");
 
-const scoreVar = computeScore(choleCase, choleCase.needDiag, [], "ЖКБ", vitals, 120, anamnesis, { selectedRoute: "refer_specialist" });
+const scoreVar = computeScore(choleCase, choleCase.needDiag, ["spasmolytics"], "ЖКБ", vitals, 120, anamnesis, { selectedRoute: "refer_specialist" });
 assert.equal(scoreVar.diagCorrect, true, "Should match 'ЖКБ'");
+assert.equal(scoreVar.score, 100, "Full score with diagnosis must be 100");
 
 const scoreNull = computeScore(choleCase, choleCase.needDiag, [], "", vitals, 900, anamnesis, null);
-assert.equal(scoreNull.score, 50);
+assert.equal(scoreNull.score, 30);
 assert.equal(scoreNull.isRouteCorrect, false);
 
 const mockIcu = { ...choleCase, department: "icu", needTreat: ["spasmolytics"] };
@@ -107,10 +116,10 @@ assert.equal(scoreNoVar.isRouteCorrect, true);
 const scoreStr = computeScore(choleCase, [], [], "", vitals, 900, new Set(), "refer_specialist");
 assert.equal(scoreStr.isRouteCorrect, true);
 
-const scoreArr = computeScore(choleCase, [], [], "", vitals, 900, ["historyOfIllness", "lifeHistory"], "refer_specialist");
-assert.equal(scoreArr.score, 60);
+const scoreArr = computeScore(choleCase, [], ["spasmolytics"], "", vitals, 900, ["historyOfIllness", "lifeHistory"], "refer_specialist");
+assert.equal(scoreArr.score, 45);
 
-const scoreJson = computeScore(choleCase, choleCase.needDiag, [], JSON.stringify({ main: "ЖКБ" }), vitals, 900, anamnesis, "refer_specialist");
+const scoreJson = computeScore(choleCase, choleCase.needDiag, ["spasmolytics"], JSON.stringify({ main: "ЖКБ" }), vitals, 900, anamnesis, "refer_specialist");
 assert.equal(scoreJson.score, 100);
 
 import { OUTPATIENT_TREATMENTS, OUTPATIENT_TREATMENTS_MAP } from "../src/data/outpatientTreatments.js";
