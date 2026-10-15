@@ -67,6 +67,7 @@ export default function useGameSession({
     learningMode,
     selectedRoute,
     revealedAnamnesis,
+    selectedLabParams: diagnostics.selectedLabParams,
   };
 
   const handleSubmit = useCallback(

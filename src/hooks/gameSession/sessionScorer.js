@@ -5,6 +5,7 @@ import { analyzeCognitiveErrors } from "../../engine/cognitiveAnalyzer";
 import { evaluateClinicalSafety } from "../../engine/safetyEngine";
 import { mapSafetyToMistakes } from "../../engine/debrief/safetyMistakesMapper";
 import { evaluateDiagnosisWithAI } from "../../engine/aiEvaluator";
+import { getEffectiveOrderedDiag } from "../../engine/labAnalysisEngine";
 import scormService from "../../services/scormService";
 
 function toGradeId(score) {
@@ -53,13 +54,15 @@ export function finalizeSession({
 
   const elapsedSec = s.cd?.department === "outpatient" ? 0 : s.totalTime - s.timeLeft;
   const routeResult = s.extraResult || (selectedRoute ? { selectedRoute } : null);
-  const res = computeScore(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec, s.revealedAnamnesis, routeResult);
-  const cogAnalysis = analyzeCognitiveErrors(s.cd, s.orderedDiag, s.selTreat, s.diagText, finalPS, elapsedSec);
-  const safety = evaluateClinicalSafety(s.cd, s.selTreat, s.orderedDiag, s.revealedAnamnesis, s.trajectory);
+  const effectiveOrdered = getEffectiveOrderedDiag(s.orderedDiag, s.selectedLabParams);
+  const res = computeScore(s.cd, effectiveOrdered, s.selTreat, s.diagText, finalPS, elapsedSec, s.revealedAnamnesis, routeResult);
+  const cogAnalysis = analyzeCognitiveErrors(s.cd, effectiveOrdered, s.selTreat, s.diagText, finalPS, elapsedSec);
+  const safety = evaluateClinicalSafety(s.cd, s.selTreat, effectiveOrdered, s.revealedAnamnesis, s.trajectory);
   const mistakes = mapSafetyToMistakes(safety, s.cd);
 
   setResult({
     ...res,
+    orderedDiag: effectiveOrdered,
     timeout,
     died,
     outcome,
@@ -98,7 +101,7 @@ export function finalizeSession({
   syncScorm(res.score, res.gradeId, died, outcome, elapsedSec);
 
   // Asynchronous AI & Clinical evaluation
-  evaluateDiagnosisWithAI(s.cd, s.diagText, s.orderedDiag, s.selTreat, safety).then((aiRes) => {
+  evaluateDiagnosisWithAI(s.cd, s.diagText, effectiveOrdered, s.selTreat, safety).then((aiRes) => {
     if (aiRes.success) {
       setResult((prev) => {
         if (!prev) return prev;

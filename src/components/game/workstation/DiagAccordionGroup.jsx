@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
 import { CheckRow } from "../../../ui/components";
-import { IconChevronDown, IconGear } from "../../../ui/icons";
+import { IconChevronDown } from "../../../ui/icons";
+import { LabInlineSelector } from "../lab";
+import { BMP_PARAMETERS, DEFAULT_BMP_PARAMS } from "../../../engine/labAnalysisEngine";
 
 /**
- * Collapsible category group for diagnostic tests list.
+ * Группа категорий диагностических тестов с поддержкой inline-выбора биохимии.
  */
 export default function DiagAccordionGroup({
   title,
@@ -19,10 +21,11 @@ export default function DiagAccordionGroup({
   onToggleOpen,
   disabled,
   selectedLabParams = {},
-  onConfigureParams,
+  onParamsChange,
 }) {
   const C = useTheme();
   const [hovered, setHovered] = useState(false);
+  const [expandedBmp, setExpandedBmp] = useState(false);
 
   if (items.length === 0) return null;
 
@@ -31,7 +34,7 @@ export default function DiagAccordionGroup({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 3, marginBottom: 4 }}>
-      {/* Category Accordion Header */}
+      {/* Шапка аккордеона категории */}
       <button
         type="button"
         onClick={onToggleOpen}
@@ -54,82 +57,39 @@ export default function DiagAccordionGroup({
         <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 18, height: 18, flexShrink: 0 }}>
           {icon}
         </span>
-        <span
-          style={{
-            fontFamily: FONT,
-            fontSize: 15,
-            fontWeight: 600,
-            color: C.text,
-            flex: 1,
-            textAlign: "left",
-          }}
-        >
+        <span style={{ fontFamily: FONT, fontSize: 14, fontWeight: 600, color: C.text, flex: 1, textAlign: "left" }}>
           {title}
         </span>
-
-        {/* Selected count pill */}
         {selCount > 0 && (
-          <span
-            style={{
-              fontFamily: CODE,
-              fontSize: 10,
-              fontWeight: 700,
-              color: "#FFFFFF",
-              background: color,
-              borderRadius: 9999,
-              padding: "1px 6px",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
+          <span style={{ fontFamily: CODE, fontSize: 10, fontWeight: 700, color: "#FFFFFF", background: color, borderRadius: 9999, padding: "1px 6px" }}>
             {selCount}
           </span>
         )}
-
-        {/* Total count badge */}
-        <span
-          style={{
-            fontFamily: CODE,
-            fontSize: 10,
-            color: C.textDim,
-            background: C.dimBg,
-            borderRadius: 4,
-            padding: "1px 4px",
-            fontVariantNumeric: "tabular-nums",
-          }}
-        >
+        <span style={{ fontFamily: CODE, fontSize: 10, color: C.textDim, background: C.dimBg, borderRadius: 4, padding: "1px 4px" }}>
           {orderedCount > 0 ? `${items.length - orderedCount}/${items.length}` : items.length}
         </span>
-
-        {/* Chevron icon */}
-        <div
-          style={{
-            color: isOpen ? color : C.textDim,
-            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.2s ease, color 0.15s ease",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div style={{ color: isOpen ? color : C.textDim, transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}>
           <IconChevronDown size={12} color="currentColor" />
         </div>
       </button>
 
-      {/* Tests inside category */}
+      {/* Список исследований внутри категории */}
       {isOpen && (
         <div style={{ display: "flex", flexDirection: "column", gap: 3, paddingLeft: 4, paddingRight: 2 }}>
           {items.map((item) => {
-            const isCustomizable = ["bmp", "urine"].includes(item.id);
-            const count = selectedLabParams?.[item.id]?.length || (item.id === "bmp" ? 8 : 7);
-            const suffix = isCustomizable ? (
+            const isBmp = item.id === "bmp";
+            const bmpParams = selectedLabParams?.bmp || [];
+            const count = bmpParams.length > 0 ? bmpParams.length : DEFAULT_BMP_PARAMS.length;
+
+            const suffix = isBmp ? (
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (!selDiag.includes(item.id)) onToggle(item.id);
-                  onConfigureParams && onConfigureParams(item.id);
+                  setExpandedBmp((prev) => !prev);
                 }}
                 style={{
-                  background: `${color}18`,
+                  background: expandedBmp ? `${color}25` : `${color}12`,
                   border: `1px solid ${color}45`,
                   borderRadius: 6,
                   padding: "2px 7px",
@@ -142,23 +102,43 @@ export default function DiagAccordionGroup({
                   alignItems: "center",
                   gap: 3,
                 }}
-                title="Настроить показатели исследования"
+                title="Настроить показатели биохимии"
               >
-                <IconGear size={10} color={color} />
-                <span>{count} пок.</span>
+                <span>{count} из {BMP_PARAMETERS.length}</span>
+                <span style={{ transform: expandedBmp ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease", display: "inline-flex" }}>
+                  <IconChevronDown size={10} color={color} />
+                </span>
               </button>
             ) : null;
 
             return (
-              <CheckRow
-                key={item.id}
-                item={item}
-                selected={selDiag.includes(item.id)}
-                onToggle={onToggle}
-                color={color}
-                disabled={disabled || orderedDiag.includes(item.id)}
-                suffix={suffix}
-              />
+              <React.Fragment key={item.id}>
+                <CheckRow
+                  item={item}
+                  selected={selDiag.includes(item.id)}
+                  onToggle={(id) => {
+                    onToggle(id);
+                    if (isBmp && !selDiag.includes(id)) {
+                      setExpandedBmp(true);
+                    }
+                  }}
+                  color={color}
+                  disabled={disabled || orderedDiag.includes(item.id)}
+                  suffix={suffix}
+                />
+                {isBmp && expandedBmp && (
+                  <LabInlineSelector
+                    selectedIds={bmpParams}
+                    onChange={(newIds) => {
+                      onParamsChange && onParamsChange("bmp", newIds);
+                      if (newIds.length > 0 && !selDiag.includes("bmp")) {
+                        onToggle("bmp");
+                      }
+                    }}
+                    onClose={() => setExpandedBmp(false)}
+                  />
+                )}
+              </React.Fragment>
             );
           })}
         </div>

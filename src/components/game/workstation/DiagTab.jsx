@@ -8,7 +8,7 @@ import {
   IconRespiratory, IconXRay, IconBrain
 } from "../../../ui/icons";
 import DiagAccordionGroup from "./DiagAccordionGroup";
-import { LabParamSelectorModal } from "../lab";
+import { BIOCHEMICAL_TEST_IDS } from "../../../engine/labAnalysisEngine";
 
 const DIAG_CATEGORIES = [
   { key: "lab", title: "Лабораторные исследования", Icon: IconMicroscope },
@@ -31,7 +31,6 @@ export default function DiagTab({
   const C = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [openCats, setOpenCats] = useState(() => new Set());
-  const [paramModalTestId, setParamModalTestId] = useState(null);
 
   const q = searchQuery.trim().toLowerCase();
 
@@ -41,7 +40,8 @@ export default function DiagTab({
       map[cat.key] = DIAGNOSTICS.filter((item) => {
         const matchesCat = item.cat === cat.key;
         const matchesQuery = !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q);
-        return matchesCat && matchesQuery;
+        const notBiochemSub = !BIOCHEMICAL_TEST_IDS.includes(item.id);
+        return matchesCat && matchesQuery && notBiochemSub;
       });
     });
     return map;
@@ -105,7 +105,9 @@ export default function DiagTab({
               onToggleOpen={() => toggleCat(cat.key)}
               disabled={processingTests}
               selectedLabParams={selectedLabParams}
-              onConfigureParams={(id) => setParamModalTestId(id)}
+              onParamsChange={(testId, ids) => {
+                setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [testId]: ids }));
+              }}
             />
           );
         })}
@@ -120,14 +122,6 @@ export default function DiagTab({
           {t("orderTests.send")}
         </Btn>
       </div>
-
-      <LabParamSelectorModal
-        isOpen={!!paramModalTestId}
-        testId={paramModalTestId || "bmp"}
-        selectedParamIds={selectedLabParams?.[paramModalTestId]}
-        onClose={() => setParamModalTestId(null)}
-        onSave={(ids) => setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [paramModalTestId]: ids }))}
-      />
     </div>
   );
 }

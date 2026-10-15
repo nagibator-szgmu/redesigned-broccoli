@@ -63,7 +63,8 @@ export default function ResultScreen({
   const relatedProtocols = getRelatedProtocols(cd?.id);
   const vitalDeltas = computeVitalDeltas(cd, ps, t);
 
-  const checkItemDone = (item) => isChecklistDone(item, orderedDiag, selTreat);
+  const effectiveDiag = result?.orderedDiag || orderedDiag;
+  const checkItemDone = (item) => isChecklistDone(item, effectiveDiag, selTreat);
   const checklistItems = assessmentMode && cd?.checklistItems ? cd.checklistItems : [];
   const checklistDone = checklistItems.filter(checkItemDone).length;
 
@@ -95,7 +96,7 @@ export default function ResultScreen({
           <ResultErrorsTab
             result={result}
             cd={cd}
-            orderedDiag={orderedDiag}
+            orderedDiag={effectiveDiag}
             selTreat={selTreat}
             isMobile={isMobile}
             assessmentMode={assessmentMode}

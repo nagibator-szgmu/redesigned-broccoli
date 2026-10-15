@@ -12,7 +12,7 @@ import {
 } from "../../../ui/icons";
 import DiagAccordionGroup from "../../../components/game/workstation/DiagAccordionGroup";
 import OutpatientSearchBar from "./OutpatientSearchBar";
-import { LabParamSelectorModal } from "../../../components/game/lab";
+import { BIOCHEMICAL_TEST_IDS } from "../../../engine/labAnalysisEngine";
 
 const DIAG_CATEGORIES = [
   { key: "lab", title: "Лабораторные исследования", Icon: IconMicroscope },
@@ -36,7 +36,6 @@ export function TestSelection({
   const { t } = useTranslate();
   const [search, setSearch] = useState("");
   const [openCats, setOpenCats] = useState(() => new Set());
-  const [paramModalTestId, setParamModalTestId] = useState(null);
 
   const q = search.trim().toLowerCase();
 
@@ -46,7 +45,8 @@ export function TestSelection({
       map[cat.key] = DIAGNOSTICS.filter((item) => {
         const matchesCat = item.cat === cat.key;
         const matchesQuery = !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q);
-        return matchesCat && matchesQuery;
+        const notBiochemSub = !BIOCHEMICAL_TEST_IDS.includes(item.id);
+        return matchesCat && matchesQuery && notBiochemSub;
       });
     });
     return map;
@@ -118,19 +118,13 @@ export function TestSelection({
               onToggleOpen={() => toggleCat(cat.key)}
               disabled={processingTests}
               selectedLabParams={selectedLabParams}
-              onConfigureParams={(id) => setParamModalTestId(id)}
+              onParamsChange={(testId, ids) => {
+                setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [testId]: ids }));
+              }}
             />
           );
         })}
       </div>
-
-      <LabParamSelectorModal
-        isOpen={!!paramModalTestId}
-        testId={paramModalTestId || "bmp"}
-        selectedParamIds={selectedLabParams?.[paramModalTestId]}
-        onClose={() => setParamModalTestId(null)}
-        onSave={(ids) => setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [paramModalTestId]: ids }))}
-      />
 
       {/* Footer Actions */}
       <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>

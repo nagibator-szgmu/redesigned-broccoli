@@ -5,17 +5,25 @@ import {
   DEFAULT_BMP_PARAMS,
   DEFAULT_URINE_PARAMS,
   LAB_PROFILES,
+  BIOCHEMICAL_TEST_IDS,
+  getEffectiveOrderedDiag,
   parseLabTest,
   scoreLabEvaluation,
   cleanLabText,
 } from "../src/engine/labAnalysisEngine.js";
 
 console.log("--- TEST: Lab Catalog Validation ---");
-assert.ok(BMP_PARAMETERS.length >= 12, "BMP_PARAMETERS must have >= 12 parameters");
+assert.equal(BMP_PARAMETERS.length, 17, "BMP_PARAMETERS must have exactly 17 clinical parameters");
 assert.ok(URINE_PARAMETERS.length >= 8, "URINE_PARAMETERS must have >= 8 parameters");
-assert.ok(DEFAULT_BMP_PARAMS.length >= 6, "Default BMP profile must have >= 6 items");
+assert.equal(DEFAULT_BMP_PARAMS.length, 17, "Default BMP profile must include all 17 items");
 assert.ok(DEFAULT_URINE_PARAMS.length >= 5, "Default Urine profile must have >= 5 items");
-assert.ok(LAB_PROFILES.bmp_basic && LAB_PROFILES.urine_standard, "Standard profiles exist");
+assert.ok(LAB_PROFILES.bmp_basic && LAB_PROFILES.urine_standard && LAB_PROFILES.bmp_metabolic, "Standard profiles exist");
+assert.deepEqual(BIOCHEMICAL_TEST_IDS, ["crp", "lactate", "glucose", "ferritin", "ketones"]);
+
+console.log("--- TEST: Effective Ordered Diag Expansion ---");
+const expanded = getEffectiveOrderedDiag(["bmp", "ecg"]);
+assert.ok(expanded.includes("bmp") && expanded.includes("ecg"));
+assert.ok(expanded.includes("crp") && expanded.includes("lactate") && expanded.includes("glucose"));
 
 console.log("--- TEST: Spoiler Cleaner ---");
 assert.equal(cleanLabText("🔴 Креатинин 142 мкмоль/л ↑ (гипокалиемия!)"), "Креатинин 142 мкмоль/л");

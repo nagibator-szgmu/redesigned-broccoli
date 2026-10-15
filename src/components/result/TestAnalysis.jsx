@@ -4,13 +4,14 @@ import { useTranslate } from "../../locale/useTranslate";
 import { STitle } from "../../ui/components";
 import { IconVial, IconCheck, IconX } from "../../ui/icons";
 import { DIAGNOSTICS, MISSED_TEST_REASONS } from "../../data/diagnostics";
+import { BIOCHEMICAL_TEST_IDS } from "../../engine/labAnalysisEngine";
 
 export default function TestAnalysis({ cd, orderedDiag, isMobile }) {
   const C = useTheme();
   const { t } = useTranslate();
 
   const missedCritical = cd.needDiag.filter(id => !orderedDiag.includes(id));
-  const extraTests = orderedDiag.filter(id => !cd.needDiag.includes(id));
+  const extraTests = orderedDiag.filter(id => !cd.needDiag.includes(id) && !BIOCHEMICAL_TEST_IDS.includes(id));
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: isMobile ? 12 : 14, padding: isMobile ? 14 : 16, marginBottom: 10 }}>

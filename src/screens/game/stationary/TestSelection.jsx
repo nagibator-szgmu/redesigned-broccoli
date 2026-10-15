@@ -4,8 +4,9 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
 import { DAY_COLORS } from "./constants";
-import { IconCheck, IconSearch, IconX, IconGear } from "../../../ui/icons";
-import { LabParamSelectorModal } from "../../../components/game/lab";
+import { IconCheck, IconSearch, IconX } from "../../../ui/icons";
+import { LabInlineSelector } from "../../../components/game/lab";
+import { BIOCHEMICAL_TEST_IDS, BMP_PARAMETERS, DEFAULT_BMP_PARAMS } from "../../../engine/labAnalysisEngine";
 
 const DIAG_TABS = [
   { id: "all", label: "Все" },
@@ -30,7 +31,7 @@ export default function TestSelection({
   const dayColor = DAY_COLORS[cycle.currentDay % 7];
   const [activeCat, setActiveCat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [paramModalTestId, setParamModalTestId] = useState(null);
+  const [expandedBmp, setExpandedBmp] = useState(false);
 
   const q = searchQuery.trim().toLowerCase();
 
@@ -42,7 +43,8 @@ export default function TestSelection({
     return DIAGNOSTICS.filter((item) => {
       const matchesCat = activeCat === "all" || item.cat === activeCat;
       const matchesQ = !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q);
-      return matchesCat && matchesQ;
+      const notBiochemSub = !BIOCHEMICAL_TEST_IDS.includes(item.id);
+      return matchesCat && matchesQ && notBiochemSub;
     });
   }, [activeCat, q]);
 
@@ -100,45 +102,47 @@ export default function TestSelection({
             const selected = selDiag.includes(item.id);
             const color = getCategoryColor(item.cat, C);
             return (
-              <div
-                key={item.id}
-                onClick={() => toggleDiag(item.id)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 6,
-                  cursor: "pointer", background: selected ? `${color}15` : "transparent",
-                  border: `1px solid ${selected ? color : C.border}`,
-                }}
-              >
-                <div style={{ width: 14, height: 14, borderRadius: 3, border: `2px solid ${selected ? color : C.textDim}`, background: selected ? color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  {selected && <IconCheck size={10} color={C.bg} strokeWidth={3} />}
+              <React.Fragment key={item.id}>
+                <div
+                  onClick={() => toggleDiag(item.id)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 6,
+                    cursor: "pointer", background: selected ? `${color}15` : "transparent",
+                    border: `1px solid ${selected ? color : C.border}`,
+                  }}
+                >
+                  <div style={{ width: 14, height: 14, borderRadius: 3, border: `2px solid ${selected ? color : C.textDim}`, background: selected ? color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    {selected && <IconCheck size={10} color={C.bg} strokeWidth={3} />}
+                  </div>
+                  <span style={{ fontSize: 12, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
+                    {item.name}
+                  </span>
+                  {item.id === "bmp" && (
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); if (!selected) toggleDiag(item.id); setExpandedBmp((prev) => !prev); }}
+                      style={{ background: `${color}20`, border: `1px solid ${color}50`, borderRadius: 5, padding: "1px 6px", fontSize: 10, fontFamily: FONT, color, fontWeight: 700, cursor: "pointer" }}
+                      title="Настроить показатели биохимии"
+                    >
+                      <span>{(selectedLabParams?.bmp?.length || DEFAULT_BMP_PARAMS.length)} из {BMP_PARAMETERS.length}</span>
+                    </button>
+                  )}
                 </div>
-                <span style={{ fontSize: 12, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
-                  {item.name}
-                </span>
-                {["bmp", "urine"].includes(item.id) && (
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); if (!selected) toggleDiag(item.id); setParamModalTestId(item.id); }}
-                    style={{ background: `${color}20`, border: `1px solid ${color}50`, borderRadius: 5, padding: "1px 6px", fontSize: 10, fontFamily: FONT, color, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 3 }}
-                    title="Настроить конкретные показатели"
-                  >
-                    <IconGear size={10} color={color} />
-                    <span>{(selectedLabParams?.[item.id]?.length || (item.id === "bmp" ? 8 : 7))} пок.</span>
-                  </button>
+                {item.id === "bmp" && expandedBmp && (
+                  <LabInlineSelector
+                    selectedIds={selectedLabParams?.bmp || []}
+                    onChange={(ids) => {
+                      setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, bmp: ids }));
+                      if (ids.length > 0 && !selected) toggleDiag("bmp");
+                    }}
+                    onClose={() => setExpandedBmp(false)}
+                  />
                 )}
-              </div>
+              </React.Fragment>
             );
           })
         )}
       </div>
-
-      <LabParamSelectorModal
-        isOpen={!!paramModalTestId}
-        testId={paramModalTestId || "bmp"}
-        selectedParamIds={selectedLabParams?.[paramModalTestId]}
-        onClose={() => setParamModalTestId(null)}
-        onSave={(ids) => setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [paramModalTestId]: ids }))}
-      />
 
       {/* Кнопка заказа исследований */}
       {selDiag.length > 0 && (

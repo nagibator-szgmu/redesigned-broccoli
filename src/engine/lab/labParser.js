@@ -44,7 +44,7 @@ function findParamMatch(param, text) {
 }
 
 /** Парсер параметров биохимии или мочи */
-export function parseLabTest(testId, rawText = "", userSelectedParamIds = null) {
+export function parseLabTest(testId, rawText = "", userSelectedParamIds = null, fullCaseTestResults = null) {
   const isBmp = testId === "bmp";
   const isUrine = testId === "urine";
 
@@ -75,7 +75,12 @@ export function parseLabTest(testId, rawText = "", userSelectedParamIds = null) 
 
   return targetParams.map((param) => {
     // Ищем сегмент, где упоминается данный параметр
-    const matchedSegment = segments.find((seg) => findParamMatch(param, seg));
+    let matchedSegment = segments.find((seg) => findParamMatch(param, seg));
+
+    // Фоллбэк: если параметр в общем тексте биохимии не найден, но в кейсе есть отдельный результат
+    if (!matchedSegment && fullCaseTestResults?.[param.id]) {
+      matchedSegment = fullCaseTestResults[param.id];
+    }
 
     if (!matchedSegment) {
       // Параметр заказан врачом, но в кейсе нормален (не упомянут)
