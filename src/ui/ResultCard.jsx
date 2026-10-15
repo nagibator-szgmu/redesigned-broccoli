@@ -6,6 +6,7 @@ import { IconXRay } from "./icons";
 import DicomViewer from "../components/game/DicomViewer";
 import Tooltip from "./Tooltip";
 import { LabReportCard } from "../components/game/lab";
+import { isLabReportSupported } from "../engine/labAnalysisEngine";
 
 export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams }) {
   const C = useTheme();
@@ -15,8 +16,8 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
   const meta = DIAGNOSTIC_REFS?.[id] || {};
   const color = getCategoryColor(diag?.cat, C);
 
-  // Для биохимии и мочи используем чистый медицинский лабораторный бланк
-  if (["bmp", "urine"].includes(id)) {
+  // Все лабораторные и панельные тесты рендерятся в виде структурированного медбланка
+  if (isLabReportSupported(id)) {
     return (
       <LabReportCard
         testId={id}
@@ -24,12 +25,22 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
         rawResult={text}
         selectedParamIds={selectedLabParams?.[id]}
         fullCaseTestResults={cd?.testResults}
+        testImage={cd?.testImages?.[id]}
+        isNew={isNew}
       />
     );
   }
 
   const isDicom = ["ct_head", "mri"].includes(id);
-  const cleanText = text.replace(/^🔴\s*/, "");
+  let cleanText = text.replace(/^🔴\s*/, "").replace(/^[\u{1F7E1}\u{26A0}]\s*/u, "");
+  if (cleanText.toLowerCase().startsWith(`${id.toLowerCase()}:`)) {
+    cleanText = cleanText.substring(id.length + 1).trim();
+  }
+  if (!cleanText || cleanText.toLowerCase().includes("в пределах нормы")) {
+    cleanText = meta.refRange
+      ? `Патологических изменений не выявлено. В пределах нормы (${meta.refRange}).`
+      : "Патологических изменений не выявлено. В пределах нормы.";
+  }
 
   return (
     <Tooltip

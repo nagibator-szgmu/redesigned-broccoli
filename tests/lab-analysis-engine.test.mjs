@@ -10,6 +10,11 @@ import {
   parseLabTest,
   scoreLabEvaluation,
   cleanLabText,
+  isLabReportSupported,
+  TEG_PARAMETERS,
+  CBC_PARAMETERS,
+  COAG_PARAMETERS,
+  ABG_PARAMETERS,
 } from "../src/engine/labAnalysisEngine.js";
 
 console.log("--- TEST: Lab Catalog Validation ---");
@@ -19,6 +24,21 @@ assert.equal(DEFAULT_BMP_PARAMS.length, 17, "Default BMP profile must include al
 assert.ok(DEFAULT_URINE_PARAMS.length >= 5, "Default Urine profile must have >= 5 items");
 assert.ok(LAB_PROFILES.bmp_basic && LAB_PROFILES.urine_standard && LAB_PROFILES.bmp_metabolic, "Standard profiles exist");
 assert.deepEqual(BIOCHEMICAL_TEST_IDS, ["crp", "lactate", "glucose", "ferritin", "ketones"]);
+assert.equal(TEG_PARAMETERS.length, 5, "TEG has 5 standard parameters");
+assert.equal(CBC_PARAMETERS.length, 9, "CBC has 9 core parameters");
+assert.equal(COAG_PARAMETERS.length, 5, "COAG has 5 standard parameters");
+assert.equal(ABG_PARAMETERS.length, 7, "ABG has 7 blood gas parameters");
+
+console.log("--- TEST: Supported Tests Registry ---");
+assert.ok(isLabReportSupported("coag_full"), "TEG is supported as lab report");
+assert.ok(isLabReportSupported("cbc"), "CBC is supported as lab report");
+assert.ok(isLabReportSupported("coag"), "COAG is supported as lab report");
+assert.ok(isLabReportSupported("abg"), "ABG is supported as lab report");
+assert.ok(isLabReportSupported("thyroid"), "Thyroid is supported as lab report");
+assert.ok(isLabReportSupported("troponin"), "Troponin is supported as lab report");
+assert.ok(isLabReportSupported("d_dimer"), "D-dimer is supported as lab report");
+assert.ok(isLabReportSupported("spo2"), "SpO2 is supported as lab report");
+assert.equal(isLabReportSupported("ct_head"), false, "CT head is an imaging modality, not lab report");
 
 console.log("--- TEST: Effective Ordered Diag Expansion ---");
 const expanded = getEffectiveOrderedDiag(["bmp", "ecg"]);
@@ -43,6 +63,48 @@ assert.equal(k.isActuallyAbnormal, false, "K+ 4.0 is normal");
 assert.equal(alt.isActuallyAbnormal, false, "ALT is default normal");
 assert.ok(!cr.displayValue.includes("🔴"), "No red marker in displayValue");
 
+console.log("--- TEST: TEG (coag_full) Parsing Real Case & Default Normal ---");
+const tegRealText = "Тромбоэластограмма (TEG): R-время 4 мин (укорочено), K-время 1.5 мин (укорочено), MA 72 мм (повышен). Гиперкоагуляция, характерная для ДВС-синдрома.";
+const parsedTegReal = parseLabTest("coag_full", tegRealText);
+assert.equal(parsedTegReal.length, 5);
+const tegR = parsedTegReal.find((p) => p.id === "teg_r");
+const tegMa = parsedTegReal.find((p) => p.id === "teg_ma");
+const tegLy = parsedTegReal.find((p) => p.id === "teg_ly30");
+
+assert.equal(tegR.isActuallyAbnormal, true, "R 4 min is abnormal (<5)");
+assert.equal(tegMa.isActuallyAbnormal, true, "MA 72 is abnormal (>70)");
+assert.equal(tegLy.isActuallyAbnormal, false, "LY30 default is normal");
+assert.equal(tegR.displayValue, "4 мин");
+assert.equal(tegR.unit, "мин");
+assert.equal(tegR.refRange, "5.0–10.0");
+
+// Default normal when ordered as rule-out
+const parsedTegDefault = parseLabTest("coag_full", "coag_full: в пределах нормы.");
+assert.equal(parsedTegDefault.length, 5);
+assert.ok(parsedTegDefault.every((p) => !p.isActuallyAbnormal), "All default TEG parameters are normal");
+assert.equal(parsedTegDefault[0].displayValue, "6.2 мин");
+
+console.log("--- TEST: CBC (ОАК) Parsing ---");
+const cbcCaseText = "🔴 Hb 72 г/л ↓↓ (кровопотеря). Тромбоциты 42 ↓↓. Лейк 24.8.";
+const parsedCbc = parseLabTest("cbc", cbcCaseText);
+assert.equal(parsedCbc.length, 9);
+const cbcHb = parsedCbc.find((p) => p.id === "cbc_hb");
+const cbcPlt = parsedCbc.find((p) => p.id === "cbc_plt");
+const cbcWbc = parsedCbc.find((p) => p.id === "cbc_wbc");
+assert.equal(cbcHb.isActuallyAbnormal, true);
+assert.equal(cbcPlt.isActuallyAbnormal, true);
+assert.equal(cbcWbc.isActuallyAbnormal, true);
+assert.equal(cbcHb.unit, "г/л");
+
+console.log("--- TEST: ABG (КЩС) Parsing ---");
+const abgCaseText = "🔴 pH 7.18 ↓↓, PaCO₂ 68 ↑↑, PaO₂ 48 ↓↓. Тяжёлый дыхательный ацидоз — угроза апноэ.";
+const parsedAbg = parseLabTest("abg", abgCaseText);
+assert.equal(parsedAbg.length, 7);
+const abgPh = parsedAbg.find((p) => p.id === "abg_ph");
+const abgPaco2 = parsedAbg.find((p) => p.id === "abg_paco2");
+assert.equal(abgPh.isActuallyAbnormal, true);
+assert.equal(abgPaco2.isActuallyAbnormal, true);
+
 console.log("--- TEST: Urine Parsing Real Case ---");
 const urineCaseText = "🔴 ОАМ: лейкоцитурия >100/п.з., бактериурия +++, нитриты (+).";
 const parsedUrine = parseLabTest("urine", urineCaseText);
@@ -55,7 +117,6 @@ assert.equal(bact.isActuallyAbnormal, true, "Bacteria +++ is abnormal");
 assert.equal(sg.isActuallyAbnormal, false, "SG is normal");
 
 console.log("--- TEST: Doctor Interpretation Scoring ---");
-// 1. Perfect evaluation
 const perfectScore = scoreLabEvaluation(parsedBmp, {
   creatinine: "abnormal",
   urea: "abnormal",
@@ -69,7 +130,7 @@ assert.equal(perfectScore.mistakes.length, 0);
 
 // 2. Missed pathology (marked creatinine as normal)
 const missedScore = scoreLabEvaluation(parsedBmp, {
-  creatinine: "normal", // MISTAKE!
+  creatinine: "normal",
   urea: "abnormal",
   potassium: "normal",
   sodium: "normal",
@@ -81,4 +142,19 @@ assert.equal(missedScore.mistakes.length, 1);
 assert.equal(missedScore.mistakes[0].type, "missed_pathology");
 assert.ok(missedScore.feedbackText.includes("пропущено 1 патологических отклонений"));
 
-console.log("ALL LAB ANALYSIS TESTS PASSED! ✅");
+console.log("--- TEST: Clinical Edge Cases (Thyroid, Paracentesis, Culture, SpO2) ---");
+const thyParsed = parseLabTest("thyroid", "🔴 ТТГ <0.01 мМЕ/л (подавлен). Т4 своб. = 82 пмоль/л ↑↑↑. АТ к рецепторам ТТГ = 35 МЕ/л ↑↑.");
+assert.equal(thyParsed.find(p => p.id === "thy_ft4").displayValue, "82 пмоль/л");
+assert.equal(thyParsed.find(p => p.id === "thy_ft4").isActuallyAbnormal, true);
+
+const ascParsed = parseLabTest("paracentesis", "🟡 Диагностический лапароцентез: Жидкость прозрачная, соломенно-жёлтая. Общий белок 16 г/л, альбумин асцита 8 г/л (SAAG 16 г/л). Нейтрофилы 110 клеток/мкл.");
+assert.ok(ascParsed.find(p => p.id === "asc_neutro").displayValue.includes("110"));
+
+const cultParsed = parseLabTest("culture", "Посев крови: Streptococcus pneumoniae. Рост через 18 ч.");
+assert.ok(cultParsed.some(p => p.isActuallyAbnormal), "Culture with bacterial growth must be flagged abnormal");
+
+const spo2Parsed = parseLabTest("spo2", "🔴 SpO₂ 82% — тяжёлая гипоксемия.");
+assert.equal(spo2Parsed[0].displayValue, "82%");
+assert.equal(spo2Parsed[0].isActuallyAbnormal, true);
+
+console.log("ALL LAB ANALYSIS TESTS PASSED! [OK]");

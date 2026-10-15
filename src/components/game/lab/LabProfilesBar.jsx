@@ -1,6 +1,7 @@
 import React from "react";
 import { FONT } from "../../../ui/theme";
 import { LAB_PROFILES } from "../../../engine/labAnalysisEngine";
+import { IconGear } from "../../../ui/icons";
 
 /** Панель быстрых профилей анализов */
 export default function LabProfilesBar({ isBmp, catalog, selectedCount, onSelectProfile, onReset, C }) {
@@ -20,7 +21,7 @@ export default function LabProfilesBar({ isBmp, catalog, selectedCount, onSelect
   return (
     <div style={{ padding: "8px 18px", background: `${C.accent}08`, borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
       <span style={{ fontSize: 11, fontWeight: 600, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 4 }}>
-        <IconSliders size={12} color={C.accent} /> Профили:
+        <IconGear size={12} color={C.accent} /> Профили:
       </span>
       {isBmp ? (
         <>

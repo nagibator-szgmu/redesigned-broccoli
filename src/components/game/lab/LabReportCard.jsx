@@ -1,24 +1,26 @@
 import React from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
-import { parseLabTest } from "../../../engine/labAnalysisEngine";
+import { parseLabTest, getLabTestMeta, extractLabConclusion } from "../../../engine/labAnalysisEngine";
 
 /**
  * Аутентичный лабораторный медицинский бланк без игровых кнопок оценки.
- * Врач видит полученные значения, единицы измерения и референсные диапазоны.
+ * Отображает все параметры, измеренные значения, единицы измерения и референсные диапазоны.
  */
 export default function LabReportCard({
   testId,
-  testName = "Биохимия крови",
+  testName = "Лабораторное исследование",
   rawResult = "",
   selectedParamIds = null,
   fullCaseTestResults = null,
+  testImage = null,
+  isNew = false,
 }) {
   const C = useTheme();
 
-  const isBmp = testId === "bmp";
-  const isUrine = testId === "urine";
+  const meta = getLabTestMeta(testId, testName);
   const parsedParams = parseLabTest(testId, rawResult, selectedParamIds, fullCaseTestResults);
+  const conclusion = extractLabConclusion(rawResult);
 
   return (
     <div
@@ -31,20 +33,22 @@ export default function LabReportCard({
         flexDirection: "column",
         gap: 10,
         marginBottom: 8,
+        animation: isNew ? "fadeIn 0.35s ease" : "none",
+        boxShadow: "0 4px 16px -4px rgba(0,0,0,0.25)",
       }}
     >
-      {/* Шапка бланка */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", borderBottom: `1px solid ${C.border}`, pb: 8, paddingBottom: 6 }}>
+      {/* Шапка лабораторного бланка */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", borderBottom: `1px solid ${C.border}`, paddingBottom: 6 }}>
         <div>
           <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: C.text }}>
-            {isBmp ? "Протокол биохимического исследования сыворотки крови" : isUrine ? "Протокол общего анализа мочи (клинический)" : testName}
+            {meta.title}
           </div>
           <div style={{ fontFamily: CODE, fontSize: 11, color: C.subText, marginTop: 2 }}>
-            Биоматериал: {isBmp ? "Венозная кровь (сыворотка)" : isUrine ? "Утренняя порция мочи" : "Клинический образец"}
+            Биоматериал: {meta.sample}
           </div>
         </div>
         <div style={{ fontFamily: CODE, fontSize: 11, color: C.accent, fontWeight: 600 }}>
-          {parsedParams.length} {isBmp ? "показателей исследовано" : "параметров"}
+          {parsedParams.length} {parsedParams.length === 1 ? "показатель" : (parsedParams.length >= 2 && parsedParams.length <= 4 ? "показателя" : "показателей")}
         </div>
       </div>
 
@@ -71,7 +75,15 @@ export default function LabReportCard({
                 <td style={{ padding: "6px 8px", color: C.text, fontWeight: 500 }}>
                   {param.name}
                 </td>
-                <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: CODE, fontWeight: 700, color: C.text }}>
+                <td
+                  style={{
+                    padding: "6px 8px",
+                    textAlign: "right",
+                    fontFamily: CODE,
+                    fontWeight: 700,
+                    color: param.isActuallyAbnormal ? (C.red || "#EF4444") : C.text,
+                  }}
+                >
                   {param.displayValue}
                 </td>
                 <td style={{ padding: "6px 8px", color: C.subText, fontFamily: CODE, fontSize: 11 }}>
@@ -86,7 +98,20 @@ export default function LabReportCard({
         </table>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: 4 }}>
+      {testImage && (
+        <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
+          <img src={testImage} alt={testId} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
+        </div>
+      )}
+
+      {conclusion && (
+        <div style={{ padding: "7px 10px", background: `${C.panel2 || C.panel}80`, borderRadius: 6, border: `1px solid ${C.border}`, fontSize: 11.5, fontFamily: FONT, color: C.text }}>
+          <span style={{ fontWeight: 600, color: C.subText }}>Заключение лаборатории: </span>
+          {conclusion}
+        </div>
+      )}
+
+      <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: 2 }}>
         <span style={{ fontFamily: CODE, fontSize: 10, color: C.subText }}>
           Клиническая оценка проводится врачом на основании референсных интервалов
         </span>
