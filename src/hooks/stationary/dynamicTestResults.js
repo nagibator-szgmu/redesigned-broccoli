@@ -2,6 +2,7 @@
  * Generates day-specific dynamic diagnostic test results
  * based on the case dayByDayPlan, treatment adequacy, and hospitalization day.
  */
+import { resolveDiagnosticResult, getRestrictedProcedureNotice } from "../../engine/labAnalysisEngine.js";
 
 function extractMetric(text, regex) {
   if (!text) return null;
@@ -23,8 +24,11 @@ export function sanitizeMorningText(rawText) {
 }
 
 export function getDynamicTestResult(cd, testId, dayIndex, dailyTreatments = []) {
+  const restriction = getRestrictedProcedureNotice(testId, cd);
+  if (restriction) return restriction;
+
   const baseResult = cd?.testResults?.[testId];
-  if (dayIndex === 0) return baseResult || `${testId}: в пределах нормы.`;
+  if (dayIndex === 0) return baseResult || resolveDiagnosticResult(testId, cd);
 
   const dayPlan = cd?.dayByDayPlan?.[dayIndex];
   const combinedText = [dayPlan?.morning, dayPlan?.plan, dayPlan?.text].filter(Boolean).join(" ");

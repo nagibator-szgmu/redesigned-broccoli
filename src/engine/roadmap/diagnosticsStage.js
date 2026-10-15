@@ -1,4 +1,5 @@
 import { DIAGNOSTICS } from "../../data/diagnostics.js";
+import { resolveDiagnosticResult } from "../labAnalysisEngine.js";
 
 export function buildDiagnosticsStage({
   cd,
@@ -18,8 +19,7 @@ export function buildDiagnosticsStage({
       krStatus: done ? "success" : "danger",
       resultText:
         revealedResults[testId] ||
-        (cd.testResults && cd.testResults[testId]) ||
-        "В пределах нормы",
+        resolveDiagnosticResult(testId, cd),
       rationale: `Обязательный диагностический критерий стандарта: ${diagDef.name}.`,
     };
   });

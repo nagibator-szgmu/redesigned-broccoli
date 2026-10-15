@@ -5,6 +5,7 @@
 
 import { TREATMENTS } from "../data/treatments.js";
 import { DIAGNOSTICS } from "../data/diagnostics.js";
+import { hasIntracranialHerniationRisk } from "./lab/procedureRestrictions.js";
 
 const RESUSCITATION_IDS = ["oxygen", "oxygen_mask", "intubation", "iv_fluids", "norepinephrine", "epinephrine", "defibrillation", "cpr"];
 
@@ -35,6 +36,17 @@ export function evaluateClinicalSafety(cd = {}, selTreat = [], selDiag = [], rev
       });
     }
   });
+
+  // Диагностические противопоказания (люмбальная пункция при дислокации мозга / масс-эффекте)
+  if (selDiag.includes("lumbar") && hasIntracranialHerniationRisk(cd)) {
+    criticalErrors.push({
+      id: "lumbar",
+      name: "Люмбальная пункция",
+      type: "contraindicated_procedure",
+      severity: "critical",
+      explanation: "Попытка проведения люмбальной пункции при наличии масс-эффекта и дислокации срединных структур мозга (абсолютное противопоказание из-за риска вклинения ствола)."
+    });
+  }
 
   // 2. Ошибки анамнеза жизни
   if (cd.lifeHistoryContraindications && cd.lifeHistoryContraindications.length > 0) {

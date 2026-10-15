@@ -207,6 +207,19 @@ UI-исправления (найдены при тестировании):
 
 ## История сессий
 
+### 2026-10-15 (тринадцатая сессия)
+- ✅ **Валидация биологических субстратов и протоколы клинической отмены процедур:**
+  - Разработан модуль [procedureRestrictions.js](file:///src/engine/lab/procedureRestrictions.js) (`getRestrictedProcedureNotice`, `resolveDiagnosticResult`, `isProcedureCancelled`, `hasIntracranialHerniationRisk`) для предотвращения генерации фиктивных результатов при отсутствии анатомического субстрата:
+    - **Лапароцентез (`paracentesis`):** протокол отмены манипуляции при отсутствии асцита (свободная жидкость в брюшной полости физически отсутствует).
+    - **ПЦР кала (`pcr_stool`):** отказ лаборатории в заборе биоматериала при отсутствии жидкого стула/диареи (токсины C. difficile валидированы только на жидком стуле).
+    - **Колоноскопия (`colonoscopy`):** протокол прекращения экстренной колоноскопии при неподготовленной толстой кишке.
+    - **рН-импедансометрия (`ph_impedance`):** протокол отмены 24-часового зондового мониторинга в неотложном статусе пациента.
+    - **Люмбальная пункция (`lumbar`):** абсолютный запрет и протокол отмены при признаках дислокации срединных структур мозга/масс-эффекта с фиксацией критической ошибки в [safetyEngine.js](file:///src/engine/safetyEngine.js).
+    - **ОАМ (`urine`):** сохранена возможность штатной катетеризации мочевого пузыря катетером Фолея в стационаре/ОРИТ.
+  - Создан компонент [LabCancellationCard.jsx](file:///src/components/game/lab/LabCancellationCard.jsx) для клинического отображения протоколов отмены (SVG-иконка `IconAlertTriangle`, локализация RU/EN, отсутствие спойлеров нормы).
+  - Интегрирована проверка отменённых процедур в [ResultCard.jsx](file:///src/ui/ResultCard.jsx), [useDiagnosticOrders.js](file:///src/hooks/gameSession/useDiagnosticOrders.js) и многодневный цикл [dynamicTestResults.js](file:///src/hooks/stationary/dynamicTestResults.js).
+  - Все тесты `tests/lab-analysis-engine.test.mjs`, линтер, проверка отсутствия эмодзи и сборка `npm run build` успешно пройдены (0 ошибок).
+
 ### 2026-08-01 (двенадцатая сессия)
 - ✅ **ИИ-оценивание диагнозов и действий студента:**
   - Разработан [aiEvaluator.js](file:///Users/yana/Downloads/medsim-1/src/engine/aiEvaluator.js) для асинхронного вызова LLM (OpenRouter) и JSON-парсинга результатов.

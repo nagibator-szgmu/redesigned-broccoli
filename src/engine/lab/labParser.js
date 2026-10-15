@@ -1,18 +1,15 @@
 import { BMP_PARAMETERS, URINE_PARAMETERS, DEFAULT_BMP_PARAMS, DEFAULT_URINE_PARAMS } from "./labCatalog.js";
 import { getLabParametersForTest } from "./labRegistry.js";
+import { isProcedureCancelled } from "./procedureRestrictions.js";
 
 /** Очистка строки от спойлеров (стрелочек, эмодзи, диагнозов в скобках) */
 export function cleanLabText(str) {
   if (!str) return "";
   return str
-    .replace(/^🔴\s*/, "")
-    .replace(/^[\u{1F7E1}\u{26A0}]\s*/u, "")
-    .replace(/^(?:оам|биохимия|бх|цсж|лп|оак|тэг|teg|пцр)\s*:\s*/i, "")
-    .replace(/[↑↓]/g, "")
+    .replace(/^🔴\s*/, "").replace(/^[\u{1F7E1}\u{26A0}]\s*/u, "")
+    .replace(/^(?:оам|биохимия|бх|цсж|лп|оак|тэг|teg|пцр)\s*:\s*/i, "").replace(/[↑↓]/g, "")
     .replace(/\s*\([^)]*(?:гипо|гипер|острое|отличие|норма|криз|сд|хбп|опп|тяжел|диаг|кровопот|укороч|удлин|повыш|сниж|компонент|двс|гиперсплен|дефицит|исключен|анеми)[^)]*\)/gi, "")
-    .replace(/—\s*(?:острое|дилюцион|хбп|криз|сепсис|маркер|тяжел)[^,.]*/gi, "")
-    .replace(/[.,;]+$/, "")
-    .trim();
+    .replace(/—\s*(?:острое|дилюцион|хбп|криз|сепсис|маркер|тяжел)[^,.]*/gi, "").replace(/[.,;]+$/, "").trim();
 }
 
 /** Проверка, есть ли в строке явные маркеры патологии */
@@ -23,16 +20,8 @@ function hasAbnormalMarker(str) {
   if (s.includes("не обнаружен") || s.includes("отрицательн") || s.includes("в пределах нормы") || s.includes("норма")) {
     if (!str.includes("🔴") && !hasYellow && !str.includes("↑") && !str.includes("↓") && !s.includes("положител") && !s.includes(">100")) return false;
   }
-  return (
-    str.includes("🔴") || hasYellow || str.includes("↑") || str.includes("↓") ||
-    s.includes("повыш") || s.includes("сниж") || s.includes("патол") || s.includes("укороч") || s.includes("удлин") ||
-    s.includes("положител") || s.includes("обнаружен") || s.includes("+++") || s.includes("++") || s.includes(">100") ||
-    s.includes("лейкоцитур") || s.includes("бактериур") || s.includes("протеинур") || s.includes("ацидоз") ||
-    s.includes("streptococcus") || s.includes("staphylococcus") || s.includes("e.coli") || s.includes("klebsiella") ||
-    s.includes("neisseria") || s.includes("bacteroides") || s.includes("диплококк") || s.includes("палочки") ||
-    s.includes("менингококк") || s.includes("пневмококк") || s.includes("впг") || s.includes("anti-nmda") ||
-    (s.includes("рост") && !s.includes("нет роста"))
-  );
+  const markers = ["\u{1F534}", hasYellow, "↑", "↓", "повыш", "сниж", "патол", "укороч", "удлин", "положител", "обнаружен", "+++", "++", ">100", "лейкоцитур", "бактериур", "протеинур", "ацидоз", "streptococcus", "staphylococcus", "e.coli", "klebsiella", "neisseria", "bacteroides", "диплококк", "палочки", "менингококк", "пневмококк", "впг", "anti-nmda"];
+  return markers.some((m) => (typeof m === "boolean" ? m : (m === "\u{1F534}" ? str.includes("\u{1F534}") : s.includes(m)))) || (s.includes("рост") && !s.includes("нет роста"));
 }
 
 /** Извлечение числового значения показателя с поддержкой пробелов между разрядами */
@@ -87,12 +76,8 @@ function formatLabValue(seg, param) {
 
 function createNormalParam(param) {
   return {
-    id: param.id,
-    name: param.name,
-    unit: param.unit,
-    refRange: param.refRange,
-    displayValue: param.defaultVal,
-    isActuallyAbnormal: false,
+    id: param.id, name: param.name, unit: param.unit, refRange: param.refRange,
+    displayValue: param.defaultVal, isActuallyAbnormal: false,
     explanation: `${param.name} в пределах физиологической нормы (${param.refRange}).`,
     group: param.group || "general",
   };
@@ -100,6 +85,20 @@ function createNormalParam(param) {
 
 /** Парсер лабораторных параметров всех зарегистрированных профилей и моно-тестов */
 export function parseLabTest(testId, rawText = "", userSelectedParamIds = null, fullCaseTestResults = null) {
+  if (isProcedureCancelled(rawText)) {
+    return [{
+      id: testId,
+      name: testId.toUpperCase(),
+      unit: "—",
+      refRange: "—",
+      displayValue: "Не выполнено",
+      isActuallyAbnormal: false,
+      isCancelled: true,
+      explanation: cleanLabText(rawText),
+      group: "general",
+    }];
+  }
+
   const isBmp = testId === "bmp";
   const isUrine = testId === "urine";
 
@@ -133,7 +132,8 @@ export function parseLabTest(testId, rawText = "", userSelectedParamIds = null, 
   }
 
   const isDefaultNormal = !rawText || (rawText.toLowerCase().includes("в пределах нормы") && !rawText.includes("🔴"));
-  const normalized = (rawText || "")
+  const cleanPrefix = (rawText || "").replace(/^🔴\s*/, "").replace(/^[\u{1F7E1}\u{26A0}]\s*/u, "");
+  const normalized = cleanPrefix
     .replace(/([А-Яа-яA-Za-z]+)\.\s*(?=[=:—\d])/g, (m, p) => p + " ")
     .replace(/(?:вод\.)\s*ст\./gi, "вод.ст");
 

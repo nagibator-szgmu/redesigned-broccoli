@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { FONT, getCategoryColor } from "./theme";
 import { useTheme } from "./ThemeContext";
+import { useTranslate } from "../locale/useTranslate";
 import { DIAGNOSTICS, DIAGNOSTIC_REFS } from "../data/diagnostics";
 import { IconXRay } from "./icons";
 import DicomViewer from "../components/game/DicomViewer";
 import Tooltip from "./Tooltip";
 import { LabReportCard } from "../components/game/lab";
-import { isLabReportSupported } from "../engine/labAnalysisEngine";
+import { isLabReportSupported, isProcedureCancelled } from "../engine/labAnalysisEngine";
 
 export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams }) {
   const C = useTheme();
+  const { t } = useTranslate();
   const [showDicom, setShowDicom] = useState(false);
 
   const diag = DIAGNOSTICS.find((d) => d.id === id);
@@ -36,7 +38,8 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
   if (cleanText.toLowerCase().startsWith(`${id.toLowerCase()}:`)) {
     cleanText = cleanText.substring(id.length + 1).trim();
   }
-  if (!cleanText || cleanText.toLowerCase().includes("в пределах нормы")) {
+  const isCancelled = isProcedureCancelled(cleanText);
+  if (!cleanText || (!isCancelled && cleanText.toLowerCase().includes("в пределах нормы"))) {
     cleanText = meta.refRange
       ? `Патологических изменений не выявлено. В пределах нормы (${meta.refRange}).`
       : "Патологических изменений не выявлено. В пределах нормы.";
@@ -45,7 +48,7 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
   return (
     <Tooltip
       title={diag?.name || id}
-      refRange={meta.refRange ? `Норма: ${meta.refRange}` : null}
+      refRange={isCancelled ? null : (meta.refRange ? `Норма: ${meta.refRange}` : null)}
       text={`Исследование категории: ${diag?.cat || "диагностика"}.`}
       details={meta}
       position="top"
@@ -57,7 +60,7 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
           background: `linear-gradient(135deg, ${C.panel2}b3, ${C.panel2}66)`,
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
-          border: `1px solid ${color}25`,
+          border: isCancelled ? `1px solid ${C.red || "#EF4444"}40` : `1px solid ${color}25`,
           borderRadius: 10,
           padding: "10px 12px",
           marginBottom: 8,
@@ -68,11 +71,19 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: color, flexShrink: 0 }} />
-          <span style={{ fontSize: 12, color, fontFamily: FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.6 }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: isCancelled ? (C.red || "#EF4444") : color, flexShrink: 0 }} />
+          <span style={{ fontSize: 12, color: isCancelled ? (C.red || "#EF4444") : color, fontFamily: FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.6 }}>
             {diag?.name || id}
           </span>
-          {isNew && <span style={{ fontSize: 10, color: C.green, fontFamily: FONT, fontWeight: 600 }}>● новый</span>}
+          {isCancelled ? (
+            <span style={{ fontSize: 10, color: C.red || "#EF4444", fontFamily: FONT, fontWeight: 700 }}>
+              {t("component.cancelledResult") || "● не выполнено"}
+            </span>
+          ) : isNew ? (
+            <span style={{ fontSize: 10, color: C.green, fontFamily: FONT, fontWeight: 600 }}>
+              {t("component.newResult") || "● новый"}
+            </span>
+          ) : null}
           {isDicom && (
             <button
               type="button"
@@ -110,7 +121,7 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
           </div>
         )}
 
-        {meta.refRange && (
+        {!isCancelled && meta.refRange && (
           <div style={{ marginTop: 6, paddingTop: 6, borderTop: `1px solid ${C.border}`, display: "flex", flexWrap: "wrap", gap: 10, fontSize: 11, color: C.textDim, fontFamily: FONT }}>
             <span><strong style={{ color: C.subText }}>Референс:</strong> {meta.refRange}</span>
             {meta.unit && <span><strong style={{ color: C.subText }}>Ед. изм.:</strong> {meta.unit}</span>}

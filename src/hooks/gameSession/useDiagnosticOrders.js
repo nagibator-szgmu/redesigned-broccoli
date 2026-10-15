@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { resolveDiagnosticResult } from "../../engine/labAnalysisEngine";
 
 export function useDiagnosticOrders({ stateRef, setPhase, addEvent }) {
   const [selDiag, setSelDiag] = useState([]);
@@ -28,7 +29,7 @@ export function useDiagnosticOrders({ stateRef, setPhase, addEvent }) {
     for (let i = 0; i < ids.length; i++) {
       await new Promise((r) => setTimeout(r, 600 + Math.random() * 400));
       const id = ids[i];
-      const text = cCase.testResults[id] || `${id}: в пределах нормы.`;
+      const text = resolveDiagnosticResult(id, cCase);
       setRevealedResults((prev) => ({ ...prev, [id]: text }));
       setNewResultIds((prev) => [...prev, id]);
       addEvent(`Результаты исследования готовы: ${id.toUpperCase()}`, "result");

@@ -1,7 +1,8 @@
 import React from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
-import { parseLabTest, getLabTestMeta, extractLabConclusion } from "../../../engine/labAnalysisEngine";
+import { parseLabTest, getLabTestMeta, extractLabConclusion, isProcedureCancelled } from "../../../engine/labAnalysisEngine";
+import LabCancellationCard from "./LabCancellationCard";
 
 /**
  * Аутентичный лабораторный медицинский бланк без игровых кнопок оценки.
@@ -17,8 +18,12 @@ export default function LabReportCard({
   isNew = false,
 }) {
   const C = useTheme();
-
   const meta = getLabTestMeta(testId, testName);
+
+  if (isProcedureCancelled(rawResult)) {
+    return <LabCancellationCard meta={meta} rawResult={rawResult} isNew={isNew} />;
+  }
+
   const parsedParams = parseLabTest(testId, rawResult, selectedParamIds, fullCaseTestResults);
   const conclusion = extractLabConclusion(rawResult);
 
