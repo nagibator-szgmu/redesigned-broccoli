@@ -25,6 +25,7 @@ export default function QuickActionDrawer({
   isOpen, onClose, mode = "diag", selDiag, setSelDiag, orderedDiag,
   handleOrderTests, processingTests, t, cd, selTreat, toggleTreatment,
   appliedFx, pendingFx, treatCat, setTreatCat, renderDiagnose,
+  selectedLabParams, setSelectedLabParams,
 }) {
   const C = useTheme();
   const { shouldRender, isClosing, sheetAnimationProps, gestureProps } = useSwipeDownDismiss(isOpen, onClose);
@@ -118,6 +119,8 @@ export default function QuickActionDrawer({
               orderedDiag={orderedDiag}
               handleOrderTests={handleConfirmDiag}
               processingTests={processingTests}
+              selectedLabParams={selectedLabParams}
+              setSelectedLabParams={setSelectedLabParams}
               t={t}
             />
           ) : isDiagnose ? (

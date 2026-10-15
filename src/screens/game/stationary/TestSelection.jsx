@@ -4,7 +4,8 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
 import { DAY_COLORS } from "./constants";
-import { IconCheck, IconSearch, IconX } from "../../../ui/icons";
+import { IconCheck, IconSearch, IconX, IconGear } from "../../../ui/icons";
+import { LabParamSelectorModal } from "../../../components/game/lab";
 
 const DIAG_TABS = [
   { id: "all", label: "Все" },
@@ -16,12 +17,20 @@ const DIAG_TABS = [
 ];
 
 /** Test ordering panel in stationary game with category tabs and search */
-export default function TestSelection({ selDiag, setSelDiag, handleOrderTests, cycle }) {
+export default function TestSelection({
+  selDiag,
+  setSelDiag,
+  handleOrderTests,
+  cycle,
+  selectedLabParams = {},
+  setSelectedLabParams,
+}) {
   const C = useTheme();
   const { t } = useTranslate();
   const dayColor = DAY_COLORS[cycle.currentDay % 7];
   const [activeCat, setActiveCat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [paramModalTestId, setParamModalTestId] = useState(null);
 
   const q = searchQuery.trim().toLowerCase();
 
@@ -56,20 +65,10 @@ export default function TestSelection({ selDiag, setSelDiag, handleOrderTests, c
               key={tab.id}
               type="button"
               onClick={() => setActiveCat(tab.id)}
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6,
-                border: `1px solid ${isActive ? C.accent : C.btnBorder || C.border}`,
-                background: isActive ? `${C.accent}20` : C.panelBg2,
-                color: isActive ? C.accent : C.textDim, fontSize: 11, fontWeight: isActive ? 700 : 500,
-                fontFamily: FONT, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0,
-              }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6, border: `1px solid ${isActive ? C.accent : C.btnBorder || C.border}`, background: isActive ? `${C.accent}20` : C.panelBg2, color: isActive ? C.accent : C.textDim, fontSize: 11, fontWeight: isActive ? 700 : 500, fontFamily: FONT, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}
             >
               <span>{tab.label}</span>
-              {count > 0 && (
-                <span style={{ background: `${C.accent}30`, color: C.accent, borderRadius: 9999, fontSize: 9, fontWeight: 700, fontFamily: CODE, padding: "0 4px" }}>
-                  {count}
-                </span>
-              )}
+              {count > 0 && <span style={{ background: `${C.accent}30`, color: C.accent, borderRadius: 9999, fontSize: 9, fontWeight: 700, fontFamily: CODE, padding: "0 4px" }}>{count}</span>}
             </button>
           );
         })}
@@ -116,11 +115,30 @@ export default function TestSelection({ selDiag, setSelDiag, handleOrderTests, c
                 <span style={{ fontSize: 12, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
                   {item.name}
                 </span>
+                {["bmp", "urine"].includes(item.id) && (
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); if (!selected) toggleDiag(item.id); setParamModalTestId(item.id); }}
+                    style={{ background: `${color}20`, border: `1px solid ${color}50`, borderRadius: 5, padding: "1px 6px", fontSize: 10, fontFamily: FONT, color, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 3 }}
+                    title="Настроить конкретные показатели"
+                  >
+                    <IconGear size={10} color={color} />
+                    <span>{(selectedLabParams?.[item.id]?.length || (item.id === "bmp" ? 8 : 7))} пок.</span>
+                  </button>
+                )}
               </div>
             );
           })
         )}
       </div>
+
+      <LabParamSelectorModal
+        isOpen={!!paramModalTestId}
+        testId={paramModalTestId || "bmp"}
+        selectedParamIds={selectedLabParams?.[paramModalTestId]}
+        onClose={() => setParamModalTestId(null)}
+        onSave={(ids) => setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [paramModalTestId]: ids }))}
+      />
 
       {/* Кнопка заказа исследований */}
       {selDiag.length > 0 && (

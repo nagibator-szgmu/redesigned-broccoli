@@ -99,6 +99,7 @@ export default function DesktopWorkstation(props) {
             appliedFx={appliedFx} pendingFx={pendingFx} treatCat={treatCat} setTreatCat={setTreatCat}
             diagText={diagText} setDiagText={setDiagText} handleSubmit={handleSubmit}
             selectedRoute={selectedRoute} setSelectedRoute={setSelectedRoute} setExtraResult={setExtraResult}
+            selectedLabParams={props.selectedLabParams} setSelectedLabParams={props.setSelectedLabParams}
           />
         </div>
       </div>

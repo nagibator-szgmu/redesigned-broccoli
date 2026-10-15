@@ -32,6 +32,8 @@ export default function ActionCommandCenter({
   selectedRoute,
   setSelectedRoute,
   setExtraResult,
+  selectedLabParams = {},
+  setSelectedLabParams,
 }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -83,6 +85,8 @@ export default function ActionCommandCenter({
             newResultIds={newResultIds}
             handleOrderTests={handleOrderTests}
             processingTests={processingTests}
+            selectedLabParams={selectedLabParams}
+            setSelectedLabParams={setSelectedLabParams}
             cd={cd}
             t={t}
           />

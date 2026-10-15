@@ -15,20 +15,22 @@ export default function OutpatientGameScreen({
   handleOrderTests: handleOrderTestsRaw, setPhase, handleSubmit, setDiagText,
   setExtraResult, setRevealedAnamnesis, setSelectedRoute: setSelectedRouteProp, learningMode,
   selTreat = [], setSelTreat, toggleTreatment,
+  selectedLabParams: propsLabParams, setSelectedLabParams: propsSetLabParams,
 }) {
   const C = useTheme();
   const { t } = useTranslate();
   const isMobile = useIsMobile();
   const [localPhase, setLocalPhase] = useState("order_tests");
   const [maxReachedStep, setMaxReachedStep] = useState(0);
-  const [diagMain, setDiagMain] = useState("");
-  const [diagComplication, setDiagComplication] = useState("");
-  const [diagComorbidity, setDiagComorbidity] = useState("");
+  const [diagMain, setDiagMain] = useState(""), [diagComplication, setDiagComplication] = useState(""), [diagComorbidity, setDiagComorbidity] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [learningTip, setLearningTip] = useState(null);
   const [showTheory, setShowTheory] = useState(false);
   const [activeTheoryTopic, setActiveTheoryTopic] = useState(null);
   const [examinedVitals, setExaminedVitals] = useState([]);
+  const [localLabParams, setLocalLabParams] = useState({});
+  const labParams = propsLabParams || localLabParams;
+  const setLabParams = propsSetLabParams || setLocalLabParams;
   const relatedTopics = getTopicsForCase(cd.id);
 
   const handleRevealAnamnesis = (type) => {
@@ -67,10 +69,10 @@ export default function OutpatientGameScreen({
   const isTreatRoute = selectedRoute === "treat_outpatient";
 
   const steps = useMemo(() => [
-    { key: "order_tests", label: t("phases.order_tests"), icon: <IconMicroscope size={14} color="currentColor" /> },
-    { key: "results", label: t("phases.awaiting_results"), icon: <IconClipboard size={14} color="currentColor" /> },
-    { key: "diagnose", label: t("outpatient.phases.diagnose"), icon: <IconFileText size={14} color="currentColor" /> },
-    { key: "treat", label: t("outpatient.phases.treat") || "Рецепт", icon: <IconPill size={14} color="currentColor" /> },
+    { key: "order_tests", label: t("phases.order_tests"), Icon: IconMicroscope },
+    { key: "results", label: t("phases.awaiting_results"), Icon: IconClipboard },
+    { key: "diagnose", label: t("outpatient.phases.diagnose"), Icon: IconFileText },
+    { key: "treat", label: t("outpatient.phases.treat") || "Рецепт", Icon: IconPill },
   ], [t]);
 
   const activeStep = steps.findIndex((s) => s.key === localPhase);
@@ -97,7 +99,16 @@ export default function OutpatientGameScreen({
 
   const renderPhase = () => {
     if (localPhase === "order_tests") return (<>
-      <TestSelection cd={cd} selDiag={selDiag} setSelDiag={setSelDiag} handleOrderTests={handleOrderTests} />
+      <TestSelection
+        cd={cd}
+        selDiag={selDiag}
+        setSelDiag={setSelDiag}
+        orderedDiag={orderedDiag}
+        processingTests={processingTests}
+        handleOrderTests={handleOrderTests}
+        selectedLabParams={labParams}
+        setSelectedLabParams={setLabParams}
+      />
       {orderedDiag?.length > 0 && (
         <button type="button" onClick={() => setLocalPhase("results")}
           style={{ width: "100%", padding: 11, borderRadius: 10, background: `${C.accent}18`, border: `1px solid ${C.accent}44`, color: C.accent, fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT, marginBottom: 12 }}>
@@ -105,7 +116,7 @@ export default function OutpatientGameScreen({
         </button>
       )}
     </>);
-    if (localPhase === "results") return <ResultsPanel cd={cd} orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} />;
+    if (localPhase === "results") return <ResultsPanel cd={cd} orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} selectedLabParams={labParams} />;
     if (localPhase === "treat") return <OutpatientTreatPanel cd={cd} selTreat={selTreat} setSelTreat={setSelTreat} toggleTreatment={toggleTreatment} onSubmit={doSubmit} onBack={() => setLocalPhase("diagnose")} />;
     return (<>
       <DiagnosisForm diagMain={diagMain} setDiagMain={setDiagMain} diagComplication={diagComplication} setDiagComplication={setDiagComplication} diagComorbidity={diagComorbidity} setDiagComorbidity={setDiagComorbidity} />
@@ -129,7 +140,7 @@ export default function OutpatientGameScreen({
   </>);
 
   const sidePanels = (<><PatientCard cd={cd} examinedVitals={examinedVitals} setExaminedVitals={setExaminedVitals} /><HistoryPanel cd={cd} onReveal={handleRevealAnamnesis} /></>);
-  const mainContent = (<><StepBar steps={steps} activeStep={activeStep} onStepClick={setLocalPhase} canClickStep={canClickStep} />{renderPhase()}</>);
+  const mainContent = (<><StepBar steps={steps} activeStep={activeStep} onStepClick={setLocalPhase} canClickStep={canClickStep} isMobile={isMobile} />{renderPhase()}</>);
 
   return (
     <div style={{ height: "100vh", background: C.bgGrad, fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden" }}>

@@ -4,15 +4,11 @@ import { FONT, getCategoryColor } from "../../../ui/theme";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
 import { Btn } from "../../../ui/components";
 import {
-  IconSearch,
-  IconX,
-  IconMicroscope,
-  IconCardiac,
-  IconRespiratory,
-  IconXRay,
-  IconBrain,
+  IconSearch, IconX, IconMicroscope, IconCardiac,
+  IconRespiratory, IconXRay, IconBrain
 } from "../../../ui/icons";
 import DiagAccordionGroup from "./DiagAccordionGroup";
+import { LabParamSelectorModal } from "../lab";
 
 const DIAG_CATEGORIES = [
   { key: "lab", title: "Лабораторные исследования", Icon: IconMicroscope },
@@ -22,18 +18,20 @@ const DIAG_CATEGORIES = [
   { key: "neuro", title: "Неврология", Icon: IconBrain },
 ];
 
-/** Diagnostics selection tab with collapsible category accordions */
 export default function DiagTab({
   selDiag = [],
   setSelDiag,
   orderedDiag = [],
   handleOrderTests,
   processingTests,
+  selectedLabParams = {},
+  setSelectedLabParams,
   t,
 }) {
   const C = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [openCats, setOpenCats] = useState(() => new Set());
+  const [paramModalTestId, setParamModalTestId] = useState(null);
 
   const q = searchQuery.trim().toLowerCase();
 
@@ -64,21 +62,8 @@ export default function DiagTab({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%", padding: "8px 12px", boxSizing: "border-box" }}>
-      {/* Search Bar matching screenshot */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          background: C.headerBg2,
-          border: `1px solid ${C.border}`,
-          borderRadius: 10,
-          padding: "6px 12px",
-          marginBottom: 8,
-          backdropFilter: "blur(8px)",
-          flexShrink: 0,
-        }}
-      >
+      {/* Search Bar */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, background: C.headerBg2, border: `1px solid ${C.border}`, borderRadius: 10, padding: "6px 12px", marginBottom: 8, backdropFilter: "blur(8px)", flexShrink: 0 }}>
         <IconSearch size={14} color={C.textDim} />
         <input
           className="seamless-input"
@@ -86,36 +71,14 @@ export default function DiagTab({
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
-            if (e.target.value.trim()) {
-              setOpenCats(new Set(DIAG_CATEGORIES.map((c) => c.key)));
-            } else {
-              setOpenCats(new Set());
-            }
+            if (e.target.value.trim()) setOpenCats(new Set(DIAG_CATEGORIES.map((c) => c.key)));
+            else setOpenCats(new Set());
           }}
           placeholder={t("search.placeholderDiag") || "Поиск исследований..."}
-          style={{
-            flex: 1,
-            background: "transparent",
-            border: "none",
-            outline: "none",
-            color: C.text,
-            fontFamily: FONT,
-            fontSize: 13,
-          }}
+          style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: C.text, fontFamily: FONT, fontSize: 13 }}
         />
         {searchQuery && (
-          <button
-            onClick={() => setSearchQuery("")}
-            style={{
-              background: "transparent",
-              border: "none",
-              color: C.textDim,
-              cursor: "pointer",
-              padding: "2px 4px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+          <button onClick={() => setSearchQuery("")} style={{ background: "transparent", border: "none", color: C.textDim, cursor: "pointer", padding: "2px 4px", display: "flex", alignItems: "center" }}>
             <IconX size={12} />
           </button>
         )}
@@ -141,6 +104,8 @@ export default function DiagTab({
               isOpen={openCats.has(cat.key) || !!q}
               onToggleOpen={() => toggleCat(cat.key)}
               disabled={processingTests}
+              selectedLabParams={selectedLabParams}
+              onConfigureParams={(id) => setParamModalTestId(id)}
             />
           );
         })}
@@ -151,15 +116,18 @@ export default function DiagTab({
         <span style={{ fontSize: 13, color: C.textDim, fontFamily: FONT, fontWeight: 500 }}>
           {t("orderTests.selected", { n: selDiag.length })}
         </span>
-        <Btn
-          onClick={handleOrderTests}
-          disabled={selDiag.length === 0 || processingTests}
-          color={C.accent}
-          style={{ minHeight: 41, padding: "8px 22px", fontSize: 14, fontWeight: 600 }}
-        >
+        <Btn onClick={handleOrderTests} disabled={selDiag.length === 0 || processingTests} color={C.accent} style={{ minHeight: 41, padding: "8px 22px", fontSize: 14, fontWeight: 600 }}>
           {t("orderTests.send")}
         </Btn>
       </div>
+
+      <LabParamSelectorModal
+        isOpen={!!paramModalTestId}
+        testId={paramModalTestId || "bmp"}
+        selectedParamIds={selectedLabParams?.[paramModalTestId]}
+        onClose={() => setParamModalTestId(null)}
+        onSave={(ids) => setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [paramModalTestId]: ids }))}
+      />
     </div>
   );
 }

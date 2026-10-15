@@ -7,3 +7,4 @@ export { TestSelection } from "./TestSelection";
 export { ResultsPanel } from "./ResultsPanel";
 export { RouteSelection } from "./RouteSelection";
 export { default as OutpatientTreatPanel } from "./OutpatientTreatPanel";
+export { default as OutpatientTreatAccordionGroup } from "./OutpatientTreatAccordionGroup";

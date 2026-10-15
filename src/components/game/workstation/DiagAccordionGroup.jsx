@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
 import { CheckRow } from "../../../ui/components";
-import { IconChevronDown } from "../../../ui/icons";
+import { IconChevronDown, IconGear } from "../../../ui/icons";
 
 /**
  * Collapsible category group for diagnostic tests list.
@@ -18,6 +18,8 @@ export default function DiagAccordionGroup({
   isOpen,
   onToggleOpen,
   disabled,
+  selectedLabParams = {},
+  onConfigureParams,
 }) {
   const C = useTheme();
   const [hovered, setHovered] = useState(false);
@@ -115,16 +117,50 @@ export default function DiagAccordionGroup({
       {/* Tests inside category */}
       {isOpen && (
         <div style={{ display: "flex", flexDirection: "column", gap: 3, paddingLeft: 4, paddingRight: 2 }}>
-          {items.map((item) => (
-            <CheckRow
-              key={item.id}
-              item={item}
-              selected={selDiag.includes(item.id)}
-              onToggle={onToggle}
-              color={color}
-              disabled={disabled || orderedDiag.includes(item.id)}
-            />
-          ))}
+          {items.map((item) => {
+            const isCustomizable = ["bmp", "urine"].includes(item.id);
+            const count = selectedLabParams?.[item.id]?.length || (item.id === "bmp" ? 8 : 7);
+            const suffix = isCustomizable ? (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!selDiag.includes(item.id)) onToggle(item.id);
+                  onConfigureParams && onConfigureParams(item.id);
+                }}
+                style={{
+                  background: `${color}18`,
+                  border: `1px solid ${color}45`,
+                  borderRadius: 6,
+                  padding: "2px 7px",
+                  fontSize: 10,
+                  fontFamily: FONT,
+                  color,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 3,
+                }}
+                title="Настроить показатели исследования"
+              >
+                <IconGear size={10} color={color} />
+                <span>{count} пок.</span>
+              </button>
+            ) : null;
+
+            return (
+              <CheckRow
+                key={item.id}
+                item={item}
+                selected={selDiag.includes(item.id)}
+                onToggle={onToggle}
+                color={color}
+                disabled={disabled || orderedDiag.includes(item.id)}
+                suffix={suffix}
+              />
+            );
+          })}
         </div>
       )}
     </div>

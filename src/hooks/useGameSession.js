@@ -162,6 +162,8 @@ export default function useGameSession({
     orderedDiag: diagnostics.orderedDiag,
     revealedResults: diagnostics.revealedResults,
     newResultIds: diagnostics.newResultIds,
+    selectedLabParams: diagnostics.selectedLabParams,
+    setSelectedLabParams: diagnostics.setSelectedLabParams,
     selTreat: treatment.selTreat,
     setSelTreat: treatment.setSelTreat,
     toggleTreatment: treatment.toggleTreatment,

@@ -3,10 +3,17 @@ import { FONT } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DAY_COLORS } from "./constants";
-import { IconAlertTriangle } from "../../../ui/icons";
+import { ResultCard } from "../../../ui/components";
 
-/** Test results panel in stationary game */
-export default function ResultsPanel({ cd, orderedDiag, revealedResults, processingTests, cycle }) {
+/** Test results panel in stationary game with interactive doctor interpretation */
+export default function ResultsPanel({
+  cd,
+  orderedDiag = [],
+  revealedResults = {},
+  processingTests,
+  cycle,
+  selectedLabParams = {},
+}) {
   const C = useTheme();
   const { t } = useTranslate();
   const dayColor = DAY_COLORS[cycle.currentDay % 7];
@@ -16,33 +23,25 @@ export default function ResultsPanel({ cd, orderedDiag, revealedResults, process
       <div style={{ fontSize: 11, fontWeight: 600, color: dayColor, fontFamily: FONT, marginBottom: 8 }}>
         {t("results.title", { n: orderedDiag.length })}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {orderedDiag.map((id) => {
           const text = cycle?.testsByDay?.[cycle?.currentDay]?.[id] || revealedResults[id];
           if (!text) {
             return (
               <div key={id} style={{ padding: "8px 10px", borderRadius: 8, background: `${C.textDim}08`, display: "flex", alignItems: "center", gap: 8 }}>
                 <div style={{ width: 8, height: 8, border: `2px solid ${C.yellow}`, borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-                <span style={{ fontSize: 12, color: C.textDim, fontFamily: FONT }}>{id} — loading...</span>
+                <span style={{ fontSize: 12, color: C.textDim, fontFamily: FONT }}>{id} — загрузка...</span>
               </div>
             );
           }
-          const isCrit = text.startsWith("🔴");
-          const displayText = text.replace(/^🔴\s*/, "");
-          const testImg = cd?.testImages?.[id];
           return (
-            <div key={id} style={{ padding: "8px 10px", borderRadius: 8, background: isCrit ? `${C.red}0a` : `${C.textDim}08`, borderLeft: `3px solid ${isCrit ? C.red : dayColor}` }}>
-              <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, textTransform: "uppercase", marginBottom: 2 }}>{id}</div>
-              <div style={{ fontSize: 12, color: C.text, fontFamily: FONT, lineHeight: 1.5, display: "flex", alignItems: "baseline", gap: 6 }}>
-                {isCrit && <IconAlertTriangle size={13} color={C.red} style={{ flexShrink: 0, transform: "translateY(2px)" }} />}
-                <span>{displayText}</span>
-              </div>
-              {testImg && (
-                <div style={{ marginTop: 8, borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
-                  <img src={testImg} alt={id} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
-                </div>
-              )}
-            </div>
+            <ResultCard
+              key={id}
+              id={id}
+              text={text}
+              cd={cd}
+              selectedLabParams={selectedLabParams}
+            />
           );
         })}
       </div>

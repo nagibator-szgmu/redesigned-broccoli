@@ -22,6 +22,8 @@ export default function EmergencyGameScreen({
   audioEnabled, setAudioEnabled,
   patientDialogueMode = "hybrid",
   addEvent,
+  selectedLabParams = {},
+  setSelectedLabParams,
 }) {
   const isMobile = useIsMobile();
   const [mobileTab, setMobileTab] = useState("main");
@@ -96,6 +98,7 @@ export default function EmergencyGameScreen({
     patientDialogueMode,
     trajectory, recordTrajectoryCheckpoint,
     addEvent,
+    selectedLabParams, setSelectedLabParams,
   };
 
   if (isMobile) return <MobileEmergencyLayout {...shared} />;

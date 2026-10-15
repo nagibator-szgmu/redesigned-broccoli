@@ -1,119 +1,164 @@
 import React, { useState, useMemo } from "react";
-import { FONT, getCategoryColor } from "../../../ui/theme";
+import { FONT, CODE, getCategoryColor } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
-import { IconCheck, IconSearch, IconX } from "../../../ui/icons";
+import {
+  IconMicroscope,
+  IconCardiac,
+  IconRespiratory,
+  IconXRay,
+  IconBrain,
+} from "../../../ui/icons";
+import DiagAccordionGroup from "../../../components/game/workstation/DiagAccordionGroup";
+import OutpatientSearchBar from "./OutpatientSearchBar";
+import { LabParamSelectorModal } from "../../../components/game/lab";
 
-/** Test ordering panel with full diagnostics catalog (FR-С.3) */
-export function TestSelection({ selDiag, setSelDiag, handleOrderTests }) {
+const DIAG_CATEGORIES = [
+  { key: "lab", title: "Лабораторные исследования", Icon: IconMicroscope },
+  { key: "cardiac", title: "Кардиология", Icon: IconCardiac },
+  { key: "respiratory", title: "Дыхание и газы", Icon: IconRespiratory },
+  { key: "imaging", title: "Лучевая диагностика и эндоскопия", Icon: IconXRay },
+  { key: "neuro", title: "Неврология", Icon: IconBrain },
+];
+
+/** Test ordering panel with collapsible categories matching ICU workstation (FR-С.3) */
+export function TestSelection({
+  selDiag = [],
+  setSelDiag,
+  orderedDiag = [],
+  handleOrderTests,
+  processingTests = false,
+  selectedLabParams = {},
+  setSelectedLabParams,
+}) {
   const C = useTheme();
   const { t } = useTranslate();
   const [search, setSearch] = useState("");
+  const [openCats, setOpenCats] = useState(() => new Set());
+  const [paramModalTestId, setParamModalTestId] = useState(null);
+
+  const q = search.trim().toLowerCase();
+
+  const groupedDiagnostics = useMemo(() => {
+    const map = {};
+    DIAG_CATEGORIES.forEach((cat) => {
+      map[cat.key] = DIAGNOSTICS.filter((item) => {
+        const matchesCat = item.cat === cat.key;
+        const matchesQuery = !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q);
+        return matchesCat && matchesQuery;
+      });
+    });
+    return map;
+  }, [q]);
 
   const toggleDiag = (id) => {
-    setSelDiag(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+    setSelDiag((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
-  const filteredDiag = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return DIAGNOSTICS;
-    return DIAGNOSTICS.filter(item =>
-      item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q)
-    );
-  }, [search]);
+  const toggleCat = (key) => {
+    setOpenCats((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const handleSearchChange = (val) => {
+    setSearch(val);
+    if (val.trim()) {
+      setOpenCats(new Set(DIAG_CATEGORIES.map((c) => c.key)));
+    } else {
+      setOpenCats(new Set());
+    }
+  };
+
+  const isBtnDisabled = selDiag.length === 0 || processingTests;
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginBottom: 12 }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: C.accent, fontFamily: FONT }}>
-          {t("outpatient.orderTests") || "Назначение исследований"}
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: C.accent, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
+          <IconMicroscope size={15} color={C.accent} />
+          <span>{t("outpatient.orderTests") || "Назначение исследований"}</span>
         </div>
-        <span style={{ fontSize: 11, color: C.textDim, fontFamily: FONT }}>
-          Выбрано: {selDiag.length}
+        <span style={{ fontSize: 11, fontFamily: CODE, color: selDiag.length > 0 ? C.accent : C.textDim, background: `${C.accent}14`, padding: "2px 8px", borderRadius: 6, fontVariantNumeric: "tabular-nums" }}>
+          {t("orderTests.selected", { n: selDiag.length }) || `Выбрано: ${selDiag.length}`}
         </span>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 6, background: C.headerBg2 || `${C.border}30`, border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 8px", marginBottom: 8 }}>
-        <IconSearch size={13} color={C.textDim} />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={t("search.placeholderDiag") || "Поиск исследований (ЭКГ, кровь, целиакия...)"}
-          style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: C.text, fontFamily: FONT, fontSize: 12 }}
-        />
-        {search && (
-          <button type="button" onClick={() => setSearch("")} style={{ background: "transparent", border: "none", color: C.textDim, cursor: "pointer", padding: 0 }}>
-            <IconX size={12} />
-          </button>
-        )}
-      </div>
+      {/* Search Bar matching ICU */}
+      <OutpatientSearchBar
+        value={search}
+        onChange={handleSearchChange}
+        placeholder={t("search.placeholderDiag") || "Поиск исследований..."}
+        C={C}
+      />
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 240, overflowY: "auto", marginTop: 4 }}>
-        {filteredDiag.map(item => {
-          const selected = selDiag.includes(item.id);
-          const color = getCategoryColor(item.cat, C);
+      {/* Accordion Categories List */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        {DIAG_CATEGORIES.map((cat) => {
+          const items = groupedDiagnostics[cat.key] || [];
+          if (q && items.length === 0) return null;
+          const catColor = getCategoryColor(cat.key, C);
+          const IconComp = cat.Icon;
           return (
-            <div
-              key={item.id}
-              onClick={() => toggleDiag(item.id)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "9px 10px",
-                borderRadius: 8,
-                cursor: "pointer",
-                background: selected ? `${color}15` : "transparent",
-                border: `1px solid ${selected ? color : C.border}`,
-                transition: "all 0.1s ease",
-              }}
-            >
-              <div
-                style={{
-                  width: 15,
-                  height: 15,
-                  borderRadius: 4,
-                  border: `2px solid ${selected ? color : C.textDim}`,
-                  background: selected ? color : "transparent",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                {selected && <IconCheck size={11} color={C.bg} strokeWidth={3} />}
-              </div>
-              <span style={{ fontSize: 12.5, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
-                {item.name}
-              </span>
-            </div>
+            <DiagAccordionGroup
+              key={cat.key}
+              title={cat.title}
+              icon={<IconComp size={15} color={catColor} />}
+              color={catColor}
+              items={items}
+              selDiag={selDiag}
+              orderedDiag={orderedDiag}
+              onToggle={toggleDiag}
+              isOpen={openCats.has(cat.key) || !!q}
+              onToggleOpen={() => toggleCat(cat.key)}
+              disabled={processingTests}
+              selectedLabParams={selectedLabParams}
+              onConfigureParams={(id) => setParamModalTestId(id)}
+            />
           );
         })}
       </div>
 
-      {selDiag.length > 0 && (
+      <LabParamSelectorModal
+        isOpen={!!paramModalTestId}
+        testId={paramModalTestId || "bmp"}
+        selectedParamIds={selectedLabParams?.[paramModalTestId]}
+        onClose={() => setParamModalTestId(null)}
+        onSave={(ids) => setSelectedLabParams && setSelectedLabParams((prev) => ({ ...prev, [paramModalTestId]: ids }))}
+      />
+
+      {/* Footer Actions */}
+      <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <span style={{ fontSize: 13, color: C.textDim, fontFamily: FONT, fontWeight: 500 }}>
+          {t("orderTests.selected", { n: selDiag.length })}
+        </span>
         <button
+          type="button"
           onClick={handleOrderTests}
+          disabled={isBtnDisabled}
           style={{
-            width: "100%",
-            marginTop: 12,
-            padding: "11px",
-            borderRadius: 10,
-            background: `linear-gradient(135deg,${C.accent},${C.green})`,
-            border: "none",
+            minHeight: 40,
+            padding: "9px 22px",
             fontSize: 13.5,
             fontWeight: 700,
-            color: C.bg,
-            cursor: "pointer",
             fontFamily: FONT,
-            boxShadow: `0 4px 14px ${C.accent}30`,
+            borderRadius: 10,
+            border: "none",
+            cursor: isBtnDisabled ? "not-allowed" : "pointer",
+            color: isBtnDisabled ? C.textDim : C.bg,
+            background: isBtnDisabled ? `${C.textDim}25` : `linear-gradient(135deg, ${C.accent}, ${C.green})`,
+            boxShadow: !isBtnDisabled ? `0 4px 14px ${C.accent}30` : "none",
+            transition: "all 0.15s ease",
           }}
         >
-          {t("outpatient.send", { n: selDiag.length })}
+          {processingTests ? (t("outpatient.loading") || "Отправка...") : selDiag.length > 0 ? (t("outpatient.send", { n: selDiag.length }) || `Назначить (${selDiag.length})`) : (t("orderTests.send") || "В лабораторию")}
         </button>
-      )}
+      </div>
     </div>
   );
 }

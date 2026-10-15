@@ -6,6 +6,7 @@ export function useDiagnosticOrders({ stateRef, setPhase, addEvent }) {
   const [revealedResults, setRevealedResults] = useState({});
   const [newResultIds, setNewResultIds] = useState([]);
   const [processingTests, setProcessingTests] = useState(false);
+  const [selectedLabParams, setSelectedLabParams] = useState({});
 
   const resetDiagnostics = useCallback(() => {
     setSelDiag([]);
@@ -13,6 +14,7 @@ export function useDiagnosticOrders({ stateRef, setPhase, addEvent }) {
     setRevealedResults({});
     setNewResultIds([]);
     setProcessingTests(false);
+    setSelectedLabParams({});
   }, []);
 
   const handleOrderTests = useCallback(async () => {
@@ -29,8 +31,7 @@ export function useDiagnosticOrders({ stateRef, setPhase, addEvent }) {
       const text = cCase.testResults[id] || `${id}: в пределах нормы.`;
       setRevealedResults((prev) => ({ ...prev, [id]: text }));
       setNewResultIds((prev) => [...prev, id]);
-      const isCrit = text.startsWith("🔴");
-      addEvent(`Результат: ${id}${isCrit ? " — КРИТИЧНО" : ""}`, isCrit ? "critical" : "result");
+      addEvent(`Результаты исследования готовы: ${id.toUpperCase()}`, "result");
       setTimeout(() => setNewResultIds((prev) => prev.filter((x) => x !== id)), 2000);
     }
     setProcessingTests(false);
@@ -47,6 +48,8 @@ export function useDiagnosticOrders({ stateRef, setPhase, addEvent }) {
     setRevealedResults,
     newResultIds,
     setNewResultIds,
+    selectedLabParams,
+    setSelectedLabParams,
     processingTests,
     resetDiagnostics,
     handleOrderTests,

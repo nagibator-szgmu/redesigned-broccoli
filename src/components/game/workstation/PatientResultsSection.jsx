@@ -10,6 +10,7 @@ export default function PatientResultsSection({
   revealedResults = {},
   newResultIds = [],
   cd,
+  selectedLabParams = {},
 }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -39,6 +40,7 @@ export default function PatientResultsSection({
           text={revealedResults[id] || t("awaiting.pending") || "Выполняется..."}
           isNew={newResultIds.includes(id)}
           cd={cd}
+          selectedLabParams={selectedLabParams}
         />
       ))}
     </div>

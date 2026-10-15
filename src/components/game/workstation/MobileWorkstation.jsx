@@ -26,7 +26,8 @@ export default function MobileWorkstation({
   learningMode, paused, setPaused, showTheory, setShowTheory, relatedTopics,
   activeTheoryTopic, setActiveTheoryTopic, learningTip, showInfo, setShowInfo,
   selectedRoute, setSelectedRoute, setExtraResult, handleRevealAnamnesis,
-  audioEnabled, setAudioEnabled, patientDialogueMode, addEvent, eventLog = []
+  audioEnabled, setAudioEnabled, patientDialogueMode, addEvent, eventLog = [],
+  selectedLabParams = {}, setSelectedLabParams,
 }) {
   const C = useTheme();
   const { t } = useTranslate();
@@ -155,6 +156,8 @@ export default function MobileWorkstation({
         pendingFx={pendingFx}
         treatCat={treatCat}
         setTreatCat={setTreatCat}
+        selectedLabParams={selectedLabParams}
+        setSelectedLabParams={setSelectedLabParams}
       />
 
       {/* 7. Оверлеи */}

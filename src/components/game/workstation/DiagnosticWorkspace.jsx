@@ -19,6 +19,8 @@ export default function DiagnosticWorkspace({
   handleOrderTests,
   processingTests,
   cd,
+  selectedLabParams = {},
+  setSelectedLabParams,
   t,
 }) {
   const C = useTheme();
@@ -57,6 +59,7 @@ export default function DiagnosticWorkspace({
               revealedResults={revealedResults}
               newResultIds={newResultIds}
               cd={cd}
+              selectedLabParams={selectedLabParams}
             />
           </div>
         </div>
@@ -71,6 +74,8 @@ export default function DiagnosticWorkspace({
             orderedDiag={orderedDiag}
             handleOrderTests={handleOrderTests}
             processingTests={processingTests}
+            selectedLabParams={selectedLabParams}
+            setSelectedLabParams={setSelectedLabParams}
             t={t}
           />
         </div>

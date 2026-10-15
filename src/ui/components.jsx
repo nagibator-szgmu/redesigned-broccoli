@@ -70,7 +70,7 @@ export const Btn = ({ onClick, disabled, color: colorProp, children, style = {},
   );
 };
 
-export const CheckRow = ({ item, selected, onToggle, color: colorProp, danger, disabled }) => {
+export const CheckRow = ({ item, selected, onToggle, color: colorProp, danger, disabled, suffix }) => {
   const C = useTheme();
   const color = colorProp ?? C.accent;
 
@@ -126,6 +126,7 @@ export const CheckRow = ({ item, selected, onToggle, color: colorProp, danger, d
         <span style={{ color: selected ? C.white : danger ? C.red : "#E2E8F0", fontSize: 14, fontFamily: FONT, flex: 1, fontWeight: selected ? 500 : 400, lineHeight: 1.35 }}>
           {item.name}
         </span>
+        {suffix}
         {danger && (
           <span style={{ fontSize: 10.5, color: C.red, fontFamily: FONT, fontWeight: 600, background: `${C.red}18`, padding: "1px 6px", borderRadius: 4, display: "inline-flex", alignItems: "center", gap: 3 }}>
             <IconAlertTriangle size={10} color={C.red} />

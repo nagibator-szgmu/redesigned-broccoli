@@ -15,7 +15,7 @@ import { LearningTipToast, TheoryModal } from "../../components/game";
 import { getExplanationForCase } from "../../hooks/useReviewRegistry";
 
 /** Stationary department game screen: daily management, monitoring and treatment. */
-export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests, handleOrderTests: handleOrderTestsRaw, selTreat, setSelTreat, toggleTreatment, setPhase, setExtraResult, setRevealedAnamnesis, learningMode, appliedFx, pendingFx, treatCat, setTreatCat }) {
+export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orderedDiag, revealedResults, processingTests, handleOrderTests: handleOrderTestsRaw, selTreat, setSelTreat, toggleTreatment, setPhase, setExtraResult, setRevealedAnamnesis, learningMode, appliedFx, pendingFx, treatCat, setTreatCat, selectedLabParams: propsLabParams, setSelectedLabParams: propsSetLabParams }) {
   const C = useTheme();
   const { t } = useTranslate();
   const isMobile = useIsMobile();
@@ -28,6 +28,9 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
   const [activeTheoryTopic, setActiveTheoryTopic] = useState(null);
   const relatedTopics = getTopicsForCase(cd.id);
   const [shownAnamnesisDay, setShownAnamnesisDay] = useState(-1);
+  const [localLabParams, setLocalLabParams] = useState({});
+  const labParams = propsLabParams || localLabParams;
+  const setLabParams = propsSetLabParams || setLocalLabParams;
 
   const cycle = useStationaryCycle(cd);
 
@@ -87,7 +90,7 @@ export default function StationaryGameScreen({ cd, ps, selDiag, setSelDiag, orde
     }
   };
 
-  const panelProps = { cd, cycle, selDiag, setSelDiag, selTreat, setSelTreat, toggleTreatment, handleOrderTests, handleEndDay, orderedDiag, revealedResults, processingTests, setLocalPhase, canProceedFromTreat: selTreat.length > 0, appliedFx, pendingFx, treatCat, setTreatCat };
+  const panelProps = { cd, cycle, selDiag, setSelDiag, selTreat, setSelTreat, toggleTreatment, handleOrderTests, handleEndDay, orderedDiag, revealedResults, processingTests, setLocalPhase, canProceedFromTreat: selTreat.length > 0, appliedFx, pendingFx, treatCat, setTreatCat, selectedLabParams: labParams, setSelectedLabParams: setLabParams };
 
   const actionTabs = (
     <StationaryActionTabs openTab={openTab} onToggleTab={(id) => { setOpenTab(p => p === id ? null : id); setLocalPhase(id); }} currentDay={cycle.currentDay} selDiagCount={selDiag.length} resultsCount={orderedDiag.length} selTreatCount={selTreat.length}>

@@ -26,6 +26,8 @@ export default function GameScreenWrapper({
         orderedDiag={game.orderedDiag}
         revealedResults={game.revealedResults}
         newResultIds={game.newResultIds}
+        selectedLabParams={game.selectedLabParams}
+        setSelectedLabParams={game.setSelectedLabParams}
         diagText={game.diagText}
         setDiagText={game.setDiagText}
         diagCat={game.diagCat}

@@ -3,14 +3,15 @@ import { FONT, CODE } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { OUTPATIENT_TREATMENTS } from "../../../data/outpatientTreatments";
-import { IconSearch, IconX, IconCheck, IconPill } from "../../../ui/icons";
+import { IconPill, IconDroplet, IconCardiac, IconInfectious } from "../../../ui/icons";
+import OutpatientTreatAccordionGroup from "./OutpatientTreatAccordionGroup";
+import OutpatientSearchBar from "./OutpatientSearchBar";
 
-const OUTPATIENT_CATEGORIES = [
-  { id: "all", label: "Все" },
-  { id: "gastro", label: "Гастроэнтерология" },
-  { id: "therapy", label: "Терапия / Кардио" },
-  { id: "antimicrobial", label: "Антимикробные" },
-  { id: "other", label: "Прочие" },
+const OUTPATIENT_GROUPS = [
+  { id: "gastro", title: "Гастроэнтерология", Icon: IconDroplet, colorKey: "accent" },
+  { id: "therapy", title: "Терапия и кардиология", Icon: IconCardiac, colorKey: "red" },
+  { id: "antimicrobial", title: "Антимикробные препараты", Icon: IconInfectious, colorKey: "yellow" },
+  { id: "other", title: "Прочие назначения и диета", Icon: IconPill, colorKey: "purple" },
 ];
 
 export default function OutpatientTreatPanel({
@@ -19,7 +20,7 @@ export default function OutpatientTreatPanel({
   const C = useTheme();
   const { t } = useTranslate();
   const [search, setSearch] = useState("");
-  const [activeCat, setActiveCat] = useState("all");
+  const [openGroups, setOpenGroups] = useState(() => new Set());
 
   const handleToggle = (id) => {
     if (setSelTreat) {
@@ -29,104 +30,92 @@ export default function OutpatientTreatPanel({
     }
   };
 
-  const outpatientList = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return OUTPATIENT_TREATMENTS.filter((item) => {
-      if (activeCat !== "all" && item.cat !== activeCat) return false;
-      if (q && !item.name.toLowerCase().includes(q) && !item.id.toLowerCase().includes(q) && !(item.desc || "").toLowerCase().includes(q)) {
-        return false;
-      }
-      return true;
+  const q = search.trim().toLowerCase();
+
+  const groupedTreatments = useMemo(() => {
+    const map = {};
+    OUTPATIENT_GROUPS.forEach((grp) => {
+      map[grp.id] = OUTPATIENT_TREATMENTS.filter((item) => {
+        const matchesGrp = item.cat === grp.id;
+        const matchesQuery =
+          !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q) ||
+          (item.desc || "").toLowerCase().includes(q);
+        return matchesGrp && matchesQuery;
+      });
     });
-  }, [search, activeCat]);
+    return map;
+  }, [q]);
+
+  const handleSearchChange = (val) => {
+    setSearch(val);
+    if (val.trim()) {
+      setOpenGroups(new Set(OUTPATIENT_GROUPS.map((g) => g.id)));
+    } else {
+      setOpenGroups(new Set());
+    }
+  };
+
+  const toggleGroup = (id) => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   return (
-    <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 12, padding: 14, marginBottom: 12 }}>
+    <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginBottom: 12 }}>
+      {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: C.accent, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
           <IconPill size={15} color={C.accent} />
           <span>{t("outpatient.prescribeTitle") || "Амбулаторные назначения и рецептурный лист"}</span>
         </div>
-        <span style={{ fontSize: 11, fontFamily: CODE, color: selTreat.length > 0 ? C.green : C.textDim, background: `${C.accent}14`, padding: "2px 8px", borderRadius: 6 }}>
+        <span style={{ fontSize: 11, fontFamily: CODE, color: selTreat.length > 0 ? C.green : C.textDim, background: `${C.accent}14`, padding: "2px 8px", borderRadius: 6, fontVariantNumeric: "tabular-nums" }}>
           {selTreat.length > 0 ? `Выписано: ${selTreat.length}` : (t("outpatient.noMedsNeeded") || "Без медикаментов")}
         </span>
       </div>
 
-      <div style={{ display: "flex", gap: 4, overflowX: "auto", paddingBottom: 6, marginBottom: 8 }}>
-        {OUTPATIENT_CATEGORIES.map((cat) => {
-          const isActive = activeCat === cat.id;
+      {/* Search Bar */}
+      <OutpatientSearchBar
+        value={search}
+        onChange={handleSearchChange}
+        placeholder={t("search.placeholderTreat") || "Поиск амбулаторных препаратов и диеты..."}
+        C={C}
+      />
+
+      {/* Accordion Groups List */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        {OUTPATIENT_GROUPS.map((grp) => {
+          const items = groupedTreatments[grp.id] || [];
+          if (q && items.length === 0) return null;
+          const groupColor = C[grp.colorKey] || C.accent;
+          const IconComp = grp.Icon;
           return (
-            <button key={cat.id} type="button" onClick={() => setActiveCat(cat.id)}
-              style={{
-                padding: "4px 9px", borderRadius: 6, border: `1px solid ${isActive ? C.accent : C.border}`,
-                background: isActive ? `${C.accent}20` : "transparent", color: isActive ? C.accent : C.textDim,
-                fontSize: 11, fontWeight: isActive ? 700 : 500, fontFamily: FONT, cursor: "pointer", whiteSpace: "nowrap",
-              }}>
-              {cat.label}
-            </button>
+            <OutpatientTreatAccordionGroup
+              key={grp.id}
+              title={grp.title}
+              icon={<IconComp size={15} color={groupColor} />}
+              color={groupColor}
+              items={items}
+              selTreat={selTreat}
+              onToggle={handleToggle}
+              isOpen={openGroups.has(grp.id) || !!q}
+              onToggleOpen={() => toggleGroup(grp.id)}
+            />
           );
         })}
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 6, background: C.headerBg2 || `${C.border}30`, border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 8px", marginBottom: 10 }}>
-        <IconSearch size={13} color={C.textDim} />
-        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-          placeholder={t("search.placeholderTreat") || "Поиск амбулаторных препаратов и диеты..."}
-          style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: C.text, fontFamily: FONT, fontSize: 12 }} />
-        {search && (
-          <button type="button" onClick={() => setSearch("")} style={{ background: "transparent", border: "none", color: C.textDim, cursor: "pointer", padding: 0 }}>
-            <IconX size={12} />
-          </button>
-        )}
-      </div>
-
-      <div style={{ maxHeight: 280, overflowY: "auto", display: "grid", gridTemplateColumns: "1fr", gap: 6, marginBottom: 12, paddingRight: 2 }}>
-        {outpatientList.map((item) => {
-          const isSelected = selTreat.includes(item.id);
-          return (
-            <div key={item.id} onClick={() => handleToggle(item.id)}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px",
-                borderRadius: 8, border: `1px solid ${isSelected ? C.green : C.border}`,
-                background: isSelected ? `${C.green}15` : `${C.cardBg || C.panel}`, cursor: "pointer", transition: "all 0.15s ease",
-              }}>
-              <div style={{ flex: 1, marginRight: 8 }}>
-                <div style={{ fontSize: 12.5, fontWeight: isSelected ? 700 : 500, color: isSelected ? C.green : C.text, fontFamily: FONT }}>
-                  {item.name}
-                </div>
-                {item.desc && (
-                  <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT, marginTop: 2 }}>
-                    {item.desc}
-                  </div>
-                )}
-              </div>
-              <div style={{ width: 20, height: 20, borderRadius: 6, border: `1px solid ${isSelected ? C.green : C.border}`, background: isSelected ? C.green : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                {isSelected && <IconCheck size={12} color={C.bg} />}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <div style={{ display: "flex", gap: 8 }}>
+      {/* Footer Actions */}
+      <div style={{ display: "flex", gap: 8, marginTop: 14, paddingTop: 10, borderTop: `1px solid ${C.border}` }}>
         {onBack && (
-          <button type="button" onClick={onBack}
-            style={{
-              padding: "13px 14px", borderRadius: 10,
-              background: "transparent", border: `1px solid ${C.border}`,
-              fontSize: 13, fontWeight: 600, color: C.textDim,
-              cursor: "pointer", fontFamily: FONT, whiteSpace: "nowrap",
-            }}>
+          <button type="button" onClick={onBack} style={{ padding: "11px 16px", borderRadius: 10, background: "transparent", border: `1px solid ${C.border}`, fontSize: 13, fontWeight: 600, color: C.textDim, cursor: "pointer", fontFamily: FONT, whiteSpace: "nowrap" }}>
             ← {t("theory.back") || "Назад"}
           </button>
         )}
-        <button type="button" onClick={onSubmit}
-          style={{
-            flex: 1, padding: "13px", borderRadius: 10,
-            background: `linear-gradient(135deg,${C.accent},${C.green})`,
-            border: "none", fontSize: 14, fontWeight: 700, color: C.bg,
-            cursor: "pointer", fontFamily: FONT, boxShadow: `0 2px 8px ${C.accent}33`,
-          }}>
+        <button type="button" onClick={onSubmit} style={{ flex: 1, padding: "11px 16px", borderRadius: 10, background: `linear-gradient(135deg, ${C.accent}, ${C.green})`, border: "none", fontSize: 13.5, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT, boxShadow: `0 4px 14px ${C.accent}30` }}>
           {t("outpatient.finishPrescribe") || "Завершить приём и выписать рецепт"}
         </button>
       </div>
