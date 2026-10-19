@@ -6,6 +6,7 @@ import { OUTPATIENT_TREATMENTS } from "../../../data/outpatientTreatments";
 import { IconPill, IconDroplet, IconCardiac, IconInfectious } from "../../../ui/icons";
 import OutpatientTreatAccordionGroup from "./OutpatientTreatAccordionGroup";
 import OutpatientSearchBar from "./OutpatientSearchBar";
+import RxBuilderModal from "./RxBuilderModal";
 
 const OUTPATIENT_GROUPS = [
   { id: "gastro", title: "Гастроэнтерология", Icon: IconDroplet, colorKey: "accent" },
@@ -15,12 +16,15 @@ const OUTPATIENT_GROUPS = [
 ];
 
 export default function OutpatientTreatPanel({
-  selTreat = [], setSelTreat, toggleTreatment, onSubmit, onBack,
+  cd, selTreat = [], setSelTreat, toggleTreatment,
+  rxBuilderData, setRxBuilderData, onSubmit, onBack,
 }) {
   const C = useTheme();
   const { t } = useTranslate();
   const [search, setSearch] = useState("");
   const [openGroups, setOpenGroups] = useState(() => new Set());
+  const [showRxModal, setShowRxModal] = useState(false);
+
 
   const handleToggle = (id) => {
     if (setSelTreat) {
@@ -77,6 +81,29 @@ export default function OutpatientTreatPanel({
         </span>
       </div>
 
+      {/* Rx Builder Banner (for cases with advanced rxPlan) */}
+      {cd?.rxPlan && (
+        <div style={{ background: `${C.accent}12`, border: `1px solid ${C.accent}44`, borderRadius: 10, padding: "10px 12px", marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: C.accent, fontFamily: FONT, textTransform: "uppercase" }}>
+              Фармакотерапия: {cd.rxPlan.group || "Базисный препарат"}
+            </div>
+            <div style={{ fontSize: 12, color: C.text, fontFamily: FONT, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {rxBuilderData?.mnn
+                ? `${rxBuilderData.mnn} (${rxBuilderData.dose || ""} ${rxBuilderData.frequency || ""} ${rxBuilderData.duration || ""})`
+                : "Схема не настроена (нажмите для выбора МНН и дозы)"}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowRxModal(true)}
+            style={{ padding: "6px 12px", borderRadius: 8, background: C.accent, border: "none", color: C.bg, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: FONT, whiteSpace: "nowrap" }}
+          >
+            {rxBuilderData?.mnn ? "Изменить рецепт" : "Настроить рецепт"}
+          </button>
+        </div>
+      )}
+
       {/* Search Bar */}
       <OutpatientSearchBar
         value={search}
@@ -119,6 +146,16 @@ export default function OutpatientTreatPanel({
           {t("outpatient.finishPrescribe") || "Завершить приём и выписать рецепт"}
         </button>
       </div>
+
+      <RxBuilderModal
+        isOpen={showRxModal}
+        rxPlan={cd?.rxPlan}
+        currentRx={rxBuilderData}
+        onSave={(data) => {
+          if (setRxBuilderData) setRxBuilderData(data);
+        }}
+        onClose={() => setShowRxModal(false)}
+      />
     </div>
   );
 }

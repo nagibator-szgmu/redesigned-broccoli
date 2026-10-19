@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" style="background:#05070d;font-family:sans-serif;">
+  <defs>
+    <!-- Pale atrophic mucosa gradient -->
+    <radialGradient id="atrophicLight" cx="45%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fca5a5" stop-opacity="0.85"/>
+      <stop offset="40%" stop-color="#e27367" stop-opacity="0.8"/>
+      <stop offset="75%" stop-color="#8f2d24" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#3b0f0a" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="gastricLumen" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#020408"/>
+      <stop offset="70%" stop-color="#1f0503"/>
+      <stop offset="100%" stop-color="#4a1510" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Circular Mask -->
+  <rect x="0" y="0" width="600" height="360" fill="#030508"/>
+  <circle cx="300" cy="180" r="165" fill="#0e0404" stroke="#261010" stroke-width="4"/>
+
+  <!-- Pale Atrophic Mucosa of Stomach Body -->
+  <circle cx="300" cy="180" r="162" fill="url(#atrophicLight)"/>
+
+  <!-- Flattened, Thin Gastric Folds (Loss of normal plush rugae) -->
+  <path d="M 145 170 Q 230 145 320 155 Q 400 140 455 175 Q 380 185 280 178 Q 185 180 145 170 Z" fill="#7f1d1d" opacity="0.6"/>
+  <path d="M 160 220 Q 250 235 340 215 Q 420 225 450 195 Q 380 230 270 225 Q 185 220 160 220 Z" fill="#651515" opacity="0.6"/>
+
+  <!-- Deep Gastric Lumen -->
+  <ellipse cx="330" cy="175" rx="38" ry="32" fill="url(#gastricLumen)"/>
+
+  <!-- Prominent Submucosal Vascular Network (Translucent Thin Mucosa - Key Sign of Atrophy) -->
+  <g stroke="#7f1d1d" stroke-width="1.3" fill="none" opacity="0.85">
+    <!-- Branching Vessels in Stomach Body -->
+    <path d="M 190 120 Q 215 135 235 125 T 270 140"/>
+    <path d="M 230 128 Q 240 140 250 155"/>
+    <path d="M 215 135 Q 210 150 205 165"/>
+    <path d="M 370 115 Q 385 130 405 125 T 435 145"/>
+    <path d="M 400 128 Q 395 145 385 160"/>
+    <path d="M 180 215 Q 210 210 230 225 T 265 220"/>
+    <path d="M 225 215 Q 235 200 245 190"/>
+    <path d="M 360 235 Q 380 220 405 230 T 440 215"/>
+    <path d="M 385 225 Q 375 210 370 195"/>
+  </g>
+
+  <!-- Wet Mucosal Reflexes -->
+  <ellipse cx="240" cy="135" rx="8" ry="3.5" fill="#ffffff" opacity="0.5" transform="rotate(-15 240 135)"/>
+  <ellipse cx="360" cy="225" rx="10" ry="4" fill="#ffffff" opacity="0.4" transform="rotate(20 360 225)"/>
+
+  <!-- Overlay UI Info -->
+  <text x="20" y="30" fill="#38bdf8" font-size="11" font-weight="bold">OLYMPUS EVIS EXERA III</text>
+  <text x="20" y="46" fill="#94a3b8" font-size="9.5">CORPUS GASTRIS · PROTOCOL OLGA / OLGIM (5 Bx)</text>
+
+  <!-- Diagnostic Badge -->
+  <rect x="20" y="295" width="245" height="48" rx="6" fill="#0f172a" fill-opacity="0.85" stroke="#334155" stroke-width="1"/>
+  <text x="28" y="313" fill="#ef4444" font-size="10" font-weight="bold">АТРОФИЧЕСКИЙ ПАНГАСТРИТ</text>
+  <text x="28" y="326" fill="#e2e8f0" font-size="9">Истончение слизистой, уплощение складок</text>
+  <text x="28" y="337" fill="#e2e8f0" font-size="9">Просвечивание подслизистых сосудов</text>
+</svg>

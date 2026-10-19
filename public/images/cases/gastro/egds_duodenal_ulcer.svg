@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" style="background:#05070d;font-family:sans-serif;">
+  <defs>
+    <!-- Endoscope Lens Aperture -->
+    <radialGradient id="egdsLight" cx="45%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fca5a5" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#ef4444" stop-opacity="0.9"/>
+      <stop offset="75%" stop-color="#991b1b" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="1"/>
+    </radialGradient>
+    <!-- Fibrin Base Gradient (Clean white-yellow base) -->
+    <radialGradient id="fibrinGrad" cx="45%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#fef08a"/>
+      <stop offset="85%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Circular Mask -->
+  <rect x="0" y="0" width="600" height="360" fill="#030508"/>
+  <circle cx="300" cy="180" r="165" fill="#0e0404" stroke="#261010" stroke-width="4"/>
+
+  <!-- Duodenal Bulb Mucosa -->
+  <circle cx="300" cy="180" r="162" fill="url(#egdsLight)"/>
+
+  <!-- Bulbar Folds and Distal Lumen -->
+  <path d="M 170 120 Q 250 160 360 130 Q 420 180 440 240 Q 340 210 240 240 Q 180 200 170 120 Z" fill="#7f1d1d" opacity="0.65"/>
+  <ellipse cx="380" cy="190" rx="42" ry="36" fill="#1c0404" opacity="0.95"/>
+
+  <!-- Ulcer Crater Mound (Raised Hyperemic Edematous Rim) -->
+  <ellipse cx="260" cy="175" rx="36" ry="28" fill="#b91c1c" stroke="#dc2626" stroke-width="2.5" opacity="0.95"/>
+  <ellipse cx="260" cy="175" rx="30" ry="23" fill="#7f1d1d"/>
+
+  <!-- Ulcer Base (Clean White-Yellow Fibrin, Forrest III, ~7 mm) -->
+  <ellipse cx="260" cy="175" rx="24" ry="18" fill="url(#fibrinGrad)" stroke="#cbd5e1" stroke-width="1.2"/>
+  <!-- Fibrin granularity texture -->
+  <path d="M 245 170 Q 255 168 268 174 Q 275 180 270 182 Q 255 185 248 178 Z" fill="#fef9c3" opacity="0.8"/>
+
+  <!-- Caliper Measurement on Ulcer -->
+  <line x1="236" y1="175" x2="284" y2="175" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+  <line x1="236" y1="170" x2="236" y2="180" stroke="#38bdf8" stroke-width="1.2"/>
+  <line x1="284" y1="170" x2="284" y2="180" stroke="#38bdf8" stroke-width="1.2"/>
+  <text x="248" y="166" fill="#38bdf8" font-size="8.5" font-weight="bold">7.2 mm</text>
+
+  <!-- Wet Mucosal Reflexes -->
+  <ellipse cx="210" cy="130" rx="9" ry="4" fill="#ffffff" opacity="0.5" transform="rotate(-15 210 130)"/>
+  <ellipse cx="320" cy="225" rx="12" ry="4" fill="#ffffff" opacity="0.4" transform="rotate(25 320 225)"/>
+
+  <!-- Overlay UI Info -->
+  <text x="20" y="30" fill="#38bdf8" font-size="11" font-weight="bold">MEDSIM EGDS SYSTEM</text>
+  <text x="20" y="46" fill="#94a3b8" font-size="9.5">LOC: BULBUS DUODENI · CLASSIF: FORREST III</text>
+
+  <!-- Diagnostic Badge -->
+  <rect x="20" y="300" width="235" height="46" rx="6" fill="#0f172a" fill-opacity="0.85" stroke="#334155" stroke-width="1"/>
+  <text x="28" y="318" fill="#ef4444" font-size="10" font-weight="bold">ЯЗВА ЛУКОВИЦЫ ДПК (0.7 см)</text>
+  <text x="28" y="331" fill="#e2e8f0" font-size="9">Дно под белым фибрином. Forrest III.</text>
+  <text x="28" y="341" fill="#e2e8f0" font-size="9">Признаков кровотечения нет.</text>
+</svg>

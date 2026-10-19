@@ -40,7 +40,20 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const safeSelDiag = selDiag || [];
   const needDiag = cd.needDiag || [];
   const dh = needDiag.filter(id => safeSelDiag.includes(id)).length;
-  score += Math.round((dh / Math.max(needDiag.length, 1)) * 20);
+
+  const isInteractiveGastro = cd.department === "outpatient" && (cd.rxPlan || cd.followUpPlan || cd.unjustifiedDiag);
+
+  const unjustifiedPenalties = isInteractiveGastro
+    ? (cd.unjustifiedDiag || []).filter(u => safeSelDiag.includes(u.id))
+    : [];
+
+  if (isInteractiveGastro) {
+    const penaltyTotal = unjustifiedPenalties.reduce((acc, u) => acc + (u.penalty || 5), 0);
+    const diagBase = Math.round((dh / Math.max(needDiag.length, 1)) * 25);
+    score += Math.max(0, diagBase - penaltyTotal);
+  } else {
+    score += Math.round((dh / Math.max(needDiag.length, 1)) * 20);
+  }
 
   const rev = revealedAnamnesis instanceof Set ? revealedAnamnesis : new Set(revealedAnamnesis || []);
   const anamnesisRequired = [];
@@ -54,9 +67,30 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   score += Math.round((anamnesisRevealed / Math.max(anamnesisRequired.length, 1)) * 10);
 
   const selRoute = typeof extraResult === "string" ? extraResult : extraResult?.selectedRoute;
+  let rxScore = 0;
+  let followUpScore = 0;
+
   if (cd.department === "outpatient") {
     const isRouteCorrect = selRoute === cd.correctRoute;
-    if (isRouteCorrect) {
+    if (isInteractiveGastro) {
+      if (isRouteCorrect) score += 10;
+      const rx = extraResult?.rxBuilder;
+      if (rx?.isCorrect) rxScore = 10;
+      else if (rx?.id && cd.rxPlan?.options?.some(o => o.id === rx.id && o.isCorrect)) rxScore = 5;
+      score += rxScore;
+
+      const fu = extraResult?.followUp;
+      const plan = cd.followUpPlan;
+      if (plan) {
+        if (fu?.timingId === plan.correctTiming) followUpScore += 5;
+        const cb = plan.correctBiomarkers || [];
+        const sb = fu?.selectedBiomarkers || [];
+        const hits = cb.filter(b => sb.includes(b)).length;
+        const falsePos = sb.filter(b => !cb.includes(b)).length;
+        followUpScore += Math.max(0, Math.round((hits / Math.max(cb.length, 1)) * 5) - falsePos * 2);
+      }
+      score += followUpScore;
+    } else if (isRouteCorrect) {
       score += 20;
       const needTreat = cd.needTreat || [];
       if (needTreat.length === 0) {
@@ -71,6 +105,7 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
     const th = needTreat.filter(id => safeSelTreat.includes(id)).length;
     score += Math.round((th / Math.max(needTreat.length, 1)) * 20);
   }
+
 
   const wrongTreat = cd.wrongTreat || [];
   wrongTreat.forEach(id => {
@@ -112,5 +147,17 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
   const gradeId = score >= 85 ? "excellent" : score >= 70 ? "good" : score >= 50 ? "satisfactory" : "unsatisfactory";
 
   const isRouteCorrect = cd.department === "outpatient" ? selRoute === cd.correctRoute : undefined;
-  return { score, gradeId, dangerous, diagCorrect: ratio >= 0.6, diagPartial: ratio >= 0.3, outcome, isRouteCorrect };
+  return {
+    score,
+    gradeId,
+    dangerous,
+    diagCorrect: ratio >= 0.6,
+    diagPartial: ratio >= 0.3,
+    outcome,
+    isRouteCorrect,
+    unjustifiedPenalties,
+    rxScore,
+    followUpScore,
+  };
 }
+

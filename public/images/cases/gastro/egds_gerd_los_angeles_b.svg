@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" style="background:#05070d;font-family:sans-serif;">
+  <defs>
+    <!-- Esophageal pale squamous mucosa gradient -->
+    <radialGradient id="esoLight" cx="45%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fed7aa" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#fdba74" stop-opacity="0.9"/>
+      <stop offset="75%" stop-color="#c2410c" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#431407" stop-opacity="1"/>
+    </radialGradient>
+    <!-- Gastric dark red lumen gradient below Z-line -->
+    <radialGradient id="gastricOpening" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#05070a"/>
+      <stop offset="60%" stop-color="#2a0606"/>
+      <stop offset="100%" stop-color="#7f1d1d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="600" height="360" fill="#030508"/>
+  <circle cx="300" cy="180" r="165" fill="#0e0404" stroke="#261010" stroke-width="4"/>
+
+  <!-- Distal Esophageal Tubular Lumen -->
+  <circle cx="300" cy="180" r="162" fill="url(#esoLight)"/>
+
+  <!-- Longitudinal Esophageal Folds Converging toward Cardia -->
+  <path d="M 180 110 Q 250 160 300 180 Q 230 190 170 170 Z" fill="#ea580c" opacity="0.4"/>
+  <path d="M 420 110 Q 350 160 300 180 Q 370 190 430 170 Z" fill="#ea580c" opacity="0.4"/>
+  <path d="M 190 250 Q 260 210 300 180 Q 240 230 190 250 Z" fill="#ea580c" opacity="0.4"/>
+  <path d="M 410 250 Q 340 210 300 180 Q 360 230 410 250 Z" fill="#ea580c" opacity="0.4"/>
+
+  <!-- Gastroesophageal Junction (Z-Line / Squamocolumnar Junction) -->
+  <ellipse cx="300" cy="180" rx="48" ry="42" fill="url(#gastricOpening)"/>
+  <!-- Z-line squiggly jagged border -->
+  <path d="M 260 175 Q 265 165 272 170 Q 280 160 288 165 Q 298 158 308 163 Q 320 159 328 168 Q 338 162 342 175 Q 335 188 340 196 Q 330 205 320 200 Q 308 208 298 202 Q 285 206 276 198 Q 265 202 260 190 Z" fill="none" stroke="#dc2626" stroke-width="2"/>
+
+  <!-- Linear Mucosal Breaks (Erosions > 5 mm, Los Angeles Grade B) -->
+  <!-- Erosion 1 on Right Lateral Fold (7 mm) -->
+  <path d="M 326 168 Q 348 148 375 130" stroke="#b91c1c" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M 326 168 Q 348 148 375 130" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Erosion 2 on Left Anterior Fold (8 mm) -->
+  <path d="M 274 168 Q 252 146 225 125" stroke="#b91c1c" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+  <path d="M 274 168 Q 252 146 225 125" stroke="#fef08a" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+
+  <!-- Erosion 3 on Inferior Fold (4 mm) -->
+  <path d="M 298 204 Q 295 220 292 235" stroke="#b91c1c" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 298 204 Q 295 220 292 235" stroke="#fef08a" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- Caliper Measurement Marks on Erosion 2 -->
+  <line x1="225" y1="120" x2="274" y2="162" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="215" y="115" fill="#38bdf8" font-size="9" font-weight="bold">8.1 mm</text>
+
+  <!-- Wet Mucosal Reflexes -->
+  <ellipse cx="230" cy="155" rx="8" ry="3.5" fill="#ffffff" opacity="0.5" transform="rotate(-30 230 155)"/>
+  <ellipse cx="370" cy="155" rx="9" ry="4" fill="#ffffff" opacity="0.45" transform="rotate(30 370 155)"/>
+
+  <!-- Overlay UI Info -->
+  <text x="20" y="30" fill="#38bdf8" font-size="11" font-weight="bold">OLYMPUS EVIS EXERA III</text>
+  <text x="20" y="46" fill="#94a3b8" font-size="9.5">DISTAL ESOPHAGUS / Z-LINE · CLASSIF: LOS ANGELES B</text>
+
+  <!-- Diagnostic Badge -->
+  <rect x="20" y="295" width="245" height="48" rx="6" fill="#0f172a" fill-opacity="0.85" stroke="#334155" stroke-width="1"/>
+  <text x="28" y="313" fill="#ef4444" font-size="10" font-weight="bold">РЕФЛЮКС-ЭЗОФАГИТ: СТЕПЕНЬ B</text>
+  <text x="28" y="326" fill="#e2e8f0" font-size="9">Линейные эрозии > 5 мм на складках</text>
+  <text x="28" y="337" fill="#e2e8f0" font-size="9">Эрозии не сливаются между собой</text>
+</svg>

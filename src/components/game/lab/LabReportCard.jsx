@@ -3,6 +3,7 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { FONT, CODE } from "../../../ui/theme";
 import { parseLabTest, getLabTestMeta, extractLabConclusion, isProcedureCancelled } from "../../../engine/labAnalysisEngine";
 import LabCancellationCard from "./LabCancellationCard";
+import ClinicalImagePreview from "../../../ui/ClinicalImagePreview";
 
 /**
  * Аутентичный лабораторный медицинский бланк без игровых кнопок оценки.
@@ -103,11 +104,7 @@ export default function LabReportCard({
         </table>
       </div>
 
-      {testImage && (
-        <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
-          <img src={testImage} alt={testId} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
-        </div>
-      )}
+      <ClinicalImagePreview imgData={testImage} testId={testId} />
 
       {conclusion && (
         <div style={{ padding: "7px 10px", background: `${C.panel2 || C.panel}80`, borderRadius: 6, border: `1px solid ${C.border}`, fontSize: 11.5, fontFamily: FONT, color: C.text }}>

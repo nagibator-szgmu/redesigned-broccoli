@@ -24,7 +24,10 @@ export default function OutpatientGameScreen({
   const [maxReachedStep, setMaxReachedStep] = useState(0);
   const [diagMain, setDiagMain] = useState(""), [diagComplication, setDiagComplication] = useState(""), [diagComorbidity, setDiagComorbidity] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
+  const [rxBuilderData, setRxBuilderData] = useState(null);
+  const [followUpData, setFollowUpData] = useState({});
   const [learningTip, setLearningTip] = useState(null);
+
   const [showTheory, setShowTheory] = useState(false);
   const [activeTheoryTopic, setActiveTheoryTopic] = useState(null);
   const [examinedVitals, setExaminedVitals] = useState([]);
@@ -92,23 +95,14 @@ export default function OutpatientGameScreen({
   const doSubmit = () => {
     const formatted = JSON.stringify({ main: diagMain.trim(), complication: diagComplication.trim(), comorbidity: diagComorbidity.trim() });
     if (setDiagText) setDiagText(formatted);
-    const extra = { selectedRoute, routeOptions: cd.routeOptions, correctRoute: cd.correctRoute };
+    const extra = { selectedRoute, routeOptions: cd.routeOptions, correctRoute: cd.correctRoute, rxBuilder: rxBuilderData, followUp: followUpData };
     if (setExtraResult) setExtraResult(extra);
     handleSubmit(false, false, { diagText: formatted, selectedRoute, extraResult: extra });
   };
 
   const renderPhase = () => {
     if (localPhase === "order_tests") return (<>
-      <TestSelection
-        cd={cd}
-        selDiag={selDiag}
-        setSelDiag={setSelDiag}
-        orderedDiag={orderedDiag}
-        processingTests={processingTests}
-        handleOrderTests={handleOrderTests}
-        selectedLabParams={labParams}
-        setSelectedLabParams={setLabParams}
-      />
+      <TestSelection cd={cd} selDiag={selDiag} setSelDiag={setSelDiag} orderedDiag={orderedDiag} processingTests={processingTests} handleOrderTests={handleOrderTests} selectedLabParams={labParams} setSelectedLabParams={setLabParams} />
       {orderedDiag?.length > 0 && (
         <button type="button" onClick={() => setLocalPhase("results")}
           style={{ width: "100%", padding: 11, borderRadius: 10, background: `${C.accent}18`, border: `1px solid ${C.accent}44`, color: C.accent, fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT, marginBottom: 12 }}>
@@ -117,16 +111,17 @@ export default function OutpatientGameScreen({
       )}
     </>);
     if (localPhase === "results") return <ResultsPanel cd={cd} orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} selectedLabParams={labParams} />;
-    if (localPhase === "treat") return <OutpatientTreatPanel cd={cd} selTreat={selTreat} setSelTreat={setSelTreat} toggleTreatment={toggleTreatment} onSubmit={doSubmit} onBack={() => setLocalPhase("diagnose")} />;
+    if (localPhase === "treat") return <OutpatientTreatPanel cd={cd} selTreat={selTreat} setSelTreat={setSelTreat} toggleTreatment={toggleTreatment} rxBuilderData={rxBuilderData} setRxBuilderData={setRxBuilderData} onSubmit={doSubmit} onBack={() => setLocalPhase("diagnose")} />;
     return (<>
       <DiagnosisForm diagMain={diagMain} setDiagMain={setDiagMain} diagComplication={diagComplication} setDiagComplication={setDiagComplication} diagComorbidity={diagComorbidity} setDiagComorbidity={setDiagComorbidity} />
-      <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={handleSelectRoute} />
+      <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={handleSelectRoute} followUpPlan={cd.followUpPlan} followUpData={followUpData} setFollowUpData={setFollowUpData} />
       <button type="button" onClick={isTreatRoute ? () => setLocalPhase("treat") : doSubmit} disabled={!canSubmit}
         style={{ width: "100%", padding: 14, borderRadius: 12, background: canSubmit ? `linear-gradient(135deg,${C.accent},${C.green})` : `${C.textDim}30`, border: "none", fontSize: 15, fontWeight: 700, color: canSubmit ? C.bg : C.textDim, cursor: canSubmit ? "pointer" : "not-allowed", fontFamily: FONT, marginBottom: 12 }}>
         {isTreatRoute ? (t("outpatient.toTreat") || "К назначению терапии →") : (t("outpatient.submitRefer") || "Завершить приём и направить пациента")}
       </button>
     </>);
   };
+
 
   const headerRight = (<>
     {learningMode && (

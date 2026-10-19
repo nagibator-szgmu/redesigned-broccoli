@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" style="background:#080c14;font-family:monospace;">
+  <defs>
+    <!-- Sector Beam Gradient -->
+    <radialGradient id="beamGrad" cx="50%" cy="5%" r="85%">
+      <stop offset="0%" stop-color="#141f33" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#0c1322" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#05080f" stop-opacity="1"/>
+    </radialGradient>
+    <!-- Acoustic Shadow Gradient -->
+    <linearGradient id="shadowGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#05080f" stop-opacity="0.98"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ultrasound Beam Sector -->
+  <path d="M 300 20 L 70 340 A 320 320 0 0 0 530 340 Z" fill="url(#beamGrad)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Depth Grid Arcs -->
+  <path d="M 230 110 A 100 100 0 0 1 370 110" fill="none" stroke="#2a3c5a" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <path d="M 170 180 A 180 180 0 0 1 430 180" fill="none" stroke="#2a3c5a" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <path d="M 120 260 A 260 260 0 0 1 480 260" fill="none" stroke="#2a3c5a" stroke-width="0.8" stroke-dasharray="3,3"/>
+
+  <!-- Liver Parenchyma Texture (Background) -->
+  <ellipse cx="300" cy="180" rx="170" ry="110" fill="#1e293b" opacity="0.45"/>
+
+  <!-- Gallbladder Wall (Uniformly thickened 3.8 mm) -->
+  <path d="M 220 170 C 210 130 260 110 320 120 C 380 130 400 180 380 220 C 350 250 250 250 220 200 Z" fill="#2d3748" stroke="#cbd5e1" stroke-width="3.5" opacity="0.9"/>
+  <!-- Anechoic Bile (Dark lumen) -->
+  <path d="M 226 170 C 218 135 262 118 318 126 C 372 135 390 178 372 214 C 344 242 254 242 228 198 Z" fill="#06090e"/>
+
+  <!-- Acoustic Shadowing (Distal Shadow cones) -->
+  <polygon points="268,225 295,225 315,340 250,340" fill="url(#shadowGrad)"/>
+  <polygon points="325,215 348,215 375,340 310,340" fill="url(#shadowGrad)"/>
+
+  <!-- Hyperechoic Calculi (Bright Stones in dependent wall) -->
+  <!-- Stone 1 (11 mm) -->
+  <ellipse cx="282" cy="216" rx="14" ry="11" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.2"/>
+  <ellipse cx="280" cy="214" rx="8" ry="5" fill="#ffffff"/>
+  <!-- Stone 2 (8 mm) -->
+  <ellipse cx="336" cy="208" rx="11" ry="9" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.2"/>
+  <ellipse cx="334" cy="206" rx="6" ry="4" fill="#ffffff"/>
+
+  <!-- Caliper Measurement Marks -->
+  <line x1="268" y1="216" x2="296" y2="216" stroke="#38bdf8" stroke-width="1.2"/>
+  <line x1="268" y1="211" x2="268" y2="221" stroke="#38bdf8" stroke-width="1.2"/>
+  <line x1="296" y1="211" x2="296" y2="221" stroke="#38bdf8" stroke-width="1.2"/>
+
+  <!-- Scale on the Right -->
+  <g fill="#64748b" font-size="9">
+    <line x1="560" y1="60" x2="570" y2="60" stroke="#64748b" stroke-width="1"/>
+    <text x="575" y="63">2cm</text>
+    <line x1="560" y1="120" x2="570" y2="120" stroke="#64748b" stroke-width="1"/>
+    <text x="575" y="123">4cm</text>
+    <line x1="560" y1="180" x2="570" y2="180" stroke="#64748b" stroke-width="1"/>
+    <text x="575" y="183">6cm</text>
+    <line x1="560" y1="240" x2="570" y2="240" stroke="#64748b" stroke-width="1"/>
+    <text x="575" y="243">8cm</text>
+    <line x1="560" y1="300" x2="570" y2="300" stroke="#64748b" stroke-width="1"/>
+    <text x="575" y="303">10cm</text>
+  </g>
+
+  <!-- Ultrasound System UI Text Overlay -->
+  <text x="20" y="28" fill="#38bdf8" font-size="12" font-weight="bold">MEDSIM ULTRASOUND HD</text>
+  <text x="20" y="46" fill="#94a3b8" font-size="10">PROBE: C5-2 (Convex 3.5MHz)</text>
+  <text x="20" y="62" fill="#94a3b8" font-size="10">GAIN: 64dB · MI: 0.8 · TIS: 0.3</text>
+
+  <rect x="20" y="295" width="210" height="50" rx="6" fill="#0f172a" fill-opacity="0.85" stroke="#334155" stroke-width="1"/>
+  <text x="28" y="313" fill="#38bdf8" font-size="10" font-weight="bold">ЖЕЛЧНЫЙ ПУЗЫРЬ: КАЛЬКУЛЁЗ</text>
+  <text x="28" y="327" fill="#e2e8f0" font-size="9.5">1 Конкремент: 11.4 мм + акуст. тень</text>
+  <text x="28" y="339" fill="#e2e8f0" font-size="9.5">Стенка: 3.8 мм (равномерно)</text>
+</svg>

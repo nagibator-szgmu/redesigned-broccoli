@@ -8,6 +8,7 @@ import DicomViewer from "../components/game/DicomViewer";
 import Tooltip from "./Tooltip";
 import { LabReportCard } from "../components/game/lab";
 import { isLabReportSupported, isProcedureCancelled } from "../engine/labAnalysisEngine";
+import ClinicalImagePreview from "./ClinicalImagePreview";
 
 export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams }) {
   const C = useTheme();
@@ -115,11 +116,7 @@ export default function ResultCard({ id, text = "", isNew, cd, selectedLabParams
           {cleanText}
         </div>
 
-        {cd?.testImages?.[id] && (
-          <div style={{ marginTop: 8, borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}` }}>
-            <img src={cd.testImages[id]} alt={id} style={{ width: "100%", maxHeight: 220, objectFit: "contain", display: "block" }} />
-          </div>
-        )}
+        <ClinicalImagePreview imgData={cd?.testImages?.[id]} testId={id} />
 
         {!isCancelled && meta.refRange && (
           <div style={{ marginTop: 6, paddingTop: 6, borderTop: `1px solid ${C.border}`, display: "flex", flexWrap: "wrap", gap: 10, fontSize: 11, color: C.textDim, fontFamily: FONT }}>

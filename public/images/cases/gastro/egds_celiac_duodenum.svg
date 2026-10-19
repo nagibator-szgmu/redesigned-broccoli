@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%" style="background:#05070d;font-family:sans-serif;">
+  <defs>
+    <radialGradient id="duoLight" cx="45%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fed7aa" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#fb923c" stop-opacity="0.9"/>
+      <stop offset="75%" stop-color="#c2410c" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#431407" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="duoLumen" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#020408"/>
+      <stop offset="70%" stop-color="#1f0904"/>
+      <stop offset="100%" stop-color="#7c2d12" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="600" height="360" fill="#030508"/>
+  <circle cx="300" cy="180" r="165" fill="#0e0404" stroke="#261010" stroke-width="4"/>
+
+  <!-- Duodenal Mucosa -->
+  <circle cx="300" cy="180" r="162" fill="url(#duoLight)"/>
+
+  <!-- Scalloped Duodenal Folds (Фестончатый/гребешковый край складок Керкринга - патогномонично для целиакии) -->
+  <!-- Top Fold with Scalloped Edge -->
+  <path d="M 155 150 C 180 135 195 145 220 130 C 245 145 260 135 285 140 C 310 130 330 145 355 135 C 380 145 400 135 445 160 Q 360 155 270 150 Q 190 155 155 150 Z" fill="#9a3412" stroke="#ea580c" stroke-width="1.8"/>
+
+  <!-- Bottom Fold with Scalloped Edge -->
+  <path d="M 165 220 C 190 235 210 225 235 240 C 260 225 280 235 305 220 C 330 235 350 225 375 235 C 400 220 420 235 440 200 Q 370 215 280 220 Q 200 215 165 220 Z" fill="#7c2d12" stroke="#c2410c" stroke-width="1.8"/>
+
+  <!-- Central Duodenal Lumen -->
+  <ellipse cx="320" cy="180" rx="42" ry="36" fill="url(#duoLumen)"/>
+
+  <!-- Mosaic / Cracked-Clay Mucosal Texture (Микронодулярность и мозаичность) -->
+  <g stroke="#9a3412" stroke-width="0.8" fill="none" opacity="0.6">
+    <polygon points="210,170 225,165 230,175 218,180"/>
+    <polygon points="230,175 245,170 250,182 238,185"/>
+    <polygon points="248,170 262,166 268,176 255,182"/>
+    <polygon points="360,165 375,160 382,172 368,175"/>
+    <polygon points="380,162 395,168 398,180 385,176"/>
+    <polygon points="230,195 245,190 252,202 238,205"/>
+    <polygon points="250,192 265,190 270,202 258,206"/>
+    <polygon points="350,195 365,190 372,204 358,206"/>
+  </g>
+
+  <!-- Wet Mucosal Reflexes -->
+  <ellipse cx="230" cy="135" rx="8" ry="4" fill="#ffffff" opacity="0.5" transform="rotate(-15 230 135)"/>
+  <ellipse cx="370" cy="225" rx="10" ry="4.5" fill="#ffffff" opacity="0.45" transform="rotate(25 370 225)"/>
+
+  <!-- Overlay UI Info -->
+  <text x="20" y="30" fill="#38bdf8" font-size="11" font-weight="bold">OLYMPUS EVIS EXERA III</text>
+  <text x="20" y="46" fill="#94a3b8" font-size="9.5">PARS DESCENDENS DUODENI · BIOPSY 6 Bx (MARSH 3b)</text>
+
+  <!-- Diagnostic Badge -->
+  <rect x="20" y="295" width="245" height="48" rx="6" fill="#0f172a" fill-opacity="0.85" stroke="#334155" stroke-width="1"/>
+  <text x="28" y="313" fill="#ea580c" font-size="10" font-weight="bold">ЦЕЛИАКИЯ: ЭНДОСКОПИЧЕСКИЕ ПРИЗНАКИ</text>
+  <text x="28" y="326" fill="#e2e8f0" font-size="9">«Гребешковый» контур складок (scalloping)</text>
+  <text x="28" y="337" fill="#e2e8f0" font-size="9">Мозаичный рисунок слизистой (атрофия ворсин)</text>
+</svg>

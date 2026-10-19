@@ -64,9 +64,10 @@ export default function ResultScreen({
   const vitalDeltas = computeVitalDeltas(cd, ps, t);
 
   const effectiveDiag = result?.orderedDiag || orderedDiag;
-  const checkItemDone = (item) => isChecklistDone(item, effectiveDiag, selTreat);
+  const checkItemDone = (item) => isChecklistDone(item, effectiveDiag, selTreat, extraResult || result, cd);
   const checklistItems = assessmentMode && cd?.checklistItems ? cd.checklistItems : [];
   const checklistDone = checklistItems.filter(checkItemDone).length;
+
 
   return (
     <div style={{ position: "fixed", inset: 0, overflowY: "auto", background: C.bg, fontFamily: FONT }}>

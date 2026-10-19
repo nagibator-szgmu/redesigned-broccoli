@@ -4,9 +4,17 @@ import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { ROUTE_ICONS } from "./routeIcons";
 import { IconCheck } from "../../../ui/icons";
+import FollowUpSection from "./FollowUpSection";
 
-/** Route selection panel */
-export function RouteSelection({ routeOptions, selectedRoute, setSelectedRoute }) {
+/** Route selection panel with optional Follow-up */
+export function RouteSelection({
+  routeOptions,
+  selectedRoute,
+  setSelectedRoute,
+  followUpPlan,
+  followUpData,
+  setFollowUpData,
+}) {
   const C = useTheme();
   const { t } = useTranslate();
   return (
@@ -44,6 +52,14 @@ export function RouteSelection({ routeOptions, selectedRoute, setSelectedRoute }
           );
         })}
       </div>
+      {followUpPlan && selectedRoute && (
+        <FollowUpSection
+          followUpPlan={followUpPlan}
+          followUpData={followUpData}
+          onChange={setFollowUpData}
+        />
+      )}
     </div>
   );
 }
+

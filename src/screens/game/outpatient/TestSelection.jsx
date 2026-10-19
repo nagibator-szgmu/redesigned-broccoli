@@ -3,16 +3,13 @@ import { FONT, CODE, getCategoryColor } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { useTranslate } from "../../../locale/useTranslate";
 import { DIAGNOSTICS } from "../../../data/diagnostics";
-import {
-  IconMicroscope,
-  IconCardiac,
-  IconRespiratory,
-  IconXRay,
-  IconBrain,
-} from "../../../ui/icons";
+import { IconMicroscope, IconCardiac, IconRespiratory, IconXRay, IconBrain } from "../../../ui/icons";
 import DiagAccordionGroup from "../../../components/game/workstation/DiagAccordionGroup";
 import OutpatientSearchBar from "./OutpatientSearchBar";
 import { BIOCHEMICAL_TEST_IDS } from "../../../engine/labAnalysisEngine";
+import InvasiveConfirmModal from "./InvasiveConfirmModal";
+
+const INVASIVE_TESTS = ["colonoscopy", "egds", "paracentesis", "lumbar", "ct_abdo", "ct_chest", "ct_head", "xray_abdo", "mri"];
 
 const DIAG_CATEGORIES = [
   { key: "lab", title: "Лабораторные исследования", Icon: IconMicroscope },
@@ -36,6 +33,7 @@ export function TestSelection({
   const { t } = useTranslate();
   const [search, setSearch] = useState("");
   const [openCats, setOpenCats] = useState(() => new Set());
+  const [pendingTest, setPendingTest] = useState(null);
 
   const q = search.trim().toLowerCase();
 
@@ -53,6 +51,10 @@ export function TestSelection({
   }, [q]);
 
   const toggleDiag = (id) => {
+    if (!selDiag.includes(id) && INVASIVE_TESTS.includes(id)) {
+      setPendingTest(id);
+      return;
+    }
     setSelDiag((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
@@ -153,6 +155,18 @@ export function TestSelection({
           {processingTests ? (t("outpatient.loading") || "Отправка...") : selDiag.length > 0 ? (t("outpatient.send", { n: selDiag.length }) || `Назначить (${selDiag.length})`) : (t("orderTests.send") || "В лабораторию")}
         </button>
       </div>
+
+      {pendingTest && (
+        <InvasiveConfirmModal
+          isOpen={true}
+          testName={DIAGNOSTICS.find((d) => d.id === pendingTest)?.name || pendingTest}
+          onConfirm={() => {
+            setSelDiag((prev) => (prev.includes(pendingTest) ? prev : [...prev, pendingTest]));
+            setPendingTest(null);
+          }}
+          onCancel={() => setPendingTest(null)}
+        />
+      )}
     </div>
   );
 }
