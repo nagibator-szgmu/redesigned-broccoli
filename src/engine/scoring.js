@@ -81,10 +81,11 @@ export function computeScore(cd, selDiag, selTreat, diagText, finalPS, elapsedSe
 
       const fu = extraResult?.followUp;
       const plan = cd.followUpPlan;
-      if (plan) {
-        if (fu?.timingId === plan.correctTiming) followUpScore += 5;
-        const cb = plan.correctBiomarkers || [];
-        const sb = fu?.selectedBiomarkers || [];
+      if (plan && fu) {
+        const correctTiming = plan.correctTiming || plan.timingOptions?.find(o => o.isCorrect)?.id;
+        if (fu.timingId && fu.timingId === correctTiming) followUpScore += 5;
+        const cb = plan.correctBiomarkers || plan.biomarkers?.filter(b => b.isCorrect).map(b => b.id) || [];
+        const sb = fu.selectedBiomarkers || [];
         const hits = cb.filter(b => sb.includes(b)).length;
         const falsePos = sb.filter(b => !cb.includes(b)).length;
         followUpScore += Math.max(0, Math.round((hits / Math.max(cb.length, 1)) * 5) - falsePos * 2);
