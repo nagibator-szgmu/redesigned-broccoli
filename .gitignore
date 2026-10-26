@@ -14,7 +14,9 @@ test_*.png
 test-results/
 playwright-report/
 грант/
-*.py
+__pycache__/
+*.pyc
+/*.py
 *.swift
 ocr_runner
 .agents/
