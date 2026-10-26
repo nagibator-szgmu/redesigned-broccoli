@@ -54,11 +54,14 @@ export function calculateNextDayVitals(currentPs, cd, nextDayIndex, dailyTreatme
   }
 
   const dt = cd?.deathThresholds || {};
+  const isBrady = dt.hr != null && (dt.hr < 50 || (cd?.deterioration?.hr != null && cd.deterioration.hr < 0));
+  const isHyperBP = dt.sbp != null && (dt.sbp >= 180 || (cd?.deterioration?.sbp != null && cd.deterioration.sbp > 0 && dt.sbp > 150));
+
   const dead =
-    (dt.sbp != null ? nextPs.sbp <= dt.sbp : nextPs.sbp <= 55) ||
+    (dt.sbp != null ? (isHyperBP ? nextPs.sbp >= dt.sbp : nextPs.sbp <= dt.sbp) : nextPs.sbp <= 55) ||
     (dt.spo2 != null ? nextPs.spo2 <= dt.spo2 : nextPs.spo2 <= 65) ||
     (dt.gcs != null ? nextPs.gcs <= dt.gcs : nextPs.gcs <= 4) ||
-    (dt.hr != null ? nextPs.hr >= dt.hr : nextPs.hr >= 190);
+    (dt.hr != null ? (isBrady ? nextPs.hr <= dt.hr : nextPs.hr >= dt.hr) : nextPs.hr >= 190);
 
   if (dead) {
     nextPs.status = "dead";

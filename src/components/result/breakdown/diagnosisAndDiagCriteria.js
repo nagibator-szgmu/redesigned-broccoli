@@ -1,5 +1,5 @@
-import { DIAGNOSTICS } from "../../../data/diagnostics";
-import { diagMatchRatio } from "../../../engine/scoring";
+import { DIAGNOSTICS } from "../../../data/diagnostics.js";
+import { diagMatchRatio } from "../../../engine/scoring.js";
 
 export function computeDiagnosisAndDiagCriteria({
   cd,

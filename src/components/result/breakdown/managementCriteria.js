@@ -1,6 +1,6 @@
-import { TREATMENTS } from "../../../data/treatments";
-import { buildFollowUpCriterion } from "./followUpCriteria";
-import { buildRxBuilderCriterion } from "./rxCriteria";
+import { TREATMENTS } from "../../../data/treatments.js";
+import { buildFollowUpCriterion } from "./followUpCriteria.js";
+import { buildRxBuilderCriterion } from "./rxCriteria.js";
 
 function computeOutpatientCriteria(cd, result, selTreat, extraResult) {
   const criteria = [];

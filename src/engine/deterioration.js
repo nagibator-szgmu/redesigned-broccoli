@@ -42,12 +42,18 @@ export function applyTreatmentEffects(ps, caseData, treatId) {
 export function resolveStatus(ps, caseData) {
   if (!ps) return ps;
   const dt = caseData?.deathThresholds || {};
+  const isArrest = caseData?.isClinicalArrest || false;
+  const isBrady = dt.hr != null && (dt.hr < 50 || (caseData?.deterioration?.hr != null && caseData.deterioration.hr < 0));
+  const isHyperBP = dt.sbp != null && (dt.sbp >= 180 || (caseData?.deterioration?.sbp != null && caseData.deterioration.sbp > 0 && dt.sbp > 150));
+
   const dead =
-    (dt.sbp != null ? ps.sbp <= dt.sbp : ps.sbp < 50) ||
-    (dt.spo2 != null ? ps.spo2 <= dt.spo2 : ps.spo2 < 60) ||
-    (dt.gcs != null ? ps.gcs <= dt.gcs : ps.gcs <= 3) ||
-    (dt.hr != null ? ps.hr >= dt.hr : false) ||
-    (dt.rr != null ? ps.rr <= dt.rr : false);
+    (dt.sbp != null ? (dt.sbp < 0 ? false : (isHyperBP ? ps.sbp >= dt.sbp : ps.sbp <= dt.sbp)) : (isArrest ? false : ps.sbp < 50)) ||
+    (dt.spo2 != null ? (dt.spo2 < 0 ? false : ps.spo2 <= dt.spo2) : (isArrest ? false : ps.spo2 < 60)) ||
+    (dt.gcs != null ? (dt.gcs < 0 ? false : ps.gcs <= dt.gcs) : (isArrest ? false : ps.gcs <= 3)) ||
+    (dt.hr != null && dt.hr > 0 ? (isBrady ? ps.hr <= dt.hr : ps.hr >= dt.hr) : false) ||
+    (dt.rr != null && dt.rr > 0 ? ps.rr <= dt.rr : false) ||
+    (dt.temp != null ? (dt.temp < 35 ? ps.temp <= dt.temp : ps.temp >= dt.temp) : false);
+
   if (dead) return { ...ps, status: "dead" };
   if (ps.sbp < 80 || ps.spo2 < 80 || ps.gcs < 8) return { ...ps, status: "critical" };
   if (ps.sbp > 100 && ps.spo2 > 90 && ps.gcs >= 12) return { ...ps, status: "stable" };

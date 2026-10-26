@@ -30,13 +30,16 @@ export function computeOutcome(ps, caseData, department) {
   if (ps.status === "dead") return "dead";
   const dt = caseData?.deathThresholds || {};
   const isArrest = caseData?.isClinicalArrest || false;
+  const isBrady = dt.hr != null && (dt.hr < 50 || (caseData?.deterioration?.hr != null && caseData.deterioration.hr < 0));
+  const isHyperBP = dt.sbp != null && (dt.sbp >= 180 || (caseData?.deterioration?.sbp != null && caseData.deterioration.sbp > 0 && dt.sbp > 150));
 
   const dead =
-    (dt.sbp !== undefined ? (dt.sbp < 0 ? false : ps.sbp <= dt.sbp) : (isArrest ? false : ps.sbp < 50)) ||
+    (dt.sbp !== undefined ? (dt.sbp < 0 ? false : (isHyperBP ? ps.sbp >= dt.sbp : ps.sbp <= dt.sbp)) : (isArrest ? false : ps.sbp < 50)) ||
     (dt.spo2 !== undefined ? (dt.spo2 < 0 ? false : ps.spo2 <= dt.spo2) : (isArrest ? false : ps.spo2 < 60)) ||
     (dt.gcs !== undefined ? (dt.gcs < 0 ? false : ps.gcs <= dt.gcs) : (isArrest ? false : ps.gcs <= 3)) ||
-    (dt.hr != null && dt.hr > 0 ? ps.hr >= dt.hr : false) ||
-    (dt.rr != null && dt.rr > 0 ? ps.rr <= dt.rr : false);
+    (dt.hr != null && dt.hr > 0 ? (isBrady ? ps.hr <= dt.hr : ps.hr >= dt.hr) : false) ||
+    (dt.rr != null && dt.rr > 0 ? ps.rr <= dt.rr : false) ||
+    (dt.temp != null ? (dt.temp < 35 ? ps.temp <= dt.temp : ps.temp >= dt.temp) : false);
 
   if (dead) return "dead";
   if (department === "icu") return "stabilized";
