@@ -22,7 +22,7 @@ export const CASE_FUNCTIONAL_DYSPEPSIA = {
   severity: "mild",
   category: "gastro",
   department: "outpatient",
-  diagnosis: "Функциональная диспепсия: синдром постпрандиального дистресса (ППДС), Римские критерии IV.",
+  diagnosis: "Функциональная диспепсия: синдром постпрандиального дистресса (ППДС).",
   diagnosisVariants: ["Функциональная диспепсия", "Постпрандиальный дистресс-синдром", "Хронический гастродуоденит", "Диспепсия"],
   sourceReference: { name: "КР: Функциональная диспепсия", year: 2024 },
   testResults: {

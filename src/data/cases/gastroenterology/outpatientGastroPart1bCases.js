@@ -22,7 +22,7 @@ export const CASE_IBS_DIARRHEA = {
   severity: "mild",
   category: "gastro",
   department: "outpatient",
-  diagnosis: "Синдром раздраженного кишечника с диареей (СРК-Д), тяжесть умеренная (Римские критерии IV).",
+  diagnosis: "Синдром раздраженного кишечника с диареей (СРК-Д), умеренной степени тяжести.",
   diagnosisVariants: ["Синдром раздраженного кишечника", "СРК с диареей", "СРК", "Функциональная диарея"],
   sourceReference: { name: "КР: Синдром раздраженного кишечника", year: 2024 },
   testResults: {
@@ -30,7 +30,7 @@ export const CASE_IBS_DIARRHEA = {
     cbc: "Hb 152 г/л, Эритроциты 4.8x10¹²/л, Лейкоциты 6.2x10⁹/л, СОЭ 6 мм/ч.",
     bmp: "Общий белок 74 г/л, Креатинин 84 мкмоль/л, АЛТ 21 Ед/л, АСТ 19 Ед/л, Калий 4.2 ммоль/л, Натрий 141 ммоль/л.",
     crp: "СРБ 1.2 мг/л (норма < 5.0 мг/л).",
-    pcr_stool: "Кальпротектин кала 28 мкг/г (норма < 50 мкг/г). Токсины A/B C. difficile отр."
+    pcr_stool: "ПЦР кала на патогены ОКИ (Shigella, Salmonella, Campylobacter) — отрицательно; токсины A/B C. difficile отр. Кальпротектин кала 28 мкг/г (норма < 50 мкг/г)."
   },
   needDiag: ["cbc", "bmp", "crp", "pcr_stool", "colonoscopy"],
   unjustifiedDiag: [
@@ -52,9 +52,9 @@ export const CASE_IBS_DIARRHEA = {
     "Острая кишечная инфекция (хроническое течение 7 мес., отсутствие лихорадки)"
   ],
   needTreat: ["spasmolytics", "loperamide_po"],
-  wrongTreat: ["omeprazole_iv", "pancreatin_regular", "antibiotics_broad"],
+  wrongTreat: ["rabeprazole_po", "pancreatin_regular", "antibiotics_broad"],
   adverseReasons: {
-    omeprazole_iv: "ИПП не показаны при СРК ввиду отсутствия гиперацидности; необоснованное подавление кислотности провоцирует развитие СИБР в тонкой кишке.",
+    rabeprazole_po: "ИПП не показаны при СРК ввиду отсутствия гиперацидности; необоснованное подавление кислотности провоцирует развитие СИБР в тонкой кишке.",
     pancreatin_regular: "Ферменты не показаны при СРК: внешнесекреторная функция ПЖ в норме (эластаза кала интактна), синдрома мальдигестии нет.",
     antibiotics_broad: "Системные антибиотики разрушают облигатную микробиоту толстой кишки и усиливают диарею."
   },
