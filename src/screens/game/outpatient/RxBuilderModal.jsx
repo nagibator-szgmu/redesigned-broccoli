@@ -3,6 +3,7 @@ import { FONT, CODE } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { IconPill, IconX } from "../../../ui/icons";
 import { getDrugPreset } from "../../../data/outpatientDrugConfigs";
+import { findMatchingOption } from "../../../engine/drugMatcher";
 
 /**
  * RxBuilderModal
@@ -38,9 +39,10 @@ export default function RxBuilderModal({ isOpen, targetDrug, rxPlan, currentRx, 
   const handleSave = () => {
     const drugId = targetDrug?.id || activeOption?.id || currentRx?.id;
     if (!drugId) return;
-    const isCorrect = activeOption
-      ? Boolean(activeOption.isCorrect && rx.dose === activeOption.correctDose && rx.frequency === activeOption.correctFrequency)
-      : true;
+    const matched = findMatchingOption(drugId, rxPlan);
+    const isCorrect = matched
+      ? Boolean(matched.isCorrect && (!matched.correctDose || rx.dose === matched.correctDose) && (!matched.correctFrequency || rx.frequency === matched.correctFrequency))
+      : false;
 
     onSave({
       id: drugId,
@@ -50,7 +52,7 @@ export default function RxBuilderModal({ isOpen, targetDrug, rxPlan, currentRx, 
       frequency: rx.frequency || frequencies[0] || "1 раз в сутки",
       duration: rx.duration || durations[0] || "2–4 недели",
       isCorrect,
-      score: 10,
+      score: isCorrect ? 10 : 0,
     });
     onClose();
   };
