@@ -38,7 +38,7 @@ function ResultSectionHeader({ icon, title, C, isMobile }) {
         style={{
           fontSize: isMobile ? 13 : 14,
           fontWeight: 700,
-          color: C.white,
+          color: C.text,
           fontFamily: FONT,
           letterSpacing: "0.2px",
         }}

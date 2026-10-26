@@ -61,7 +61,7 @@ export default function CertificateScreen({ setPhase, sessionHistory }) {
         <div style={{width:1,height:16,background:C.border}}/>
         <div style={{display:"flex",alignItems:"center",gap:6}}>
           <IconGraduationCap size={16} color={C.accent} />
-          <span style={{fontSize:14,fontWeight:700,color:C.white,fontFamily:FONT}}>Сертификаты</span>
+          <span style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:FONT}}>Сертификаты</span>
         </div>
       </div>
       <div style={{padding:"14px 14px 80px"}}>

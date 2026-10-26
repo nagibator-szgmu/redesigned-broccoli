@@ -29,7 +29,7 @@ export default function MorningPanel({ cd, morningInfo, cycle, currentPs }) {
           ].map(({ label, value, warn }) => (
             <div key={label} style={{ padding: "4px 8px", borderRadius: 6, background: warn ? `${C.red}10` : `${C.textDim}08`, border: `1px solid ${warn ? `${C.red}33` : C.border}`, textAlign: "center", minWidth: 50 }}>
               <div style={{ fontSize: 8, color: C.textDim, fontFamily: FONT, textTransform: "uppercase" }}>{label}</div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: warn ? C.red : C.white, fontFamily: CODE, lineHeight: 1.2 }}>{value}</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: warn ? C.red : C.text, fontFamily: CODE, lineHeight: 1.2 }}>{value}</div>
             </div>
           ))}
         </div>

@@ -43,7 +43,7 @@ export default function AnamnesisOverlay({
         onClick={(e) => e.stopPropagation()}
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>{t("history.title")}</span>
+          <span style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t("history.title")}</span>
           <button
             onClick={onClose}
             style={{
@@ -80,7 +80,7 @@ export default function AnamnesisOverlay({
             border: "none",
             fontSize: 14,
             fontWeight: 700,
-            color: C.bg,
+            color: "#FFFFFF",
             cursor: "pointer",
             fontFamily: FONT,
           }}

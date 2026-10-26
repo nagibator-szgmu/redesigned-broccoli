@@ -35,26 +35,26 @@ function SpecChip({ active, onClick, label, C }) {
         outline: "none",
         transform: pressed ? "scale(0.97)" : "none",
         background: active
-          ? `${C.accent}24`
+          ? `${C.accent}22`
           : hovered
-          ? "rgba(255, 255, 255, 0.07)"
+          ? (C.dimBg || `${C.accent}10`)
           : C.btnBg,
         border: `1px solid ${
           active
             ? C.accent
             : hovered
-            ? "rgba(255, 255, 255, 0.18)"
-            : "rgba(255, 255, 255, 0.08)"
+            ? (C.borderBright || C.border)
+            : C.border
         }`,
         color: active
-          ? "#ffffff"
+          ? C.accent
           : hovered
-          ? "#ffffff"
+          ? C.text
           : C.textDim,
         boxShadow: active
-          ? `0 2px 12px ${C.accent}35, inset 0 1px 0 rgba(255, 255, 255, 0.15)`
+          ? `0 2px 10px ${C.accent}30`
           : hovered
-          ? "0 2px 8px rgba(0, 0, 0, 0.2)"
+          ? "0 2px 8px rgba(0, 0, 0, 0.12)"
           : "none",
         transition:
           "background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, transform 0.1s ease",

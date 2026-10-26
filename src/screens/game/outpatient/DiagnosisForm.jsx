@@ -17,7 +17,7 @@ export function DiagnosisForm({ diagMain, setDiagMain, diagComplication, setDiag
         <div key={label} style={{ marginBottom: 8 }}>
           <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, marginBottom: 4 }}>{label}</div>
           <input value={value} onChange={e => set(e.target.value)} placeholder={placeholder}
-            style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: `1px solid ${C.border}`, background: C.bgGrad, color: C.white, fontSize: 13, fontFamily: FONT, outline: "none", boxSizing: "border-box" }} />
+            style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: `1px solid ${C.border}`, background: C.bgGrad, color: C.text, fontSize: 13, fontFamily: FONT, outline: "none", boxSizing: "border-box" }} />
         </div>
       ))}
     </div>

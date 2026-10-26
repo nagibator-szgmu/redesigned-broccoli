@@ -87,7 +87,7 @@ export default function OutpatientTreatAccordionGroup({
                   {isSelected && <IconCheck size={12} color="#FFFFFF" strokeWidth={3} />}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: isSelected ? C.white : "#E2E8F0", fontSize: 13.5, fontFamily: FONT, fontWeight: isSelected ? 600 : 400, lineHeight: 1.35 }}>
+                  <div style={{ color: isSelected ? (C.isDark !== false ? C.white : C.accent) : C.text, fontSize: 13.5, fontFamily: FONT, fontWeight: isSelected ? 600 : 400, lineHeight: 1.35 }}>
                     {item.name}
                   </div>
                   {item.desc && (

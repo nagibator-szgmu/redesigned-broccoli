@@ -66,7 +66,7 @@ export default function ComplaintsCard({ complaint, compact = false }) {
       <div
         style={{
           fontSize: compact ? 12.5 : 15,
-          color: "#F1F5F9",
+          color: C.text,
           fontFamily: FONT,
           lineHeight: compact ? 1.3 : 1.45,
           fontWeight: 400,

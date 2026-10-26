@@ -112,9 +112,9 @@ export default function TestSelection({
                   }}
                 >
                   <div style={{ width: 14, height: 14, borderRadius: 3, border: `2px solid ${selected ? color : C.textDim}`, background: selected ? color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    {selected && <IconCheck size={10} color={C.bg} strokeWidth={3} />}
+                    {selected && <IconCheck size={10} color="#FFFFFF" strokeWidth={3} />}
                   </div>
-                  <span style={{ fontSize: 12, color: selected ? C.white : C.text, fontFamily: FONT, flex: 1 }}>
+                  <span style={{ fontSize: 12, color: selected ? (C.isDark !== false ? C.white : C.accent) : C.text, fontFamily: FONT, flex: 1 }}>
                     {item.name}
                   </span>
                   {item.id === "bmp" && (
@@ -151,7 +151,7 @@ export default function TestSelection({
           style={{
             width: "100%", marginTop: 8, padding: "9px", borderRadius: 8,
             background: `linear-gradient(135deg,${dayColor},${C.accent})`, border: "none",
-            fontSize: 12.5, fontWeight: 700, color: C.bg, cursor: "pointer", fontFamily: FONT,
+            fontSize: 12.5, fontWeight: 700, color: "#FFFFFF", cursor: "pointer", fontFamily: FONT,
           }}
         >
           {t("outpatient.send", { n: selDiag.length })}

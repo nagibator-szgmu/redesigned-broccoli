@@ -31,7 +31,7 @@ export default function StationaryHeader({
     >
       <HeaderBackBtn onClick={() => setPhase("menu")} label={t("theory.back")} isMobile={isMobile} />
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: isMobile ? 13 : 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>
+        <div style={{ fontSize: isMobile ? 13 : 14, fontWeight: 700, color: C.text, fontFamily: FONT }}>
           {cd.name} {!isMobile && `· ${cd.age} ${t("cases.ageSuffix")} · ${cd.gender}`}
         </div>
         <div style={{ fontSize: 10, color: C.textDim, fontFamily: FONT, display: "flex", alignItems: "center", gap: 4 }}>

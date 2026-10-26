@@ -141,9 +141,9 @@ export default function TreatPanel({
                 }}
               >
                 <div style={{ width: 14, height: 14, borderRadius: 3, border: `2px solid ${selected ? color : C.textDim}`, background: selected ? color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  {selected && <IconCheck size={10} color="#000" strokeWidth={3} />}
+                  {selected && <IconCheck size={10} color="#FFFFFF" strokeWidth={3} />}
                 </div>
-                <span style={{ fontSize: 12, color: selected ? C.white : isDanger ? `${C.red}cc` : C.text, fontFamily: FONT, flex: 1, lineHeight: 1.3 }}>
+                <span style={{ fontSize: 12, color: selected ? (C.isDark !== false ? C.white : C.accent) : isDanger ? `${C.red}cc` : C.text, fontFamily: FONT, flex: 1, lineHeight: 1.3 }}>
                   {item.name}
                 </span>
                 {isPending && <div style={{ width: 8, height: 8, border: `2px solid ${C.yellow}`, borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite", flexShrink: 0 }} />}
@@ -162,7 +162,7 @@ export default function TreatPanel({
         style={{
           width: "100%", marginTop: 8, padding: "9px", borderRadius: 8,
           background: canProceedFromTreat ? `linear-gradient(135deg,${dayColor},${C.accent})` : `${C.textDim}30`,
-          border: "none", fontSize: 12.5, fontWeight: 700, color: canProceedFromTreat ? C.bg : C.textDim,
+          border: "none", fontSize: 12.5, fontWeight: 700, color: canProceedFromTreat ? "#FFFFFF" : C.textDim,
           cursor: canProceedFromTreat ? "pointer" : "not-allowed", fontFamily: FONT,
         }}
       >

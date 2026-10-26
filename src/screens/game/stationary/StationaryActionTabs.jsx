@@ -52,7 +52,7 @@ export default function StationaryActionTabs({
                 gap: 3, padding: "7px 4px", borderRadius: 6,
                 background: isActive ? `${tabColor}1f` : "transparent",
                 border: `1px solid ${isActive ? `${tabColor}50` : "transparent"}`,
-                color: isActive ? C.white : C.textDim, cursor: "pointer", fontFamily: FONT,
+                color: isActive ? (C.isDark !== false ? C.white : tabColor) : C.textDim, cursor: "pointer", fontFamily: FONT,
                 transition: "all 0.15s ease", minWidth: 0,
               }}
             >

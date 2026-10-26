@@ -46,7 +46,7 @@ export function PatientCard({ cd, examinedVitals = [], setExaminedVitals }) {
           <IconHospital size={18} color={C.accent} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: C.white, fontFamily: FONT }}>{cd.name}</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: C.text, fontFamily: FONT }}>{cd.name}</div>
           <div style={{ fontSize: 11, color: C.textDim, fontFamily: FONT }}>{cd.age} {t("cases.ageSuffix")} · {cd.gender} · {t("department.outpatient")}</div>
         </div>
         <span style={{ background: `${C.accent}20`, border: `1px solid ${C.accent}44`, borderRadius: 5, padding: "2px 8px", fontSize: 10, color: C.accent, fontWeight: 700, fontFamily: FONT }}>{t("outpatient.appointment")}</span>
@@ -58,7 +58,7 @@ export function PatientCard({ cd, examinedVitals = [], setExaminedVitals }) {
   const examModal = (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }} onClick={() => setShowExamModal(false)}>
       <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 20, minWidth: 300, maxWidth: 400, maxHeight: "80vh", overflowY: "auto" }} onClick={e => e.stopPropagation()}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: C.white, fontFamily: FONT, marginBottom: 12 }}>{t("outpatient.examSelect")}</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: C.text, fontFamily: FONT, marginBottom: 12 }}>{t("outpatient.examSelect")}</div>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {VITAL_ITEMS.map(({ id, label }) => {
             const alreadyExamined = examinedVitals.includes(id);
@@ -107,7 +107,7 @@ export function PatientCard({ cd, examinedVitals = [], setExaminedVitals }) {
           return (
             <div key={id} style={{ padding: "6px 12px", borderRadius: 8, background: warn ? `${C.red}10` : `${C.textDim}08`, border: `1px solid ${warn ? `${C.red}33` : C.border}`, textAlign: "center", minWidth: 60 }}>
               <div style={{ fontSize: 9, color: C.textDim, fontFamily: FONT, textTransform: "uppercase" }}>{label}</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: warn ? C.red : C.white, fontFamily: CODE }}>{value}{unit}</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: warn ? C.red : C.text, fontFamily: CODE }}>{value}{unit}</div>
             </div>
           );
         })}

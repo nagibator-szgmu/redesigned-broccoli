@@ -123,7 +123,7 @@ export const CheckRow = ({ item, selected, onToggle, color: colorProp, danger, d
         }}>
           {selected && <IconCheck size={12} color="#FFFFFF" strokeWidth={3} />}
         </div>
-        <span style={{ color: selected ? C.white : danger ? C.red : "#E2E8F0", fontSize: 14, fontFamily: FONT, flex: 1, fontWeight: selected ? 500 : 400, lineHeight: 1.35 }}>
+        <span style={{ color: selected ? (C.isDark !== false ? C.white : C.accent) : danger ? C.red : C.text, fontSize: 14, fontFamily: FONT, flex: 1, fontWeight: selected ? 500 : 400, lineHeight: 1.35 }}>
           {item.name}
         </span>
         {suffix}

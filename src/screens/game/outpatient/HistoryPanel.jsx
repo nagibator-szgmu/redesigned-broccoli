@@ -69,7 +69,7 @@ export function HistoryPanel({ cd, onReveal }) {
             style={{
               fontSize: 12.5,
               fontWeight: 700,
-              color: C.white,
+              color: C.text,
               fontFamily: FONT,
               letterSpacing: 0.3,
             }}

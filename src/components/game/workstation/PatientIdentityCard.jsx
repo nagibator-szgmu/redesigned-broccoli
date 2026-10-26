@@ -49,7 +49,7 @@ export default function PatientIdentityCard({ cd, compact = false }) {
             style={{
               fontSize: compact ? 13 : 16,
               fontWeight: 600,
-              color: C.white,
+              color: C.text,
               fontFamily: FONT,
               lineHeight: 1.2,
             }}

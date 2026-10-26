@@ -110,7 +110,7 @@ export default function TheoryScreen({
             style={{ padding: "6px 8px" }}
           />
           <div style={{ width: 1, height: 16, background: C.border }} />
-          <span style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: FONT }}>{getActiveTitle()}</span>
+          <span style={{ fontSize: 15, fontWeight: 700, color: C.text, fontFamily: FONT }}>{getActiveTitle()}</span>
         </div>
         <div style={{ padding: 16 }}>{activeItem.id ? renderContent() : <TheorySidebar {...sidebarProps} />}</div>
         {!progressionChosen && <ProgressionModeModal C={C} onChoose={(m) => { setProgressionMode(m); setProgressionChosen(true); }} />}

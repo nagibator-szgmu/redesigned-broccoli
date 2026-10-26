@@ -83,10 +83,10 @@ export default function TreatListItem({
         <span
           style={{
             color: isSelected
-              ? C.white
+              ? (C.isDark !== false ? C.white : C.accent)
               : isBad && isSelected && !hideWarnings
               ? C.red
-              : "#E2E8F0",
+              : C.text,
             fontSize: 14,
             fontFamily: FONT,
             flex: 1,

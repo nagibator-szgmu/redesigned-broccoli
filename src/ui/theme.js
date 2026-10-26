@@ -2,6 +2,7 @@ export const RADIUS = { xs: 4, sm: 8, md: 12, lg: 16, full: 9999 };
 export const SPACE = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
 
 export const DARK = {
+  isDark: true,
   bg:"#0E1015", panel:"#161920", panel2:"#1D212A",
   border:"rgba(255,255,255,0.08)", borderBright:"rgba(255,255,255,0.18)",
   accent:"#2563EB", accentDim:"rgba(37,99,235,0.14)",
@@ -9,7 +10,7 @@ export const DARK = {
   red:"#F43F5E",   redDim:"rgba(244,63,94,0.15)",
   yellow:"#F59E0B", yellowDim:"rgba(245,158,11,0.15)",
   purple:"#8B5CF6", orange:"#F97316",
-  text:"#E2E8F0", textDim:"#8A94A6", white:"#FFFFFF",
+  text:"#E2E8F0", textDim:"#8A94A6", subText:"#8A94A6", white:"#FFFFFF",
   // semantic backgrounds
   bgGrad:"linear-gradient(160deg,#0E1015 0%,#151820 50%,#0E1015 100%)",
   panelBg:"rgba(22,25,32,0.88)", panelBg2:"rgba(29,33,42,0.94)",
@@ -32,6 +33,7 @@ export const DARK = {
 };
 
 export const LIGHT = {
+  isDark: false,
   bg:"#F9F8F3", panel:"#ffffff", panel2:"#F4F2EA",
   border:"rgba(44,46,49,0.14)", borderBright:"rgba(44,46,49,0.25)",
   accent:"#0047AB", accentDim:"rgba(0,71,171,0.10)",
@@ -39,7 +41,7 @@ export const LIGHT = {
   red:"#C71D3A",   redDim:"rgba(199,29,58,0.12)",
   yellow:"#875E00", yellowDim:"rgba(135,94,0,0.12)",
   purple:"#5830C2", orange:"#B44300",
-  text:"#2C2E31", textDim:"#5A5D64", white:"#1E2023",
+  text:"#2C2E31", textDim:"#5A5D64", subText:"#5A5D64", white:"#1E2023",
   // semantic backgrounds
   bgGrad:"linear-gradient(160deg,#F9F8F3 0%,#F2EFE8 50%,#F9F8F3 100%)",
   panelBg:"rgba(255,255,255,0.96)", panelBg2:"rgba(244,242,234,0.98)",

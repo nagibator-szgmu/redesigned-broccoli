@@ -45,7 +45,7 @@ export default function MaddrayMeldCard() {
       {expanded && (
         <div style={{ padding: "8px 12px 10px", borderTop: `1px solid ${C.accent}20`, display: "flex", flexDirection: "column", gap: 8, fontSize: 11, fontFamily: FONT, color: C.text, lineHeight: 1.45 }}>
           <div style={{ background: C.panelBg2 || C.panel, padding: "8px 10px", borderRadius: 6, border: `1px solid ${C.border}` }}>
-            <div style={{ fontWeight: 700, color: C.white, marginBottom: 4, display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ fontWeight: 700, color: C.text, marginBottom: 4, display: "flex", alignItems: "center", gap: 5 }}>
               <IconAlertTriangle size={12} color={C.yellow} />
               <span>Дискриминантная функция Мэддрея (Maddray DF):</span>
             </div>
@@ -61,7 +61,7 @@ export default function MaddrayMeldCard() {
           </div>
 
           <div style={{ background: C.panelBg2 || C.panel, padding: "8px 10px", borderRadius: 6, border: `1px solid ${C.border}` }}>
-            <div style={{ fontWeight: 700, color: C.white, marginBottom: 4 }}>
+            <div style={{ fontWeight: 700, color: C.text, marginBottom: 4 }}>
               Индекс MELD-Na (Model for End-Stage Liver Disease):
             </div>
             <div style={{ fontFamily: CODE, fontSize: 11, color: C.yellow, marginBottom: 4 }}>
