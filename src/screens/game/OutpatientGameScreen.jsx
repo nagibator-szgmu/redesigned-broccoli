@@ -24,16 +24,13 @@ export default function OutpatientGameScreen({
   const [maxReachedStep, setMaxReachedStep] = useState(0);
   const [diagMain, setDiagMain] = useState(""), [diagComplication, setDiagComplication] = useState(""), [diagComorbidity, setDiagComorbidity] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
-  const [rxBuilderData, setRxBuilderData] = useState(null);
-  const [followUpData, setFollowUpData] = useState({});
-  const [learningTip, setLearningTip] = useState(null);
+  const [rxBuilderData, setRxBuilderData] = useState(null), [prescriptions, setPrescriptions] = useState({});
+  const [followUpData, setFollowUpData] = useState({}), [learningTip, setLearningTip] = useState(null);
 
-  const [showTheory, setShowTheory] = useState(false);
-  const [activeTheoryTopic, setActiveTheoryTopic] = useState(null);
+  const [showTheory, setShowTheory] = useState(false), [activeTheoryTopic, setActiveTheoryTopic] = useState(null);
   const [examinedVitals, setExaminedVitals] = useState([]);
   const [localLabParams, setLocalLabParams] = useState({});
-  const labParams = propsLabParams || localLabParams;
-  const setLabParams = propsSetLabParams || setLocalLabParams;
+  const labParams = propsLabParams || localLabParams, setLabParams = propsSetLabParams || setLocalLabParams;
   const relatedTopics = getTopicsForCase(cd.id);
 
   const handleRevealAnamnesis = (type) => {
@@ -96,7 +93,11 @@ export default function OutpatientGameScreen({
   const doSubmit = () => {
     const formatted = JSON.stringify({ main: diagMain.trim(), complication: diagComplication.trim(), comorbidity: diagComorbidity.trim() });
     if (setDiagText) setDiagText(formatted);
-    const extra = { selectedRoute, routeOptions: cd.routeOptions, correctRoute: cd.correctRoute, rxBuilder: rxBuilderData, followUp: followUpData };
+    const extra = {
+      selectedRoute, routeOptions: cd.routeOptions, correctRoute: cd.correctRoute,
+      rxBuilder: rxBuilderData || (Object.values(prescriptions)[0] || null),
+      prescriptions, followUp: followUpData,
+    };
     if (setExtraResult) setExtraResult(extra);
     handleSubmit(false, false, { diagText: formatted, selectedRoute, extraResult: extra });
   };
@@ -112,7 +113,9 @@ export default function OutpatientGameScreen({
       )}
     </>);
     if (localPhase === "results") return <ResultsPanel cd={cd} orderedDiag={orderedDiag} revealedResults={revealedResults} processingTests={processingTests} handleNextFromResults={() => setLocalPhase("diagnose")} selectedLabParams={labParams} />;
-    if (localPhase === "treat") return <OutpatientTreatPanel cd={cd} selTreat={selTreat} setSelTreat={setSelTreat} toggleTreatment={toggleTreatment} rxBuilderData={rxBuilderData} setRxBuilderData={setRxBuilderData} onSubmit={doSubmit} onBack={() => setLocalPhase("diagnose")} />;
+    if (localPhase === "treat") return (
+      <OutpatientTreatPanel cd={cd} selTreat={selTreat} setSelTreat={setSelTreat} toggleTreatment={toggleTreatment} prescriptions={prescriptions} setPrescriptions={setPrescriptions} rxBuilderData={rxBuilderData} setRxBuilderData={setRxBuilderData} onSubmit={doSubmit} onBack={() => setLocalPhase("diagnose")} />
+    );
     return (<>
       <DiagnosisForm diagMain={diagMain} setDiagMain={setDiagMain} diagComplication={diagComplication} setDiagComplication={setDiagComplication} diagComorbidity={diagComorbidity} setDiagComorbidity={setDiagComorbidity} />
       <RouteSelection routeOptions={cd.routeOptions} selectedRoute={selectedRoute} setSelectedRoute={handleSelectRoute} followUpPlan={cd.followUpPlan} followUpData={followUpData} setFollowUpData={setFollowUpData} />
@@ -122,7 +125,6 @@ export default function OutpatientGameScreen({
       </button>
     </>);
   };
-
 
   const headerRight = (<>
     {learningMode && (

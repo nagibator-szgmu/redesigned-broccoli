@@ -8,10 +8,14 @@ export function buildRxBuilderCriterion(cd, result, extraResult) {
   const rxPlan = cd.rxPlan;
   if (!rxPlan) return null;
 
-  const rx = extraResult?.rxBuilder || result?.extraResult?.rxBuilder;
   const options = rxPlan.options || [];
   const targetOpt = options.find((o) => o.id === rxPlan.targetDrug) ||
     options.find((o) => o.isCorrect) || options[0];
+
+  const rx = extraResult?.rxBuilder || result?.extraResult?.rxBuilder ||
+    (targetOpt?.id && (extraResult?.prescriptions?.[targetOpt.id] || result?.extraResult?.prescriptions?.[targetOpt.id])) ||
+    (extraResult?.prescriptions ? Object.values(extraResult.prescriptions)[0] : null) ||
+    (result?.extraResult?.prescriptions ? Object.values(result.extraResult.prescriptions)[0] : null);
 
   const matchedOpt = rx?.id ? options.find((o) => o.id === rx.id) : null;
   const isCorrectDrug = Boolean(matchedOpt?.isCorrect);

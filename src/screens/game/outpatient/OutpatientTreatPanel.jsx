@@ -12,11 +12,13 @@ const OUTPATIENT_GROUPS = [
   { id: "gastro", title: "Гастроэнтерология", Icon: IconDroplet, colorKey: "accent" },
   { id: "therapy", title: "Терапия и кардиология", Icon: IconCardiac, colorKey: "red" },
   { id: "antimicrobial", title: "Антимикробные препараты", Icon: IconInfectious, colorKey: "yellow" },
-  { id: "other", title: "Прочие назначения и диета", Icon: IconPill, colorKey: "purple" },
+  { id: "diet", title: "Диетотерапия Минздрава РФ", Icon: IconPill, colorKey: "green" },
+  { id: "other", title: "Прочие назначения", Icon: IconPill, colorKey: "purple" },
 ];
 
 export default function OutpatientTreatPanel({
   cd, selTreat = [], setSelTreat, toggleTreatment,
+  prescriptions = {}, setPrescriptions,
   rxBuilderData, setRxBuilderData, onSubmit, onBack,
 }) {
   const C = useTheme();
@@ -24,7 +26,7 @@ export default function OutpatientTreatPanel({
   const [search, setSearch] = useState("");
   const [openGroups, setOpenGroups] = useState(() => new Set());
   const [showRxModal, setShowRxModal] = useState(false);
-
+  const [targetDrug, setTargetDrug] = useState(null);
 
   const handleToggle = (id) => {
     if (setSelTreat) {
@@ -34,16 +36,44 @@ export default function OutpatientTreatPanel({
     }
   };
 
-  const q = search.trim().toLowerCase();
+  const handleOpenRxBuilder = (item) => {
+    setTargetDrug(item);
+    setShowRxModal(true);
+  };
 
+  const handleSaveRx = (rxData) => {
+    if (!rxData?.id) return;
+    if (setSelTreat) {
+      setSelTreat((prev) => (prev.includes(rxData.id) ? prev : [...prev, rxData.id]));
+    }
+    if (setPrescriptions) {
+      setPrescriptions((prev) => ({ ...prev, [rxData.id]: rxData }));
+    }
+    if (setRxBuilderData) setRxBuilderData(rxData);
+    setShowRxModal(false);
+  };
+
+  const handleRemoveRx = (drugId) => {
+    if (setSelTreat) {
+      setSelTreat((prev) => prev.filter((x) => x !== drugId));
+    }
+    if (setPrescriptions) {
+      setPrescriptions((prev) => {
+        const next = { ...prev };
+        delete next[drugId];
+        return next;
+      });
+    }
+  };
+
+  const q = search.trim().toLowerCase();
   const groupedTreatments = useMemo(() => {
     const map = {};
     OUTPATIENT_GROUPS.forEach((grp) => {
       map[grp.id] = OUTPATIENT_TREATMENTS.filter((item) => {
         const matchesGrp = item.cat === grp.id;
-        const matchesQuery =
-          !q || item.name.toLowerCase().includes(q) || item.id.toLowerCase().includes(q) ||
-          (item.desc || "").toLowerCase().includes(q);
+        const matchesQuery = !q || item.name.toLowerCase().includes(q) ||
+          item.id.toLowerCase().includes(q) || (item.desc || "").toLowerCase().includes(q);
         return matchesGrp && matchesQuery;
       });
     });
@@ -52,11 +82,7 @@ export default function OutpatientTreatPanel({
 
   const handleSearchChange = (val) => {
     setSearch(val);
-    if (val.trim()) {
-      setOpenGroups(new Set(OUTPATIENT_GROUPS.map((g) => g.id)));
-    } else {
-      setOpenGroups(new Set());
-    }
+    setOpenGroups(val.trim() ? new Set(OUTPATIENT_GROUPS.map((g) => g.id)) : new Set());
   };
 
   const toggleGroup = (id) => {
@@ -70,49 +96,18 @@ export default function OutpatientTreatPanel({
 
   return (
     <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginBottom: 12 }}>
-      {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: C.accent, fontFamily: FONT, display: "flex", alignItems: "center", gap: 6 }}>
           <IconPill size={15} color={C.accent} />
           <span>{t("outpatient.prescribeTitle") || "Амбулаторные назначения и рецептурный лист"}</span>
         </div>
-        <span style={{ fontSize: 11, fontFamily: CODE, color: selTreat.length > 0 ? C.green : C.textDim, background: `${C.accent}14`, padding: "2px 8px", borderRadius: 6, fontVariantNumeric: "tabular-nums" }}>
+        <span style={{ fontSize: 11, fontFamily: CODE, color: selTreat.length > 0 ? C.green : C.textDim, background: `${C.accent}14`, padding: "2px 8px", borderRadius: 6 }}>
           {selTreat.length > 0 ? `Выписано: ${selTreat.length}` : (t("outpatient.noMedsNeeded") || "Без медикаментов")}
         </span>
       </div>
 
-      {/* Rx Builder Banner (for cases with advanced rxPlan) */}
-      {cd?.rxPlan && (
-        <div style={{ background: `${C.accent}12`, border: `1px solid ${C.accent}44`, borderRadius: 10, padding: "10px 12px", marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-          <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: C.accent, fontFamily: FONT, textTransform: "uppercase" }}>
-              Фармакотерапия: {cd.rxPlan.group || "Базисный препарат"}
-            </div>
-            <div style={{ fontSize: 12, color: C.text, fontFamily: FONT, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {rxBuilderData?.mnn
-                ? `${rxBuilderData.mnn} (${rxBuilderData.dose || ""} ${rxBuilderData.frequency || ""} ${rxBuilderData.duration || ""})`
-                : "Схема не настроена (нажмите для выбора МНН и дозы)"}
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowRxModal(true)}
-            style={{ padding: "6px 12px", borderRadius: 8, background: C.accent, border: "none", color: C.bg, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: FONT, whiteSpace: "nowrap" }}
-          >
-            {rxBuilderData?.mnn ? "Изменить рецепт" : "Настроить рецепт"}
-          </button>
-        </div>
-      )}
+      <OutpatientSearchBar value={search} onChange={handleSearchChange} placeholder={t("search.placeholderTreat") || "Поиск амбулаторных препаратов и диеты..."} C={C} />
 
-      {/* Search Bar */}
-      <OutpatientSearchBar
-        value={search}
-        onChange={handleSearchChange}
-        placeholder={t("search.placeholderTreat") || "Поиск амбулаторных препаратов и диеты..."}
-        C={C}
-      />
-
-      {/* Accordion Groups List */}
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         {OUTPATIENT_GROUPS.map((grp) => {
           const items = groupedTreatments[grp.id] || [];
@@ -121,21 +116,15 @@ export default function OutpatientTreatPanel({
           const IconComp = grp.Icon;
           return (
             <OutpatientTreatAccordionGroup
-              key={grp.id}
-              title={grp.title}
-              icon={<IconComp size={15} color={groupColor} />}
-              color={groupColor}
-              items={items}
-              selTreat={selTreat}
-              onToggle={handleToggle}
-              isOpen={openGroups.has(grp.id) || !!q}
-              onToggleOpen={() => toggleGroup(grp.id)}
+              key={grp.id} title={grp.title} icon={<IconComp size={15} color={groupColor} />}
+              color={groupColor} items={items} selTreat={selTreat} prescriptions={prescriptions}
+              onToggle={handleToggle} onOpenRxBuilder={handleOpenRxBuilder} onRemoveRx={handleRemoveRx}
+              isOpen={openGroups.has(grp.id) || !!q} onToggleOpen={() => toggleGroup(grp.id)}
             />
           );
         })}
       </div>
 
-      {/* Footer Actions */}
       <div style={{ display: "flex", gap: 8, marginTop: 14, paddingTop: 10, borderTop: `1px solid ${C.border}` }}>
         {onBack && (
           <button type="button" onClick={onBack} style={{ padding: "11px 16px", borderRadius: 10, background: "transparent", border: `1px solid ${C.border}`, fontSize: 13, fontWeight: 600, color: C.textDim, cursor: "pointer", fontFamily: FONT, whiteSpace: "nowrap" }}>
@@ -149,12 +138,11 @@ export default function OutpatientTreatPanel({
 
       <RxBuilderModal
         isOpen={showRxModal}
+        targetDrug={targetDrug}
         rxPlan={cd?.rxPlan}
-        currentRx={rxBuilderData}
-        onSave={(data) => {
-          if (setRxBuilderData) setRxBuilderData(data);
-        }}
-        onClose={() => setShowRxModal(false)}
+        currentRx={targetDrug ? prescriptions[targetDrug.id] : rxBuilderData}
+        onSave={handleSaveRx}
+        onClose={() => { setShowRxModal(false); setTargetDrug(null); }}
       />
     </div>
   );
