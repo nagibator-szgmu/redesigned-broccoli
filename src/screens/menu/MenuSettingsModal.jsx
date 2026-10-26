@@ -4,7 +4,6 @@ import { IconRefresh, IconX } from "../../ui/icons";
 import {
   SettingsSimulationSection,
   SettingsGeneralSection,
-  SettingsDevSection,
   SettingsModeSwitches,
 } from "./settings/index";
 
@@ -17,7 +16,6 @@ export default function MenuSettingsModal({
   patientDialogueMode = "hybrid", setPatientDialogueMode,
   audioEnabled, setAudioEnabled,
   hideWarnings, setHideWarnings, theme, setTheme, locale, setLocaleGlobal, LOCALES,
-  llmProvider, setLlmProvider, llmKey, setLlmKey, showDevSettings, setShowDevSettings,
   resetProgress, isMobile, t, C,
 }) {
   if (!showSettings) return null;
@@ -73,17 +71,6 @@ export default function MenuSettingsModal({
           t={t}
         />
 
-        <SettingsDevSection
-          showDevSettings={showDevSettings}
-          setShowDevSettings={setShowDevSettings}
-          llmProvider={llmProvider}
-          setLlmProvider={setLlmProvider}
-          llmKey={llmKey}
-          setLlmKey={setLlmKey}
-          C={C}
-          t={t}
-        />
-
         <SettingsModeSwitches
           learningMode={learningMode}
           setLearningMode={setLearningMode}
@@ -118,7 +105,7 @@ export default function MenuSettingsModal({
               }}
             >
               <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-                <IconRefresh size={12} color="currentColor" /> {t("progress.reset")} прогресс и статистику
+                <IconRefresh size={12} color="currentColor" /> {t("settings.resetProgress") || "Сбросить прогресс и статистику"}
               </span>
             </button>
           </div>

@@ -69,7 +69,8 @@ export default function OutpatientGameScreen({
   }, [localPhase, learningMode, cd]);
 
   const canSubmit = diagMain.trim().length > 0 && selectedRoute !== null;
-  const isTreatRoute = selectedRoute === "treat_outpatient";
+  const hasTreatmentPlan = Boolean(cd?.rxPlan || (cd?.needTreat && cd.needTreat.length > 0) || cd?.followUpPlan);
+  const isTreatRoute = selectedRoute === "treat_outpatient" || (selectedRoute === "refer_specialist" && hasTreatmentPlan);
 
   const steps = useMemo(() => [
     { key: "order_tests", label: t("phases.order_tests"), Icon: IconMicroscope },

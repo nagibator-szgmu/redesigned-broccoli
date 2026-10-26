@@ -14,4 +14,5 @@ export { default as EventLog } from "./EventLog";
 export { default as ResultActions } from "./ResultActions";
 export { ResultTutorialBanner } from "./ResultTutorialBanner";
 export { ResultTabBar } from "./ResultTabBar";
+export { default as ScoreLossBreakdown } from "./ScoreLossBreakdown";
 export { isChecklistDone, CHECKLIST_MAP, DIAG_ALIASES } from "./checklistUtils";

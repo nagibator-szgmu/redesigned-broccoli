@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { RADIUS } from "../../../ui/theme";
 import { useTheme } from "../../../ui/ThemeContext";
 import { IconSiren, IconBook, IconBot } from "../../../ui/icons";
 import { TestAnalysis, TreatmentAnalysis, ChecklistBlock } from "../index";
+import ScoreLossBreakdown from "../ScoreLossBreakdown";
+import { computeScoreCriteriaBreakdown } from "../scoreBreakdownUtils";
 
 /**
  * ResultErrorsTab — Вкладка «Разбор ошибок и рекомендаций».
  * 
  * Собирает в одном месте без дублирования:
- * 1. Нормализованный список ошибок из result.mistakes[] (или фоллбэк к тестам/лечению).
- * 2. Замечания и рекомендации искусственного интеллекта.
- * 3. Чек-лист критериев оценки.
+ * 1. Детализацию критериев оценивания и потерянных баллов.
+ * 2. Нормализованный список ошибок из result.mistakes[].
+ * 3. Замечания и рекомендации искусственного интеллекта.
+ * 4. Чек-лист критериев оценки.
  */
 export default function ResultErrorsTab({
   result,
@@ -22,13 +25,34 @@ export default function ResultErrorsTab({
   checklistItems,
   checklistDone,
   isChecklistDone,
+  revealedAnamnesis,
+  diagText,
+  extraResult,
 }) {
   const C = useTheme();
+
+  const criteria = useMemo(() => {
+    return computeScoreCriteriaBreakdown({
+      cd,
+      result,
+      orderedDiag,
+      selTreat,
+      diagText: diagText || result?.diagText,
+      revealedAnamnesis: revealedAnamnesis || result?.revealedAnamnesis,
+      extraResult: extraResult || result?.extraResult,
+    });
+  }, [cd, result, orderedDiag, selTreat, diagText, revealedAnamnesis, extraResult]);
 
   const mistakes = result?.mistakes || [];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* 1. Чёткие критерии оценивания и потерянные баллы */}
+      <ScoreLossBreakdown
+        criteria={criteria}
+        totalScore={result?.score || 0}
+        isMobile={isMobile}
+      />
       {/* Если Разработчик 2 уже передал структурированные ошибки */}
       {mistakes.length > 0 ? (
         <div

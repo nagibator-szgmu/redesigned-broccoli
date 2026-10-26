@@ -5,8 +5,8 @@
 
 export const CASE_FUNCTIONAL_DYSPEPSIA = {
   id: "outp_gastro_functional_dyspepsia",
-  name: "Морозова Ольга Сергеевна",
-  age: 26,
+  name: "Лебедева Дарья Владимировна",
+  age: 29,
   gender: "Ж",
   complaint: "Тяжесть, чувство распирания и раннего насыщения в эпигастрии после обычной еды, тошнота, снижение работоспособности",
   maskingSymptoms: "Периодическая отрыжка воздухом, ощущение кома в эпигастрии, легкая разлитая болезненность в пилородуоденальной зоне при стрессе, склонность к тревожности.",
@@ -71,7 +71,7 @@ export const CASE_FUNCTIONAL_DYSPEPSIA = {
     options: [
       {
         id: "itopride",
-        mnn: "Итоприда гидрохлорид",
+        mnn: "Итоприда гидрохлорид (Итомед)",
         isCorrect: true,
         score: 10,
         doses: ["50 мг", "25 мг", "100 мг"],
@@ -86,10 +86,10 @@ export const CASE_FUNCTIONAL_DYSPEPSIA = {
       },
       {
         id: "rabeprazole_po",
-        mnn: "Рабепразол",
+        mnn: "Рабепразол (Париет)",
         isCorrect: true,
         score: 7,
-        doses: ["20 мг", "10 мг", "40 мг"],
+        doses: ["20 мг", "10 мг"],
         correctDose: "20 мг",
         routes: ["Перорально (per os) утром"],
         correctRoute: "Перорально (per os) утром",
@@ -125,7 +125,7 @@ export const CASE_FUNCTIONAL_DYSPEPSIA = {
     "ЭГДС и УЗИ органов брюшной полости для исключения органической патологии",
     "Тестирование на Helicobacter pylori (быстрый уреазный тест)",
     "Назначение прокинетика первой линии (итоприд 50 мг 3 р/сут)",
-    "Рекомендации по режиму питания и амбулаторный контроль"
+    "Информирование пациента: эндоскопический контроль ЭГДС после лечения НЕ требуется"
   ],
   correctRoute: "treat_outpatient",
   routeOptions: [

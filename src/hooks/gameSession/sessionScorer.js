@@ -9,30 +9,20 @@ import { getEffectiveOrderedDiag } from "../../engine/labAnalysisEngine";
 import scormService from "../../services/scormService";
 import { DIAGNOSTICS } from "../../data/diagnostics";
 
-const toGradeId = (score) => (score >= 85 ? "excellent" : score >= 70 ? "good" : score >= 50 ? "satisfactory" : "unsatisfactory");
+const toGradeId = (s) => (s >= 85 ? "excellent" : s >= 70 ? "good" : s >= 50 ? "satisfactory" : "unsatisfactory");
 
 function syncScorm(score, gradeId, died, outcome, elapsedSec) {
   if (!scormService.isConnected()) return;
-  const passThreshold = scormService.getMasteryScore() || 70;
-  const isPassed = !died && score >= passThreshold && gradeId !== "unsatisfactory" && outcome !== "timeout_no_route";
+  const pass = scormService.getMasteryScore() || 70;
   scormService.setScore(score);
-  scormService.setStatus(isPassed ? "passed" : "failed");
+  scormService.setStatus(!died && score >= pass && gradeId !== "unsatisfactory" && outcome !== "timeout_no_route" ? "passed" : "failed");
   if (elapsedSec != null) scormService.setSessionTime(elapsedSec);
   scormService.commit();
 }
 
-
 export function finalizeSession({
-  state,
-  timeout = false,
-  died = false,
-  selectedRoute,
-  setResult,
-  setPs,
-  setTotalScore,
-  setCasesPlayed,
-  setSessionHistory,
-  setPhase,
+  state, timeout = false, died = false, selectedRoute,
+  setResult, setPs, setTotalScore, setCasesPlayed, setSessionHistory, setPhase,
 }) {
   const s = state;
   if (!s.cd) return;
@@ -69,33 +59,67 @@ export function finalizeSession({
     });
   });
 
-  if (s.cd.rxPlan && routeResult?.rxBuilder && !routeResult.rxBuilder.isCorrect) {
-    mistakes.push({
-      id: "rx_builder_error",
-      title: "Неверная схема фармакотерапии",
-      severity: "minor",
-      penalty: Math.max(0, 10 - (res.rxScore || 0)),
-      reason: `Выписано: ${routeResult.rxBuilder.mnn || "—"} (${routeResult.rxBuilder.dose || "—"}, ${routeResult.rxBuilder.frequency || "—"}). Не соответствует протоколу КР.`,
-      guidelineRef: s.cd.sourceReference?.name || "Клинические рекомендации Минздрава РФ",
-    });
+  if (s.cd.rxPlan) {
+    if (!routeResult?.rxBuilder) {
+      mistakes.push({
+        id: "rx_builder_missing",
+        title: "Не оформлен рецептурный лист",
+        severity: "major",
+        penalty: 10,
+        reason: `Пациенту не назначена амбулаторная фармакотерапия (${s.cd.rxPlan.group || "базисные препараты"}).`,
+        guidelineRef: s.cd.sourceReference?.name || "Клинические рекомендации Минздрава РФ",
+      });
+    } else if (!routeResult.rxBuilder.isCorrect) {
+      mistakes.push({
+        id: "rx_builder_error",
+        title: "Неверная схема фармакотерапии",
+        severity: "minor",
+        penalty: Math.max(0, 10 - (res.rxScore || 0)),
+        reason: `Выписано: ${routeResult.rxBuilder.mnn || "—"} (${routeResult.rxBuilder.dose || "—"}, ${routeResult.rxBuilder.frequency || "—"}). Не соответствует протоколу КР.`,
+        guidelineRef: s.cd.sourceReference?.name || "Клинические рекомендации Минздрава РФ",
+      });
+    }
   }
 
-  if (s.cd.followUpPlan && routeResult?.followUp && (res.followUpScore || 0) < 10) {
+  if (s.cd.followUpPlan && (res.followUpScore || 0) < 10) {
+    const plan = s.cd.followUpPlan;
+    const fu = routeResult?.followUp;
+    const timingOpts = plan.timingOptions || [];
+    const correctTiming = timingOpts.find((o) => o.isCorrect) || timingOpts.find((o) => o.id === plan.correctTiming);
+    const selectedTiming = timingOpts.find((o) => o.id === fu?.timingId);
+    const bioList = plan.biomarkers || [];
+    const correctBioIds = plan.correctBiomarkers || bioList.filter((b) => b.isCorrect).map((b) => b.id);
+    const selectedBioIds = fu?.selectedBiomarkers || [];
+    const missed = correctBioIds.filter((id) => !selectedBioIds.includes(id)).map((id) => bioList.find((b) => b.id === id)?.label || id);
+    const excess = selectedBioIds.filter((id) => !correctBioIds.includes(id)).map((id) => bioList.find((b) => b.id === id)?.label || id);
+
+    let reasonStr = "";
+    if (!fu?.timingId && selectedBioIds.length === 0) {
+      reasonStr = `План диспансерного наблюдения не оформлен. Требовалось: явка «${correctTiming?.label || "в срок"}», биомаркеры: ${correctBioIds.map((id) => bioList.find((b) => b.id === id)?.label || id).join(", ")}.`;
+    } else {
+      const parts = [];
+      if (!fu?.timingId || (correctTiming && fu.timingId !== correctTiming.id)) {
+        parts.push(`срок явки: «${selectedTiming?.label || "не выбран"}» (требовалось: «${correctTiming?.label}»)`);
+      }
+      if (missed.length > 0) parts.push(`не назначены: ${missed.join(", ")}`);
+      if (excess.length > 0) parts.push(`избыточно: ${excess.join(", ")}`);
+      reasonStr = `Дефект диспансерного контроля: ${parts.join("; ")}.`;
+    }
+
     mistakes.push({
       id: "followup_defect",
       title: "Дефект диспансерного контроля",
       severity: "minor",
       penalty: Math.max(0, 10 - (res.followUpScore || 0)),
-      reason: "Неверно выбран срок контрольной явки или перечень контрольных биомаркеров эффективности лечения.",
+      reason: reasonStr,
       guidelineRef: s.cd.sourceReference?.name || "Клинические рекомендации Минздрава РФ",
     });
   }
 
-
   setResult({
     ...res, orderedDiag: effectiveOrdered, timeout, died, outcome,
     selectedRoute, routeOptions: s.cd.routeOptions, correctRoute: s.cd.correctRoute,
-    cogAnalysis, safety, mistakes,
+    cogAnalysis, safety, mistakes, diagText: s.diagText, extraResult: routeResult,
   });
   setPs(finalPS);
   setTotalScore((prev) => prev + res.score);

@@ -86,11 +86,10 @@ export default function MobileDrawer({
               fontSize: 14,
               fontWeight: 700,
               color: C.white,
-              textTransform: "uppercase",
-              letterSpacing: 1,
+              letterSpacing: 0.5,
             }}
           >
-            {t("nav.menuTitle") || "Навигация"}
+            {t("nav.menuTitle") || "Меню"}
           </span>
           <button
             onClick={() => setDrawerOpen(false)}

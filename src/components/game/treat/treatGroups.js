@@ -66,8 +66,9 @@ export function matchTreatGroup(item, cat) {
   }
   if (cat === "respiratory") {
     return (
-      ["oxygen", "steroids", "intubation"].includes(item.id) ||
+      ["oxygen", "steroids", "intubation", "salbutamol_inh"].includes(item.id) ||
       item.cat === "supportive" ||
+      item.cat === "airway" ||
       item.cat === "steroid"
     );
   }

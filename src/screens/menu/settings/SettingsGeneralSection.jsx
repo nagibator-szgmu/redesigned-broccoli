@@ -16,13 +16,13 @@ export function SettingsGeneralSection({
 }) {
   const audioOptions = [
     {
-      l: t("settings.learningOn"),
+      l: t("settings.audioOn") || "Вкл",
       v: true,
       title: "ЗВУКОВЫЕ ЭФФЕКТЫ И ЗВУКИ МОНИТОРА",
       text: "Включает реальные звуки пульсоксиметра, тревог кардиомонитора и аускультации.",
     },
     {
-      l: t("settings.learningOff"),
+      l: t("settings.audioOff") || "Выкл",
       v: false,
       title: "БЕЗЗВУЧНЫЙ РЕЖИМ",
       text: "Отключает фоновые звуковые эффекты реанимационной.",

@@ -105,6 +105,8 @@ export default function ResultScreen({
             checklistDone={checklistDone}
             isChecklistDone={checkItemDone}
             revealedAnamnesis={revealedAnamnesis}
+            diagText={diagText}
+            extraResult={extraResult}
           />
 
           {/* 3. Клиническое обоснование, протоколы и КР Минздрава */}
