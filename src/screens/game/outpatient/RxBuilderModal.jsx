@@ -56,17 +56,21 @@ export default function RxBuilderModal({ isOpen, targetDrug, rxPlan, currentRx, 
   };
 
   const renderChips = (label, items = [], currentVal, key) => (
-    <div style={{ marginBottom: 7 }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: C.subText, fontFamily: FONT, marginBottom: 3 }}>{label}:</div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+    <div style={{ marginBottom: 9 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, color: C.textDim || "#64748B", fontFamily: FONT, marginBottom: 4 }}>
+        {label}:
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
         {items.map((val) => {
           const isSel = currentVal === val;
           return (
             <button key={val} type="button" onClick={() => setRx((p) => ({ ...p, [key]: val }))}
               style={{
-                padding: "4px 8px", borderRadius: 6, fontSize: 11, fontFamily: FONT, fontWeight: isSel ? 700 : 500,
-                border: `1px solid ${isSel ? C.accent : C.border}`, background: isSel ? `${C.accent}22` : "transparent",
-                color: isSel ? C.accent : C.text, cursor: "pointer",
+                padding: "5px 10px", borderRadius: 7, fontSize: 11.5, fontFamily: FONT,
+                fontWeight: isSel ? 700 : 500,
+                border: `1.5px solid ${isSel ? C.accent : (C.borderBright || C.border)}`,
+                background: isSel ? `${C.accent}22` : (C.dimBg || "transparent"),
+                color: isSel ? C.accent : C.text, cursor: "pointer", transition: "all 0.15s ease",
               }}>
               {val}
             </button>
@@ -77,20 +81,20 @@ export default function RxBuilderModal({ isOpen, targetDrug, rxPlan, currentRx, 
   );
 
   return (
-    <div role="dialog" aria-modal="true" style={{ position: "fixed", inset: 0, zIndex: 9998, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: "16px 18px", maxWidth: 500, width: "100%", maxHeight: "90vh", overflowY: "auto" }}>
+    <div role="dialog" aria-modal="true" style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "50px 16px 20px" }}>
+      <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 14, padding: "16px 18px", maxWidth: 500, width: "100%", maxHeight: "88vh", overflowY: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <IconPill size={17} color={C.accent} />
             <div>
-              <div style={{ fontSize: 13.5, fontWeight: 700, color: C.text, fontFamily: FONT }}>{mnnTitle}</div>
-              <div style={{ fontSize: 10.5, color: C.subText, fontFamily: CODE }}>{groupTitle}</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, fontFamily: FONT }}>{mnnTitle}</div>
+              <div style={{ fontSize: 11, color: C.textDim, fontFamily: CODE }}>{groupTitle}</div>
             </div>
           </div>
           <button type="button" onClick={onClose} style={{ background: "none", border: "none", color: C.textDim, cursor: "pointer" }}><IconX size={18} /></button>
         </div>
 
-        <div style={{ background: `${C.panel2 || C.panel}60`, padding: "8px 10px", borderRadius: 8, border: `1px solid ${C.border}`, marginBottom: 12 }}>
+        <div style={{ background: `${C.panel2 || C.panel}80`, padding: "10px 12px", borderRadius: 8, border: `1px solid ${C.border}`, marginBottom: 12 }}>
           {renderChips("Разовая доза", doses, rx.dose, "dose")}
           {renderChips("Путь введения", routes, rx.route, "route")}
           {renderChips("Кратность приема", frequencies, rx.frequency, "frequency")}
@@ -98,8 +102,8 @@ export default function RxBuilderModal({ isOpen, targetDrug, rxPlan, currentRx, 
         </div>
 
         <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
-          <button type="button" onClick={onClose} style={{ padding: "6px 12px", borderRadius: 7, border: `1px solid ${C.border}`, background: "transparent", color: C.text, fontSize: 12, fontWeight: 600, fontFamily: FONT, cursor: "pointer" }}>Отмена</button>
-          <button type="button" onClick={handleSave} style={{ padding: "6px 16px", borderRadius: 7, border: "none", background: `linear-gradient(135deg, ${C.accent}, ${C.green || "#10B981"})`, color: C.bg || "#ffffff", fontSize: 12, fontWeight: 700, fontFamily: FONT, cursor: "pointer" }}>Сохранить рецепт</button>
+          <button type="button" onClick={onClose} style={{ padding: "7px 12px", borderRadius: 7, border: `1px solid ${C.border}`, background: "transparent", color: C.text, fontSize: 12, fontWeight: 600, fontFamily: FONT, cursor: "pointer" }}>Отмена</button>
+          <button type="button" onClick={handleSave} style={{ padding: "7px 16px", borderRadius: 7, border: "none", background: `linear-gradient(135deg, ${C.accent}, ${C.green || "#10B981"})`, color: C.bg || "#ffffff", fontSize: 12, fontWeight: 700, fontFamily: FONT, cursor: "pointer" }}>Сохранить рецепт</button>
         </div>
       </div>
     </div>
