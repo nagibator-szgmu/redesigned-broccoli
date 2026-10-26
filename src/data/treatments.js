@@ -74,4 +74,5 @@ export const TREATMENTS = [
   { id: "famotidine", name: "Фамотидин 20–40 мг per os", cat: "gastro" },
   { id: "isosorbide_dinitrate", name: "Изосорбида динитрат per os", cat: "cardiac" },
   { id: "choleretics", name: "Желчегонные препараты (холеретики/тюбажи)", cat: "gastro" },
+  { id: "udca", name: "Урсодезоксихолевая кислота (УДХК) per os", cat: "gastro" },
 ];

@@ -74,6 +74,7 @@ export const TREAT_FX = {
   famotidine: { eff: { pain: -1 }, delay: 60, desc: "Блокатор H2-гистаминовых рецепторов" },
   isosorbide_dinitrate: { eff: { sbp: -15 }, delay: 30, desc: "Нитрат (вазодилатация, релаксация НПС)" },
   choleretics: { eff: {}, delay: 60, desc: "Желчегонное (противопоказано при конкрементах ЖП)" },
+  udca: { eff: {}, delay: 60, desc: "Гепатопротекторное действие при стеатозе печени" },
 };
 
 export const ADVERSE_FX = {
@@ -134,4 +135,5 @@ export const ADVERSE_FX = {
   famotidine: {},
   isosorbide_dinitrate: { sbp: -20 },
   choleretics: { pain: 4 },
+  udca: { pain: 3 },
 };
